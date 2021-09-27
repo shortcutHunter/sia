@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+    <?php include('header.phtml'); ?>
+
+    <style type="text/css">
+        .m-top {
+            margin-top: 20px;
+        }
+        .mt-100 {
+            margin-top: 100px;
+        }
+        .bold {
+            font-weight: bold;
+        }
+        .m-top-table {
+            margin-top: 20px;
+        }
+        .w-300{
+            width: 300px;
+        }
+        .w-200{
+            width: 200px;
+        }
+        .table {
+            border-collapse: collapse;
+        }
+        .table td, .table th{
+            padding: 7px;
+        }
+        th {
+            text-align: center;
+            font-weight: bold;
+            vertical-align: middle;
+        }
+        .ml-40 {
+            margin-top: 10px;
+            margin-left: 50%;
+            width: 200px;
+        }
+        .container {
+            font-size: 12px;
+        }
+        .blank-space {
+            width: 159px;
+            text-align: right;
+        }
+        .blank-space-one {
+            width: 200px;
+            text-align: right;
+        }
+        .ttd {
+            width: 200px;
+            border-bottom: 1px solid black;
+        }
+        .ttd-td {
+            width: 500px;
+        }
+        .symbol {
+            font-family: dejavusans;
+        }
+    </style>
+
+    <div class="container">
+        <div class="text-center m-top bold">
+            KARTU RENCANA STUDI <br> (KRS)
+        </div>
+
+        <div class="m-top-table">
+            <table>
+                <tr>
+                    <td>
+                        <table>
+                            <tr>
+                                <td>NAMA</td>
+                                <td>:</td>
+                                <td><?= $mahasiswa->orang->nama ?? '-' ?></td>
+                            </tr>
+                            <tr>
+                                <td>NIM</td>
+                                <td>:</td>
+                                <td><?= $mahasiswa->nim ?? '-' ?></td>
+                            </tr>
+                            <tr>
+                                <td>SEMESTER</td>
+                                <td>:</td>
+                                <td><?= $mahasiswa->tahun_ajaran->semester ?? '-' ?></td>
+                            </tr>
+                            <tr>
+                                <td class="pr-20">ANGKATAN TAHUN</td>
+                                <td>:</td>
+                                <td><?= $mahasiswa->tahun_ajaran->nama ?? '-' ?></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <?php 
+            $total_t = 0;
+            $total_p = 0;
+            $total_k = 0;
+        ?>
+
+        <div class="m-top-table">
+            <table class="table" border="1">
+                <tr>
+                    <th>NO.</th>
+                    <th class="w-300">MATA AJARAN</th>
+                    <th>SKS</th>
+                    <th>T</th>
+                    <th>P</th>
+                    <th>K</th>
+                    <th class="w-200">KET</th>
+                </tr>
+                <?php foreach ($sks as $key => $value): ?>
+                    <tr>
+                        <td><?= $key+1 ?></td>
+                        <td class="w-200"><?= $value->mata_kuliah->nama ?></td>
+                        <td class="text-center"><?= $value->mata_kuliah->sks ?></td>
+                        <td class="text-center symbol">
+                            <?php if ($value->mata_kuliah->t): ?>
+                                &#10004;
+                                <?php $total_t++ ?>
+                            <?php endif ?>
+                        </td>
+                        <td class="text-center symbol">
+                            <?php if ($value->mata_kuliah->p): ?>
+                                &#10004;
+                                <?php $total_p++ ?>
+                            <?php endif ?>
+                        </td>
+                        <td class="text-center symbol">
+                            <?php if ($value->mata_kuliah->k): ?>
+                                &#10004;
+                                <?php $total_k++ ?>
+                            <?php endif ?>
+                        </td>
+                        <td> <?= $value->mata_kuliah->keterangan ?></td>
+                    </tr>
+                <?php endforeach ?>
+                
+                <tr class="bold text-center">
+                    <td colspan="2">Jumlah</td>
+                    <td><?= $total_sks ?? 0 ?></td>
+                    <td><?= $total_t ?? 0 ?></td>
+                    <td><?= $total_p ?? 0 ?></td>
+                    <td><?= $total_k ?? 0 ?></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="mt-100">
+            <table>
+                    <tr>
+                        <td class="ttd-td"><div class="ttd">(Ttd.Mhs <div class="blank-space-one">)</div></div></td>
+                        <td><div class="ttd">(Ttd.PA <div class="blank-space">)</div></div></td>
+                    </tr>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>

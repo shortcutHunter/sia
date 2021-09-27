@@ -1,0 +1,11 @@
+<tr>
+	<td>
+		<div class="text-muted font-semibold me-3">{{ label }}</div>
+	</td>
+	<td>
+		<select class="form-select" ng-model="vm.data.{{ name }}">
+			<option value=""></option>
+			<option ng-repeat="select in vm.option.{{ option }}" ng-value="select.id" ng-bind="select.{{ label_selection }}"></option>
+		</select>
+	</td>
+</tr>

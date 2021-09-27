@@ -1,0 +1,42 @@
+<section id="agama-view" class="mainbar">
+
+  <div class="col-12">
+    <div class="col-12 mb-3">
+      <a ui-sref="agama_form" class="btn btn-success btn-redirect">
+        <i class="fa fa-plus"></i> Tambah
+      </a>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h3 ng-bind-html="vm.title">Data</h3>
+      </div>
+
+      <div class="card-content px-3">
+        <div class="table-responsive">
+
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Nama</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr ng-if="!vm.data || vm.data.length == 0">
+                <td colspan="5" class="text-center">Tidak ada data yang tersedia</td>
+              </tr>
+              <tr ng-repeat="data in vm.data" class="clickable" table-row="{{data.id}}" model="{{vm.model}}">
+                <td ng-bind="data.nama || '-'"></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div widget-pagination page-data="vm.pageData"></div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>

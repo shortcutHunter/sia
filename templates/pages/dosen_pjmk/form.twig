@@ -1,0 +1,21 @@
+{% extends 'pages/template/form.twig' %}
+
+
+{% block form %}
+		
+		<div class="row">
+			<div class="col-md-6">
+				<table class="custom-table">
+					{% include 'pages/components/autocomplete.twig' with {'name': 'karyawan_id', 'label': 'Dosen', 'remote_url': '/orang/get?nama='} %}
+				</table>
+			</div>
+			
+			<div class="col-md-6">
+				<table class="custom-table">
+						{% include 'pages/components/select.twig' with {'name': 'tahun_ajaran_id', 'label': 'Tahun Ajaran', 'option': 'selection.tahun_ajaran', 'label_selection': 'nama'} %}
+						{% include 'pages/components/select.twig' with {'name': 'semester_id', 'label': 'Semester', 'option': 'selection.semester', 'label_selection': 'nama'} %}
+				</table>
+			</div>
+		</div>
+
+{% endblock %}

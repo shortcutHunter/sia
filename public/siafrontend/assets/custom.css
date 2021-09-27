@@ -1,0 +1,26 @@
+.custom-table {
+  border-collapse:separate; 
+  border-spacing:15px;
+}
+
+.clearfix {
+  clear: both;
+}
+
+.easy-complete-container {
+  width: 100%;
+  display: block;
+  min-width: 192px;
+}
+
+.easy-autocomplete{
+  width:100% !important
+}
+
+.easy-autocomplete input{
+  width: 100%;
+}
+
+/*.easy-autocomplete-container {
+  z-index: 9999999999999999;
+}*/

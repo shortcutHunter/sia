@@ -1,0 +1,103 @@
+{% extends 'pages/template/form.twig' %}
+
+
+{% block form %}
+		
+		<div class="row">
+			<div class="col-md-6">
+				<table class="custom-table">
+					{% include 'pages/components/input.twig' with {'name': 'nim', 'label': 'NIM'} %}
+					{% include 'pages/components/input.twig' with {'name': 'orang.nama', 'label': 'Nama'} %}
+				</table>
+			</div>
+			
+			<div class="col-md-6">
+				<table class="custom-table">
+					{% include 'pages/components/select.twig' with {'name': 'semester_id', 'label': 'Semester', 'option': 'selection.semester', 'label_selection': 'nama'} %}
+					{% include 'pages/components/select.twig' with {'name': 'tahun_ajaran_id', 'label': 'Tahun Ajaran', 'option': 'selection.tahun_ajaran', 'label_selection': 'nama'} %}
+					{% include 'pages/components/input.twig' with {'name': 'tahun_masuk', 'label': 'Tahun Masuk'} %}
+				</table>
+			</div>
+		</div>
+
+		<ul class="nav nav-tabs mt-5">
+			<li class="nav-item">
+            	<a class="nav-link active" data-bs-toggle="list" href="#pribadi">Data Pribadi</a>
+            </li>
+			<li class="nav-item">
+            	<a class="nav-link" data-bs-toggle="list" href="#orangtua">Orang Tua</a>
+            </li>
+            <li class="nav-item">
+            	<a class="nav-link" data-bs-toggle="list" href="#berkas">Berkas</a>
+            </li>
+            <li class="nav-item">
+            	<a class="nav-link" data-bs-toggle="list" href="#lainnya">Lainnya</a>
+            </li>
+        </ul>
+
+        <div class="tab-content text-justify">
+        	<div class="tab-pane fade show active" id="pribadi">
+        		<div class="row mt-3">
+        			<div class="col-md-6">
+	        			<table class="custom-table">
+						{% include 'pages/components/input.twig' with {'name': 'orang.nik', 'label': 'NIK'} %}
+						{% include 'pages/components/input.twig' with {'name': 'orang.tempat_lahir', 'label': 'Tempat Lahir'} %}
+						{% include 'pages/components/date-picker.twig' with {'name': 'orang.tanggal_lahir', 'label': 'Tanggal Lahir'} %}
+						{% include 'pages/components/radio.twig' with {'name': 'orang.jenis_kelamin', 'label': 'Jenis Kelamin', 'option': 'orang.option.jenis_kelamin'} %}
+						{% include 'pages/components/select.twig' with {'name': 'orang.agama_id', 'label': 'Agama', 'option': 'orang.selection.agama', 'label_selection': 'nama'} %}
+	        			</table>
+	        		</div>
+
+	        		<div class="col-md-6">
+	        			<table class="custom-table">
+							{% include 'pages/components/textarea.twig' with {'name': 'orang.alamat', 'label': 'Alamat'} %}
+							{% include 'pages/components/input.twig' with {'name': 'orang.email', 'label': 'Email'} %}
+							{% include 'pages/components/input.twig' with {'name': 'orang.no_hp', 'label': 'No. HP'} %}
+	        			</table>
+	        		</div>
+        		</div>
+        	</div>
+        	<div class="tab-pane fade show" id="orangtua">
+        		<div class="row mt-3">
+        			<div class="col-md-6">
+	        			<table class="custom-table">
+							{% include 'pages/components/input.twig' with {'name': 'orang.nama_ayah', 'label': 'Nama Ayah'} %}
+							{% include 'pages/components/input.twig' with {'name': 'orang.pekerjaan_ayah', 'label': 'Pekerjaan Ayah'} %}
+							{% include 'pages/components/input.twig' with {'name': 'orang.penghasilan_ortu', 'label': 'Penghasilan Orang Tua'} %}
+	        			</table>
+	        		</div>
+
+	        		<div class="col-md-6">
+	        			<table class="custom-table">
+							{% include 'pages/components/input.twig' with {'name': 'orang.nama_ibu', 'label': 'Nama Ibu'} %}
+							{% include 'pages/components/input.twig' with {'name': 'orang.pekerjaan_ibu', 'label': 'Pekerjaan Ibu'} %}
+	        			</table>
+	        		</div>
+        		</div>
+        	</div>
+        	<div class="tab-pane fade show" id="berkas">
+        		<div class="row mt-3">
+        			<div class="col-md-6">
+	        			<table class="custom-table">
+							{% include 'pages/components/input-file.twig' with {'name': 'orang.pasfoto', 'label': 'Pasfoto'} %}
+							{% include 'pages/components/input-file.twig' with {'name': 'orang.ijazah', 'label': 'Ijazah/SKL'} %}
+							{% include 'pages/components/input-file.twig' with {'name': 'orang.ktp', 'label': 'KTP'} %}
+							{% include 'pages/components/input-file.twig' with {'name': 'orang.surket_menikah', 'label': 'Surket. Belum Menikah'} %}
+	        			</table>
+	        		</div>
+        		</div>
+        	</div>
+        	<div class="tab-pane fade show" id="lainnya">
+        		<div class="row mt-3">
+        			<div class="col-md-6">
+	        			<table class="custom-table">
+							{% include 'pages/components/input.twig' with {'name': 'orang.asal_sekolah', 'label': 'Asal Sekolah'} %}
+							{% include 'pages/components/input.twig' with {'name': 'orang.tinggi_badan', 'label': 'Tinggi Badan'} %}
+							{% include 'pages/components/input.twig' with {'name': 'orang.berat_badan', 'label': 'Berat Badan'} %}
+	        			</table>
+	        		</div>
+        		</div>
+        	</div>
+        </div>
+
+{% endblock %}

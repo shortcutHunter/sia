@@ -1,0 +1,164 @@
+{% extends "pages/template/detail.twig" %}
+
+
+{% block button %}
+	<div class="float-end">
+		{% verbatim %}
+			<button class="btn btn-primary" btn-show-form="register_ulang" ng-if="vm.data.reg_ulang">Register Ulang</button>
+			<button class="btn btn-primary" btn-show-many-form="pengajuan_krs" ng-if="vm.data.ajukan_sks">Pengajuan KRS</button>
+		{% endverbatim %}
+	</div>
+{% endblock %}
+
+
+{% block detail %}
+
+	<div class="row">
+			<div class="col-md-6">
+				<table class="custom-table">
+					{% include 'pages/components/preview-text.twig' with {'name': 'nim', 'label': 'NIM'} %}
+					{% include 'pages/components/preview-text.twig' with {'name': 'orang.nama', 'label': 'Nama'} %}
+				</table>
+			</div>
+			
+			<div class="col-md-6">
+				<table class="custom-table">
+					{% include 'pages/components/preview-text.twig' with {'name': 'semester.nama', 'label': 'Semester'} %}
+					{% include 'pages/components/preview-text.twig' with {'name': 'tahun_ajaran.nama', 'label': 'Tahun Ajaran'} %}
+					{% include 'pages/components/preview-text.twig' with {'name': 'tahun_masuk', 'label': 'Tahun Masuk'} %}
+				</table>
+			</div>
+		</div>
+
+		<ul class="nav nav-tabs mt-5">
+			<li class="nav-item">
+            	<a class="nav-link active" data-bs-toggle="list" href="#pengajuan">Pengajuan KS</a>
+            </li>
+			<li class="nav-item">
+            	<a class="nav-link" data-bs-toggle="list" href="#riwayat">Riwayat Belajar</a>
+            </li>
+			<li class="nav-item">
+            	<a class="nav-link" data-bs-toggle="list" href="#register">Register Ulang</a>
+            </li>
+			<li class="nav-item">
+            	<a class="nav-link" data-bs-toggle="list" href="#pribadi">Data Pribadi</a>
+            </li>
+			<li class="nav-item">
+            	<a class="nav-link" data-bs-toggle="list" href="#orangtua">Orang Tua</a>
+            </li>
+            <li class="nav-item">
+            	<a class="nav-link" data-bs-toggle="list" href="#berkas">Berkas</a>
+            </li>
+            <li class="nav-item">
+            	<a class="nav-link" data-bs-toggle="list" href="#lainnya">Lainnya</a>
+            </li>
+        </ul>
+
+        <div class="tab-content text-justify">
+        	<div class="tab-pane fade show active" id="pengajuan">
+        		<div class="row mt-3">
+        			<div class="col-md-12">
+						{% 
+							include 'pages/components/table.twig' 
+							with {
+								'headers': ['Tahun Ajaran', 'Semester', 'Status'], 
+								'data_value': 'pengajuan_ks', 
+								'cols': ['tahun_ajaran.nama', 'semester.nama', 'status']
+							}
+						%}
+	        		</div>
+        		</div>
+        	</div>
+        	<div class="tab-pane fade show" id="riwayat">
+        		<div class="row mt-3">
+        			<div class="col-md-12">
+						{% 
+							include 'pages/components/table.twig' 
+							with {
+								'headers': ['Semester', 'Total SKS', 'Status'], 
+								'data_value': 'riwayat_belajar', 
+								'cols': ['semester.nama', 'total_sks', 'status']
+							}
+						%}
+	        		</div>
+        		</div>
+        	</div>
+        	<div class="tab-pane fade show" id="register">
+        		<div class="row mt-3">
+        			<div class="col-md-12">
+						{% 
+							include 'pages/components/table.twig' 
+							with {
+								'headers': ['Semester', 'Bukti', 'Status'],
+								'data_value': 'register_ulang', 
+								'cols': ['semester.nama', 'bukti.filename', 'status']
+							}
+						%}
+	        		</div>
+        		</div>
+        	</div>
+        	<div class="tab-pane fade show" id="pribadi">
+        		<div class="row mt-3">
+        			<div class="col-md-6">
+	        			<table class="custom-table">
+						{% include 'pages/components/preview-text.twig' with {'name': 'orang.nik', 'label': 'NIK'} %}
+						{% include 'pages/components/preview-text.twig' with {'name': 'orang.tempat_lahir', 'label': 'Tempat Lahir'} %}
+						{% include 'pages/components/preview-text.twig' with {'name': 'orang.tanggal_lahir', 'label': 'Tanggal Lahir'} %}
+						{% include 'pages/components/preview-text.twig' with {'name': 'orang.jenis_kelamin.label', 'label': 'Jenis Kelamin'} %}
+						{% include 'pages/components/preview-text.twig' with {'name': 'orang.agama.nama', 'label': 'Agama'} %}
+	        			</table>
+	        		</div>
+
+	        		<div class="col-md-6">
+	        			<table class="custom-table">
+							{% include 'pages/components/preview-text.twig' with {'name': 'orang.alamat', 'label': 'Alamat'} %}
+							{% include 'pages/components/preview-text.twig' with {'name': 'orang.email', 'label': 'Email'} %}
+							{% include 'pages/components/preview-text.twig' with {'name': 'orang.no_hp', 'label': 'No. HP'} %}
+	        			</table>
+	        		</div>
+        		</div>
+        	</div>
+        	<div class="tab-pane fade show" id="orangtua">
+        		<div class="row mt-3">
+        			<div class="col-md-6">
+	        			<table class="custom-table">
+							{% include 'pages/components/preview-text.twig' with {'name': 'orang.nama_ayah', 'label': 'Nama Ayah'} %}
+							{% include 'pages/components/preview-text.twig' with {'name': 'orang.pekerjaan_ayah', 'label': 'Pekerjaan Ayah'} %}
+							{% include 'pages/components/preview-text.twig' with {'name': 'orang.penghasilan_ortu', 'label': 'Penghasilan Orang Tua'} %}
+	        			</table>
+	        		</div>
+
+	        		<div class="col-md-6">
+	        			<table class="custom-table">
+							{% include 'pages/components/preview-text.twig' with {'name': 'orang.nama_ibu', 'label': 'Nama Ibu'} %}
+							{% include 'pages/components/preview-text.twig' with {'name': 'orang.pekerjaan_ibu', 'label': 'Pekerjaan Ibu'} %}
+	        			</table>
+	        		</div>
+        		</div>
+        	</div>
+        	<div class="tab-pane fade show" id="berkas">
+        		<div class="row mt-3">
+        			<div class="col-md-6">
+	        			<table class="custom-table">
+							{% include 'pages/components/preview-file.twig' with {'name': 'orang.pasfoto', 'label': 'Pasfoto'} %}
+							{% include 'pages/components/preview-file.twig' with {'name': 'orang.ijazah', 'label': 'Ijazah/SKL'} %}
+							{% include 'pages/components/preview-file.twig' with {'name': 'orang.ktp', 'label': 'KTP'} %}
+							{% include 'pages/components/preview-file.twig' with {'name': 'orang.surket_menikah', 'label': 'Surket. Belum Menikah'} %}
+	        			</table>
+	        		</div>
+        		</div>
+        	</div>
+        	<div class="tab-pane fade show" id="lainnya">
+        		<div class="row mt-3">
+        			<div class="col-md-6">
+	        			<table class="custom-table">
+							{% include 'pages/components/preview-text.twig' with {'name': 'orang.asal_sekolah', 'label': 'Asal Sekolah'} %}
+							{% include 'pages/components/preview-text.twig' with {'name': 'orang.tinggi_badan', 'label': 'Tinggi Badan'} %}
+							{% include 'pages/components/preview-text.twig' with {'name': 'orang.berat_badan', 'label': 'Berat Badan'} %}
+	        			</table>
+	        		</div>
+        		</div>
+        	</div>
+        </div>
+
+{% endblock %}

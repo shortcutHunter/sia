@@ -1,0 +1,11 @@
+<tr>
+	<td>
+		<div class="text-muted font-semibold me-3">{{ label }}</div>
+	</td>
+	<td>
+		<autocomplete ng-model="vm.data.{{ name }}" remote-url="{{ remote_url }}"></autocomplete>
+	</td>
+	<td>
+		{{ (additional ?? '') | raw }}
+	</td>
+</tr>

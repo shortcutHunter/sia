@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="/">
+
+	<title ng-bind="title">
+        sia
+    </title>
+
+	{% include 'template/assets.twig' %}
+
+</head>
+<body>
+
+	<div id="app" ng-app="sia">
+
+        <div ng-include="'/template/layout/shell'"></div>
+
+        <div id="splash-page" ng-show="showSplash">
+            <div class="page-splash">
+                <div class="page-splash-message">
+                    sia
+                </div>
+                {# <div class="progress progress-striped active page-progress-bar">
+                    <div class="bar"></div>
+                </div> #}
+            </div>
+        </div>
+
+	</div>
+
+</body>
+</html>

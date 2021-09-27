@@ -1,0 +1,13 @@
+<tr>
+	<td>
+		<div class="text-muted font-semibold me-3">{{ label }}</div>
+	</td>
+	<td>
+		<div class="form-check" ng-repeat="(key, value) in vm.option.{{ option }}">
+	        <label class="form-check-label">
+	            <input class="form-check-input" type="radio" ng-value="key" ng-model="$parent.vm.data.{{ name }}">
+	            <span ng-bind="value"></span>
+	        </label>
+	    </div>
+	</td>
+</tr>

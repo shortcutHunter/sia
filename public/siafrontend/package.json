@@ -1,0 +1,29 @@
+{
+  "name": "sia",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "webpack --config webpack.config.js --watch --mode=development"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "angular": "^1.8.2",
+    "angular-animate": "^1.8.2",
+    "angular-base64-upload": "^0.1.23",
+    "angular-sanitize": "^1.8.2",
+    "angular-ui-router": "^1.0.29",
+    "angularjs-datepicker": "^2.1.23",
+    "angularplus": "^0.9.2",
+    "jquery": "^3.6.0",
+    "moment": "^2.29.1",
+    "toastr": "^2.1.4"
+  },
+  "devDependencies": {
+    "webpack": "^5.53.0",
+    "webpack-cli": "^4.8.0"
+  }
+}

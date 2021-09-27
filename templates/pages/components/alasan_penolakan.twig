@@ -1,0 +1,25 @@
+{% verbatim %}
+<div class="modal fade" id="{{vm.uid}}">
+{% endverbatim %}
+
+	<div class="modal-dialog modal-dialog-scrollable modal-lg">
+		<div class="modal-content">
+
+			<div class="modal-header">
+				<h5 class="modal-title">Pengajuan KS</h5>
+			</div>
+
+			<div class="modal-body ui-front">
+
+				{% include 'pages/components/textarea.twig' with {'name': 'alasan', 'label': 'Alasan Penolakan'} %}
+
+			</div>
+
+			<div class="modal-footer">
+				<button class="btn btn-danger btn-penolakan" data-bs-dismiss="modal">Tolak</button>
+				<button class="btn" data-bs-dismiss="modal">Close</button>
+			</div>
+
+		</div>
+	</div>
+</div>

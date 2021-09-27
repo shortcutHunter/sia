@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html ng-app="app">
+
+<head>
+    <title ng-bind="title">
+        sia
+    </title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+    <base href="/">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/testing/sia/assets/template/css/bootstrap.css">
+    <link rel="stylesheet" href="/testing/sia/assets/template/vendors/iconly/bold.css">
+
+    <link rel="stylesheet" href="/testing/sia/assets/template/vendors/perfect-scrollbar/perfect-scrollbar.css">
+    <!-- <link rel="stylesheet" href="/testing/sia/assets/template/vendors/bootstrap-icons/bootstrap-icons.css"> -->
+    <!-- <link rel="stylesheet" href="/testing/sia/assets/template/vendors/dripicons/webfont.css"> -->
+    <link rel="stylesheet" href="/testing/sia/assets/template/vendors/fontawesome/all.min.css">
+    <link rel="stylesheet" href="/testing/sia/assets/template/vendors/easy-autocomplete/easy-autocomplete.min.css">
+    <!-- <link rel="stylesheet" href="/testing/sia/assets/app/node_modules/angularjs-datepicker/dist/angular-datepicker.min.css"> -->
+    <link rel="stylesheet" href="/testing/sia/node_modules/toastr/build/toastr.min.css">
+    <link rel="stylesheet" href="/testing/sia/assets/template/css/app.css">
+    <link rel="stylesheet" href="/testing/sia/assets/custom.css">
+
+    <script type="text/javascript" src="/testing/sia/assets/template/vendors/perfect-scrollbar/perfect-scrollbar.min.js" defer="true"></script>
+    <script type="text/javascript" src="/testing/sia/assets/template/vendors/jquery/jquery.min.js" defer="true"></script>
+    <script type="text/javascript" src="/testing/sia/assets/template/vendors/easy-autocomplete/jquery.easy-autocomplete.min.js" defer="true"></script>
+    <script type="text/javascript" src="/testing/sia/assets/template/vendors/pdfjs/pdf.js" defer="true"></script>
+    <script type="text/javascript" src="/testing/sia/assets/template/js/bootstrap.bundle.min.js" defer="true"></script>
+    <script type="text/javascript" src="/testing/sia/assets/template/vendors/fontawesome/all.min.js" defer="true"></script>
+
+    <script type="text/javascript" src="/testing/sia/assets/template/js/app.js" defer="true"></script>
+
+    <script type="text/javascript" src="/testing/sia/build/assets.bundle.js" defer="true"></script>
+    <script type="text/javascript" src="/testing/sia/build/app.bundle.js" defer="true"></script>
+</head>
+
+<body>
+
+    <div>
+        <div ng-include="'/testing/sia/src/layout/shell.html'"></div>
+        <div id="splash-page" ng-show="showSplash">
+            <div class="page-splash">
+                <div class="page-splash-message">
+                    sia
+                </div>
+                <div class="progress progress-striped active page-progress-bar">
+                    <div class="bar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,71 @@
+{% extends "pages/template/detail.twig" %}
+
+
+{% block detail %}
+
+	<div class="row">
+			<div class="col-md-6">
+				<table class="custom-table">
+					{% include 'pages/components/preview-text.twig' with {'name': 'karyawan.orang.nama', 'label': 'Dosen'} %}
+				</table>
+			</div>
+			
+			<div class="col-md-6">
+				<table class="custom-table">
+						{% include 'pages/components/preview-text.twig' with {'name': 'tahun_ajaran.nama', 'label': 'Tahun Ajaran'} %}
+						{% include 'pages/components/preview-text.twig' with {'name': 'semester.nama', 'label': 'Semester'} %}
+				</table>
+			</div>
+		</div>
+
+		<ul class="nav nav-tabs mt-5">
+			<li class="nav-item">
+            	<a class="nav-link active" data-bs-toggle="list" href="#mahasiswa">Mata Kuliah Diampu</a>
+            </li>
+        </ul>
+
+        <div class="tab-content text-justify">
+        	<div class="tab-pane fade show active" id="mahasiswa">
+
+        		<div class="row mt-3">
+        			<div class="col-12">
+        				<button class="btn btn-primary" btn-show-form="tambah_mata_kuliah">Tambah Mata Kuliah Yang Diampu</button>
+        			</div>
+        		</div>
+
+        		<div class="row mt-3">
+        			<div class="col-md-12">
+
+	        			<table class="table">
+
+							<thead>
+								<th>Kode</th>
+								<th>Nama</th>
+								<th>SKS</th>
+								<th></th>
+							</thead>
+
+							<tbody>
+								<tr ng-repeat="col in vm.data.mata_kuliah_diampuh" ng-if="vm.data.mata_kuliah_diampuh && vm.data.mata_kuliah_diampuh.length != 0">
+									<td ng-bind="col.mata_kuliah.kode || '-'"></td>
+									<td ng-bind="col.mata_kuliah.nama || '-'"></td>
+									<td ng-bind="col.mata_kuliah.sks || '-'"></td>
+									<td>
+										{% verbatim %}
+											<button class="btn btn-primary" btn-show-data="" table="nilai" data="col" view-name="konfigurasi_nilai" ng-if="!col.terkonfigurasi">Konfigurasi Nilai</button>
+										{% endverbatim %}
+									</td>
+								</tr>
+								<tr ng-if="!vm.data.mata_kuliah_diampuh || vm.data.mata_kuliah_diampuh.length == 0">
+									<td  class="text-center" colspan="5">Belum ada data</td>
+								</tr>
+							</tbody>
+
+						</table>
+	        		
+	        		</div>
+        		</div>
+        	</div>
+        </div>
+
+{% endblock %}

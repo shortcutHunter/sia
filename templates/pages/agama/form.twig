@@ -1,0 +1,12 @@
+{% extends 'pages/template/form.twig' %}
+
+
+{% block form %}
+		
+		<div class="col-md-6">
+			<table class="custom-table">
+				{% include 'pages/components/input.twig' with {'name': 'nama', 'label': 'Nama'} %}
+			</table>
+		</div>
+
+{% endblock %}

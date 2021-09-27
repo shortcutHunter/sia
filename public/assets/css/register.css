@@ -1,0 +1,44 @@
+.wizard > .steps .current a, 
+.wizard > .steps .current a:hover, 
+.wizard > .steps .current a:active {
+	background-color: #00a85a;
+}
+
+.wizard > .steps .done a, 
+.wizard > .steps .done a:hover, 
+.wizard > .steps .done a:active {
+	background-color: #5be3a4;
+}
+
+.wizard > .actions a, 
+.wizard > .actions a:hover, 
+.wizard > .actions a:active {
+	background-color: #00a85a;
+}
+
+.wizard > .steps a, 
+.wizard > .steps a:hover, 
+.wizard > .steps a:active {
+	padding: 0.5em 1em;
+}
+
+.wizard > .steps > ul > li {
+	width: 20%;
+}
+
+.wizard > .content {
+	background-color: #00a85a;
+	color: white;
+	display: flex;
+	justify-content: center;
+}
+
+.pembayaran-container ul li {
+	list-style: none;
+	padding: 1em;
+	box-shadow: 0 .5rem 1rem rgba(0,0,0,.15) !important;
+	background: white;
+	color: black;
+	margin-bottom: 10px;
+	border-radius: 10px;
+}

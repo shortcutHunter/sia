@@ -1,0 +1,36 @@
+<section id="table-view" class="mainbar">
+	<div class="col-12">
+
+		<div class="col-12 mb-3">
+			{% block button %}{% endblock %}
+		</div>
+
+		<div class="card">
+
+			<div class="card-header">
+		        <h3 ng-bind-html="vm.title">Data</h3>
+	      	</div>
+
+			<div class="card-content px-3">
+
+				<div class="float-end">
+					{% block search %}{% endblock %}
+				</div>
+
+				<div class="clearfix"></div>
+
+				<div class="table-responsive">
+					
+					<table class="table table-bordered">
+						{% block table %}{% endblock %}
+					</table>
+
+					{% verbatim %}
+						<div widget-pagination page-data="vm.pageData" ng-attr-table="{{vm.table}}"></div>
+					{% endverbatim %}
+
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

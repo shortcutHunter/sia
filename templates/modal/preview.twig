@@ -1,0 +1,25 @@
+{% extends 'modal/template.twig' %}
+
+{% block title %}
+	<h5 class="modal-title" ng-bind="name"></h5>
+{% endblock %}
+
+
+{% block content %}
+
+	{% verbatim %}
+		<div ng-if="type == 'image'" class="text-center">
+			<img ng-src="data:{{file}}" class="img-fluid">
+		</div>
+
+		<div ng-if="type == 'pdf'" id="pdf-container"></div>
+	{% endverbatim %}
+
+{% endblock %}
+
+{% block footer %}
+	{% verbatim %}
+		<a target="_blank" class="btn btn-primary" href="data:{{mimetype}};base64, {{base64}}" download="{{name}}">Download</a>
+		<button class="btn" data-bs-dismiss="modal">Close</button>
+	{% endverbatim %}
+{% endblock %}

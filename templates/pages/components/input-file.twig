@@ -1,0 +1,13 @@
+<tr>
+	<td>
+		<div class="text-muted font-semibold me-3">{{ label }}</div>
+	</td>
+	<td>
+		<div class="input-group">
+            <input class="form-control form-control-sm" type="file" ng-model="vm.data.{{ name }}" base-sixty-four-input>
+            <button class="btn btn-sm btn-outline-secondary" type="button" preview-file="vm.data.{{ name }}">
+            	<i class="dripicons-preview"></i>
+            </button>
+        </div>
+	</td>
+</tr>

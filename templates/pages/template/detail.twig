@@ -1,0 +1,30 @@
+<div class="col-12">
+
+	
+	<div class="col-12 mb-3">
+		{% verbatim %}
+			<button class="btn btn-redirect" action-url="/{{ vm.model }}">Back</button>
+			<button class="btn btn-success btn-redirect" action-url="/{{ vm.model }}/edit/{{ vm.data.id }}">Edit</button>
+			<button class="btn btn-danger btn-delete">Delete</button>
+		{% endverbatim %}
+		{% block button %}{% endblock %}
+	</div>
+	
+	<div class="card">
+
+			<div class="card-header">
+				{% verbatim %}
+					<h3 class="float-start">Detail {{vm.data.nama}}</h3>
+				{% endverbatim %}
+				{% block title %}{% endblock %}
+			</div>
+
+		<div class="card-content p-4">
+			
+			{% block detail %}{% endblock %}
+
+		</div>
+
+	</div>
+
+</div>

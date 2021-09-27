@@ -1,0 +1,27 @@
+{% verbatim %}
+	
+<div class="modal fade" id="{{vm.uid}}">
+	<div class="modal-dialog modal-dialog-scrollable {{vm.size}}">
+		<div class="modal-content">
+
+			<div class="modal-header" ng-if="vm.modalTitle">
+				<h5 class="modal-title" ng-bind="vm.modalTitle"></h5>
+			</div>
+
+			<div class="modal-body" ng-if="vm.modalContent" ng-bind-html="vm.modalContent"></div>
+
+			<div class="modal-body" ng-if="vm.modalContentElement"></div>
+
+			<div class="modal-footer" ng-if="vm.modalFooter" ng-bind-html="vm.modalFooter"></div>
+
+			<div class="modal-footer" ng-if="vm.modalFooterElement"></div>
+
+			<div class="modal-footer" ng-if="vm.modalFooterButton">
+				<button class="btn" data-bs-dismiss="modal" ng-if="vm.modalFooterButton == 'button-close'">Close</button>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+{% endverbatim %}

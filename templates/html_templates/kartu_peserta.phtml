@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+    <style type="text/css">
+        *{
+            font-family: arial;
+        }
+        .empty-box {
+            height: 30px;
+        }
+        .label {
+            width: 200px;
+        }
+        .value {
+            width: 200px;
+        }
+        .form {
+            margin: 10px 0px;
+        }
+        .bold {
+            font-weight: bold;
+        }
+        .ttd {
+            width: 250px;
+            border-top: 1px solid black;
+            text-align: center;
+            margin-top: 70px;
+            padding-top: 10px;
+        }
+        .w-50 {
+            display: inline-block;
+            width: 40%;
+        }
+        .float-left {
+            float: left;
+        }
+        .float-right {
+            float: right;
+        }
+
+        .img {
+            width: 200px;
+            margin-bottom: 10px;
+        }
+
+        table td, table td * {
+            vertical-align: top;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .ml-10 {
+            margin-left: 120px;
+        }
+
+        .red {
+            color: #e73538;
+        }
+
+        .title {
+            font-weight: normal;
+        }
+
+        .info {
+            font-size: 16px;
+        }
+
+        .info tr td {
+            padding: 10px 0;
+        }
+        .no-margin {
+            margin: 0;
+        }
+
+    </style>
+
+    <table>
+        <tr>            
+            <td>
+                <h4 class="title">Kartu Peserta Ujian PMB Akper <br> Bethesda Serukam</h4>        
+                <table class="info">
+                    <tr>
+                        <td class="label">NIK</td>
+                        <td class="value"><?= $pmb->orang->nik ?? '-' ?></td>
+                    </tr>
+                    <tr>
+                        <td class="label">Nama Lengkap</td>
+                        <td class="value"><?= $pmb->orang->nama ?? '-' ?></td>
+                    </tr>
+                    <tr>
+                        <td class="label">Tempat Lahir / Tgl. Lahir</td>
+                        <td class="value"><?= $pmb->orang->tempat_lahir ?? '-' ?> / <?= $tgl_lahir ?? '-' ?></td>
+                    </tr>
+                    <tr>
+                        <td class="label">Jenis Kelamin</td>
+                        <td class="value"><?= $jk[$pmb->orang->jenis_kelamin] ?? '-' ?></td>
+                    </tr>
+                    <tr>
+                        <td class="label">Alamat</td>
+                        <td class="value"><?= $pmb->orang->alamat ?? '-' ?></td>
+                    </tr>
+                    <tr>
+                        <td class="label">Agama</td>
+                        <td class="value"><?= $agama->nama ?? '-' ?></td>
+                    </tr>
+                    <tr>
+                        <td class="label">Email</td>
+                        <td class="value"><?= $pmb->orang->email ?? '-' ?></td>
+                    </tr>
+                    <tr>
+                        <td class="label">Nomor Handphone</td>
+                        <td class="value"><?= $pmb->orang->no_hp ?? '-' ?></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="ttd">
+                                Tanda Tangan Panitia
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+            </td>
+
+            <td class="text-right">
+
+                <div  class="ml-10">
+                    <table>
+                        <tr>
+                            <?php if ($pmb->orang->pasfoto): ?>
+                                <?php $images_url = "http://localhost/public/uploaded/orang/".$pmb->orang->id."/".rawurlencode($pmb->orang->pasfoto) ?>
+                                <td><img src="<?= $images_url ?>" class="img"></td>
+                            <?php endif ?>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <h4 class="center no-margin">
+                                    NOMOR PESERTA
+                                    <p><qrcode value="6324534543-543" ec="H" style="width: 100px; background-color: white; color: black;"></qrcode></p>
+                                    <?= $pmb->nomor_peserta ?>
+                                </h4>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+
+        </tr>
+    </table>
+
+</body>
+</html>

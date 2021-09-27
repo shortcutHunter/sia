@@ -1,0 +1,25 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "dependencies": {
+    "angular": "^1.8.2",
+    "angular-base64-upload": "^0.1.23",
+    "angular-route": "^1.8.2",
+    "angular-sanitize": "^1.8.2",
+    "angularjs-datepicker": "^2.1.23",
+    "moment": "^2.29.1",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "webpack": "^5.50.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "webpack --config webpack.config.js --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

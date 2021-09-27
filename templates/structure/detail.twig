@@ -1,0 +1,26 @@
+<section id="agama-form" class="mainbar">
+
+  <div class="col-12">
+    <div class="col-12 mb-3">
+      <button class="btn btn-sm" widget-back="">
+        <i class="fa fa-arrow-left"></i>
+      </button>
+      {% block button %}{% endblock %}
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="float-end">
+          {% block status %}{% endblock %}
+        </div>
+        <h3 ng-bind-html="vm.title">Detail</h3>
+      </div>
+
+      <div class="card-content px-3">
+        {% block content %}{% endblock %}
+      </div>
+
+    </div>
+  </div>
+
+</section>

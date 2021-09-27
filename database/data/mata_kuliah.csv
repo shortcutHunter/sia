@@ -1,0 +1,43 @@
+kode,nama,sks,semester_id
+101BETH14.1.01,Agama,2,1
+102BETH14.1.02,Pancasila,2,1
+103BETH14.1.03,Kewarganegaraan,2,1
+104BETH14.1.04,Bahasa Indonesia,2,1
+105BETH14.1.05,Ilmu Biomedik Dasar,4,1
+106BETH14.1.06,Psikologi,2,1
+107BETH14.1.07,Konsep Dasar Keperawatan,2,1
+108BETH14.1.08,Bahasa Inggris I,2,1
+109BETH14.1.09,Teknologi Informasi I,2,1
+110BETH14.1.10,Peka Budaya,2,1
+201BETH14.2.01,Farmakologi,3,2
+202BETH14.2.02,Patofisiologi,2,2
+203BETH14.2.03,Metodologi Keperawatan,2,2
+204BETH14.2.04,Etika Keperawatan,2,2
+205BETH14.2.05,Keperawatan Dasar I,5,2
+206BETH14.2.06,Gizi Dan Diet,2,2
+207BETH14.2.07,Bahasa Inggris Ii,2,2
+208BETH14.2.08,Teknologi Informasi Ii,2,2
+209BETH14.2.09,Pembinaan Kerohanian Kristen I,2,2
+301BETH14.3.01,Dokumentasi Keperawatan,2,3
+302BETH14.3.02,Komunikasi Keperawatan,2,3
+303BETH14.3.03,Keperawatan Dasar Ii,4,3
+304BETH14.3.04,Manajemen Patient Safety,2,3
+305BETH14.3.05,Keperawatan Medikal Bedah I,6,3
+306BETH14.3.06,Kewirausahaan,2,3
+307BETH14.3.07,Antropologi Kesehatan,2,3
+308BETH14.3.08,Hiv/Aids,2,3
+309BETH14.3.09,Pembinaan Kerohanian Kristen Ii,2,3
+402BETH14.4.02,Keperawatan Anak,4,4
+403BETH14.4.03,Keperawatan Maternitas,4,4
+405BETH14.4.05,Pelayanan Primer,2,4
+406BETH14.4.06,Pembinaan Kerohanian Kristen Iii,2,4
+501BETH14.5.01,Keperawatan Jiwa,3,5
+502BETH14.5.02,Keperawatan Medikal Bedah Ii,4,5
+503BETH14.5.03,Keperawatan Keluarga,3,5
+504BETH14.5.04,Keperawatan Gerontik,3,5
+505BETH14.5.05,Keperawatan Komunitas,4,5
+506BETHI4.5.06,Metodologi Penelitian,3,5
+601BETH14.6.01,Karya Tulis Ilmiah,3,6
+602BETH14.6.02,Manajemen Keperawatan,2,6
+404BETH14.4.04,Keperawatan Gawat Darurat,4,6
+603BETH14.6.03,Praktik Klinik Kmb Ii,3,6

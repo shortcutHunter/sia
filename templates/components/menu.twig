@@ -1,0 +1,25 @@
+{% verbatim %}
+	
+	<li ng-repeat="(key, menu) in vm.menus" class="sidebar-item {{ menu.submenus ? 'has-sub' : '' }} {{ (vm.checkMenu(key, key) || vm.active_parent == key) ? 'active' : '' }}">
+
+		<a class="btn-redirect btn-navigation sidebar-link" action-url="/{{key}}" href="javascript:void(0)" ng-if="!menu.submenus" model="{{key}}" parent-model="{{key}}">
+			<!-- <i class="bi {{menu.icon}}"></i> -->
+			<span ng-bind="menu.name"></span>
+		</a>
+
+		<a class="sidebar-link" href="javascript:void(0)" ng-if="menu.submenus">
+			<span ng-bind="menu.name"></span>
+		</a>
+
+		<ul class="submenu" ng-if="menu.submenus" style="{{ vm.active_parent == key ? 'display: block;' : '' }}">
+			<li ng-repeat="(sk, sm) in menu.submenus" class="submenu-item {{ vm.checkMenu(sk, key) ? 'active' : '' }}">
+				<a class="btn-redirect btn-navigation" action-url="/{{sk}}" href="javascript:void(0)" ng-click="$event.stopPropagation()" model="{{sk}}" parent-model="{{key}}">
+					<!-- <i class="bi {{sm.icon}}"></i> -->
+					<span ng-bind="sm.name"></span>
+				</a>
+			</li>
+		</ul>
+
+	</li>
+
+{% endverbatim %}

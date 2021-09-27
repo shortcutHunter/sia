@@ -1,0 +1,28 @@
+{% verbatim %}
+	
+<div class="modal fade" id="{{vm.uid}}">
+	<div class="modal-dialog modal-dialog-scrollable {{vm.size}}">
+		<div class="modal-content">
+{% endverbatim %}
+			<div class="modal-header">
+				<h5 class="modal-title">Mahasiswa Bimbingan</h5>
+			</div>
+
+			<div class="modal-body ui-front">
+				<div class="row">
+					<div class="col-md-6">
+						<table class="custom-table">
+							{% include 'pages/components/autocomplete.twig' with {'name': 'mahasiswa_id', 'label': 'Mahasiswa', 'remote_url': '/orang/get?nama='} %}
+						</table>
+					</div>	
+				</div>
+			</div>
+
+			<div class="modal-footer">
+				<button class="btn btn-primary" btn-save-to-ctrl="dosen_pa_id" target="mahasiswa_bimbingan" data-bs-dismiss="modal">Submit</button>
+				<button class="btn" data-bs-dismiss="modal">Close</button>
+			</div>
+
+		</div>
+	</div>
+</div>

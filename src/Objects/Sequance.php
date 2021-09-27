@@ -1,0 +1,30 @@
+<?php
+
+namespace App\Objects;
+
+use App\Objects\BaseModel;
+
+class Sequance extends BaseModel
+{
+	protected $table = 'sequance';
+
+
+	public function getnextCode($code_name)
+	{
+		$seq = $this->where('nama', $code_name)->first();
+		$code = join("", array_map(function($string){
+			return ucfirst(substr($string, 0, 1));
+		}, explode("_", $code_name)));
+
+		if (!empty($seq)) {
+			$seq->update(['nomor' => $seq->nomor+1]);
+		}else{
+			$seq = $this->create(['nama' => $code_name, 'kode' => $code]);
+		}
+
+		$seq = $seq->refresh();
+
+		return $seq->kode."-".sprintf('%03d', $seq->nomor);
+	}
+
+}

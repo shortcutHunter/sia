@@ -1,0 +1,32 @@
+{% extends 'pages/template/form.twig' %}
+
+
+{% block form %}
+		
+	<div class="row">
+		<div class="col-md-6">
+			<table class="custom-table">
+				{% include 'pages/components/input.twig' with {'name': 'kode', 'label': 'Kode'} %}
+				{% include 'pages/components/input.twig' with {'name': 'nama', 'label': 'Nama'} %}
+				{% include 'pages/components/input.twig' with {'name': 'sks', 'label': 'SKS'} %}
+			</table>
+		</div>
+
+		<div class="col-md-6">
+			<table class="custom-table">
+				{% include 'pages/components/checkbox.twig' with {'name': 't', 'label': 'Teori'} %}
+				{% include 'pages/components/checkbox.twig' with {'name': 'p', 'label': 'Praktek'} %}
+				{% include 'pages/components/checkbox.twig' with {'name': 'k', 'label': 'SKS'} %}
+			</table>
+		</div>
+
+		<hr>
+
+		<div class="col-md-6">
+			<table class="custom-table">
+				{% include 'pages/components/textarea.twig' with {'name': 'keterangan', 'label': 'Keterangan'} %}
+			</table>
+		</div>
+	</div>
+
+{% endblock %}

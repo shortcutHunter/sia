@@ -1,0 +1,39 @@
+{% extends "structure/table.twig" %}
+
+{% block button %}
+	<a ui-sref="agama_form({dataId: null})" class="btn btn-success btn-sm">
+		<i class="fa fa-plus"></i> Tambah
+	</a>
+{% endblock %}
+
+{% block search %}
+
+	{# <div class="form-group position-relative has-icon-right">
+        <input type="text" class="form-control">
+        <div class="form-control-icon">
+            <i class="fa fa-search"></i>
+        </div>
+    </div> #}
+
+{% endblock %}
+
+{% block table %}
+	{% verbatim %}
+
+		<thead>
+			<tr>
+				<th>Nama</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr ng-if="!vm.data || vm.data.length == 0">
+	          <td colspan="5" class="text-center">Tidak ada data yang tersedia</td>
+	        </tr>
+	        <tr ng-repeat="data in vm.data" class="clickable" ng-attr-tr_id="{{data.id}}" state_name="agama_detail" widget-tr="">
+	          <td ng-bind="data.nama || '-'"></td>
+	        </tr>
+		</tbody>
+
+	{% endverbatim %}
+{% endblock %}

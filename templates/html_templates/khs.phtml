@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+    <?php include('header.phtml'); ?>
+
+    <style type="text/css">
+        .m-top {
+            margin-top: 20px;
+        }
+        .bold {
+            font-weight: bold;
+        }
+        .m-top-table {
+            margin-top: 20px;
+        }
+        .pr-20 {
+            padding-right: 20px;
+        }
+        .w-50 {
+            width: 400px;
+        }
+        .w-100{
+            width: 100px;
+        }
+        .w-200{
+            width: 150px;
+        }
+        .table {
+            border-collapse: collapse;
+        }
+        .table td, .table th{
+            padding: 7px;
+        }
+        th {
+            text-align: center;
+            font-weight: bold;
+            vertical-align: middle;
+        }
+
+        ul {
+            list-style: decimal;
+            width: 40%;
+        }
+        ul li .dashed {
+            border-bottom: 1px solid dashed black;
+            margin-bottom: 10px;
+        }
+        .catatan {
+            font-style: italic;
+            text-decoration: underline;
+        }
+        .mt-50 {
+            margin-top: 50px;
+        }
+        .ml-40 {
+            margin-top: 10px;
+            margin-left: 50%;
+            width: 200px;
+        }
+        .container {
+            font-size: 12px;
+        }
+
+    </style>
+
+    <div class="container">
+        <div class="text-center m-top bold">
+            KARTU HASIL STUDI <br> (KHS)
+        </div>
+
+        <div class="m-top-table">
+            <table>
+                <tr>
+                    <td>
+                        <table>
+                            <tr>
+                                <td>NAMA</td>
+                                <td>:</td>
+                                <td><?= $ks->mahasiswa->orang->nama ?? '-' ?></td>
+                            </tr>
+                            <tr>
+                                <td class="pr-20">TEMPAT/TANGGAL LAHIR</td>
+                                <td>:</td>
+                                <td><?= $ks->mahasiswa->orang->tempat_lahir ?? '-' ?> / <?= $tgl_lahir ?? '-' ?></td>
+                            </tr>
+                            <tr>
+                                <td>NIM</td>
+                                <td>:</td>
+                                <td><?= $ks->mahasiswa->nim ?? '-' ?></td>
+                            </tr>
+                            <tr>
+                                <td>SEMESTER</td>
+                                <td>:</td>
+                                <td><?= $ks->semester ?? '-' ?></td>
+                            </tr>
+                            <tr>
+                                <td class="pr-20">ANGKATAN TAHUN</td>
+                                <td>:</td>
+                                <td><?= $ks->mahasiswa->tahun_ajaran->nama ?? '-' ?></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <?php
+            $total_sks = 0;
+            $total_nilai = 0;
+            $total = 0;
+        ?>
+
+        <div class="m-top-table">
+            <table class="table" border="1">
+                <tr>
+                    <th>NO.</th>
+                    <th class="w-100">KODE</th>
+                    <th class="w-200">MATA AJARAN</th>
+                    <th>BEBAN <br> SKS</th>
+                    <th>NILAI <br> ABSOLUT</th>
+                    <th>NILAI <br> LAMBANG</th>
+                    <th>MUTU</th>
+                    <th>NILAI SKS <br> X MUTU</th>
+                </tr>
+                <?php foreach ($sks as $key => $value): ?>
+
+                    <?php
+                        $total_sks += $value->mata_kuliah->sks;
+                        $total_nilai += $value->total_nilai;
+                        $total += ($value->mata_kuliah->sks * $value->nilai_mutu);
+                    ?>
+
+                    <tr>
+                        <td><?= $key+1 ?></td>
+                        <td><?= $value->mata_kuliah->kode ?></td>
+                        <td><?= $value->mata_kuliah->nama ?></td>
+                        <td class="text-center"><?= $value->mata_kuliah->sks ?></td>
+                        <td class="text-center"><?= $value->total_nilai ?></td>
+                        <td class="text-center"><?= $value->simbol ?></td>
+                        <td class="text-center"><?= $value->nilai_mutu ?></td>
+                        <td class="text-center"><?= ($value->mata_kuliah->sks * $value->nilai_mutu) ?></td>
+                    </tr>
+                <?php endforeach ?>
+                
+                <tr class="bold text-center">
+                    <td colspan="3">Jumlah</td>
+                    <td><?= $total_sks ?></td>
+                    <td><?= $total_nilai ?></td>
+                    <td colspan="2"></td>
+                    <td><?= $total ?></td>
+                </tr>
+                <tr class="bold">
+                    <td colspan="7">Indexs Prestasi Semester</td>
+                    <td class="text-center"><?= $ks->nilai_ips ?></td>
+                </tr>
+                <!-- <tr class="bold">
+                    <td colspan="7">Indexs Prestasi Kumulatif (IPK) I & II</td>
+                    <td class="text-center">3,76</td>
+                </tr> -->
+            </table>
+        </div>
+
+        <div class="mt-50">
+            <div class="catatan">Catatan Pembimbing Akademik (PA):</div>
+            <ul>
+                <li><div class="dashed">&nbsp;</div><div class="dashed">&nbsp;</div></li>
+                <li><div class="dashed">&nbsp;</div><div class="dashed">&nbsp;</div></li>
+            </ul>
+        </div>
+
+        <div class="ml-40 text-center">
+            <div>Serukam, <?= date('d F Y') ?></div>
+            <div class="bold">PUDIR I Bidang Akademik</div>
+            <div>
+                <img src="http://localhost/public/assets/images/ttd.png">
+            </div>
+            <div class="bold">Herlina, S.Kep., Ners., M.Kep</div>
+        </div>
+    </div>
+
+</body>
+</html>

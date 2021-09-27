@@ -1,0 +1,15 @@
+{% verbatim %}
+  <nav aria-label="Page navigation">
+    <ul class="pagination pagination-primary mt-5 justify-content-center">
+      <li class="page-item" ng-class="dm.pageData.current_page == 1 || !dm.pageData ? 'disabled' : ''">
+        <a class="page-link" ng-attr-page="{{dm.pageData.current_page-1}}" href="javascript:void(0)">Previous</a>
+      </li>
+      <li class="page-item" ng-class="($index+1) == dm.pageData.current_page ? 'active' : ''" ng-repeat="n in [].constructor(dm.pageData.last_page) track by $index">
+        <a class="page-link" ng-attr-page="{{$index+1}}" href="javascript:void(0)" ng-bind="$index+1"></a>
+      </li>
+      <li class="page-item" ng-class="dm.pageData.current_page == dm.pageData.last_page ? 'disabled' : ''">
+        <a class="page-link" ng-attr-page="{{dm.pageData.current_page+1}}" href="javascript:void(0)">Next</a>
+      </li>
+    </ul>
+  </nav>
+{% endverbatim %}

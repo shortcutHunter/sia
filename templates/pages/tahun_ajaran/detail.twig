@@ -1,0 +1,12 @@
+{% extends "pages/template/detail.twig" %}
+
+
+{% block detail %}
+
+	<table class="custom-table">
+		{% include 'pages/components/preview-text.twig' with {'name': 'nama', 'label': 'Nama'} %}
+		{% include 'pages/components/preview-text.twig' with {'name': 'tahun', 'label': 'Tahun'} %}
+		{% include 'pages/components/preview-text.twig' with {'name': 'nomor', 'label': 'Nomor'} %}
+	</table>
+
+{% endblock %}

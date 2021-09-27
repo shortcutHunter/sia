@@ -1,0 +1,127 @@
+{% extends 'structure/detail.twig' %}
+
+
+{% block button %}
+
+  <a class="btn btn-sm btn-success" ui-sref="pmb_form({dataId: vm.data.id})" ng-if="vm.data.status == 'baru'"><i class="fa fa-edit"></i> Edit</a>
+  <button class="btn btn-sm btn-danger" ng-if="vm.data.status == 'baru'"><i class="fa fa-trash"></i> Delete</button>
+
+  <div class="float-end">
+    {% verbatim %}
+      <button class="btn btn-primary" widget-cetak-peserta="" ng-if="vm.data.status == 'ujian'">Cetak Kartu Peserta</button>
+      <button class="btn btn-primary" widget-update-status="ujian" ng-if="vm.data.status == 'baru'">Verifikasi</button>
+      <button class="btn btn-primary" widget-update-status="terima" ng-if="vm.data.status == 'ujian'">Terima</button>
+      <button class="btn" widget-update-status="tolak" ng-if="vm.data.status == 'ujian'">Tolak</button>
+    {% endverbatim %}
+  </div>
+
+{% endblock %}
+
+{% block status %}
+
+  {% verbatim %}
+    <button class="btn {{ key == vm.data.status ? 'btn-primary' : ''}}" ng-repeat="(key, status) in vm.option.option.status" ng-bind="status"></button>
+  {% endverbatim %}
+
+{% endblock %}
+
+{% block content %}
+
+  <div class="row">
+      <div class="col-md-6">
+        <table class="custom-table">
+          {% include 'components/preview-text.twig' with {'name': 'nomor_peserta', 'label': 'Nomor Peserta'} %}
+          {% include 'components/preview-text.twig' with {'name': 'orang.nama', 'label': 'Nama'} %}
+        </table>
+      </div>
+      
+      <div class="col-md-6">
+        <table class="custom-table">
+          {% include 'components/preview-text.twig' with {'name': 'pernyataan', 'label': 'Pernyataan'} %}
+          {% include 'components/preview-text.twig' with {'name': 'tanggal_pendaftaran', 'label': 'Tanggal Pendfataran'} %}
+        </table>
+      </div>
+    </div>
+
+    <ul class="nav nav-tabs mt-5">
+      <li class="nav-item">
+              <a class="nav-link active" data-bs-toggle="list" href="#pribadi">Data Pribadi</a>
+            </li>
+      <li class="nav-item">
+              <a class="nav-link" data-bs-toggle="list" href="#orangtua">Orang Tua</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-bs-toggle="list" href="#berkas">Berkas</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-bs-toggle="list" href="#lainnya">Lainnya</a>
+            </li>
+        </ul>
+
+        <div class="tab-content text-justify">
+          <div class="tab-pane fade show active" id="pribadi">
+            <div class="row mt-3">
+              <div class="col-md-6">
+                <table class="custom-table">
+            {% include 'components/preview-text.twig' with {'name': 'orang.nik', 'label': 'NIK'} %}
+            {% include 'components/preview-text.twig' with {'name': 'orang.tempat_lahir', 'label': 'Tempat Lahir'} %}
+            {% include 'components/preview-text.twig' with {'name': 'orang.tanggal_lahir', 'label': 'Tanggal Lahir'} %}
+            {% include 'components/preview-text.twig' with {'name': 'orang.jenis_kelamin.label', 'label': 'Jenis Kelamin'} %}
+            {% include 'components/preview-text.twig' with {'name': 'orang.agama.nama', 'label': 'Agama'} %}
+                </table>
+              </div>
+
+              <div class="col-md-6">
+                <table class="custom-table">
+              {% include 'components/preview-text.twig' with {'name': 'orang.alamat', 'label': 'Alamat'} %}
+              {% include 'components/preview-text.twig' with {'name': 'orang.email', 'label': 'Email'} %}
+              {% include 'components/preview-text.twig' with {'name': 'orang.no_hp', 'label': 'No. HP'} %}
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane fade show" id="orangtua">
+            <div class="row mt-3">
+              <div class="col-md-6">
+                <table class="custom-table">
+              {% include 'components/preview-text.twig' with {'name': 'orang.nama_ayah', 'label': 'Nama Ayah'} %}
+              {% include 'components/preview-text.twig' with {'name': 'orang.pekerjaan_ayah', 'label': 'Pekerjaan Ayah'} %}
+              {% include 'components/preview-text.twig' with {'name': 'orang.penghasilan_ortu', 'label': 'Penghasilan Orang Tua'} %}
+                </table>
+              </div>
+
+              <div class="col-md-6">
+                <table class="custom-table">
+              {% include 'components/preview-text.twig' with {'name': 'orang.nama_ibu', 'label': 'Nama Ibu'} %}
+              {% include 'components/preview-text.twig' with {'name': 'orang.pekerjaan_ibu', 'label': 'Pekerjaan Ibu'} %}
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane fade show" id="berkas">
+            <div class="row mt-3">
+              <div class="col-md-6">
+                <table class="custom-table">
+              {% include 'components/preview-file.twig' with {'name': 'bukti_pembayaran', 'label': 'Bukti Pembayaran'} %}
+              {% include 'components/preview-file.twig' with {'name': 'orang.pasfoto', 'label': 'Pasfoto'} %}
+              {% include 'components/preview-file.twig' with {'name': 'orang.ijazah', 'label': 'Ijazah/SKL'} %}
+              {% include 'components/preview-file.twig' with {'name': 'orang.ktp', 'label': 'KTP'} %}
+              {% include 'components/preview-file.twig' with {'name': 'orang.surket_menikah', 'label': 'Surket. Belum Menikah'} %}
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane fade show" id="lainnya">
+            <div class="row mt-3">
+              <div class="col-md-6">
+                <table class="custom-table">
+              {% include 'components/preview-text.twig' with {'name': 'orang.asal_sekolah', 'label': 'Asal Sekolah'} %}
+              {% include 'components/preview-text.twig' with {'name': 'orang.tinggi_badan', 'label': 'Tinggi Badan'} %}
+              {% include 'components/preview-text.twig' with {'name': 'orang.berat_badan', 'label': 'Berat Badan'} %}
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+{% endblock %}

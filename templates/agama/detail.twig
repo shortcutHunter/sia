@@ -1,0 +1,26 @@
+{% extends 'structure/detail.twig' %}
+
+
+{% block button %}
+
+  <a class="btn btn-sm btn-success" ui-sref="agama_form({dataId: vm.data.id})"><i class="fa fa-edit"></i> Edit</a>
+  <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Delete</button>
+
+{% endblock %}
+
+{% block content %}
+
+	<div class="col-md-6">
+      <table class="custom-table">
+        <tr>
+          <td>
+            <div class="text-muted font-semibold me-3">Nama</div>
+          </td>
+          <td>
+            <div class="font-extrabold" ng-bind="vm.data.nama || '-'"></div>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+{% endblock %}

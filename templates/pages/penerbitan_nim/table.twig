@@ -1,0 +1,35 @@
+{% extends "pages/template/table.twig" %}
+{% block table %}
+
+	{% verbatim %}
+
+		<thead>
+			<tr>
+				<th>Nomor Peserta</th>
+				<th>NIK</th>
+				<th>Nama</th>
+				<th>Tanggal Pendaftaran</th>
+				<th>Status</th>
+				<th></th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr ng-if="!vm.data || vm.data.length == 0">
+	          <td colspan="5" class="text-center">Tidak ada data yang tersedia</td>
+	        </tr>
+	        <tr ng-repeat="data in vm.data">
+	          <td ng-bind="data.pmb.nomor_peserta || '-'"></td>
+	          <td ng-bind="data.pmb.orang.nik || '-'"></td>
+	          <td ng-bind="data.pmb.orang.nama || '-'"></td>
+	          <td ng-bind="data.pmb.tanggal_pendaftaran || '-'"></td>
+	          <td ng-bind="data.status || '-'"></td>
+	          <td>
+          		<button class="btn btn-primary" btn-update-status="pengajuan" target-id="{{data.id}}" ng-if="data.status == 'belum'">Ajukan</button>
+          		<button class="btn btn-primary" btn-update-status="terbit" target-id="{{data.id}}" ng-if="data.status == 'pengajuan'">Terbitkan</button>
+	          </td>
+	        </tr>
+		</tbody>
+
+	{% endverbatim %}
+{% endblock %}

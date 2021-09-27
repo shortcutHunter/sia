@@ -1,0 +1,26 @@
+{% extends "pages/template/table.twig" %}
+{% block table %}
+
+	{% verbatim %}
+
+		<thead>
+			<tr>
+				<th>Kode</th>
+				<th>Nama</th>
+				<th>SKS</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr ng-if="!vm.data || vm.data.length == 0">
+	          <td colspan="5" class="text-center">Tidak ada data yang tersedia</td>
+	        </tr>
+	        <tr ng-repeat="data in vm.data" class="clickable" table-row="{{data.id}}" model="{{vm.model}}">
+	          <td ng-bind="data.kode || '-'"></td>
+	          <td ng-bind="data.nama || '-'"></td>
+	          <td ng-bind="data.sks || '-'"></td>
+	        </tr>
+		</tbody>
+
+	{% endverbatim %}
+{% endblock %}
