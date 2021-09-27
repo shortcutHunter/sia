@@ -12,14 +12,7 @@
 
 	<div class="col-md-6">
       <table class="custom-table">
-        <tr>
-          <td>
-            <div class="text-muted font-semibold me-3">Nama</div>
-          </td>
-          <td>
-            <div class="font-extrabold" ng-bind="vm.data.nama || '-'"></div>
-          </td>
-        </tr>
+        {% include 'components/preview-text.twig' with {'name': 'nama', 'label': 'Nama'} %}
       </table>
     </div>
 

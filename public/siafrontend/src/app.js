@@ -12,6 +12,10 @@ import './modals/modals.module';
 import './layout/layout.module';
 import './agama/agama.module';
 import './pmb/pmb.module';
+import './nilai/nilai.module';
+import './mata_kuliah/mata_kuliah.module';
+import './sequance/sequance.module';
+import './tahun_ajaran/tahun_ajaran.module';
 
 import './blocks/exception/exception-handler.provider';
 import './blocks/exception/exception';
@@ -46,3 +50,23 @@ import './pmb/pmb.controller';
 import './pmb/pmb_form.controller';
 import './pmb/pmb_detail.controller';
 import './pmb/pmb.route';
+
+import './nilai/nilai.controller';
+import './nilai/nilai_form.controller';
+import './nilai/nilai_detail.controller';
+import './nilai/nilai.route';
+
+import './tahun_ajaran/tahun_ajaran.controller';
+import './tahun_ajaran/tahun_ajaran_form.controller';
+import './tahun_ajaran/tahun_ajaran_detail.controller';
+import './tahun_ajaran/tahun_ajaran.route';
+
+import './sequance/sequance.controller';
+import './sequance/sequance_form.controller';
+import './sequance/sequance_detail.controller';
+import './sequance/sequance.route';
+
+import './mata_kuliah/mata_kuliah.controller';
+import './mata_kuliah/mata_kuliah_form.controller';
+import './mata_kuliah/mata_kuliah_detail.controller';
+import './mata_kuliah/mata_kuliah.route';

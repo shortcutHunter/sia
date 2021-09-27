@@ -1,0 +1,18 @@
+{% extends "structure/detail.twig" %}
+
+{% block button %}
+
+  <a class="btn btn-sm btn-success" ui-sref="tahun_ajaran_form({dataId: vm.data.id})"><i class="fa fa-edit"></i> Edit</a>
+  <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Delete</button>
+
+{% endblock %}
+
+{% block content %}
+
+	<table class="custom-table">
+		{% include 'components/preview-text.twig' with {'name': 'nama', 'label': 'Nama'} %}
+		{% include 'components/preview-text.twig' with {'name': 'tahun', 'label': 'Tahun'} %}
+		{% include 'components/preview-text.twig' with {'name': 'nomor', 'label': 'Nomor'} %}
+	</table>
+
+{% endblock %}

@@ -8,6 +8,10 @@
     'app.layout',
     'app.agama',
     'app.pmb',
+    'app.nilai',
+    'app.mata_kuliah',
+    'app.sequance',
+    'app.tahun_ajaran',
     'app.widgets',
     'app.modals'
   ]);
