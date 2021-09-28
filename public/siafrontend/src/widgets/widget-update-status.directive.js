@@ -19,7 +19,8 @@
       element.on('click', function(){
         let vm = scope.$parent.vm;
         let data = {status: attr.widgetUpdateStatus};
-        dataservice.postData(vm.table, data, vm.data.id).then(function(data){
+        let id = attr.targetId ? attr.targetId : vm.data.id;
+        dataservice.postData(vm.table, data, id).then(function(data){
           state.reload();
         });
       });

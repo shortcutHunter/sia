@@ -12,6 +12,7 @@
     'app.mata_kuliah',
     'app.sequance',
     'app.tahun_ajaran',
+    'app.penerbitan_nim',
     'app.widgets',
     'app.modals'
   ]);

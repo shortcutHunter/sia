@@ -16,6 +16,7 @@ import './nilai/nilai.module';
 import './mata_kuliah/mata_kuliah.module';
 import './sequance/sequance.module';
 import './tahun_ajaran/tahun_ajaran.module';
+import './penerbitan_nim/penerbitan_nim.module';
 
 import './blocks/exception/exception-handler.provider';
 import './blocks/exception/exception';
@@ -70,3 +71,6 @@ import './mata_kuliah/mata_kuliah.controller';
 import './mata_kuliah/mata_kuliah_form.controller';
 import './mata_kuliah/mata_kuliah_detail.controller';
 import './mata_kuliah/mata_kuliah.route';
+
+import './penerbitan_nim/penerbitan_nim.controller';
+import './penerbitan_nim/penerbitan_nim.route';
