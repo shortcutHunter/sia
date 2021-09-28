@@ -1,0 +1,51 @@
+{% extends "structure/detail.twig" %}
+
+
+{% block detail %}
+
+	<div class="row">
+			<div class="col-md-6">
+				<table class="custom-table">
+					{% include 'components/preview-text.twig' with {'name': 'ni', 'label': 'NIDN/NIP'} %}
+					{% include 'components/preview-text.twig' with {'name': 'orang.nama', 'label': 'Nama'} %}
+				</table>
+			</div>
+			
+			<div class="col-md-6">
+				<table class="custom-table">
+						{% include 'components/preview-text.twig' with {'name': 'jenis_karyawan', 'label': 'Jenis Karyawan'} %}
+				</table>
+			</div>
+		</div>
+
+		<ul class="nav nav-tabs mt-5">
+			<li class="nav-item">
+            	<a class="nav-link active" data-bs-toggle="list" href="#pribadi">Data Pribadi</a>
+            </li>
+        </ul>
+
+        <div class="tab-content text-justify">
+        	<div class="tab-pane fade show active" id="pribadi">
+        		<div class="row mt-3">
+        			<div class="col-md-6">
+	        			<table class="custom-table">
+						{% include 'components/preview-text.twig' with {'name': 'orang.nik', 'label': 'NIK'} %}
+						{% include 'components/preview-text.twig' with {'name': 'orang.tempat_lahir', 'label': 'Tempat Lahir'} %}
+						{% include 'components/preview-text.twig' with {'name': 'orang.tanggal_lahir', 'label': 'Tanggal Lahir'} %}
+						{% include 'components/preview-text.twig' with {'name': 'orang.jenis_kelamin', 'label': 'Jenis Kelamin', 'option': 'orang.option.jenis_kelamin'} %}
+						{% include 'components/preview-text.twig' with {'name': 'orang.agama.nama', 'label': 'Agama'} %}
+	        			</table>
+	        		</div>
+
+	        		<div class="col-md-6">
+	        			<table class="custom-table">
+							{% include 'components/preview-text.twig' with {'name': 'orang.alamat', 'label': 'Alamat'} %}
+							{% include 'components/preview-text.twig' with {'name': 'orang.email', 'label': 'Email'} %}
+							{% include 'components/preview-text.twig' with {'name': 'orang.no_hp', 'label': 'No. HP'} %}
+	        			</table>
+	        		</div>
+        		</div>
+        	</div>
+        </div>
+
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "structure/table.twig" %}
+{% block table %}
+
+	{% verbatim %}
+
+		<thead>
+			<tr>
+				<th>NIDN/NIP</th>
+				<th>Nama</th>
+				<th>Jenis Karyawan</th>
+				<th>Status</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr ng-if="!vm.data || vm.data.length == 0">
+	          <td colspan="5" class="text-center">Tidak ada data yang tersedia</td>
+	        </tr>
+	        <tr ng-repeat="data in vm.data" class="clickable" ng-attr-tr_id="{{data.id}}" state_name="karyawan_detail" widget-tr="">
+	          <td ng-bind="data.ni || '-'"></td>
+	          <td ng-bind="data.orang.nama || '-'"></td>
+	          <td ng-bind="data.jenis_karyawan || '-'"></td>
+	          <td ng-bind="data.status || '-'"></td>
+	        </tr>
+		</tbody>
+
+	{% endverbatim %}
+{% endblock %}
