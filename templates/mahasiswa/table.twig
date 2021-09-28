@@ -1,0 +1,28 @@
+{% extends "structure/table.twig" %}
+{% block table %}
+
+	{% verbatim %}
+
+		<thead>
+			<tr>
+				<th>NIM</th>
+				<th>Nama</th>
+				<th>Semester</th>
+				<th>Tahun Masuk</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr ng-if="!vm.data || vm.data.length == 0">
+	          <td colspan="5" class="text-center">Tidak ada data yang tersedia</td>
+	        </tr>
+	        <tr ng-repeat="data in vm.data" class="clickable" ng-attr-tr_id="{{data.id}}" state_name="mahasiswa_detail" widget-tr="">
+	          <td ng-bind="data.nim || '-'"></td>
+	          <td ng-bind="data.orang.nama || '-'"></td>
+	          <td ng-bind="data.semester || '-'"></td>
+	          <td ng-bind="data.tahun_masuk || '-'"></td>
+	        </tr>
+		</tbody>
+
+	{% endverbatim %}
+{% endblock %}

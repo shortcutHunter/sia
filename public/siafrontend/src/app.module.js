@@ -13,6 +13,7 @@
     'app.sequance',
     'app.tahun_ajaran',
     'app.penerbitan_nim',
+    'app.mahasiswa',
     'app.widgets',
     'app.modals'
   ]);

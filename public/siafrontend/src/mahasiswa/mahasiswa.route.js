@@ -1,0 +1,52 @@
+(function() {
+  'use strict';
+
+  angular
+    .module('app.mahasiswa')
+    .run(appRun);
+
+  appRun.$inject = ['routerHelper'];
+  /* @ngInject */
+  function appRun(routerHelper) {
+    routerHelper.configureStates(getStates());
+  }
+
+  function getStates() {
+    return [
+      {
+        state: 'mahasiswa',
+        config: {
+          url: '/mahasiswa',
+          templateUrl: '/template/mahasiswa/table',
+          controller: 'MahasiswaController',
+          controllerAs: 'vm',
+          title: 'mahasiswa',
+          settings: {
+            nav: 1,
+            content: '<i class="fa fa-list"></i> <span>Mahasiswa</span>'
+          }
+        }
+      },
+      {
+        state: 'mahasiswa_form',
+        config: {
+          url: '/mahasiswa/form/:dataId',
+          templateUrl: '/template/mahasiswa/form',
+          controller: 'MahasiswaFormController',
+          controllerAs: 'vm',
+          title: 'mahasiswa_form'
+        }
+      },
+      {
+        state: 'mahasiswa_detail',
+        config: {
+          url: '/mahasiswa/{dataId}',
+          templateUrl: '/template/mahasiswa/detail',
+          controller: 'MahasiswaDetailController',
+          controllerAs: 'vm',
+          title: 'mahasiswa_detail'
+        }
+      }
+    ];
+  }
+})();
