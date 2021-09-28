@@ -1,4 +1,4 @@
-{% extends "pages/template/table.twig" %}
+{% extends "structure/table.twig" %}
 {% block table %}
 
 	{% verbatim %}
@@ -25,8 +25,8 @@
 	          <td ng-bind="data.pmb.tanggal_pendaftaran || '-'"></td>
 	          <td ng-bind="data.status || '-'"></td>
 	          <td>
-          		<button class="btn btn-primary" btn-update-status="pengajuan" target-id="{{data.id}}" ng-if="data.status == 'belum'">Ajukan</button>
-          		<button class="btn btn-primary" btn-update-status="terbit" target-id="{{data.id}}" ng-if="data.status == 'pengajuan'">Terbitkan</button>
+          		<button class="btn btn-primary" widget-update-status="pengajuan" ng-attr-target-id="{{data.id}}" ng-if="data.status == 'belum'">Ajukan</button>
+          		<button class="btn btn-primary" widget-update-status="terbit" ng-attr-target-id="{{data.id}}" ng-if="data.status == 'pengajuan'">Terbitkan</button>
 	          </td>
 	        </tr>
 		</tbody>
