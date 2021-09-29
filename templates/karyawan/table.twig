@@ -1,4 +1,11 @@
 {% extends "structure/table.twig" %}
+
+{% block button %}
+	<a ui-sref="karyawan_form({dataId: null})" class="btn btn-success btn-sm">
+		<i class="fa fa-plus"></i> Tambah
+	</a>
+{% endblock %}
+
 {% block table %}
 
 	{% verbatim %}

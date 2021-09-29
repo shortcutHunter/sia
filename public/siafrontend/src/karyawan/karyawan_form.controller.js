@@ -2,30 +2,37 @@
   'use strict';
 
   angular
-    .module('app.mata_kuliah')
-    .controller('MataKuliahFormController', MataKuliahFormController);
+    .module('app.karyawan')
+    .controller('KaryawanFormController', KaryawanFormController);
 
-  MataKuliahFormController.$inject = ['$q', 'dataservice', 'logger', '$stateParams'];
+  KaryawanFormController.$inject = ['$q', 'dataservice', 'logger', '$stateParams'];
   /* @ngInject */
-  function MataKuliahFormController($q, dataservice, logger, stateParams) {
+  function KaryawanFormController($q, dataservice, logger, stateParams) {
     var vm = this;
-    vm.title = 'Form Mata Kuliah';
-    vm.table = 'mata_kuliah';
+    vm.title = 'Form Karyawan';
+    vm.table = 'karyawan';
 
     activate();
 
     function activate() {
+      var promises = [getOption()];
       if (stateParams.dataId) {
-        var promises = [getDataDetail()];
-        return $q.all(promises).then(function() {
-          logger.info('Data loaded');
-        });
+        promises.push(getDataDetail());
       }
+      return $q.all(promises).then(function() {
+        logger.info('Data loaded');
+      });
     }
 
     function getDataDetail() {
       return dataservice.getDataDetail(vm.table, stateParams.dataId).then(function(response) {
         vm.data = response.data;
+      });
+    }
+
+    function getOption() {
+      return dataservice.getOption(vm.table).then(function(response) {
+        vm.option = response;
       });
     }
   }

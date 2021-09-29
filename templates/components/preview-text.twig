@@ -3,6 +3,10 @@
 		<div class="text-muted font-semibold me-3">{{ label }}</div>
 	</td>
 	<td>
-		<div class="font-extrabold" ng-bind="{{ prefix ?? 'vm.data' }}.{{ name }} || '-'"></div>
+		{% if option %}
+			<div class="font-extrabold" ng-bind="vm.option.{{ option }}[{{ prefix ?? 'vm.data' }}.{{ name }}] || '-'"></div>
+		{% else %}
+			<div class="font-extrabold" ng-bind="{{ prefix ?? 'vm.data' }}.{{ name }} || '-'"></div>
+		{% endif %}
 	</td>
 </tr>
