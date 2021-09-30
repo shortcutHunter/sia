@@ -3,7 +3,7 @@
 		<div class="text-muted font-semibold me-3">{{ label }}</div>
 	</td>
 	<td>
-		<autocomplete ng-model="vm.data.{{ name }}" remote-url="{{ remote_url }}"></autocomplete>
+		<widget-auto-complete ng-model="vm.data.{{ name }}" table="{{ table }}" normal_search="{{ normal_search }}"></widget-auto-complete>
 	</td>
 	<td>
 		{{ (additional ?? '') | raw }}

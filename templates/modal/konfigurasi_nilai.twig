@@ -1,0 +1,54 @@
+{% extends 'modal/template.twig' %}
+
+{% block title %}
+	<h5 class="modal-title">Konfigurasi Nilai</h5>
+{% endblock %}
+
+
+{% block content %}
+
+	<div class="modal-body ui-front">
+		<div class="row">
+			<div class="col-md-6">
+				<table class="custom-table">
+					{% include 'components/preview-text.twig' with {'name': 'kode', 'label': 'Kode', 'prefix': 'data.mata_kuliah'} %}
+					{% include 'components/preview-text.twig' with {'name': 'nama', 'label': 'Nama', 'prefix': 'data.mata_kuliah'} %}
+				</table>
+			</div>
+
+			<div class="col-md-6">
+				<table class="custom-table">
+					{% include 'components/preview-text.twig' with {'name': 'sks', 'label': 'SKS', 'prefix': 'data.mata_kuliah'} %}
+					{% include 'components/preview-text.twig' with {'name': 'semester.nama', 'label': 'Semester', 'prefix': 'data.mata_kuliah'} %}
+				</table>
+			</div>
+		</div>
+
+		<hr>
+
+		{% verbatim %}
+		
+		<div class="row mt-3">
+			<div class="col-md-6" ng-repeat="nilai in option_nilai">
+				<div class="row form-group px-3">
+					<div class="col-sm-4">
+						<div class="text-muted font-semibold me-3" ng-bind="nilai.nama"></div>
+					</div>
+					<div class="col-sm-8">
+						<input type="text" ng-model="konfigurasi_nilai[nilai.id]" class="form-control form-control-sm">
+					</div>
+				</div>
+			</div>
+		</div>
+
+		{% endverbatim %}
+	</div>
+
+{% endblock %}
+
+{% block footer %}
+	{% verbatim %}
+		<button class="btn" data-bs-dismiss="modal">Close</button>
+		<button class="btn btn-primary" ng-click="konfigurasiNilai()">Submit</button>
+	{% endverbatim %}
+{% endblock %}

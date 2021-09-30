@@ -19,6 +19,8 @@ import './tahun_ajaran/tahun_ajaran.module';
 import './penerbitan_nim/penerbitan_nim.module';
 import './mahasiswa/mahasiswa.module';
 import './karyawan/karyawan.module';
+import './dosen_pa/dosen_pa.module';
+import './dosen_pjmk/dosen_pjmk.module';
 
 import './blocks/exception/exception-handler.provider';
 import './blocks/exception/exception';
@@ -41,8 +43,11 @@ import './widgets/widget-tr.directive';
 import './widgets/widget-preview.directive';
 import './widgets/widget-update-status.directive';
 import './widgets/widget-cetak-peserta.directive';
+import './widgets/widget-autocomplete.directive';
 
 import './modals/modal-preview.directive';
+import './modals/modal-mata-kuliah.directive';
+import './modals/modal-konfigurasi-nilai.directive';
 
 import './agama/agama.controller';
 import './agama/agama_form.controller';
@@ -83,6 +88,16 @@ import './karyawan/karyawan.controller';
 import './karyawan/karyawan_form.controller';
 import './karyawan/karyawan_detail.controller';
 import './karyawan/karyawan.route';
+
+import './dosen_pa/dosen_pa.controller';
+import './dosen_pa/dosen_pa_form.controller';
+import './dosen_pa/dosen_pa_detail.controller';
+import './dosen_pa/dosen_pa.route';
+
+import './dosen_pjmk/dosen_pjmk.controller';
+import './dosen_pjmk/dosen_pjmk_form.controller';
+import './dosen_pjmk/dosen_pjmk_detail.controller';
+import './dosen_pjmk/dosen_pjmk.route';
 
 import './penerbitan_nim/penerbitan_nim.controller';
 import './penerbitan_nim/penerbitan_nim.route';

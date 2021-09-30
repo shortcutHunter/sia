@@ -1,0 +1,37 @@
+{% extends "structure/table.twig" %}
+
+{% block button %}
+	<a ui-sref="dosen_pa_form({dataId: null})" class="btn btn-success btn-sm">
+		<i class="fa fa-plus"></i> Tambah
+	</a>
+{% endblock %}
+
+{% block table %}
+
+	{% verbatim %}
+
+		<thead>
+			<tr>
+				<th>NIDN/NIP</th>
+				<th>Nama</th>
+				<th>Tahun Ajaran</th>
+				<th>Semester</th>
+				<th>Status</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr ng-if="!vm.data || vm.data.length == 0">
+	          <td colspan="5" class="text-center">Tidak ada data yang tersedia</td>
+	        </tr>
+	        <tr ng-repeat="data in vm.data" class="clickable" ng-attr-tr_id="{{data.id}}" state_name="dosen_pa_detail" widget-tr="">
+	          <td ng-bind="data.karyawan.ni || '-'"></td>
+	          <td ng-bind="data.karyawan.orang.nama || '-'"></td>
+	          <td ng-bind="data.tahun_ajaran.nama || '-'"></td>
+	          <td ng-bind="data.semester.nama || '-'"></td>
+	          <td ng-bind="data.status || '-'"></td>
+	        </tr>
+		</tbody>
+
+	{% endverbatim %}
+{% endblock %}

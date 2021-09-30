@@ -19,7 +19,7 @@
 
 {% block footer %}
 	{% verbatim %}
-		<a target="_blank" class="btn btn-primary" href="data:{{mimetype}};base64, {{base64}}" download="{{name}}">Download</a>
 		<button class="btn" data-bs-dismiss="modal">Close</button>
+		<a target="_blank" class="btn btn-primary" href="data:{{mimetype}};base64, {{base64}}" download="{{name}}">Download</a>
 	{% endverbatim %}
 {% endblock %}

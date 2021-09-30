@@ -11,6 +11,8 @@ class Api extends BaseRoute {
         $this->app->get('/{object}/get/{id}', \App\Controllers\ApiController::class . ':detail');
         $this->app->get('/{object}/selection', \App\Controllers\ApiController::class . ':selection');
 
+        $this->app->get('/search/{object}', \App\Controllers\ApiController::class . ':search');
+
         $this->app->post('/{object}/add', \App\Controllers\ApiController::class . ':add');
         $this->app->post('/{object}/update', \App\Controllers\ApiController::class . ':massUpdate');
         $this->app->post('/{object}/update/{id}', \App\Controllers\ApiController::class . ':update');

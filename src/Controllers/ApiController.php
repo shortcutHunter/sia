@@ -43,12 +43,13 @@ final class ApiController extends BaseController
 
         if ($current_page) {
             $object = $object->paginate($this->settings['row_per_page']);
+            $data = $object->toJson();
         }else{
             $object = $object->get();
+            $data = json_encode(['data' => $object]);
         }
 
 
-        $data = $object->toJson();
 
         $response->getBody()->write($data);
         return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
@@ -105,6 +106,23 @@ final class ApiController extends BaseController
         }
 
         $response->getBody()->write(json_encode($data));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
+    }
+
+    public function search($request, $response, $args)
+    {
+        $postData = $request->getParsedBody();
+        $object_name = $args['object'];
+        $object = $this->get_object($object_name);
+        $getData = $request->getQueryParams();
+
+        $data = $object->whereHas('orang', function($q) use ($getData) {
+            $q->where('nama', 'like', '%'.$getData['nama'].'%');
+        })->get();
+
+        $data = json_encode(['data' => $data]);
+
+        $response->getBody()->write($data);
         return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
     }
 

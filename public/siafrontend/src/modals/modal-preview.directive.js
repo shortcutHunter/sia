@@ -29,6 +29,11 @@
 
       function activate() {
         $(element).modal('show');
+
+        $(element).on('hidden.bs.modal', () => {
+            element.remove();
+            // scope.destroy();
+        });
       }
     }
   }

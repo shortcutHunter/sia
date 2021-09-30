@@ -15,6 +15,8 @@
     'app.penerbitan_nim',
     'app.mahasiswa',
     'app.karyawan',
+    'app.dosen_pa',
+    'app.dosen_pjmk',
     'app.widgets',
     'app.modals'
   ]);
