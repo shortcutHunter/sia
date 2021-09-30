@@ -21,6 +21,9 @@ class PengajuanKs extends BaseModel
 		if (!array_key_exists('tahun_ajaran_id', $attributes)) {
 			$attributes['tahun_ajaran_id'] = $mahasiswa->tahun_ajaran_id;
 		}
+		if (!array_key_exists('semester_id', $attributes)) {
+			$attributes['semester_id'] = $mahasiswa->semester_id;
+		}
 
 		if (array_key_exists('pengajuan_ks_detail', $attributes)) {
 			$pengajuan_ks_detail_raw_data = $attributes['pengajuan_ks_detail'];
@@ -36,7 +39,7 @@ class PengajuanKs extends BaseModel
 		if ($pengajuan_ks_detail_raw_data) {
 			foreach ($pengajuan_ks_detail_raw_data as $value) {
 				$pengajuan_ks_detail_value = [
-					'mata_kuliah_id' => $value['id'],
+					'mata_kuliah_id' => $value['mata_kuliah_id'],
 					'pengajuan_ks_id' => $model->id
 				];
 				$pengajuan_ks_detail = self::getModelByName('pengajuan_ks_detail')->create($pengajuan_ks_detail_value);

@@ -14,6 +14,7 @@
     vm.data = {};
 
     vm.tambahMahasiswa = tambahMahasiswa;
+    vm.prosesPengajuan = prosesPengajuan;
 
     activate();
 
@@ -40,6 +41,12 @@
       let el = "<modal-tambah-mahasiswa></modal-tambah-mahasiswa>";
       el = compile(el)(scope);
       $(element).append(el);
+    }
+
+    function prosesPengajuan(data) {
+      vm.active_data = data;
+      let el = "<modal-proses-pengajuan data='vm.active_data'></modal-proses-pengajuan>";
+      el = compile(el)(scope);
     }
   }
 })();

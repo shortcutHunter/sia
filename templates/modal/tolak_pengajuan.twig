@@ -1,0 +1,39 @@
+{% extends 'modal/template.twig' %}
+
+{% block title %}
+	<h5 class="modal-title">Pengajuan KRS</h5>
+{% endblock %}
+
+{% block content %}
+	<div class="modal-body ui-front">
+		<div class="row">
+			<div class="col-md-6">
+				<table class="custom-table">
+					{% include 'components/preview-text.twig' with {'name': 'mahasiswa.nim', 'label': 'NIM', 'prefix': 'data'} %}
+					{% include 'components/preview-text.twig' with {'name': 'mahasiswa.orang.nama', 'label': 'Nama', 'prefix': 'data'} %}
+				</table>
+			</div>
+
+			<div class="col-md-6">
+				<table class="custom-table">
+					{% include 'components/preview-text.twig' with {'name': 'tahun_ajaran.nama', 'label': 'Tahun Ajaran', 'prefix': 'data'} %}
+					{% include 'components/preview-text.twig' with {'name': 'semester.nama', 'label': 'Semester', 'prefix': 'data'} %}
+				</table>
+			</div>
+		</div>
+
+		<hr>
+
+		<table class="custom-table">
+			{% include 'components/textarea.twig' with {'name': 'alasan', 'label': 'Alasan Penolakan'} %}
+		</table>
+	</div>
+{% endblock %}
+
+
+{% block footer %}
+	{% verbatim %}
+		<button class="btn" data-bs-dismiss="modal">Close</button>
+		<button class="btn btn-primary" ng-click="tolak()">Tolak</button>
+	{% endverbatim %}
+{% endblock %}

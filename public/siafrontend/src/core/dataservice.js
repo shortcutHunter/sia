@@ -10,6 +10,7 @@
   function dataservice($http, $q, exception, logger) {
     var service = {
       getData: getData,
+      getDataFilter: getDataFilter,
       getDataDetail: getDataDetail,
       getOption: getOption,
       getKartuPeserta: getKartuPeserta,
@@ -21,6 +22,12 @@
 
     function getData(table, page=1) {
       return $http.get(`${table}/get?page=${page}`)
+        .then(success)
+        .catch(fail);
+    }
+
+    function getDataFilter(table, filter) {
+      return $http.get(`${table}/get?${filter}`)
         .then(success)
         .catch(fail);
     }

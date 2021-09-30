@@ -60,7 +60,7 @@
 									<td ng-bind="col.mahasiswa.sudah_pengajuan ? 'Sudah KRS' : 'Belum KRS' || '-'"></td>
 									<td>
 										{% verbatim %}
-											<button class="btn btn-primary" btn-show-data="{{ col.mahasiswa_id }}" data="col" table="pengajuan_ks" view-name="proses_pengajuan" ng-if="col.mahasiswa.pengajuan">Proses Pengajuan</button>
+											<button class="btn btn-primary" ng-click="vm.prosesPengajuan(col)" ng-if="col.mahasiswa.pengajuan">Proses Pengajuan</button>
 										{% endverbatim %}
 									</td>
 								</tr>

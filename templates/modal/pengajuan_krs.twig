@@ -1,0 +1,69 @@
+{% extends 'modal/template.twig' %}
+
+{% block title %}
+	<h5 class="modal-title">Pengajuan KRS</h5>
+{% endblock %}
+
+{% block content %}
+	<div class="modal-body ui-front">
+		<div class="row">
+			<div class="col-md-6">
+				<table class="custom-table">
+					{% 
+						include 'components/autocomplete.twig' 
+						with {
+								'name': 'mata_kuliah_id', 
+								'label': 'Tambah Mata Kuliah', 
+								'table': 'mata_kuliah',
+								'additional': '<button class="btn btn-primary" ng-click="tambahMatkul()">Tambah</button>',
+								'normal_search': true
+							} 
+					%}
+				</table>
+			</div>	
+		</div>
+
+		<div class="row mt-3">
+			<div class="col-md-12">
+				<table class="table">
+
+					<thead>
+						<th>Kode</th>
+						<th>Nama</th>
+						<th class="text-center">SKS</th>
+						<th class="text-center">Semester</th>
+						<th></th>
+					</thead>
+
+					<tbody>
+						{% verbatim %}
+							<tr ng-repeat="col in pengajuan_ks" ng-if="pengajuan_ks && pengajuan_ks.length != 0">
+								<td ng-bind="col.kode || '-'"></td>
+								<td ng-bind="col.nama || '-'"></td>
+								<td class="text-center" ng-bind="col.sks || '-'"></td>
+								<td class="text-center" ng-bind="col.semester.nama || '-'"></td>
+								<td>
+									<button class="btn btn-danger" ng-click="deleteTableData($index)">
+										<i class="fa fa-times"></i>
+									</button>
+								</td>
+							</tr>
+							<tr ng-if="!pengajuan_ks || pengajuan_ks.length == 0">
+								<td  class="text-center" colspan="5">Belum ada data</td>
+							</tr>
+						{% endverbatim %}
+					</tbody>
+
+				</table>
+    		</div>
+		</div>
+	</div>
+{% endblock %}
+
+
+{% block footer %}
+	{% verbatim %}
+		<button class="btn" data-bs-dismiss="modal">Close</button>
+		<button class="btn btn-primary" ng-click="ajukan()">Submit</button>
+	{% endverbatim %}
+{% endblock %}

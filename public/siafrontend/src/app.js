@@ -49,6 +49,9 @@ import './modals/modal-preview.directive';
 import './modals/modal-mata-kuliah.directive';
 import './modals/modal-konfigurasi-nilai.directive';
 import './modals/modal-tambah-mahasiswa.directive';
+import './modals/modal-pengajuan-krs.directive';
+import './modals/modal-proses-pengajuan.directive';
+import './modals/modal-tolak-pengajuan.directive';
 
 import './agama/agama.controller';
 import './agama/agama_form.controller';

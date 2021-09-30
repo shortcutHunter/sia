@@ -1,0 +1,63 @@
+{% extends 'modal/template.twig' %}
+
+{% block title %}
+	<h5 class="modal-title">Pengajuan KRS</h5>
+{% endblock %}
+
+{% block content %}
+	<div class="modal-body ui-front">
+		<div class="row">
+			<div class="col-md-6">
+				<table class="custom-table">
+					{% include 'components/preview-text.twig' with {'name': 'mahasiswa.nim', 'label': 'NIM', 'prefix': 'data'} %}
+					{% include 'components/preview-text.twig' with {'name': 'mahasiswa.orang.nama', 'label': 'Nama', 'prefix': 'data'} %}
+				</table>
+			</div>
+
+			<div class="col-md-6">
+				<table class="custom-table">
+					{% include 'components/preview-text.twig' with {'name': 'tahun_ajaran.nama', 'label': 'Tahun Ajaran', 'prefix': 'data'} %}
+					{% include 'components/preview-text.twig' with {'name': 'semester.nama', 'label': 'Semester', 'prefix': 'data'} %}
+				</table>
+			</div>
+		</div>
+
+		<div class="row mt-3">
+			<div class="col-md-12">
+				<table class="table">
+
+					<thead>
+						<th>Kode</th>
+						<th>Nama</th>
+						<th class="text-center">SKS</th>
+						<th class="text-center">Semester</th>
+					</thead>
+
+					<tbody>
+						{% verbatim %}
+							<tr ng-repeat="col in pengajuan_ks.pengajuan_ks_detail" ng-if="pengajuan_ks.pengajuan_ks_detail && pengajuan_ks.pengajuan_ks_detail.length != 0">
+								<td ng-bind="col.mata_kuliah.kode || '-'"></td>
+								<td ng-bind="col.mata_kuliah.nama || '-'"></td>
+								<td class="text-center" ng-bind="col.mata_kuliah.sks || '-'"></td>
+								<td class="text-center" ng-bind="col.mata_kuliah.semester.nama || '-'"></td>
+							</tr>
+							<tr ng-if="!pengajuan_ks.pengajuan_ks_detail || pengajuan_ks.pengajuan_ks_detail.length == 0">
+								<td  class="text-center" colspan="4">Belum ada data</td>
+							</tr>
+						{% endverbatim %}
+					</tbody>
+
+				</table>
+    		</div>
+		</div>
+	</div>
+{% endblock %}
+
+
+{% block footer %}
+	{% verbatim %}
+		<button class="btn" data-bs-dismiss="modal">Close</button>
+		<button class="btn btn-danger" ng-click="tolak()">Tolak</button>
+		<button class="btn btn-primary" ng-click="terima()">Terima</button>
+	{% endverbatim %}
+{% endblock %}
