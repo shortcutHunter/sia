@@ -48,6 +48,7 @@ import './widgets/widget-autocomplete.directive';
 import './modals/modal-preview.directive';
 import './modals/modal-mata-kuliah.directive';
 import './modals/modal-konfigurasi-nilai.directive';
+import './modals/modal-tambah-mahasiswa.directive';
 
 import './agama/agama.controller';
 import './agama/agama_form.controller';

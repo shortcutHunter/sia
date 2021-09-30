@@ -5,13 +5,15 @@
     .module('app.dosen_pa')
     .controller('DosenPaDetailController', DosenPaDetailController);
 
-  DosenPaDetailController.$inject = ['$q', 'dataservice', 'logger', '$stateParams'];
+  DosenPaDetailController.$inject = ['$q', 'dataservice', 'logger', '$stateParams', '$compile', '$scope', '$element'];
   /* @ngInject */
-  function DosenPaDetailController($q, dataservice, logger, stateParams) {
+  function DosenPaDetailController($q, dataservice, logger, stateParams, compile, scope, element) {
     var vm = this;
     vm.title = 'Detail Dosen PA';
     vm.table = 'dosen_pa';
     vm.data = {};
+
+    vm.tambahMahasiswa = tambahMahasiswa;
 
     activate();
 
@@ -32,6 +34,12 @@
       return dataservice.getOption(vm.table).then(function(response) {
         vm.option = response;
       });
+    }
+
+    function tambahMahasiswa() {
+      let el = "<modal-tambah-mahasiswa></modal-tambah-mahasiswa>";
+      el = compile(el)(scope);
+      $(element).append(el);
     }
   }
 })();
