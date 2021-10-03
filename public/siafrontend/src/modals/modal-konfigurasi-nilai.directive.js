@@ -50,7 +50,7 @@
         });
       }
 
-      function konfigurasiNilai() {
+      function konfigurasiNilai(action) {
         let data = {
           konfigurasi_nilai: []
         };
@@ -61,6 +61,10 @@
             mata_kuliah_diampuh_id: scope.data.id
           });
         });
+
+        if (action == 'submit') {
+          data['terkonfigurasi'] = true;
+        }
 
         dataservice.postData('mata_kuliah_diampuh', data, scope.data.id).then(function(){
           $(element).modal('hide');

@@ -7,7 +7,7 @@ use App\Objects\BaseModel;
 class RiwayatBelajarNilai extends BaseModel
 {
 	protected $table = 'riwayat_belajar_nilai';
-	protected $with = ['nilai'];
+	// protected $with = ['nilai'];
 
 	public function riwayat_belajar_detail()
 	{
@@ -16,7 +16,7 @@ class RiwayatBelajarNilai extends BaseModel
 
 	public function nilai()
 	{
-		return $this->hasOne(Nilai::class, 'nilai_id', 'id');
+		return $this->hasOne(Nilai::class, 'id', 'nilai_id');
 	}
 
 }

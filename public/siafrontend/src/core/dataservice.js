@@ -10,11 +10,13 @@
   function dataservice($http, $q, exception, logger) {
     var service = {
       getData: getData,
+      getUrl: getUrl,
       getDataFilter: getDataFilter,
       getDataDetail: getDataDetail,
       getOption: getOption,
       getKartuPeserta: getKartuPeserta,
       postData: postData,
+      postDataUrl: postDataUrl,
       getPdf: getPdf
     };
 
@@ -22,6 +24,12 @@
 
     function getData(table, page=1) {
       return $http.get(`${table}/get?page=${page}`)
+        .then(success)
+        .catch(fail);
+    }
+
+    function getUrl(url) {
+      return $http.get(url)
         .then(success)
         .catch(fail);
     }
@@ -54,6 +62,12 @@
       let action = id ? 'update' : 'add';
       let add_id = id ? `/${id}` : '';
       return $http.post(`${table}/${action}${add_id}`, data)
+        .then(success)
+        .catch(fail);
+    }
+
+    function postDataUrl(url, data) {
+      return $http.post(url, data)
         .then(success)
         .catch(fail);
     }

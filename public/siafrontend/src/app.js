@@ -21,6 +21,8 @@ import './mahasiswa/mahasiswa.module';
 import './karyawan/karyawan.module';
 import './dosen_pa/dosen_pa.module';
 import './dosen_pjmk/dosen_pjmk.module';
+import './paket/paket.module';
+import './kwitansi/kwitansi.module';
 
 import './blocks/exception/exception-handler.provider';
 import './blocks/exception/exception';
@@ -52,6 +54,8 @@ import './modals/modal-tambah-mahasiswa.directive';
 import './modals/modal-pengajuan-krs.directive';
 import './modals/modal-proses-pengajuan.directive';
 import './modals/modal-tolak-pengajuan.directive';
+import './modals/modal-isi-nilai.directive';
+import './modals/modal-tambah-pembiayaan.directive';
 
 import './agama/agama.controller';
 import './agama/agama_form.controller';
@@ -105,3 +109,13 @@ import './dosen_pjmk/dosen_pjmk.route';
 
 import './penerbitan_nim/penerbitan_nim.controller';
 import './penerbitan_nim/penerbitan_nim.route';
+
+import './paket/paket.controller';
+import './paket/paket_form.controller';
+import './paket/paket_detail.controller';
+import './paket/paket.route';
+
+import './kwitansi/kwitansi.controller';
+import './kwitansi/kwitansi_form.controller';
+import './kwitansi/kwitansi_detail.controller';
+import './kwitansi/kwitansi.route';

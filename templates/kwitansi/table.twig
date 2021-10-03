@@ -1,0 +1,35 @@
+{% extends "structure/table.twig" %}
+
+{% block button %}
+	<a ui-sref="kwitansi_form({dataId: null})" class="btn btn-success btn-sm">
+		<i class="fa fa-plus"></i> Tambah
+	</a>
+{% endblock %}
+
+{% block table %}
+
+	{% verbatim %}
+
+		<thead>
+			<tr>
+				<th>Nama</th>
+				<th>Paket</th>
+				<th>Nominal</th>
+				<th>Status</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr ng-if="!vm.data || vm.data.length == 0">
+	          <td colspan="5" class="text-center">Tidak ada data yang tersedia</td>
+	        </tr>
+	        <tr ng-repeat="data in vm.data" class="clickable" ng-attr-tr_id="{{data.id}}" state_name="kwitansi_detail" widget-tr="">
+	          <td ng-bind="data.orang.nama || '-'"></td>
+	          <td ng-bind="data.paket.nama || '-'"></td>
+	          <td ng-bind="data.nominal || '-'"></td>
+	          <td ng-bind="data.status || '-'"></td>
+	        </tr>
+		</tbody>
+
+	{% endverbatim %}
+{% endblock %}

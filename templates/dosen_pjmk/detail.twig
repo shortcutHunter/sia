@@ -10,19 +10,19 @@
 {% block content %}
 
 	<div class="row">
-			<div class="col-md-6">
-				<table class="custom-table">
-					{% include 'components/preview-text.twig' with {'name': 'karyawan.orang.nama', 'label': 'Dosen'} %}
-				</table>
-			</div>
-			
-			<div class="col-md-6">
-				<table class="custom-table">
-						{% include 'components/preview-text.twig' with {'name': 'tahun_ajaran.nama', 'label': 'Tahun Ajaran'} %}
-						{% include 'components/preview-text.twig' with {'name': 'semester.nama', 'label': 'Semester'} %}
-				</table>
-			</div>
+		<div class="col-md-6">
+			<table class="custom-table">
+				{% include 'components/preview-text.twig' with {'name': 'karyawan.orang.nama', 'label': 'Dosen'} %}
+			</table>
 		</div>
+		
+		<div class="col-md-6">
+			<table class="custom-table">
+					{% include 'components/preview-text.twig' with {'name': 'tahun_ajaran.nama', 'label': 'Tahun Ajaran'} %}
+					{% include 'components/preview-text.twig' with {'name': 'semester.nama', 'label': 'Semester'} %}
+			</table>
+		</div>
+	</div>
 
 		<ul class="nav nav-tabs mt-5">
 			<li class="nav-item">
@@ -58,7 +58,15 @@
 									<td ng-bind="col.mata_kuliah.sks || '-'"></td>
 									<td>
 										{% verbatim %}
-											<button class="btn btn-primary" ng-click="vm.konfigureNilai(col)" ng-if="!col.terkonfigurasi">Konfigurasi Nilai</button>
+											<button class="btn btn-primary" ng-click="vm.isiNilai(col)" ng-if="col.terkonfigurasi">
+												<i class="fa fa-list"></i> Isi Nilai
+											</button>
+											<button class="btn btn-primary" ng-click="vm.konfigureNilai(col)" ng-if="!col.terkonfigurasi">
+												<i class="fa fa-cog"></i> Konfigurasi Nilai
+											</button>
+											<button class="btn btn-primary" ng-click="vm.konfigureNilai(col)" ng-if="col.terkonfigurasi">
+												<i class="fa fa-eye"></i> Konfigurasi Nilai
+											</button>
 										{% endverbatim %}
 									</td>
 								</tr>

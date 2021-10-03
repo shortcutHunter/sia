@@ -46,17 +46,22 @@ class BaseModel extends Model
 
 	public static function create(array $attributes = [])
 	{
-		$relation_name = self::relationName();
+		$relation_name = static::$relation;
 
 		foreach ($relation_name as $key => $value) {
-			if (array_key_exists($value, $attributes)) {
-				$relation_value = $attributes[$value];
-				$object_relation = self::getModelByName($value);
+			$relation_model_name = $value['name'];
 
-				$object_relation = $object_relation->create($relation_value);
-				$attributes[$value."_id"] = $object_relation->id;
-				
-				unset($attributes[$value]);
+			if ($value['is_selection'] || $value['skip']) {
+				unset($attributes[$relation_model_name]);
+			}else{
+				if (array_key_exists($relation_model_name, $attributes)) {
+					$relation_value = $attributes[$relation_model_name];
+					$object_relation = self::getModelByName($relation_model_name);
+
+					$object_relation = $object_relation->create($relation_value);
+					$attributes[$relation_model_name."_id"] = $object_relation->id;
+					unset($attributes[$relation_model_name]);
+				}
 			}
 		}
 

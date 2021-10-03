@@ -126,6 +126,49 @@ final class ApiController extends BaseController
         return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
     }
 
+    public function getMahasiswa($request, $response, $args)
+    {
+        $mata_kuliah_diampuh_id = $args['matkul_diampuh_id'];
+        $mahasiswa = $this->get_object('mahasiswa');
+        $mata_kuliah_diampuh = $this->get_object('mata_kuliah_diampuh');
+
+        $mata_kuliah_diampuh = $mata_kuliah_diampuh->find($mata_kuliah_diampuh_id);
+
+        $data = $mahasiswa->whereHas(
+            'pengajuan_ks', 
+            function($q) use ($mata_kuliah_diampuh) {
+                $q
+                    ->where('status', 'terima')
+                    ->where('semester_id', $mata_kuliah_diampuh->dosen_pjmk->semester_id)
+                    ->where('tahun_ajaran_id', $mata_kuliah_diampuh->dosen_pjmk->tahun_ajaran_id)
+                    ->whereHas(
+                        'pengajuan_ks_detail', 
+                        function($q) use ($mata_kuliah_diampuh) {
+                            $q->where('mata_kuliah_id', $mata_kuliah_diampuh->mata_kuliah_id);
+                    });
+        })->get();
+
+        foreach ($data as $key => $value) {
+            $riwayat_belajar_detail_obj = $this->get_object('riwayat_belajar_detail');
+            $riwayat_belajar_detail = $riwayat_belajar_detail_obj->with('riwayat_belajar_nilai')
+                ->where('mata_kuliah_id', $mata_kuliah_diampuh->mata_kuliah_id)
+                ->whereHas(
+                    'riwayat_belajar', 
+                    function($q) use ($mata_kuliah_diampuh, $value) {
+                        $q
+                            ->where('semester_id', $mata_kuliah_diampuh->dosen_pjmk->semester_id)
+                            ->where('mahasiswa_id', $value->id);
+                    }
+                )->first();
+            $value->{'nilai'} = $riwayat_belajar_detail;
+        }
+
+        $data = json_encode(['data' => $data]);
+
+        $response->getBody()->write($data);
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
+    }
+
     public function add($request, $response, $args)
     {
         $postData = $request->getParsedBody();
@@ -139,6 +182,37 @@ final class ApiController extends BaseController
         }
 
         $response->getBody()->write($object);
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
+    }
+
+    public function prosesNilai($request, $response, $args)
+    {
+        $postData = $request->getParsedBody();
+        $mahasiswa_obj = $this->get_object('mahasiswa');
+        $riwayat_belajar_obj = $this->get_object('riwayat_belajar');
+
+        foreach ($postData['data'] as $key => $value) {
+            $mahasiswa_id = $value['mahasiswa_id'];
+            $semester_id = $value['semester_id'];
+            $mahasiswa = $mahasiswa_obj->find($mahasiswa_id);
+            $riwayat_belajar_condition = [['mahasiswa_id', $mahasiswa_id], ['semester_id', $semester_id]];
+            $riwayat_belajar = $riwayat_belajar_obj->where($riwayat_belajar_condition);
+            $riwayat_belajar_value = [
+                'mahasiswa_id' => $mahasiswa_id,
+                'semester_id' => $semester_id,
+                'riwayat_belajar_detail' => $value['riwayat_belajar_detail']
+            ];
+
+            if ($riwayat_belajar->count() == 0) {
+                $riwayat_belajar = $riwayat_belajar_obj->create($riwayat_belajar_value);
+            }else{
+                $riwayat_belajar->first()->update($riwayat_belajar_value);
+            }
+        }
+
+        $data = json_encode(['status' => 'sukses']);
+
+        $response->getBody()->write($data);
         return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
     }
 

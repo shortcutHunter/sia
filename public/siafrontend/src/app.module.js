@@ -17,6 +17,8 @@
     'app.karyawan',
     'app.dosen_pa',
     'app.dosen_pjmk',
+    'app.paket',
+    'app.kwitansi',
     'app.widgets',
     'app.modals'
   ]);

@@ -15,6 +15,7 @@
 
     vm.tambahMatakuliah = tambahMatakuliah;
     vm.konfigureNilai = konfigureNilai;
+    vm.isiNilai = isiNilai;
 
     activate();
 
@@ -46,6 +47,12 @@
     function konfigureNilai(data) {
       vm.active_data_nilai = data;
       let el = "<modal-konfigurasi-nilai data='vm.active_data_nilai'></modal-konfigurasi-nilai>";
+      el = compile(el)(scope);
+    }
+
+    function isiNilai(data) {
+      vm.active_data = data;
+      let el = "<modal-isi-nilai data='vm.active_data'></modal-isi-nilai>";
       el = compile(el)(scope);
     }
   }

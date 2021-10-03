@@ -8,6 +8,13 @@ class Kwitansi extends BaseModel
 {
 	protected $table = 'kwitansi';
 	protected $with = ['paket', 'orang'];
+	public static $date_fields = ['tanggal'];
+	
+	public $selection_fields = ['status'];
+
+	public static $relation = [
+		['name' => 'paket', 'is_selection' => false, 'skip' => true]
+	];
 
 	public $status_enum = [
 		"draft" => "Draft",
@@ -16,7 +23,7 @@ class Kwitansi extends BaseModel
 
 	public function paket()
 	{
-		return $this->hasOne(Paket::class, 'paket_id', 'id');
+		return $this->hasOne(Paket::class, 'id', 'paket_id');
 	}
 
 	public function orang()
