@@ -7,11 +7,21 @@ use App\Objects\BaseModel;
 class TahunAjaran extends BaseModel
 {
 	protected $table = 'tahun_ajaran';
+	protected $with = ['paket'];
 
 	public $status_enum = [
 		"aktif" => "Aktif",
 		"nonaktif" => "Nonaktif",
 	];
+
+	public static $relation = [
+		['name' => 'paket', 'is_selection' => false, 'skip' => true]
+	];
+	
+	public function paket()
+	{
+		return $this->hasOne(Paket::class, 'id', 'paket_id');
+	}
 
 	public function getnextCode()
 	{

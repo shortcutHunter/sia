@@ -47,7 +47,7 @@ class Paket extends BaseModel
 			$item = $attributes['item'];
 			foreach ($item as $key => $value) {
 				$item_obj = self::getModelByName('item');
-				$value['paket_id'] = $paket->id;
+				$value['paket_id'] = $this->id;
 				if (array_key_exists('id', $value)) {
 					$item_data = $item_obj->find($value['id']);
 					unset($value['id']);

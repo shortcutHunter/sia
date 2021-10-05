@@ -37,7 +37,6 @@ CREATE TABLE `tahun_ajaran` (
   `nama` varchar(255),
   `tahun` int,
   `nomor` int DEFAULT 1,
-  `paket_id` int,
   `status` ENUM ('aktif', 'nonaktif') DEFAULT "aktif"
 );
 
@@ -55,10 +54,9 @@ CREATE TABLE `mahasiswa` (
   `semester_id` int,
   `tahun_ajaran_id` int,
   `kode_validasi` boolean DEFAULT false,
-  `reg_ulang` boolean DEFAULT false,
+  `register_ulang` boolean DEFAULT false,
   `ajukan_sks` boolean DEFAULT false,
   `pengajuan` boolean DEFAULT false,
-  `sudah_pengajuan` boolean DEFAULT false,
   `tahun_masuk` int,
   `status` ENUM ('mahasiswa', 'alumni', 'dropout') DEFAULT "mahasiswa"
 );
@@ -85,7 +83,6 @@ CREATE TABLE `pengajuan_ks` (
   `mahasiswa_id` int,
   `tahun_ajaran_id` int,
   `semester_id` int,
-  `alasan` varchar(255),
   `status` ENUM ('proses', 'terima', 'tolak') DEFAULT "proses"
 );
 
@@ -208,29 +205,6 @@ CREATE TABLE `paket` (
   `status` ENUM ('aktif', 'nonaktif') DEFAULT "aktif"
 );
 
-CREATE TABLE `tagihan` (
-  `id` int PRIMARY KEY AUTO_INCREMENT,
-  `kode` varchar(255),
-  `tanggal` date,
-  `nominal` float,
-  `orang_id` int,
-  `status` ENUM ('draft', 'proses', 'bayar') DEFAULT "draft"
-);
-
-CREATE TABLE `tagihan_item` (
-  `id` int PRIMARY KEY AUTO_INCREMENT,
-  `tagihan_id` int,
-  `nama` varchar(255),
-  `kode` varchar(255),
-  `nominal` float
-);
-
-CREATE TABLE `tagihan_bukti_bayar` (
-  `id` int PRIMARY KEY AUTO_INCREMENT,
-  `tagihan_id` int,
-  `file_id` int
-);
-
 CREATE TABLE `kwitansi` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `kode` varchar(255),
@@ -330,7 +304,9 @@ CREATE TABLE `file` (
 
 CREATE TABLE `konfigurasi` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
-  `kode_perusahaan` varchar(255)
+  `kode_perusahaan` varchar(255),
+  `paket_id` int,
+  `nominal` float
 );
 
 ALTER TABLE `mahasiswa` ADD FOREIGN KEY (`orang_id`) REFERENCES `orang` (`id`);
@@ -346,8 +322,6 @@ ALTER TABLE `orang` ADD FOREIGN KEY (`ijazah_id`) REFERENCES `file` (`id`);
 ALTER TABLE `orang` ADD FOREIGN KEY (`ktp_id`) REFERENCES `file` (`id`);
 
 ALTER TABLE `orang` ADD FOREIGN KEY (`surket_menikah_id`) REFERENCES `file` (`id`);
-
-ALTER TABLE `tahun_ajaran` ADD FOREIGN KEY (`paket_id`) REFERENCES `paket` (`id`);
 
 ALTER TABLE `mahasiswa` ADD FOREIGN KEY (`jurusan_id`) REFERENCES `jurusan` (`id`);
 
@@ -413,14 +387,6 @@ ALTER TABLE `konfigurasi_nilai` ADD FOREIGN KEY (`mata_kuliah_diampuh_id`) REFER
 
 ALTER TABLE `item` ADD FOREIGN KEY (`paket_id`) REFERENCES `paket` (`id`);
 
-ALTER TABLE `tagihan` ADD FOREIGN KEY (`orang_id`) REFERENCES `orang` (`id`);
-
-ALTER TABLE `tagihan_item` ADD FOREIGN KEY (`tagihan_id`) REFERENCES `tagihan` (`id`);
-
-ALTER TABLE `tagihan_bukti_bayar` ADD FOREIGN KEY (`tagihan_id`) REFERENCES `tagihan` (`id`);
-
-ALTER TABLE `tagihan_bukti_bayar` ADD FOREIGN KEY (`file_id`) REFERENCES `file` (`id`);
-
 ALTER TABLE `kwitansi` ADD FOREIGN KEY (`paket_id`) REFERENCES `paket` (`id`);
 
 ALTER TABLE `kwitansi` ADD FOREIGN KEY (`orang_id`) REFERENCES `orang` (`id`);
@@ -438,3 +404,5 @@ ALTER TABLE `register_ulang` ADD FOREIGN KEY (`mahasiswa_id`) REFERENCES `mahasi
 ALTER TABLE `email_keluar` ADD FOREIGN KEY (`smtp_server_id`) REFERENCES `smtp_server` (`id`);
 
 ALTER TABLE `navigation` ADD FOREIGN KEY (`parent`) REFERENCES `navigation` (`id`);
+
+ALTER TABLE `konfigurasi` ADD FOREIGN KEY (`paket_id`) REFERENCES `paket` (`id`);

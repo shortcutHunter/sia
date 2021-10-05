@@ -23,6 +23,7 @@ import './dosen_pa/dosen_pa.module';
 import './dosen_pjmk/dosen_pjmk.module';
 import './paket/paket.module';
 import './kwitansi/kwitansi.module';
+import './tagihan/tagihan.module';
 
 import './blocks/exception/exception-handler.provider';
 import './blocks/exception/exception';
@@ -56,6 +57,7 @@ import './modals/modal-proses-pengajuan.directive';
 import './modals/modal-tolak-pengajuan.directive';
 import './modals/modal-isi-nilai.directive';
 import './modals/modal-tambah-pembiayaan.directive';
+import './modals/modal-pembiayaan-tagihan.directive';
 
 import './agama/agama.controller';
 import './agama/agama_form.controller';
@@ -119,3 +121,8 @@ import './kwitansi/kwitansi.controller';
 import './kwitansi/kwitansi_form.controller';
 import './kwitansi/kwitansi_detail.controller';
 import './kwitansi/kwitansi.route';
+
+import './tagihan/tagihan.controller';
+import './tagihan/tagihan_form.controller';
+import './tagihan/tagihan_detail.controller';
+import './tagihan/tagihan.route';

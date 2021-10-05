@@ -19,6 +19,7 @@
     'app.dosen_pjmk',
     'app.paket',
     'app.kwitansi',
+    'app.tagihan',
     'app.widgets',
     'app.modals'
   ]);
