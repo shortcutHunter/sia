@@ -60,6 +60,14 @@
                 $(element).find('input').val('');
             }
         });
+
+        if (scope.vm && scope.vm.data) {
+            scope.$watch(() => scope.vm.data, function(newVal, oldVal){
+                if (newVal[attr.table]) {
+                    $(element).find('input').val(newVal[attr.table].nama);
+                }
+            });
+        }
     }
   }
 })();

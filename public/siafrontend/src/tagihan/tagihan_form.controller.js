@@ -14,6 +14,7 @@
     vm.data = {};
 
     vm.tambahPembiayaan = tambahPembiayaan;
+    vm.removeData       = removeData;
 
     scope.$watch('vm.data.tagihan_item', itemChanges, true);
 
@@ -48,6 +49,10 @@
         });
       }
       vm.data.nominal = total_nominal;
+    }
+
+    function removeData(indx) {
+      vm.data.tagihan_item.splice(indx, 1);
     }
   }
 })();

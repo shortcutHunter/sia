@@ -9,8 +9,17 @@ class Tagihan extends BaseModel
 	protected $table = 'tagihan';
 	protected $with = ['orang', 'tagihan_item', 'tagihan_bukti_bayar'];
 	public static $date_fields = ['tanggal'];
+
+	protected $casts = [
+	    'tanggal' => 'datetime:d/m/Y',
+	];
 	
 	public $selection_fields = ['status'];
+
+	public static $relation = [
+		['name' => 'orang', 'is_selection' => false, 'skip' => true],
+		['name' => 'tagihan_bukti_bayar', 'is_selection' => false, 'skip' => true],
+	];
 
 	public $status_enum = [
 		"draft" => "Draft",
@@ -63,6 +72,7 @@ class Tagihan extends BaseModel
 	public function update(array $attributes = [], array $options = [])
 	{
 		if (array_key_exists('tagihan_item', $attributes)) {
+			$item_ids = [];
 			$tagihan_item = $attributes['tagihan_item'];
 			foreach ($tagihan_item as $key => $value) {
 				$tagihan_item_obj = self::getModelByName('tagihan_item');
@@ -79,9 +89,20 @@ class Tagihan extends BaseModel
 				}else{
 					$tagihan_item_data = $tagihan_item_obj->create($tagihan_item_value);
 				}
+				array_push($item_ids, $tagihan_item_data->id);
 			}
 			unset($attributes['tagihan_item']);
+
+			foreach ($this->tagihan_item as $value) {
+				if (!in_array($value->id, $item_ids)) {
+					$value->delete();
+				}
+			}
+
 		}
+
+		
+
 		return parent::update($attributes, $options);
 	}
 }

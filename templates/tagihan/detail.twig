@@ -35,9 +35,12 @@
 
 	<ul class="nav nav-tabs mt-5">
 		<li class="nav-item">
-        	<a class="nav-link active" data-bs-toggle="list" href="#pembiayaan">Pembiayaan</a>
-        </li>
-    </ul>
+    	<a class="nav-link active" data-bs-toggle="list" href="#pembiayaan">Pembiayaan</a>
+    </li>
+		<li class="nav-item">
+    	<a class="nav-link" data-bs-toggle="list" href="#pembayaran" ng-if="vm.data.status != 'draft'">Bukti Pembayaran</a>
+    </li>
+  </ul>
 
     <div class="tab-content text-justify">
     	<div class="tab-pane fade show active" id="pembiayaan">
@@ -68,6 +71,40 @@
 						</table>
         		
     			</div>
+    		</div>
+    	</div>
+
+    	<div class="tab-pane fade show" id="pembayaran" ng-if="vm.data.status != 'draft'">
+    		<div class="row mt-3">
+    			<div class="col-12">
+    				<button class="btn btn-primary" ng-click="vm.tambahPembiayaan()">Upload Bukti Pembayaran</button>
+    				<input type="file" ng-model="vm.data.upload_file" multiple="" id="uploadFile" base-sixty-four-input="" style="display: none;">
+    			</div>
+    		</div>
+
+    		<div class="row mt-3">
+    			<div class="col-md-12">
+
+      			<table class="table">
+
+							<thead>
+								<th>Nama</th>
+							</thead>
+
+							<tbody>
+								<tr ng-repeat="col in vm.data.tagihan_bukti_bayar track by $index" ng-if="vm.data.tagihan_bukti_bayar && vm.data.tagihan_bukti_bayar.length != 0">
+									<td class="font-extrabold">
+										<a href="javascript:void(0)" widget-preview="col.file" ng-bind="col.file.filename || '-'"></a>
+									</td>
+								</tr>
+								<tr ng-if="!vm.data.tagihan_bukti_bayar || vm.data.tagihan_bukti_bayar.length == 0">
+									<td  class="text-center" colspan="5">Belum ada data</td>
+								</tr>
+							</tbody>
+
+						</table>
+        		
+      		</div>
     		</div>
     	</div>
     </div>
