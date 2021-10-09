@@ -24,6 +24,7 @@ import './dosen_pjmk/dosen_pjmk.module';
 import './paket/paket.module';
 import './kwitansi/kwitansi.module';
 import './tagihan/tagihan.module';
+import './pembiayaan/pembiayaan.module';
 
 import './blocks/exception/exception-handler.provider';
 import './blocks/exception/exception';
@@ -126,3 +127,8 @@ import './tagihan/tagihan.controller';
 import './tagihan/tagihan_form.controller';
 import './tagihan/tagihan_detail.controller';
 import './tagihan/tagihan.route';
+
+import './pembiayaan/pembiayaan.controller';
+import './pembiayaan/pembiayaan_form.controller';
+import './pembiayaan/pembiayaan_detail.controller';
+import './pembiayaan/pembiayaan.route';

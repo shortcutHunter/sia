@@ -18,8 +18,9 @@
     'app.dosen_pa',
     'app.dosen_pjmk',
     'app.paket',
-    'app.kwitansi',
+    // 'app.kwitansi',
     'app.tagihan',
+    'app.pembiayaan',
     'app.widgets',
     'app.modals'
   ]);

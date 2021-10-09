@@ -8,6 +8,7 @@
   <div class="float-end">
     {% verbatim %}
       <button class="btn btn-primary" widget-update-status="proses" ng-if="vm.data.status == 'draft'">Proses</button>
+      <button class="btn btn-primary" widget-update-status="bayar" ng-if="vm.data.status == 'proses'">Bayar</button>
     {% endverbatim %}
   </div>
 
@@ -75,7 +76,7 @@
     	</div>
 
     	<div class="tab-pane fade show" id="pembayaran" ng-if="vm.data.status != 'draft'">
-    		<div class="row mt-3">
+    		<div class="row mt-3" ng-if="vm.data.status == 'proses'">
     			<div class="col-12">
     				<button class="btn btn-primary" ng-click="vm.tambahPembiayaan()">Upload Bukti Pembayaran</button>
     				<input type="file" ng-model="vm.data.upload_file" multiple="" id="uploadFile" base-sixty-four-input="" style="display: none;">
