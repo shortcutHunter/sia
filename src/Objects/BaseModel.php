@@ -25,6 +25,12 @@ class BaseModel extends Model
 		$this->session = new Session();
 	}
 
+	public static function nextCode($kode_name) {
+		$sequance_obj = self::getModelByName('sequance');
+		$kode = $sequance_obj->getnextCode($kode_name);
+		return $kode;
+	}
+
 	public static function getModelByName($name)
 	{
 		$class_name = join("", array_map("ucfirst", explode("_", $name)));

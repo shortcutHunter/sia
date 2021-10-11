@@ -1,14 +1,18 @@
-{% extends 'structure/form.twig' %}
+{% extends 'modal/template.twig' %}
+
+{% block title %}
+	<h5 class="modal-title">Atur Paket</h5>
+{% endblock %}
 
 
 {% block content %}
-		
+
 	<div class="row">
 		<div class="col-md-6">
 			<table class="custom-table">
-				{% include 'components/input.twig' with {'name': 'nama', 'label': 'Nama'} %}
-				{% include 'components/input.twig' with {'name': 'tahun', 'label': 'Tahun'} %}
-				{% include 'components/autocomplete.twig' with {'name': 'paket_id', 'label': 'Paket Biaya Registrasi', 'table': 'paket', 'normal_search': true, 'data': 'paket'} %}
+				{% include 'components/preview-text.twig' with {'name': 'nama', 'label': 'Nama', 'prefix': 'data'} %}
+				{% include 'components/preview-text.twig' with {'name': 'tahun', 'label': 'Tahun', 'prefix': 'data'} %}
+				{% include 'components/autocomplete.twig' with {'name': 'paket_id', 'label': 'Paket Biaya Registrasi', 'table': 'paket', 'normal_search': true, 'prefix': 'data', 'data': 'paket'} %}
 			</table>
 		</div>
 	</div>
@@ -35,12 +39,12 @@
 						</thead>
 
 						<tbody>
-							<tr ng-repeat="col in vm.data.paket.item track by $index" ng-if="vm.data.paket.item && vm.data.paket.item.length != 0">
+							<tr ng-repeat="col in data.paket.item track by $index" ng-if="data.paket.item && data.paket.item.length != 0">
 								<td ng-bind="col.kode || '-'"></td>
 								<td ng-bind="col.nama || '-'"></td>
 								<td ng-bind="col.nominal || '-'"></td>
 							</tr>
-							<tr ng-if="!vm.data.paket.item || vm.data.paket.item.length == 0">
+							<tr ng-if="!data.paket.item || data.paket.item.length == 0">
 								<td  class="text-center" colspan="5">Belum ada data</td>
 							</tr>
 						</tbody>
@@ -52,4 +56,11 @@
     	</div>
     </div>
 
+{% endblock %}
+
+{% block footer %}
+	{% verbatim %}
+		<button class="btn" data-bs-dismiss="modal">Close</button>
+		<button class="btn btn-primary" ng-click="aturPaket()">Simpan</button>
+	{% endverbatim %}
 {% endblock %}

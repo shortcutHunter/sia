@@ -216,6 +216,39 @@ final class ApiController extends BaseController
         return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
     }
 
+    public function buatTagihan($request, $response, $args)
+    {
+        $postData = $request->getParsedBody();
+        $mahasiswa_obj = $this->get_object('mahasiswa');
+        $tahun_ajaran_obj = $this->get_object('tahun_ajaran');
+        $tagihan_obj = $this->get_object('tagihan');
+        $tagihan_item_obj = $this->get_object('tagihan_item');
+
+        $mahasiswa = $mahasiswa_obj->where('tahun_ajaran_id', $postData['tahun_ajaran_id'])->get();
+        $tahun_ajaran = $tahun_ajaran_obj->find($postData['tahun_ajaran_id'])->first();
+        $tanggal = date('d/m/Y');
+
+        $tagihan_item_val = $tahun_ajaran->paket->item->map(function($data) {
+            return $data->only(['nama', 'kode', 'nominal']);
+        })->toArray();
+        $total_nominal = $tahun_ajaran->paket->item->sum('nominal');
+
+        foreach ($mahasiswa as $key => $value) {
+            $tagihan_val = [
+                'tanggal' => $tanggal,
+                'kode' => "Tagihan",
+                'nominal' => $total_nominal,
+                'orang_id' => $value->orang->id,
+                'tagihan_item' => $tagihan_item_val
+            ];
+        }
+
+        $data = json_encode(['status' => 'sukses']);
+
+        $response->getBody()->write($data);
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
+    }
+
     public function update($request, $response, $args)
     {
         $id = $args['id'];

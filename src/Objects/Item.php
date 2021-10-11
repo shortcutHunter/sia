@@ -13,4 +13,11 @@ class Item extends BaseModel
 	{
 		return $this->belongsTo(Paket::class, 'paket_id', 'id');
 	}
+
+	public static function create(array $attributes = [])
+	{
+		$attributes['kode'] = self::nextCode('item_sequance');
+		$item = parent::create($attributes);
+		return $item;
+	}
 }

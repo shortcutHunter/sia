@@ -74,3 +74,7 @@
     margin: 30% auto 0 auto;
     font-size: 200%;
 }
+
+.sidebar-wrapper .sidebar-header img{
+  height: auto;
+}

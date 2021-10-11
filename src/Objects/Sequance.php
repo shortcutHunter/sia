@@ -16,15 +16,14 @@ class Sequance extends BaseModel
 			return ucfirst(substr($string, 0, 1));
 		}, explode("_", $code_name)));
 
-		if (!empty($seq)) {
-			$seq->update(['nomor' => $seq->nomor+1]);
-		}else{
+		if (empty($seq)) {
 			$seq = $this->create(['nama' => $code_name, 'kode' => $code]);
 		}
-
 		$seq = $seq->refresh();
+		$kode = $seq->kode."-".sprintf('%03d', $seq->nomor);
+		$seq->update(['nomor' => $seq->nomor+1]);
 
-		return $seq->kode."-".sprintf('%03d', $seq->nomor);
+		return $kode;
 	}
 
 }

@@ -23,10 +23,12 @@ class Paket extends BaseModel
 	public static function create(array $attributes = [])
 	{
 		$item = false;
+		$attributes['kode'] = self::nextCode('paket_sequance');
 		if (array_key_exists('item', $attributes)) {
 			$item = $attributes['item'];
 			unset($attributes['item']);
 		}
+
 		$paket = parent::create($attributes);
 
 		if ($item) {

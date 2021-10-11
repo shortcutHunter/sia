@@ -49,6 +49,7 @@ class Tagihan extends BaseModel
 			$tagihan_item = $attributes['tagihan_item'];
 			unset($attributes['tagihan_item']);
 		}
+		$attributes['kode'] = self::nextCode('tagihan_sequance');
 		$tagihan = parent::create($attributes);
 
 		if ($tagihan_item) {

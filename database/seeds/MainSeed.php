@@ -76,5 +76,6 @@ class MainSeed {
         $this->importData('jurusan');
         $this->importData('mata_kuliah');
         $this->importData('konfigurasi');
+        $this->importData('sequance');
     }
 }

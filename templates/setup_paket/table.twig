@@ -1,0 +1,30 @@
+{% extends "structure/table.twig" %}
+{% block table %}
+
+  {% verbatim %}
+
+    <thead>
+      <tr>
+        <th>Tahun Ajaran</th>
+        <th>Paket</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr ng-if="!vm.data || vm.data.length == 0">
+            <td colspan="5" class="text-center">Tidak ada data yang tersedia</td>
+          </tr>
+          <tr ng-repeat="data in vm.data">
+            <td ng-bind="data.nama || '-'"></td>
+            <td ng-bind="data.paket.nama || '-'"></td>
+            <td>
+              <button class="btn btn-primary" ng-click="vm.aturPaket(data)">Atur Paket</button>
+              <button class="btn btn-primary" ng-click="vm.buatTagihan(data)">Buat Tagihan</button>
+              <button class="btn btn-info">Lihat Tagihan Terbaru</button>
+            </td>
+          </tr>
+    </tbody>
+
+  {% endverbatim %}
+{% endblock %}

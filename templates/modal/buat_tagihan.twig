@@ -1,0 +1,66 @@
+{% extends 'modal/template.twig' %}
+
+{% block title %}
+	<h5 class="modal-title">Buat Tagihan</h5>
+{% endblock %}
+
+
+{% block content %}
+
+	<div class="row">
+		<div class="col-md-6">
+			<table class="custom-table">
+				{% include 'components/preview-text.twig' with {'name': 'nama', 'label': 'Nama', 'prefix': 'data'} %}
+				{% include 'components/preview-text.twig' with {'name': 'tahun', 'label': 'Tahun', 'prefix': 'data'} %}
+				{% include 'components/preview-text.twig' with {'name': 'paket.nama', 'label': 'Paket Biaya Registrasi', 'prefix': 'data'} %}
+			</table>
+		</div>
+	</div>
+
+	<ul class="nav nav-tabs mt-5">
+		<li class="nav-item">
+        	<a class="nav-link active" data-bs-toggle="list" href="#mahasiwa">Mahasiswa</a>
+        </li>
+    </ul>
+
+    <div class="tab-content text-justify">
+    	<div class="tab-pane fade show active" id="mahasiwa">
+
+    		<div class="row mt-3">
+    			<div class="col-md-12">
+
+        			<table class="table">
+
+						<thead>
+							<th>NIM</th>
+							<th>Nama</th>
+							<th>Semester</th>
+							<th></th>
+						</thead>
+
+						<tbody>
+							<tr ng-repeat="col in data.mahasiswa track by $index" ng-if="data.mahasiswa && data.mahasiswa.length != 0">
+								<td ng-bind="col.nim || '-'"></td>
+								<td ng-bind="col.orang.nama || '-'"></td>
+								<td ng-bind="col.semester.nama || '-'"></td>
+							</tr>
+							<tr ng-if="!data.mahasiswa || data.mahasiswa.length == 0">
+								<td  class="text-center" colspan="5">Belum ada data</td>
+							</tr>
+						</tbody>
+
+					</table>
+        		
+        		</div>
+    		</div>
+    	</div>
+    </div>
+
+{% endblock %}
+
+{% block footer %}
+	{% verbatim %}
+		<button class="btn" data-bs-dismiss="modal">Close</button>
+		<button class="btn btn-primary" ng-click="buatTagihan()">Buat</button>
+	{% endverbatim %}
+{% endblock %}

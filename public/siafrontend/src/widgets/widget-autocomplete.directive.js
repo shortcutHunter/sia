@@ -11,6 +11,9 @@
         restrict: 'E',
         link    : link,
         require : 'ngModel',
+        scope: {
+            data: '='
+        },
         template: `
             <div class="easy-complete-container">
                 <input type="text" class="form-control form-control-sm">
@@ -34,10 +37,10 @@
                 onSelectItemEvent: function()
                 {
                     var data = $(element).find('input').getSelectedItemData();
-                    if(!scope.selectedData){
-                        scope.selectedData = {};
+                    if(!scope.$parent.selectedData){
+                        scope.$parent.selectedData = {};
                     }
-                    scope.selectedData[attr.ngModel] = data;
+                    scope.$parent.selectedData[attr.ngModel] = data;
                     ctrl.$setViewValue(data.id);
                 }
             }
@@ -61,13 +64,11 @@
             }
         });
 
-        if (scope.vm && scope.vm.data) {
-            scope.$watch(() => scope.vm.data, function(newVal, oldVal){
-                if (newVal[attr.table]) {
-                    $(element).find('input').val(newVal[attr.table].nama);
-                }
-            });
-        }
+        scope.$watch(() => scope.data, function(newVal, oldVal){
+            if (newVal) {
+                $(element).find('input').val(newVal.nama);
+            }
+        });
     }
   }
 })();

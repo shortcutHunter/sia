@@ -32,7 +32,7 @@
     }
 
     function paketChanges(newVal, oldVal) {
-      if (newVal) {
+      if (newVal && scope.selectedData) {
         let selected_data = scope.selectedData['vm.data.paket_id'];
         vm.data.paket = selected_data;
       }

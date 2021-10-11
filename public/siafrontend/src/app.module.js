@@ -21,6 +21,7 @@
     // 'app.kwitansi',
     'app.tagihan',
     'app.pembiayaan',
+    'app.setup_paket',
     'app.widgets',
     'app.modals'
   ]);

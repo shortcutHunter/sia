@@ -15,6 +15,7 @@ class Api extends BaseRoute {
         $this->app->get('/matkul_diampuh/{matkul_diampuh_id}/get/mahasiswa', \App\Controllers\ApiController::class . ':getMahasiswa');
 
         $this->app->post('/proses/nilai/mahasiswa', \App\Controllers\ApiController::class . ':prosesNilai');
+        $this->app->post('/buat/tagihan/mahasiswa', \App\Controllers\ApiController::class . ':buatTagihan');
 
         $this->app->post('/{object}/add', \App\Controllers\ApiController::class . ':add');
         $this->app->post('/{object}/update', \App\Controllers\ApiController::class . ':massUpdate');

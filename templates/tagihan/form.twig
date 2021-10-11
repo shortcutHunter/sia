@@ -7,7 +7,7 @@
 		<div class="col-md-6">
 			<table class="custom-table">
           		{% include 'components/date-picker.twig' with {'name': 'tanggal', 'label': 'Tanggal'} %}
-				{% include 'components/input.twig' with {'name': 'kode', 'label': 'Kode'} %}
+				{# {% include 'components/input.twig' with {'name': 'kode', 'label': 'Kode'} %} #}
 				{% include 'components/autocomplete.twig' with {'name': 'orang_id', 'label': 'Nama Mahasiswa', 'table': 'orang', 'normal_search': true} %}
 				{% include 'components/preview-text.twig' with {'name': 'nominal', 'label': 'Nominal'} %}
 			</table>

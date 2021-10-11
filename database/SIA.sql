@@ -214,6 +214,8 @@ CREATE TABLE `tagihan` (
   `tanggal` date,
   `nominal` float,
   `orang_id` int,
+  `system` boolean,
+  `tahun_ajaran_id` int,
   `status` ENUM ('draft', 'proses', 'bayar') DEFAULT "draft"
 );
 
@@ -414,6 +416,8 @@ ALTER TABLE `konfigurasi_nilai` ADD FOREIGN KEY (`mata_kuliah_diampuh_id`) REFER
 ALTER TABLE `item` ADD FOREIGN KEY (`paket_id`) REFERENCES `paket` (`id`);
 
 ALTER TABLE `tagihan` ADD FOREIGN KEY (`orang_id`) REFERENCES `orang` (`id`);
+
+ALTER TABLE `tagihan` ADD FOREIGN KEY (`tahun_ajaran_id`) REFERENCES `tahun_ajaran` (`id`);
 
 ALTER TABLE `tagihan_item` ADD FOREIGN KEY (`tagihan_id`) REFERENCES `tagihan` (`id`);
 
