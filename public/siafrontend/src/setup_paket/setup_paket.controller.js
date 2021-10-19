@@ -14,9 +14,6 @@
     vm.data = [];
     vm.pageData = {};
 
-    vm.aturPaket = aturPaket;
-    vm.buatTagihan = buatTagihan;
-
     activate();
 
     scope.$watch('vm.page', function(newVal){
@@ -30,24 +27,11 @@
     }
 
     function getData() {
-      return dataservice.getData('tahun_ajaran', vm.page).then(function(response) {
+      return dataservice.getData('paket_register_ulang', vm.page).then(function(response) {
         vm.pageData = response;
         vm.data = response.data;
         logger.info('Data loaded');
       });
-    }
-
-    function aturPaket(data) {
-      vm.active_data = data;
-      let el = "<modal-atur-paket data='vm.active_data'></modal-atur-paket>";
-      el = compile(el)(scope);
-      element.append(el);
-    }
-
-    function buatTagihan(data) {
-      vm.active_data = data;
-      let el = "<modal-buat-tagihan data='vm.active_data'></modal-buat-tagihan>";
-      el = compile(el)(scope);
     }
 
   }

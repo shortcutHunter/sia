@@ -49,6 +49,13 @@ class Tagihan extends BaseModel
 			$tagihan_item = $attributes['tagihan_item'];
 			unset($attributes['tagihan_item']);
 		}
+
+		$tagihan_bukti_bayar = false;
+		if (array_key_exists('tagihan_bukti_bayar', $attributes)) {
+			$tagihan_bukti_bayar = $attributes['tagihan_bukti_bayar'];
+			unset($attributes['tagihan_bukti_bayar']);
+		}
+
 		$attributes['kode'] = self::nextCode('tagihan_sequance');
 		$tagihan = parent::create($attributes);
 
@@ -64,6 +71,28 @@ class Tagihan extends BaseModel
 				];
 				$tagihan_item_data = $tagihan_item_obj->create($tagihan_item_value);
 
+			}
+		}
+
+		if ($tagihan_bukti_bayar) {
+			foreach ($tagihan_bukti_bayar as $key => $value) {
+				$tagihan_bukti_bayar_obj = self::getModelByName('tagihan_bukti_bayar');
+				$tagihan_bukti_bayar_value = [
+					'tagihan_id' => $tagihan->id
+				];
+				$is_empty = false;
+
+				if (array_key_exists('file', $value)) {
+					$tagihan_bukti_bayar_value['file'] = $value['file'];
+				}
+				else if (array_key_exists('file_id', $value)) {
+					$tagihan_bukti_bayar_value['file_id'] = $value['file_id'];
+				}else {
+					$is_empty = true;
+				}
+				if (!$is_empty) {
+					$tagihan_bukti_bayar_data = $tagihan_bukti_bayar_obj->create($tagihan_bukti_bayar_value);
+				}
 			}
 		}
 
@@ -99,10 +128,45 @@ class Tagihan extends BaseModel
 					$value->delete();
 				}
 			}
-
 		}
 
-		
+		if (array_key_exists('tagihan_bukti_bayar', $attributes)) {
+			$bukti_bayar_ids = [];
+			$tagihan_bukti_bayar = $attributes['tagihan_bukti_bayar'];
+
+			foreach ($tagihan_bukti_bayar as $key => $value) {
+				$tagihan_bukti_bayar_obj = self::getModelByName('tagihan_bukti_bayar');
+				$tagihan_bukti_bayar_value = [
+					'tagihan_id' => $this->id
+				];
+				$is_empty = false;
+
+				if (array_key_exists('file', $value)) {
+					$tagihan_bukti_bayar_value['file'] = $value['file'];
+				}
+				else if (array_key_exists('file_id', $value)) {
+					$tagihan_bukti_bayar_value['file_id'] = $value['file_id'];
+				}else {
+					$is_empty = true;
+				}
+				if (!$is_empty) {
+					if (array_key_exists('id', $value)) {
+						$tagihan_bukti_bayar_data = $tagihan_bukti_bayar_obj->find($value['id']);
+						$tagihan_bukti_bayar_data->update($tagihan_bukti_bayar_value);
+					}else{
+						$tagihan_bukti_bayar_data = $tagihan_bukti_bayar_obj->create($tagihan_bukti_bayar_value);
+					}
+					array_push($bukti_bayar_ids, $tagihan_bukti_bayar_data->id);
+				}
+			}
+			unset($attributes['tagihan_bukti_bayar']);
+
+			foreach ($this->tagihan_bukti_bayar as $value) {
+				if (!in_array($value->id, $item_ids)) {
+					$value->delete();
+				}
+			}
+		}
 
 		return parent::update($attributes, $options);
 	}

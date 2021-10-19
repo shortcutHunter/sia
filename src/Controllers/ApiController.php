@@ -216,31 +216,51 @@ final class ApiController extends BaseController
         return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
     }
 
+    public function getTagihan($request, $response, $args)
+    {
+        $tahun_ajaran_obj = $this->get_object('tahun_ajaran');
+        $tagihan_obj = $this->get_object('tagihan');
+
+        $tahun_ajaran = $tahun_ajaran_obj->find($args['tahun_ajaran_id'])->first();
+        $tagihan = $tagihan_obj
+            ->where('tahun_ajaran_id', $tahun_ajaran->id)
+            ->where('system', true);
+
+        $tanggal = $tagihan->get()->max('tanggal');
+        $tagihan = $tagihan->where('tanggal', $tanggal)->get();
+
+        $data = json_encode(['data' => $tagihan]);
+
+        $response->getBody()->write($data);
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
+    }
+
     public function buatTagihan($request, $response, $args)
     {
         $postData = $request->getParsedBody();
         $mahasiswa_obj = $this->get_object('mahasiswa');
-        $tahun_ajaran_obj = $this->get_object('tahun_ajaran');
+        $setup_tagihan_obj = $this->get_object('paket_register_ulang');
         $tagihan_obj = $this->get_object('tagihan');
         $tagihan_item_obj = $this->get_object('tagihan_item');
 
-        $mahasiswa = $mahasiswa_obj->where('tahun_ajaran_id', $postData['tahun_ajaran_id'])->get();
-        $tahun_ajaran = $tahun_ajaran_obj->find($postData['tahun_ajaran_id'])->first();
+        $setup_tagihan = $setup_tagihan_obj->find($postData['setup_tagihan_id'])->first();
+        $mahasiswa = $mahasiswa_obj->where('setup_tagihan_id', $setup_tagihan->semester_id)->get();
         $tanggal = date('d/m/Y');
 
-        $tagihan_item_val = $tahun_ajaran->paket->item->map(function($data) {
+        $tagihan_item_val = $setup_tagihan->paket_register_ulang_item->item->map(function($data) {
             return $data->only(['nama', 'kode', 'nominal']);
         })->toArray();
-        $total_nominal = $tahun_ajaran->paket->item->sum('nominal');
 
         foreach ($mahasiswa as $key => $value) {
             $tagihan_val = [
                 'tanggal' => $tanggal,
-                'kode' => "Tagihan",
-                'nominal' => $total_nominal,
+                'nominal' => $setup_tagihan->nominal,
                 'orang_id' => $value->orang->id,
-                'tagihan_item' => $tagihan_item_val
+                'tagihan_item' => $tagihan_item_val,
+                'system' => true,
+                'paket_register_ulang_id' => $setup_tagihan->id
             ];
+            $tagihan = $tagihan_obj->create($tagihan_val);
         }
 
         $data = json_encode(['status' => 'sukses']);
@@ -326,6 +346,18 @@ final class ApiController extends BaseController
         }
 
         $response->getBody()->write(json_encode($user));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
+    }
+
+
+    public function konfigurasi($request, $response, $args)
+    {
+        $container = $this->container;
+        $konfigurasi = $this->get_object('konfigurasi')->first();
+
+        $data = ['data' => $konfigurasi];
+
+        $response->getBody()->write(json_encode($data));
         return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
     }
 

@@ -36,7 +36,7 @@
       function addPembiayaan() {
         let pembiayaanData = ctrl.$modelValue || [];
         let data_to_push = angular.copy(scope.selectedData['vm.data.item_id']);
-        delete data_to_push['id'];
+        // delete data_to_push['id'];
         pembiayaanData.push(data_to_push);
         ctrl.$setViewValue(pembiayaanData);
         $(element).modal('hide');

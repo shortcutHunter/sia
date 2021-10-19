@@ -1,0 +1,20 @@
+{% extends "structure/detail.twig" %}
+
+{% block button %}
+
+  <a class="btn btn-sm btn-success" ui-sref="konfigurasi_form"><i class="fa fa-edit"></i> Edit</a>
+
+{% endblock %}
+
+{% block content %}
+
+	<div class="row">
+		<div class="col-md-6">
+			<table class="custom-table">
+				{% include 'components/preview-text.twig' with {'name': 'kode_perusahaan', 'label': 'Kode Perusahaan'} %}
+				{% include 'components/preview-text.twig' with {'name': 'semester.nama', 'label': 'Semester Awal'} %}
+			</table>
+		</div>
+	</div>
+
+{% endblock %}

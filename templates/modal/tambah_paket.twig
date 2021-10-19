@@ -1,7 +1,7 @@
 {% extends 'modal/template.twig' %}
 
 {% block title %}
-	<h5 class="modal-title">Tambah Pembiayaan</h5>
+	<h5 class="modal-title">Tambah Paket</h5>
 {% endblock %}
 
 
@@ -11,7 +11,7 @@
 		<div class="row">
 			<div class="col-md-6">
 				<table class="custom-table">
-					{% include 'components/autocomplete.twig' with {'name': 'item_id', 'label': 'Pembiayaan', 'table': 'item', 'normal_search': true, 'data': 'item'} %}
+					{% include 'components/autocomplete.twig' with {'name': 'paket_id', 'label': 'Paket', 'table': 'paket', 'normal_search': true, 'data': 'paket'} %}
 				</table>
 			</div>	
 		</div>
@@ -22,6 +22,6 @@
 {% block footer %}
 	{% verbatim %}
 		<button class="btn" data-bs-dismiss="modal">Close</button>
-		<button class="btn btn-primary" ng-click="addPembiayaan()">Tambah</button>
+		<button class="btn btn-primary" ng-click="addPaket()">Tambah</button>
 	{% endverbatim %}
 {% endblock %}

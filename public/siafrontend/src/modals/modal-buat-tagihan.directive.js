@@ -40,7 +40,7 @@
       function buatTagihan() {
         let url = "/buat/tagihan/mahasiswa";
         let data = {
-          tahun_ajaran_id: scope.data.id
+          setup_tagihan_id: scope.data.id
         };
 
         dataservice.postDataUrl(url, data).then(function(data){
@@ -50,7 +50,7 @@
       }
 
       function getData() {
-        let filter = `tahun_ajaran_id=${scope.data.id}`;
+        let filter = `semester_id=${scope.data.semester_id}`;
         dataservice.getDataFilter('mahasiswa', filter).then(function(response){
           scope.data.mahasiswa = response.data;
         });

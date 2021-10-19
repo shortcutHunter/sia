@@ -26,6 +26,26 @@
             content: '<i class="fa fa-list"></i> <span>Setup Paket</span>'
           }
         }
+      },
+      {
+        state: 'setup_paket_form',
+        config: {
+          url: '/setup_paket/form/:dataId',
+          templateUrl: '/template/setup_paket/form',
+          controller: 'SetupPaketFormController',
+          controllerAs: 'vm',
+          title: 'setup_paket_form'
+        }
+      },
+      {
+        state: 'setup_paket_detail',
+        config: {
+          url: '/setup_paket/{dataId}',
+          templateUrl: '/template/setup_paket/detail',
+          controller: 'SetupPaketDetailController',
+          controllerAs: 'vm',
+          title: 'setup_paket_detail'
+        }
       }
     ];
   }

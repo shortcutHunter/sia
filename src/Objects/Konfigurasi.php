@@ -7,11 +7,15 @@ use App\Objects\BaseModel;
 class Konfigurasi extends BaseModel
 {
 	protected $table = 'konfigurasi';
-	protected $with = ['paket'];
+	protected $with = ['semester'];
 
-	public function paket()
+	public static $relation = [
+		['name' => 'semester', 'is_selection' => true, 'skip' => false]
+	];
+
+	public function semester()
 	{
-		return $this->hasOne(Paket::class, 'id', 'paket_id');
+		return $this->hasOne(Semester::class, 'id', 'semester_id');
 	}
 
 }

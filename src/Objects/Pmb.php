@@ -57,7 +57,38 @@ class Pmb extends BaseModel
 	public function update(array $attributes = [], array $options = [])
 	{
 		if (array_key_exists('status', $attributes)) {
-			if ($attributes['status'] == 'terima') {
+			$status = $attributes['status'];
+			if ($status == 'ujian') {
+				$tagihan_obj = self::getModelByName('tagihan');
+				$konfigurasi_obj = self::getModelByName('konfigurasi');
+				$setup_paket_obj = self::getModelByName('paket_register_ulang');
+
+				$konfigurasi = $konfigurasi_obj->first();
+				$setup_paket = $setup_paket_obj->where('semester_id', $konfigurasi->semester_id)->first();
+
+				$tagihan_item_value = $setup_paket->paket_register_ulang_item->map(function($data) {
+		            return $data->item->only(['nama', 'kode', 'nominal']);
+		        })->toArray();
+
+				$tagihan_bukti_bayar_value = [
+					[
+						'file_id' => $this->bukti_pembayaran_id
+					]
+				];
+
+				$tagihan_value = [
+					'tanggal' => date('d/m/Y'),
+					'nominal' => $setup_paket->nominal,
+					'orang_id' => $this->orang_id,
+					'system' => true,
+					'paket_register_ulang_id' => $setup_paket->id,
+					'tagihan_item' => $tagihan_item_value,
+					'tagihan_bukti_bayar' => $tagihan_bukti_bayar_value,
+					'status' => 'bayar'
+				];
+				$tagihan = $tagihan_obj->create($tagihan_value);
+			}
+			if ($status == 'terima') {
 				$object_penerbitan_nim = self::getModelByName('penerbitan_nim');
 				$penerbitan_nim = $object_penerbitan_nim->where('pmb_id', $this->id)->first();
 

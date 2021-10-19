@@ -27,7 +27,16 @@ class PenerbitanNim extends BaseModel
 				$object_mahasiswa = self::getModelByName('mahasiswa');
 
 				if (!$this->mahasiswa_id) {
-					$object_mahasiswa->create(['orang_id' => $this->pmb->orang_id, 'tahun_masuk' => date('Y')]);
+					$konfigurasi_obj = self::getModelByName('konfigurasi');
+					$konfigurasi = $konfigurasi_obj->first();
+
+
+					$object_mahasiswa->create([
+						'orang_id' => $this->pmb->orang_id, 
+						'tahun_masuk' => date('Y'),
+						'semester_id' => $konfigurasi->semester_id,
+						'tahun_ajaran_id' => $konfigurasi->tahun_ajaran_id
+					]);
 				}
 			}
 		}

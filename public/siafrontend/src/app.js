@@ -26,6 +26,7 @@ import './kwitansi/kwitansi.module';
 import './tagihan/tagihan.module';
 import './pembiayaan/pembiayaan.module';
 import './setup_paket/setup_paket.module';
+import './konfigurasi/konfigurasi.module';
 
 import './blocks/exception/exception-handler.provider';
 import './blocks/exception/exception';
@@ -62,6 +63,7 @@ import './modals/modal-tambah-pembiayaan.directive';
 import './modals/modal-pembiayaan-tagihan.directive';
 import './modals/modal-atur-paket.directive';
 import './modals/modal-buat-tagihan.directive';
+import './modals/modal-tambah-paket.directive';
 
 import './agama/agama.controller';
 import './agama/agama_form.controller';
@@ -136,6 +138,11 @@ import './pembiayaan/pembiayaan_form.controller';
 import './pembiayaan/pembiayaan_detail.controller';
 import './pembiayaan/pembiayaan.route';
 
-
 import './setup_paket/setup_paket.controller';
+import './setup_paket/setup_paket_form.controller';
+import './setup_paket/setup_paket_detail.controller';
 import './setup_paket/setup_paket.route';
+
+import './konfigurasi/konfigurasi_detail.controller';
+import './konfigurasi/konfigurasi_form.controller';
+import './konfigurasi/konfigurasi.route';

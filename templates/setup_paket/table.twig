@@ -1,13 +1,20 @@
 {% extends "structure/table.twig" %}
+
+{% block button %}
+  <a ui-sref="setup_paket_form({dataId: null})" class="btn btn-success btn-sm">
+    <i class="fa fa-plus"></i> Tambah
+  </a>
+{% endblock %}
+
 {% block table %}
 
   {% verbatim %}
 
     <thead>
       <tr>
-        <th>Tahun Ajaran</th>
-        <th>Paket</th>
-        <th></th>
+        <th>Semester</th>
+        <th>Total Pembiayaan</th>
+        <th>Nominal</th>
       </tr>
     </thead>
 
@@ -15,14 +22,10 @@
       <tr ng-if="!vm.data || vm.data.length == 0">
             <td colspan="5" class="text-center">Tidak ada data yang tersedia</td>
           </tr>
-          <tr ng-repeat="data in vm.data">
-            <td ng-bind="data.nama || '-'"></td>
-            <td ng-bind="data.paket.nama || '-'"></td>
-            <td>
-              <button class="btn btn-primary" ng-click="vm.aturPaket(data)">Atur Paket</button>
-              <button class="btn btn-primary" ng-click="vm.buatTagihan(data)">Buat Tagihan</button>
-              <button class="btn btn-info">Lihat Tagihan Terbaru</button>
-            </td>
+          <tr ng-repeat="data in vm.data" class="clickable" ng-attr-tr_id="{{data.id}}" state_name="setup_paket_detail" widget-tr="">
+            <td ng-bind="data.semester.nama || '-'"></td>
+            <td ng-bind="data.paket_register_ulang_item.length || 0"></td>
+            <td ng-bind="data.nominal || '-'"></td>
           </tr>
     </tbody>
 

@@ -22,6 +22,7 @@
     'app.tagihan',
     'app.pembiayaan',
     'app.setup_paket',
+    'app.konfigurasi',
     'app.widgets',
     'app.modals'
   ]);
