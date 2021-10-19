@@ -141,6 +141,7 @@ import './pembiayaan/pembiayaan.route';
 import './setup_paket/setup_paket.controller';
 import './setup_paket/setup_paket_form.controller';
 import './setup_paket/setup_paket_detail.controller';
+import './setup_paket/setup_paket_tagihan_detail.controller';
 import './setup_paket/setup_paket.route';
 
 import './konfigurasi/konfigurasi_detail.controller';

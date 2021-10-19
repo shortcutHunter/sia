@@ -18,6 +18,7 @@
 				<table class="custom-table">
 				{% include 'components/input.twig' with {'name': 'kode_perusahaan', 'label': 'Kode Perusahaan'} %}
 				{% include 'components/select.twig' with {'name': 'semester_id', 'label': 'Semester Awal', 'option': 'selection.semester', 'label_selection': 'nama'} %}
+        {% include 'components/select.twig' with {'name': 'tahun_ajaran_id', 'label': 'Tahun Ajaran Awal', 'option': 'selection.tahun_ajaran', 'label_selection': 'nama'} %}
 				</table>
 			</div>
 		</div>

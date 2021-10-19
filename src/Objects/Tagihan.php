@@ -42,6 +42,12 @@ class Tagihan extends BaseModel
 		return $this->hasMany(TagihanBuktiBayar::class, 'tagihan_id', 'id');
 	}
 
+	public static function kodePem()
+	{
+		$kode = uniqid();
+		return $kode;
+	}
+
 	public static function create(array $attributes = [])
 	{
 		$tagihan_item = false;
@@ -54,6 +60,12 @@ class Tagihan extends BaseModel
 		if (array_key_exists('tagihan_bukti_bayar', $attributes)) {
 			$tagihan_bukti_bayar = $attributes['tagihan_bukti_bayar'];
 			unset($attributes['tagihan_bukti_bayar']);
+		}
+
+		if (array_key_exists('status', $attributes)) {
+			if ($attributes['status'] == 'bayar') {
+				$attributes['kode_pembayaran'] = self::kodePem();
+			}
 		}
 
 		$attributes['kode'] = self::nextCode('tagihan_sequance');
@@ -165,6 +177,12 @@ class Tagihan extends BaseModel
 				if (!in_array($value->id, $item_ids)) {
 					$value->delete();
 				}
+			}
+		}
+
+		if (array_key_exists('status', $attributes)) {
+			if ($attributes['status'] == 'bayar') {
+				$attributes['kode_pembayaran'] = self::kodePem();
 			}
 		}
 

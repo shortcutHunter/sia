@@ -46,6 +46,16 @@
           controllerAs: 'vm',
           title: 'setup_paket_detail'
         }
+      },
+      {
+        state: 'setup_paket_tagihan',
+        config: {
+          url: '/setup_paket/tagihan/{dataId}',
+          templateUrl: '/template/setup_paket/tagihan',
+          controller: 'SetupPaketTagihanDetailController',
+          controllerAs: 'vm',
+          title: 'setup_paket_tagihan_detail'
+        }
       }
     ];
   }

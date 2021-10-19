@@ -14,7 +14,7 @@ class Api extends BaseRoute {
         $this->app->get('/search/{object}', \App\Controllers\ApiController::class . ':search');
         $this->app->get('/matkul_diampuh/{matkul_diampuh_id}/get/mahasiswa', \App\Controllers\ApiController::class . ':getMahasiswa');
 
-        $this->app->get('/tagihan/mahasiswa/tahun_ajaran/{tahun_ajaran_id}', \App\Controllers\ApiController::class . ':getTagihan');
+        $this->app->get('/tagihan/mahasiswa/setup_paket/{setup_paket_id}', \App\Controllers\ApiController::class . ':getTagihan');
 
         $this->app->get('/konfigurasi', \App\Controllers\ApiController::class . ':konfigurasi');
 

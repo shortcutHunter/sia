@@ -218,12 +218,12 @@ final class ApiController extends BaseController
 
     public function getTagihan($request, $response, $args)
     {
-        $tahun_ajaran_obj = $this->get_object('tahun_ajaran');
+        $paket_reg_ulang_obj = $this->get_object('paket_register_ulang');
         $tagihan_obj = $this->get_object('tagihan');
 
-        $tahun_ajaran = $tahun_ajaran_obj->find($args['tahun_ajaran_id'])->first();
+        $paket_reg_ulang = $paket_reg_ulang_obj->find($args['setup_paket_id']);
         $tagihan = $tagihan_obj
-            ->where('tahun_ajaran_id', $tahun_ajaran->id)
+            ->where('paket_register_ulang_id', $paket_reg_ulang->id)
             ->where('system', true);
 
         $tanggal = $tagihan->get()->max('tanggal');

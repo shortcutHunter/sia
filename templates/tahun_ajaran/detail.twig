@@ -12,11 +12,11 @@
 	<table class="custom-table">
 		{% include 'components/preview-text.twig' with {'name': 'nama', 'label': 'Nama'} %}
 		{% include 'components/preview-text.twig' with {'name': 'tahun', 'label': 'Tahun'} %}
-		{% include 'components/preview-text.twig' with {'name': 'paket.nama', 'label': 'Paket'} %}
+		{# {% include 'components/preview-text.twig' with {'name': 'paket.nama', 'label': 'Paket'} %} #}
 		{% include 'components/preview-text.twig' with {'name': 'nomor', 'label': 'Nomor'} %}
 	</table>
 
-	<ul class="nav nav-tabs mt-5">
+	{# <ul class="nav nav-tabs mt-5">
 		<li class="nav-item">
         	<a class="nav-link active" data-bs-toggle="list" href="#pembiayaan">Pembiayaan</a>
         </li>
@@ -53,6 +53,6 @@
         		</div>
     		</div>
     	</div>
-    </div>
+    </div> #}
 
 {% endblock %}
