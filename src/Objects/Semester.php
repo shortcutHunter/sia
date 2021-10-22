@@ -14,4 +14,9 @@ class Semester extends BaseModel
 		"ganjil" => "Ganjil",
 	];
 
+	public function mahasiswa()
+	{
+		return $this->hasMany(Mahasiswa::class, 'semester_id', 'id');
+	}
+
 }

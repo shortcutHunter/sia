@@ -27,6 +27,7 @@ import './tagihan/tagihan.module';
 import './pembiayaan/pembiayaan.module';
 import './setup_paket/setup_paket.module';
 import './konfigurasi/konfigurasi.module';
+import './ganti_semester/ganti_semester.module';
 
 import './blocks/exception/exception-handler.provider';
 import './blocks/exception/exception';
@@ -64,6 +65,8 @@ import './modals/modal-pembiayaan-tagihan.directive';
 import './modals/modal-atur-paket.directive';
 import './modals/modal-buat-tagihan.directive';
 import './modals/modal-tambah-paket.directive';
+import './modals/modal-tagihan-semester.directive';
+import './modals/modal-bayar-tagihan.directive';
 
 import './agama/agama.controller';
 import './agama/agama_form.controller';
@@ -147,3 +150,7 @@ import './setup_paket/setup_paket.route';
 import './konfigurasi/konfigurasi_detail.controller';
 import './konfigurasi/konfigurasi_form.controller';
 import './konfigurasi/konfigurasi.route';
+
+import './ganti_semester/ganti_semester.controller';
+import './ganti_semester/ganti_semester_mahasiswa.controller';
+import './ganti_semester/ganti_semester.route';

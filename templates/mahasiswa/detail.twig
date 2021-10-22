@@ -4,7 +4,7 @@
 {% block button %}
 	<div class="float-end">
 		{% verbatim %}
-			<button class="btn btn-primary" ng-click="vm.regUlang()" ng-if="vm.data.reg_ulang">Register Ulang</button>
+			<!-- <button class="btn btn-primary" ng-click="vm.regUlang()" ng-if="vm.data.reg_ulang">Register Ulang</button> !-->
 			<button class="btn btn-primary" ng-click="vm.pengajuanKrs()" ng-if="vm.data.ajukan_sks">Pengajuan KRS</button>
 		{% endverbatim %}
 	</div>
@@ -38,7 +38,7 @@
             	<a class="nav-link" data-bs-toggle="list" href="#riwayat">Riwayat Belajar</a>
             </li>
 			<li class="nav-item">
-            	<a class="nav-link" data-bs-toggle="list" href="#register">Register Ulang</a>
+            	<a class="nav-link" data-bs-toggle="list" href="#tagihan">Tagihan</a>
             </li>
 			<li class="nav-item">
             	<a class="nav-link" data-bs-toggle="list" href="#pribadi">Data Pribadi</a>
@@ -75,25 +75,41 @@
 						{% 
 							include 'components/table.twig' 
 							with {
-								'headers': ['Semester', 'Total SKS', 'Status'], 
+								'headers': ['Semester', 'Total SKS'], 
 								'data_value': 'riwayat_belajar', 
-								'cols': ['semester.nama', 'total_sks', 'status']
+								'cols': ['semester.nama', 'total_sks']
 							}
 						%}
 	        		</div>
         		</div>
         	</div>
-        	<div class="tab-pane fade show" id="register">
+        	<div class="tab-pane fade show" id="tagihan">
         		<div class="row mt-3">
         			<div class="col-md-12">
-						{% 
-							include 'components/table.twig' 
-							with {
-								'headers': ['Semester', 'Bukti', 'Status'],
-								'data_value': 'register_ulang', 
-								'cols': ['semester.nama', 'bukti.filename', 'status']
-							}
-						%}
+	        			<table class="table">
+							<thead>
+								<th>Tanggal</th>
+								<th>Nominal</th>
+								<th>Kode Pembayaran</th>
+								<th>Status</th>
+								<th></th>
+							</thead>
+
+							<tbody>
+								<tr ng-repeat="col in vm.data.tagihan" ng-if="vm.data.tagihan && vm.data.tagihan.length != 0">
+									<td ng-bind="col.tanggal || '-'"></td>
+									<td ng-bind="col.nominal || '-'"></td>
+									<td ng-bind="col.kode_pembayaran || '-'"></td>
+									<td ng-bind="col.status || '-'"></td>
+									<td>
+										<button class="btn btn-primary" ng-if="col.status == 'proses'" ng-click="vm.bayarTagihan(col)">Bayar</button>
+									</td>
+								</tr>
+								<tr ng-if="!vm.data.tagihan || vm.data.tagihan.length == 0">
+									<td  class="text-center" colspan="4">Belum ada data</td>
+								</tr>
+							</tbody>
+						</table>
 	        		</div>
         		</div>
         	</div>

@@ -1,0 +1,76 @@
+{% extends 'modal/template.twig' %}
+
+{% block title %}
+	<h5 class="modal-title">Buat Tagihan</h5>
+{% endblock %}
+
+
+{% block content %}
+
+	<div class="row">
+		<div class="col-md-6">
+			<table class="custom-table">
+				{% include 'components/preview-text.twig' with {'name': 'semester.nama', 'label': 'Semester', 'prefix': 'setup_paket'} %}
+				{% include 'components/preview-text.twig' with {'name': 'nominal', 'label': 'Nominal', 'prefix': 'setup_paket'} %}
+			</table>
+		</div>
+	</div>
+
+	<ul class="nav nav-tabs mt-2">
+		<li class="nav-item">
+        	<a class="nav-link active" data-bs-toggle="list" href="#pembiayaan">Pembiayaan</a>
+        </li>
+    </ul>
+
+    <div class="tab-content text-justify">
+    	<div class="tab-pane fade show active" id="pembiayaan">
+
+    		<div class="row mt-3">
+    			<div class="col-12">
+    				<button class="btn btn-primary" ng-click="tambahPembiayaan()">Tambah Pembiayaan</button>
+    			</div>
+    		</div>
+
+    		<div class="row mt-3">
+    			<div class="col-md-12">
+
+        			<table class="table">
+
+						<thead>
+							<th>Kode</th>
+							<th>Nama</th>
+							<th>Nominal</th>
+							<th></th>
+						</thead>
+
+						<tbody>
+							<tr ng-repeat="col in setup_paket.paket_register_ulang_item track by $index" ng-if="setup_paket.paket_register_ulang_item && setup_paket.paket_register_ulang_item.length != 0">
+								<td ng-bind="col.item.kode || '-'"></td>
+								<td ng-bind="col.item.nama || '-'"></td>
+								<td ng-bind="col.item.nominal || '-'"></td>
+								<td>
+									<button class="btn btn-danger btn-sm" ng-click="removeData($index)">
+										<i class="fa fa-trash"></i>
+									</button>
+								</td>
+							</tr>
+							<tr ng-if="!setup_paket.paket_register_ulang_item || setup_paket.paket_register_ulang_item.length == 0">
+								<td  class="text-center" colspan="5">Belum ada data</td>
+							</tr>
+						</tbody>
+
+					</table>
+        		
+        		</div>
+    		</div>
+    	</div>
+    </div>
+
+{% endblock %}
+
+{% block footer %}
+	{% verbatim %}
+		<button class="btn" data-bs-dismiss="modal">Close</button>
+		<button class="btn btn-primary" ng-click="gantiSemester()">Buat</button>
+	{% endverbatim %}
+{% endblock %}

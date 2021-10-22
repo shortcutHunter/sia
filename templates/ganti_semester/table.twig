@@ -1,0 +1,30 @@
+{% extends "structure/table.twig" %}
+{% block table %}
+
+	{% verbatim %}
+
+		<thead>
+			<tr>
+				<th>Semester</th>
+				<th>Total Mahasiwa</th>
+				<th>Nilai Belum Terisi</th>
+				<th></th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr ng-if="!vm.data || vm.data.length == 0">
+	          <td colspan="5" class="text-center">Tidak ada data yang tersedia</td>
+	        </tr>
+	        <tr ng-repeat="data in vm.data">
+	          <td ng-bind="data.nama || '-'"></td>
+	          <td ng-bind="data.mahasiwa_count || '-'"></td>
+	          <td ng-bind="data.nilai_belum_terisi || '-'"></td>
+	          <td>
+          		<a class="btn btn-primary btn-sm" ng-if="data.nilai_belum_terisi == 0" ui-sref="ganti_semester_mahasiswa({semester_id: data.id})">Ganti Semester</a>
+	          </td>
+	        </tr>
+		</tbody>
+
+	{% endverbatim %}
+{% endblock %}

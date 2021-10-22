@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\objects\Session;
 use \Illuminate\Pagination\Paginator;
+use Illuminate\Database\Capsule\Manager as DB;
 
 final class ApiController extends BaseController
 {
@@ -349,7 +350,6 @@ final class ApiController extends BaseController
         return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
     }
 
-
     public function konfigurasi($request, $response, $args)
     {
         $container = $this->container;
@@ -357,6 +357,55 @@ final class ApiController extends BaseController
 
         $data = ['data' => $konfigurasi];
 
+        $response->getBody()->write(json_encode($data));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
+    }
+
+    public function rekapSemester($request, $response, $args)
+    {
+        $container = $this->container;
+
+        $semester = $this->get_object('semester')->withCount('mahasiswa')->get();
+
+        foreach ($semester as $s) {
+            $semester_id = $s->id;
+            $query = "
+                SELECT COUNT(*) AS total FROM `pengajuan_ks_detail` 
+                INNER JOIN `pengajuan_ks` ON `pengajuan_ks`.`id` = `pengajuan_ks_detail`.`pengajuan_ks_id`
+                WHERE `pengajuan_ks`.`semester_id` = $semester_id AND
+                NOT EXISTS(
+                    SELECT * FROM `mahasiswa`
+                    WHERE `mahasiswa`.`id` = `pengajuan_ks`.`mahasiswa_id` AND
+                    `semester_id` = $semester_id AND
+                    NOT EXISTS(
+                        SELECT * FROM `riwayat_belajar`
+                        WHERE `mahasiswa`.`id` = `riwayat_belajar`.`mahasiswa_id` AND
+                        `semester_id` = $semester_id AND
+                        NOT EXISTS(
+                            SELECT * FROM `riwayat_belajar_detail`
+                            WHERE `riwayat_belajar`.`id` = `riwayat_belajar_detail`.`riwayat_belajar_id` AND
+                            `riwayat_belajar_detail`.`mata_kuliah_id` = `pengajuan_ks_detail`.`mata_kuliah_id`
+                        )
+                    )
+                )
+            ";
+            $result = DB::select(DB::raw($query));
+            $total = $result[0]->total;
+            $s->nilai_belum_terisi = $total;
+        }
+
+        $data = ['data' => $semester];
+
+        $response->getBody()->write(json_encode($data));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
+    }
+
+    public function rekapSemesterDetail($request, $response, $args)
+    {
+        $container = $this->container;
+
+        $semester = $this->get_object('semester')->with('mahasiswa')->find($args['semester_id']);
+        $data = ['data' => $semester];
         $response->getBody()->write(json_encode($data));
         return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
     }
@@ -410,6 +459,185 @@ final class ApiController extends BaseController
         }
 
         $response->getBody()->write(json_encode($menu));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
+    }
+
+    public function getBobot($nilai)
+    {
+        $mutu = "E";
+        if ($nilai >= 79) {
+            $mutu = "A";
+        }
+        elseif ($nilai >= 68) {
+            $mutu = "B";
+        }
+        elseif ($nilai >= 60) {
+            $mutu = "C";
+        }
+        elseif ($nilai >= 41) {
+            $mutu = "D";
+        }else{
+            $mutu = "E";
+        }
+        return $mutu;
+    }
+
+
+    public function getNilai($riwayat_belajar_detail, $semester_id, $mata_kuliah_id)
+    {
+        $konfigurasi_nilai_obj = $this->get_object('konfigurasi_nilai');
+        $nilai_akhir = 0;
+
+        foreach ($riwayat_belajar_detail->riwayat_belajar_nilai as $nilai_mahasiswa) {
+            $nilai_id = $nilai_mahasiswa->nilai_id;
+            $konfigurasi_nilai = $konfigurasi_nilai_obj
+                ->where([['nilai_id', $nilai_id], ['status', 'aktif']])
+                ->whereHas('mata_kuliah_diampuh', function($a) use ($mata_kuliah_id, $semester_id) {
+                    $a->where('mata_kuliah_id', $mata_kuliah_id)
+                    ->whereHas('dosen_pjmk', function($b) use ($semester_id) {
+                        $b->where([['semester_id', $semester_id], ['status', 'aktif']]);
+                    });
+                })
+                ->first();
+            $nilai_persentase = $nilai_mahasiswa->nilai * $konfigurasi_nilai->persentase / 100;
+            $nilai_akhir += $nilai_persentase;
+        }
+        return $nilai_akhir;
+    }
+
+    public function nilaiMahasiswa($riwayat_belajar, $semester_id, $mahasiswa_id)
+    {
+        $khs_obj = $this->get_object('khs');
+        $total_sks = 0;
+
+        foreach ($riwayat_belajar->riwayat_belajar_detail as $riwayat_belajar_detail) {
+            $mata_kuliah_id = $riwayat_belajar_detail->mata_kuliah_id;
+            $nilai_akhir = $this->getNilai($riwayat_belajar_detail, $semester_id, $mata_kuliah_id);
+
+            // update nilai
+            $bobot_nilai = $this->getBobot($nilai_akhir);
+            $riwayat_belajar_detail->update([
+                "nilai_akhir" => $nilai_akhir,
+                "bobot_nilai" => $bobot_nilai
+            ]);
+
+            // update / create KHS
+            $khs_value = [
+                'mahasiswa_id' => $mahasiswa_id,
+                'mata_kuliah_id' => $mata_kuliah_id
+            ];
+            $khs = $khs_obj->where($khs_value);
+
+            $khs_value['nilai_total'] = $nilai_akhir;
+            $khs_value['nilai_bobot'] = $bobot_nilai;
+
+            if ($khs->get()->isEmpty()) {
+                $khs_value['semester_id'] = $semester_id;
+                $khs = $khs_obj->create($khs_value);
+            }else{
+                $khs->update($khs_value);
+            }
+
+            $total_sks += $riwayat_belajar_detail->mata_kuliah->sks;
+        }
+
+        $riwayat_belajar->update(['total_sks' => $total_sks, 'status' => 'nonaktif']);
+    }
+
+    public function buatTagihanMahasiswa($item_ids, $semester_id, $orang_id)
+    {
+        $setup_paket_obj = $this->get_object('paket_register_ulang');
+        $item_obj = $this->get_object('item');
+        $tagihan_obj = $this->get_object('tagihan');
+
+        $setup_paket = $setup_paket_obj->where('semester_id', $semester_id)->first();
+        $item = $item_obj->select('nama', 'kode', 'nominal')->whereIn('id', $item_ids);
+        $total_nominal = $item->sum('nominal');
+        $item_value = $item->get()->toArray();
+
+        $tagihan_value = [
+            'tanggal' => date('d/m/Y'),
+            'nominal' => $total_nominal,
+            'orang_id' => $orang_id,
+            'system' => true,
+            'paket_register_ulang_id' => $setup_paket->id,
+            'tagihan_item' => $item_value,
+            'status' => 'proses'
+        ];
+        $tagihan = $tagihan_obj->create($tagihan_value);
+    }
+
+    public function updateMahasiswa($mahasiswa, $semester_id)
+    {
+        $mahasiswa->update([
+            'semester_id' => $semester_id,
+            'reg_ulang' => true,
+            'ajukan_sks' => false,
+            'pengajuan' => false,
+            'sudah_pengajuan' => false
+        ]);
+    }
+
+    public function setDosenPjmk($semester_id)
+    {
+        $dosen_pjmk_obj = $this->get_object('dosen_pjmk');
+        $konfigurasi_nilai_obj = $this->get_object('konfigurasi_nilai');
+
+        $dosen_pjmks = $dosen_pjmk_obj->where([['semester_id', $semester_id], ['status', 'aktif']]);
+
+        // set konfigurasi nilai to nonaktif
+        foreach ($dosen_pjmks->get() as $dosen_pjmk) {
+            $mata_kuliah_diampuh_ids = $dosen_pjmk->mata_kuliah_diampuh->pluck('id')->toArray();
+            $konfigurasi_nilai_obj->whereIn('mata_kuliah_diampuh_id', $mata_kuliah_diampuh_ids)->update(['status' => 'nonaktif']);
+        }
+
+        // set dosen pjmk to nonaktif
+        $dosen_pjmks->update(['status' => 'nonaktif']);
+    }
+
+    public function setDosenPa($semester_id)
+    {
+        $dosen_pa_obj = $this->get_object('dosen_pa');
+        $dosen_pa_obj->where([['semester_id', $semester_id], ['status', 'aktif']])->update(['status' => 'nonaktif']);
+    }
+
+    public function rekapSemesterMahasiswa($request, $response, $args)
+    {
+        $container             = $this->container;
+        $mahasiswa_obj         = $this->get_object('mahasiswa');
+        $riwayat_belajar_obj   = $this->get_object('riwayat_belajar');
+        $tagihan_obj   = $this->get_object('tagihan');
+        $postData              = $request->getParsedBody();
+
+        $mahasiswa_ids = $postData['mahasiswa'];
+        $tagihan_item_ids = $postData['tagihan_item'];
+        $semester_id = $postData['semester_id'];
+
+        $mahasiswas = $mahasiswa_obj->whereIn('id', $mahasiswa_ids)->get();
+
+        foreach ($mahasiswas as $mahasiswa) {
+            $mahasiswa_id = $mahasiswa->id;
+            $riwayat_belajar = $riwayat_belajar_obj
+                ->where([
+                    ['semester_id', $semester_id], 
+                    ['status', 'aktif'], 
+                    ['mahasiswa_id', $mahasiswa_id]
+                ])
+                ->first();
+
+            if (!empty($riwayat_belajar)) {
+                $this->nilaiMahasiswa($riwayat_belajar, $semester_id, $mahasiswa_id);
+            }
+
+            $this->buatTagihanMahasiswa($tagihan_item_ids, $semester_id, $mahasiswa->orang_id);
+            $this->updateMahasiswa($mahasiswa, $semester_id);
+        }
+
+        $this->setDosenPjmk($semester_id);
+        $this->setDosenPa($semester_id);
+
+        $data = ['status' => 'sukses'];
+        $response->getBody()->write(json_encode($data));
         return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
     }
 

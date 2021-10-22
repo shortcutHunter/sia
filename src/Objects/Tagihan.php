@@ -24,7 +24,7 @@ class Tagihan extends BaseModel
 	public $status_enum = [
 		"draft" => "Draft",
 		"proses" => "Proses",
-		"bayar" => "Bayar",
+		"bayar" => "Lunas",
 	];
 
 	public function orang()

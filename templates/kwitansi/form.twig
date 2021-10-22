@@ -8,8 +8,8 @@
 			<table class="custom-table">
           		{% include 'components/date-picker.twig' with {'name': 'tanggal', 'label': 'Tanggal'} %}
 				{% include 'components/input.twig' with {'name': 'kode', 'label': 'Kode'} %}
-				{% include 'components/autocomplete.twig' with {'name': 'orang_id', 'label': 'Nama Mahasiswa', 'table': 'orang', 'normal_search': true} %}
-				{% include 'components/autocomplete.twig' with {'name': 'paket_id', 'label': 'Paket', 'table': 'paket', 'normal_search': true} %}
+				{% include 'components/autocomplete.twig' with {'name': 'orang_id', 'label': 'Nama Mahasiswa', 'table': 'orang', 'normal_search': true, 'data': 'orang'} %}
+				{% include 'components/autocomplete.twig' with {'name': 'paket_id', 'label': 'Paket', 'table': 'paket', 'normal_search': true, 'data': 'paket'} %}
 				{% include 'components/preview-text.twig' with {'name': 'nominal', 'label': 'Nominal'} %}
 			</table>
 		</div>

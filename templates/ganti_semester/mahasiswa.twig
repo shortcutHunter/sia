@@ -1,0 +1,59 @@
+<section id="table-view" class="mainbar">
+	<div class="col-12">
+
+		<div class="card">
+			<div class="card-header">
+		        <h3 ng-bind-html="vm.title">Data</h3>
+	      	</div>
+
+			<div class="card-content px-3">
+				<div class="clearfix"></div>
+
+				<div class="table-responsive">
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<th>
+									<input type="checkbox" name="checkall" ng-click="vm.checkAll()">
+								</th>
+								<th>NIM</th>
+								<th>Nama</th>
+								<th>Semester</th>
+								<th>Tahun Ajaran</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<tr ng-if="!vm.data.mahasiswa || vm.data.mahasiswa.length == 0">
+					          <td colspan="5" class="text-center">Tidak ada data yang tersedia</td>
+					        </tr>
+					        <tr ng-repeat="data in vm.data.mahasiswa">
+					        	<td>
+					        		<input type="checkbox" ng-model="vm.form.selected[data.id]" class="mahasiswa">
+					        	</td>
+								<td ng-bind="data.nim || '-'"></td>
+								<td ng-bind="data.orang.nama || '-'"></td>
+								<td ng-bind="data.semester.nama || '-'"></td>
+								<td ng-bind="data.tahun_ajaran.nama || '-'"></td>
+					        </tr>
+						</tbody>
+					</table>
+				</div>
+
+				<hr>
+
+				<div class="row">
+					<div class="col-md-6">
+						<table class="custom-table">
+							{% include 'components/select.twig' with {'name': 'semester_id', 'label': 'Pindah Semester', 'option': 'semester', 'label_selection': 'nama', 'prefix': 'vm.form'} %}
+						</table>
+					</div>
+
+					<div class="col-12 mb-3">
+						<button class="btn btn-primary" ng-click="vm.lihatDetailTagihan()">Ganti</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

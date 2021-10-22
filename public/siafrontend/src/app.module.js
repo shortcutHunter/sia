@@ -23,6 +23,7 @@
     'app.pembiayaan',
     'app.setup_paket',
     'app.konfigurasi',
+    'app.ganti_semester',
     'app.widgets',
     'app.modals'
   ]);
