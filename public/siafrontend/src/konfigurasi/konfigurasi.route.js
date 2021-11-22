@@ -23,7 +23,8 @@
           title: 'konfigurasi',
           settings: {
             nav: 1,
-            content: '<i class="fa fa-list"></i> <span>Konfigurasi</span>'
+            content: '<i class="fa fa-list"></i> <span>Konfigurasi</span>',
+            parent: 'Konfigurasi'
           }
         }
       },

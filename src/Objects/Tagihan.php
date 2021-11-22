@@ -65,6 +65,14 @@ class Tagihan extends BaseModel
 		if (array_key_exists('status', $attributes)) {
 			if ($attributes['status'] == 'bayar') {
 				$attributes['kode_pembayaran'] = self::kodePem();
+
+				if (array_key_exists('register_ulang', $attributes) && $attributes['register_ulang']) {
+					$mahasiswa_obj = self::getModelByName('mahasiswa');
+					$mahasiswa = $mahasiswa_obj->where('orang_id', $attributes['orang_id'])->first();
+					if (!empty($mahasiswa)) {
+						$mahasiswa->update(['ajukan_sks' => true]);
+					}
+				}
 			}
 		}
 
@@ -183,6 +191,14 @@ class Tagihan extends BaseModel
 		if (array_key_exists('status', $attributes)) {
 			if ($attributes['status'] == 'bayar') {
 				$attributes['kode_pembayaran'] = self::kodePem();
+
+				if ($this->register_ulang || (array_key_exists('register_ulang', $attributes) && $attributes['register_ulang'])) {
+					$mahasiswa_obj = self::getModelByName('mahasiswa');
+					$mahasiswa = $mahasiswa_obj->where('orang_id', $this->orang_id)->first();
+					if (!empty($mahasiswa)) {
+						$mahasiswa->update(['ajukan_sks' => true]);
+					}
+				}
 			}
 		}
 

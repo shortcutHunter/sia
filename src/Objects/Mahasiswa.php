@@ -7,7 +7,17 @@ use App\Objects\BaseModel;
 class Mahasiswa extends BaseModel
 {
 	protected $table = 'mahasiswa';
-	protected $with = ['orang', 'jurusan', 'semester', 'tahun_ajaran', 'pengajuan_ks', 'riwayat_belajar', 'mahasiswa_bimbingan', 'register_ulang'];
+	protected $with = [
+		'orang', 
+		'jurusan', 
+		'semester',
+		'tahun_ajaran',
+		'pengajuan_ks',
+		'riwayat_belajar',
+		'mahasiswa_bimbingan',
+		'register_ulang',
+		'khs'
+	];
 
 	public $selection_fields = ['status'];
 	public static $relation = [
@@ -79,6 +89,11 @@ class Mahasiswa extends BaseModel
 	public function register_ulang()
 	{
 		return $this->hasMany(RegisterUlang::class, 'id', 'mahasiswa_id');
+	}
+
+	public function khs()
+	{
+		return $this->hasMany(Khs::class, 'mahasiswa_id', 'id');
 	}
 
 

@@ -1,10 +1,9 @@
 nama,tipe
 1,ganjil
 2,genap
+Semester Pendek 1,ganjil
 3,ganjil
 4,genap
+Semester Pendek 2,ganjil
 5,ganjil
 6,genap
-semester pendek,pendek
-semester tambahan (ganjil),ganjil
-semester tambahan (genap),genap

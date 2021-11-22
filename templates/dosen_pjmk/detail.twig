@@ -59,13 +59,19 @@
 									<td>
 										{% verbatim %}
 											<button class="btn btn-primary" ng-click="vm.isiNilai(col)" ng-if="col.terkonfigurasi">
-												<i class="fa fa-list"></i> Isi Nilai
+												Isi Nilai
 											</button>
 											<button class="btn btn-primary" ng-click="vm.konfigureNilai(col)" ng-if="!col.terkonfigurasi">
-												<i class="fa fa-cog"></i> Konfigurasi Nilai
+												Konfigurasi Nilai
 											</button>
 											<button class="btn btn-primary" ng-click="vm.konfigureNilai(col)" ng-if="col.terkonfigurasi">
-												<i class="fa fa-eye"></i> Konfigurasi Nilai
+												Konfigurasi Nilai
+											</button>
+											<button class="btn btn-primary" ng-if="col.terkonfigurasi" ng-click="vm.cetakNilai(col)">
+												<i class="fa fa-print"></i> Nilai
+											</button>
+											<button class="btn btn-primary" ng-if="col.terkonfigurasi" ng-click="vm.cetakMahasiswa(col)">
+												<i class="fa fa-print"></i> Mahasiswa
 											</button>
 										{% endverbatim %}
 									</td>

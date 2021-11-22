@@ -23,7 +23,8 @@
           title: 'karyawan',
           settings: {
             nav: 1,
-            content: '<i class="fa fa-list"></i> <span>Karyawan</span>'
+            content: '<i class="fa fa-list"></i> <span>Karyawan</span>',
+            parent: 'Karyawan'
           }
         }
       },

@@ -23,7 +23,8 @@
           title: 'dosen_pjmk',
           settings: {
             nav: 1,
-            content: '<i class="fa fa-list"></i> <span>Dosen PJMK</span>'
+            content: '<i class="fa fa-list"></i> <span>Dosen PJMK</span>',
+            parent: 'Dosen'
           }
         }
       },

@@ -23,7 +23,8 @@
           title: 'tahun_ajaran',
           settings: {
             nav: 1,
-            content: '<i class="fa fa-list"></i> <span>Tahun Ajaran</span>'
+            content: '<i class="fa fa-list"></i> <span>Tahun Ajaran</span>',
+            parent: 'Konfigurasi'
           }
         }
       },

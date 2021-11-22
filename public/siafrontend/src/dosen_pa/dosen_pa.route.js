@@ -23,7 +23,8 @@
           title: 'dosen_pa',
           settings: {
             nav: 1,
-            content: '<i class="fa fa-list"></i> <span>Dosen PA</span>'
+            content: '<i class="fa fa-list"></i> <span>Dosen PA</span>',
+            parent: 'Dosen'
           }
         }
       },

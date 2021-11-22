@@ -23,7 +23,8 @@
           title: 'nilai',
           settings: {
             nav: 1,
-            content: '<i class="fa fa-list"></i> <span>Nilai</span>'
+            content: '<i class="fa fa-list"></i> <span>Nilai</span>',
+            parent: 'Konfigurasi'
           }
         }
       },

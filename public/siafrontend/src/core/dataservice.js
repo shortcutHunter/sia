@@ -15,6 +15,7 @@
       getDataDetail: getDataDetail,
       getOption: getOption,
       getKartuPeserta: getKartuPeserta,
+      getReport: getReport,
       postData: postData,
       postDataUrl: postDataUrl,
       getPdf: getPdf
@@ -54,6 +55,12 @@
 
     function getKartuPeserta(id) {
       return $http.get(`report/kartu_peserta/${id}`)
+        .then(success)
+        .catch(fail);
+    }
+
+    function getReport(url) {
+      return $http.get(`report/${url}`)
         .then(success)
         .catch(fail);
     }

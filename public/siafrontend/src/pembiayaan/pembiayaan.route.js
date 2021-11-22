@@ -23,7 +23,8 @@
           title: 'pembiayaan',
           settings: {
             nav: 1,
-            content: '<i class="fa fa-list"></i> <span>Pembiayaan</span>'
+            content: '<i class="fa fa-list"></i> <span>Pembiayaan</span>',
+            parent: 'Keuangan'
           }
         }
       },

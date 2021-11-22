@@ -7,20 +7,20 @@ use App\Objects\BaseModel;
 class Khs extends BaseModel
 {
 	protected $table = 'khs';
-	protected $with = ['mata_kuliah', 'semester'];
+	protected $with = ['khs_detail', 'semester'];
 
 	public function mahasiswa()
 	{
 		return $this->belongsTo(Mahasiswa::class, 'mahasiswa_id', 'id');
 	}
 
-	public function mata_kuliah()
+	public function khs_detail()
 	{
-		return $this->hasOne(MataKuliah::class, 'mata_kuliah_id', 'id');
+		return $this->hasMany(KhsDetail::class, 'khs_id', 'id');
 	}
 
 	public function semester()
 	{
-		return $this->hasOne(Semester::class, 'semester_id', 'id');
+		return $this->hasOne(Semester::class, 'id', 'semester_id');
 	}
 }

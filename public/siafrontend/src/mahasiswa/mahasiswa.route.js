@@ -23,7 +23,8 @@
           title: 'mahasiswa',
           settings: {
             nav: 1,
-            content: '<i class="fa fa-list"></i> <span>Mahasiswa</span>'
+            content: '<i class="fa fa-list"></i> <span>Mahasiswa</span>',
+            parent: 'Kemahasiswaan'
           }
         }
       },
@@ -45,6 +46,16 @@
           controller: 'MahasiswaDetailController',
           controllerAs: 'vm',
           title: 'mahasiswa_detail'
+        }
+      },
+      {
+        state: 'mahasiswa_riwayat_belajar',
+        config: {
+          url: '/mahasiswa/riwayat/{dataId}',
+          templateUrl: '/template/mahasiswa/riwayat_belajar',
+          controller: 'MahasiswaRiwayatBelajarController',
+          controllerAs: 'vm',
+          title: 'mahasiswa_riwayat_belajar'
         }
       }
     ];

@@ -48,7 +48,8 @@
 
       let data = {
         mahasiswa: mahasiwa,
-        semester_id: stateParams.semester_id
+        semester_id: stateParams.semester_id,
+        semester_ganti_id: vm.form.semester_id
       };
       vm.active_data = data;
       let el = "<modal-tagihan-semester data='vm.active_data'></modal-tagihan-semester>";

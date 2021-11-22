@@ -23,7 +23,8 @@
           title: 'mata_kuliah',
           settings: {
             nav: 1,
-            content: '<i class="fa fa-list"></i> <span>Mata Kuliah</span>'
+            content: '<i class="fa fa-list"></i> <span>Mata Kuliah</span>',
+            parent: 'Konfigurasi'
           }
         }
       },

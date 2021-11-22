@@ -49,7 +49,7 @@
       }
 
       function getData() {
-        let filter = `semester_id=${scope.data.semester_id}`;
+        let filter = `semester_id=${scope.data.semester_ganti_id}`;
         dataservice.getDataFilter('paket_register_ulang', filter).then(function(response){
           scope.setup_paket = response.data[0];
         });

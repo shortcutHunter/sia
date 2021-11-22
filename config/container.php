@@ -70,8 +70,14 @@ return [
     },
 
     'renderPDF' => function(ContainerInterface $container) {
-        return function($template_name, $value) use ($container) {
-            $html2pdf = new Html2Pdf();
+        return function($template_name, $value, $isa5=false) use ($container) {
+            
+            if ($isa5) {
+                $html2pdf = new Html2Pdf('l', 'a5');
+            }else{
+                $html2pdf = new Html2Pdf();
+            }
+            
             $rendered_template = $container->get('renderer')->fetch($template_name, $value);
             $html2pdf->writeHTML($rendered_template);
             $pdfContent = $html2pdf->output('my_doc.pdf', 'S');

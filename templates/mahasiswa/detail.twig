@@ -6,6 +6,9 @@
 		{% verbatim %}
 			<!-- <button class="btn btn-primary" ng-click="vm.regUlang()" ng-if="vm.data.reg_ulang">Register Ulang</button> !-->
 			<button class="btn btn-primary" ng-click="vm.pengajuanKrs()" ng-if="vm.data.ajukan_sks">Pengajuan KRS</button>
+			<button class="btn btn-primary" widget-cetak-krs="">Cetak KRS</button>
+			<a class="btn btn-primary" ui-sref="mahasiswa_riwayat_belajar({dataId: vm.data.id})">Riwayat Belajar</a>
+			<!-- <button class="btn btn-primary" widget-cetak-khs="">Cetak KHS</button> -->
 		{% endverbatim %}
 	</div>
 {% endblock %}
@@ -35,7 +38,7 @@
             	<a class="nav-link active" data-bs-toggle="list" href="#pengajuan">Pengajuan KS</a>
             </li>
 			<li class="nav-item">
-            	<a class="nav-link" data-bs-toggle="list" href="#riwayat">Riwayat Belajar</a>
+            	<a class="nav-link" data-bs-toggle="list" href="#khs">KHS</a>
             </li>
 			<li class="nav-item">
             	<a class="nav-link" data-bs-toggle="list" href="#tagihan">Tagihan</a>
@@ -69,17 +72,32 @@
 	        		</div>
         		</div>
         	</div>
-        	<div class="tab-pane fade show" id="riwayat">
+        	<div class="tab-pane fade show" id="khs">
         		<div class="row mt-3">
         			<div class="col-md-12">
-						{% 
-							include 'components/table.twig' 
-							with {
-								'headers': ['Semester', 'Total SKS'], 
-								'data_value': 'riwayat_belajar', 
-								'cols': ['semester.nama', 'total_sks']
-							}
-						%}
+	        			<table class="table">
+							<thead>
+								<th>Semester</th>
+								<th>Total SKS</th>
+								<th>IPS</th>
+								<th></th>
+							</thead>
+
+							<tbody>
+								<tr ng-repeat="col in vm.data.khs" ng-if="vm.data.khs && vm.data.khs.length != 0">
+									<td ng-bind="col.semester.nama || '-'"></td>
+									<td ng-bind="col.total_sks || '-'"></td>
+									<td ng-bind="col.ips || '-'"></td>
+									<td>
+										<button class="btn btn-primary" ng-click="vm.cetakKhs(col)">Cetak</button>
+										<button class="btn btn-primary" ng-click="vm.detailKhs(col)">Detail</button>
+									</td>
+								</tr>
+								<tr ng-if="!vm.data.khs || vm.data.khs.length == 0">
+									<td  class="text-center" colspan="4">Belum ada data</td>
+								</tr>
+							</tbody>
+						</table>
 	        		</div>
         		</div>
         	</div>

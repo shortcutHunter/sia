@@ -23,7 +23,8 @@
           title: 'tagihan',
           settings: {
             nav: 1,
-            content: '<i class="fa fa-list"></i> <span>Tagihan</span>'
+            content: '<i class="fa fa-list"></i> <span>Tagihan</span>',
+            parent: 'Keuangan'
           }
         }
       },

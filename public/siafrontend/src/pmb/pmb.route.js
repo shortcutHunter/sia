@@ -23,7 +23,8 @@
           title: 'pmb',
           settings: {
             nav: 1,
-            content: '<i class="fa fa-users"></i> <span>PMB</span>'
+            content: '<i class="fa fa-users"></i> <span>PMB</span>',
+            parent: 'Kemahasiswaan'
           }
         }
       },

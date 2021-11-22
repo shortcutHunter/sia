@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+    <?php include('header.phtml'); ?>
+
+    <style type="text/css">
+        .m-top {
+            margin-top: 20px;
+        }
+        .bold {
+            font-weight: bold;
+        }
+        .m-top-table {
+            margin-top: 20px;
+        }
+        .table {
+            border-collapse: collapse;
+        }
+        .table td, .table th{
+            padding: 7px;
+        }
+        th {
+            text-align: center;
+            font-weight: bold;
+            vertical-align: middle;
+        }
+        .container {
+            font-size: 12px;
+        }
+        .text-center {
+            text-align: center;
+        }
+
+    </style>
+
+    <div class="container">
+        <div class="text-center m-top bold">
+            Rekap Nilai
+        </div>
+
+        <div class="m-top-table">
+            <table>
+                <tr>
+                    <td>
+                        <table>
+                            <tr>
+                                <td>KODE</td>
+                                <td>:</td>
+                                <td><?= $mata_kuliah_diampuh->mata_kuliah->kode ?? '-' ?></td>
+                                <td style="width: 300px;"></td>
+                                <td>SKS</td>
+                                <td>:</td>
+                                <td><?= $mata_kuliah_diampuh->dosen_pjmk->semester->nama ?></td>
+                            </tr>
+                            <tr>
+                                <td>MATA KULIAH</td>
+                                <td>:</td>
+                                <td><?= $mata_kuliah_diampuh->mata_kuliah->nama ?? '-' ?></td>
+                                <td style="width: 300px;"></td>
+                                <td>SEMESTER</td>
+                                <td>:</td>
+                                <td><?= $mata_kuliah_diampuh->dosen_pjmk->semester->nama ?? '-' ?></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="m-top-table">
+            <table class="table" border="1">
+                <tr>
+                    <th>NO.</th>
+                    <th style="width: 30%;">NIM</th>
+                    <th style="width: 40%;">Nama</th>
+
+                    <?php foreach($nilai as $key => $value): ?>
+                        <th><?= $value->nama ?></th>
+                    <?php endforeach ?>
+
+                </tr>
+
+                <?php foreach ($mahasiswa as $key => $value): ?>
+                    <tr>
+                        <td><?= $key+1 ?></td>
+                        <td><?= $value->nim ?></td>
+                        <td><?= $value->orang->nama ?></td>
+
+                        <?php foreach($value->nilai->riwayat_belajar_nilai as $key => $value): ?>
+                            <td><?= $value->nilai ?></td>
+                        <?php endforeach ?>
+
+                    </tr>
+                <?php endforeach ?>
+                
+            </table>
+        </div>
+
+    </div>
+
+</body>
+</html>

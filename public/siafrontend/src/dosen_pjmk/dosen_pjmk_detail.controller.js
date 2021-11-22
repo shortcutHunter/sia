@@ -14,8 +14,10 @@
     vm.data = {};
 
     vm.tambahMatakuliah = tambahMatakuliah;
-    vm.konfigureNilai = konfigureNilai;
-    vm.isiNilai = isiNilai;
+    vm.konfigureNilai   = konfigureNilai;
+    vm.isiNilai         = isiNilai;
+    vm.cetakMahasiswa   = cetakMahasiswa;
+    vm.cetakNilai       = cetakNilai;
 
     activate();
 
@@ -54,6 +56,42 @@
       vm.active_data = data;
       let el = "<modal-isi-nilai data='vm.active_data'></modal-isi-nilai>";
       el = compile(el)(scope);
+    }
+
+    function cetakMahasiswa(data) {
+      let url = `mahasiswa/mata_kuliah/${data.id}`;
+      dataservice.getReport(url).then(function(response) {
+        let base64 = response.content;
+        scope.fileName = 'List Mahasiswa.pdf';
+        scope.type = 'pdf';
+        scope.filetype = 'application/pdf';
+        scope.base64 = base64;
+
+        let preview_modal = '<modal-preview file="file" name="fileName" mimetype="filetype" base64="base64" type="type"></modal-preview>';
+        let el = compile(preview_modal)(scope);
+
+        dataservice.getPdf(base64).then(function(file){
+          el.find('#pdf-container').append(file);
+        });
+      });
+    }
+
+    function cetakNilai(data) {
+      let url = `nilai/mata_kuliah/${data.id}`;
+      dataservice.getReport(url).then(function(response) {
+        let base64 = response.content;
+        scope.fileName = 'Rekap Nilai.pdf';
+        scope.type = 'pdf';
+        scope.filetype = 'application/pdf';
+        scope.base64 = base64;
+
+        let preview_modal = '<modal-preview file="file" name="fileName" mimetype="filetype" base64="base64" type="type"></modal-preview>';
+        let el = compile(preview_modal)(scope);
+
+        dataservice.getPdf(base64).then(function(file){
+          el.find('#pdf-container').append(file);
+        });
+      });
     }
   }
 })();

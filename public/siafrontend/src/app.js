@@ -50,6 +50,8 @@ import './widgets/widget-tr.directive';
 import './widgets/widget-preview.directive';
 import './widgets/widget-update-status.directive';
 import './widgets/widget-cetak-peserta.directive';
+import './widgets/widget-cetak-krs.directive';
+import './widgets/widget-cetak-khs.directive';
 import './widgets/widget-autocomplete.directive';
 
 import './modals/modal-preview.directive';
@@ -67,6 +69,7 @@ import './modals/modal-buat-tagihan.directive';
 import './modals/modal-tambah-paket.directive';
 import './modals/modal-tagihan-semester.directive';
 import './modals/modal-bayar-tagihan.directive';
+import './modals/modal-detail-khs.directive';
 
 import './agama/agama.controller';
 import './agama/agama_form.controller';
@@ -101,6 +104,7 @@ import './mata_kuliah/mata_kuliah.route';
 import './mahasiswa/mahasiswa.controller';
 import './mahasiswa/mahasiswa_form.controller';
 import './mahasiswa/mahasiswa_detail.controller';
+import './mahasiswa/mahasiswa_riwayat_belajar.controller';
 import './mahasiswa/mahasiswa.route';
 
 import './karyawan/karyawan.controller';

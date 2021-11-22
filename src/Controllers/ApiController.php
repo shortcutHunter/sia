@@ -372,7 +372,9 @@ final class ApiController extends BaseController
             $query = "
                 SELECT COUNT(*) AS total FROM `pengajuan_ks_detail` 
                 INNER JOIN `pengajuan_ks` ON `pengajuan_ks`.`id` = `pengajuan_ks_detail`.`pengajuan_ks_id`
+                INNER JOIN `mahasiswa` ON `mahasiswa`.`id` = `pengajuan_ks`.`mahasiswa_id`
                 WHERE `pengajuan_ks`.`semester_id` = $semester_id AND
+                `mahasiswa`.`semester_id` = $semester_id AND
                 NOT EXISTS(
                     SELECT * FROM `mahasiswa`
                     WHERE `mahasiswa`.`id` = `pengajuan_ks`.`mahasiswa_id` AND
@@ -482,7 +484,6 @@ final class ApiController extends BaseController
         return $mutu;
     }
 
-
     public function getNilai($riwayat_belajar_detail, $semester_id, $mata_kuliah_id)
     {
         $konfigurasi_nilai_obj = $this->get_object('konfigurasi_nilai');
@@ -505,43 +506,85 @@ final class ApiController extends BaseController
         return $nilai_akhir;
     }
 
+    public function getNilaiMutu($nilai_bobot)
+    {
+        $nilai_mutu = 0;
+
+        if ($nilai_bobot == "A") {
+            $nilai_mutu = 4;
+        }
+        elseif ($nilai_bobot == "B") {
+            $nilai_mutu = 3;
+        }
+        elseif ($nilai_bobot == "C") {
+            $nilai_mutu = 2;
+        }
+        elseif ($nilai_bobot == "D") {
+            $nilai_mutu = 1;
+        }else{
+            $nilai_mutu = 0;
+        }
+
+        return $nilai_mutu;
+    }
+
     public function nilaiMahasiswa($riwayat_belajar, $semester_id, $mahasiswa_id)
     {
         $khs_obj = $this->get_object('khs');
+        $khs_detail_obj = $this->get_object('khs_detail');
         $total_sks = 0;
+        $ips = 0;
+
+        $khs = $khs_obj->where([['mahasiswa_id', $semester_id], ['semester_id', $semester_id]])->first();
+        $khs_value = [
+            'mahasiswa_id' => $mahasiswa_id,
+            'semester_id' => $semester_id
+        ];
+
+        if (empty($khs)) {
+            $khs = $khs_obj->create($khs_value);
+        }
 
         foreach ($riwayat_belajar->riwayat_belajar_detail as $riwayat_belajar_detail) {
             $mata_kuliah_id = $riwayat_belajar_detail->mata_kuliah_id;
-            $nilai_akhir = $this->getNilai($riwayat_belajar_detail, $semester_id, $mata_kuliah_id);
 
-            // update nilai
-            $bobot_nilai = $this->getBobot($nilai_akhir);
+            $nilai_absolut = $this->getNilai($riwayat_belajar_detail, $semester_id, $mata_kuliah_id);
+            $nilai_bobot = $this->getBobot($nilai_absolut);
+            $nilai_mutu = $this->getNilaiMutu($nilai_bobot);
+
+            // update nilai riwayat belajar
             $riwayat_belajar_detail->update([
-                "nilai_akhir" => $nilai_akhir,
-                "bobot_nilai" => $bobot_nilai
+                "nilai_absolut" => $nilai_absolut,
+                "nilai_bobot"   => $nilai_bobot,
+                "nilai_mutu"    => $nilai_mutu
             ]);
 
             // update / create KHS
-            $khs_value = [
-                'mahasiswa_id' => $mahasiswa_id,
-                'mata_kuliah_id' => $mata_kuliah_id
+            $khs_detail_value = [
+                "khs_id"         => $khs->id,
+                'mata_kuliah_id' => $mata_kuliah_id,
             ];
-            $khs = $khs_obj->where($khs_value);
+            $khs_detail = $khs_detail_obj->where($khs_detail_value)->first();
 
-            $khs_value['nilai_total'] = $nilai_akhir;
-            $khs_value['nilai_bobot'] = $bobot_nilai;
+            $khs_detail_value['nilai_absolut']             = $nilai_absolut;
+            $khs_detail_value['nilai_bobot']               = $nilai_bobot;
+            $khs_detail_value['nilai_mutu']                = $nilai_mutu;
+            $khs_detail_value['riwayat_belajar_detail_id'] = $riwayat_belajar_detail->id;
 
-            if ($khs->get()->isEmpty()) {
-                $khs_value['semester_id'] = $semester_id;
-                $khs = $khs_obj->create($khs_value);
+            if (empty($khs_detail)) {
+                $khs_detail = $khs_detail_obj->create($khs_detail_value);
             }else{
-                $khs->update($khs_value);
+                $khs_detail->update($khs_detail_value);
             }
 
-            $total_sks += $riwayat_belajar_detail->mata_kuliah->sks;
+            $sks = $riwayat_belajar_detail->mata_kuliah->sks;
+            $total_sks += $sks;
+            $ips += ($sks * $nilai_mutu);
         }
 
+        $ips = $ips / $total_sks;
         $riwayat_belajar->update(['total_sks' => $total_sks, 'status' => 'nonaktif']);
+        $khs->update(['total_sks' => $total_sks, 'ips' => $ips]);
     }
 
     public function buatTagihanMahasiswa($item_ids, $semester_id, $orang_id)
@@ -562,6 +605,7 @@ final class ApiController extends BaseController
             'system' => true,
             'paket_register_ulang_id' => $setup_paket->id,
             'tagihan_item' => $item_value,
+            'register_ulang' => true,
             'status' => 'proses'
         ];
         $tagihan = $tagihan_obj->create($tagihan_value);
@@ -612,6 +656,7 @@ final class ApiController extends BaseController
         $mahasiswa_ids = $postData['mahasiswa'];
         $tagihan_item_ids = $postData['tagihan_item'];
         $semester_id = $postData['semester_id'];
+        $semester_ganti_id = $postData['semester_ganti_id'];
 
         $mahasiswas = $mahasiswa_obj->whereIn('id', $mahasiswa_ids)->get();
 
@@ -630,7 +675,7 @@ final class ApiController extends BaseController
             }
 
             $this->buatTagihanMahasiswa($tagihan_item_ids, $semester_id, $mahasiswa->orang_id);
-            $this->updateMahasiswa($mahasiswa, $semester_id);
+            $this->updateMahasiswa($mahasiswa, $semester_ganti_id);
         }
 
         $this->setDosenPjmk($semester_id);

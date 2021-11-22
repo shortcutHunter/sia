@@ -23,7 +23,8 @@
           title: 'paket',
           settings: {
             nav: 1,
-            content: '<i class="fa fa-list"></i> <span>Paket</span>'
+            content: '<i class="fa fa-list"></i> <span>Paket</span>',
+            parent: 'Keuangan'
           }
         }
       },

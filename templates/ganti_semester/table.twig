@@ -18,7 +18,7 @@
 	        </tr>
 	        <tr ng-repeat="data in vm.data">
 	          <td ng-bind="data.nama || '-'"></td>
-	          <td ng-bind="data.mahasiwa_count || '-'"></td>
+	          <td ng-bind="data.mahasiswa_count || '-'"></td>
 	          <td ng-bind="data.nilai_belum_terisi || '-'"></td>
 	          <td>
           		<a class="btn btn-primary btn-sm" ng-if="data.nilai_belum_terisi == 0" ui-sref="ganti_semester_mahasiswa({semester_id: data.id})">Ganti Semester</a>

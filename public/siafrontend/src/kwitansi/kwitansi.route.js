@@ -23,7 +23,8 @@
           title: 'kwitansi',
           settings: {
             nav: 1,
-            content: '<i class="fa fa-list"></i> <span>Kwitansi</span>'
+            content: '<i class="fa fa-list"></i> <span>Kwitansi</span>',
+            parent: 'Keuangan'
           }
         }
       },

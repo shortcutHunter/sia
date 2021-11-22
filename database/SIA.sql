@@ -105,10 +105,19 @@ CREATE TABLE `nilai` (
 CREATE TABLE `khs` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `mahasiswa_id` int,
+  `semester_id` int,
+  `total_sks` int,
+  `ips` float
+);
+
+CREATE TABLE `khs_detail` (
+  `id` int PRIMARY KEY AUTO_INCREMENT,
+  `khs_id` int,
   `mata_kuliah_id` int,
-  `nilai_total` int,
+  `nilai_absolut` int,
+  `nilai_mutu` int,
   `nilai_bobot` varchar(255),
-  `semester_id` int
+  `riwayat_belajar_detail_id` int
 );
 
 CREATE TABLE `riwayat_belajar` (
@@ -123,8 +132,9 @@ CREATE TABLE `riwayat_belajar_detail` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `riwayat_belajar_id` int,
   `mata_kuliah_id` int,
-  `nilai_akhir` int,
-  `bobot_nilai` varchar(255)
+  `nilai_absolut` int,
+  `nilai_bobot` varchar(255),
+  `nilai_mutu` int
 );
 
 CREATE TABLE `riwayat_belajar_nilai` (
@@ -216,6 +226,7 @@ CREATE TABLE `tagihan` (
   `orang_id` int,
   `system` boolean,
   `kode_pembayaran` varchar(255),
+  `register_ulang` boolean,
   `paket_register_ulang_id` int,
   `status` ENUM ('draft', 'proses', 'bayar') DEFAULT "draft"
 );
@@ -377,9 +388,11 @@ ALTER TABLE `pengajuan_ks_detail` ADD FOREIGN KEY (`mata_kuliah_id`) REFERENCES 
 
 ALTER TABLE `khs` ADD FOREIGN KEY (`mahasiswa_id`) REFERENCES `mahasiswa` (`id`);
 
-ALTER TABLE `khs` ADD FOREIGN KEY (`mata_kuliah_id`) REFERENCES `mata_kuliah` (`id`);
-
 ALTER TABLE `khs` ADD FOREIGN KEY (`semester_id`) REFERENCES `semester` (`id`);
+
+ALTER TABLE `khs_detail` ADD FOREIGN KEY (`mata_kuliah_id`) REFERENCES `mata_kuliah` (`id`);
+
+ALTER TABLE `khs_detail` ADD FOREIGN KEY (`riwayat_belajar_detail_id`) REFERENCES `riwayat_belajar_detail` (`id`);
 
 ALTER TABLE `riwayat_belajar` ADD FOREIGN KEY (`mahasiswa_id`) REFERENCES `mahasiswa` (`id`);
 

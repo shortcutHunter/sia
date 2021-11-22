@@ -23,7 +23,8 @@
           title: 'penerbitan_nim',
           settings: {
             nav: 1,
-            content: '<i class="fa fa-list"></i> <span>Penerbitan NIM</span>'
+            content: '<i class="fa fa-list"></i> <span>Penerbitan NIM</span>',
+            parent: 'Kemahasiswaan'
           }
         }
       }

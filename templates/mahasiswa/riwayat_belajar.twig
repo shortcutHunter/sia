@@ -1,0 +1,55 @@
+<section id="table-view" class="mainbar">
+	<div class="col-12">
+
+		<button class="btn btn-sm" widget-back="">
+        	<i class="fa fa-arrow-left"></i>
+      	</button>
+
+		<div class="card">
+
+			<div class="card-header">
+		        <h3 ng-bind-html="vm.title">Data</h3>
+	      	</div>
+
+			<div class="card-content px-3">
+
+				<div class="clearfix"></div>
+
+				<div class="table-responsive">
+					
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<th>Mata Kuliah</th>
+								<th>Semester</th>
+								<th>Nilai Absolut</th>
+								<th>Nilai Bobot</th>
+								<th>Nilai Mutu</th>
+							</tr>
+						</thead>
+
+						<tbody ng-if="!vm.data || vm.data.length == 0">
+							<tr >
+					          <td colspan="5" class="text-center">Tidak ada data yang tersedia</td>
+					        </tr>
+				        </tbody>
+				        <tbody ng-repeat-start="data in vm.data">
+
+				        	<tr ng-repeat="riwayat_belajar_detail in data.riwayat_belajar_detail track by $index">
+				        		<td ng-bind="$index+1"></td>
+				        		<td ng-bind="data.semester.nama"></td>
+				        		<td ng-bind="riwayat_belajar_detail.nilai_absolut"></td>
+				        		<td ng-bind="riwayat_belajar_detail.nilai_bobot"></td>
+				        		<td ng-bind="riwayat_belajar_detail.nilai_mutu"></td>
+				        	</tr>
+
+				        </tbody>
+
+				        <tbody ng-repeat-end=""></tbody>
+					</table>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

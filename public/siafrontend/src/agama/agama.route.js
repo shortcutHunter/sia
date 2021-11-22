@@ -23,7 +23,8 @@
           title: 'agama',
           settings: {
             nav: 1,
-            content: '<i class="fa fa-list"></i> <span>Agama</span>'
+            content: '<i class="fa fa-list"></i> <span>Agama</span>',
+            parent: 'Konfigurasi'
           }
         }
       },

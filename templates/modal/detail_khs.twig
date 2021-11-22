@@ -1,0 +1,74 @@
+{% extends 'modal/template.twig' %}
+
+{% block title %}
+	<h5 class="modal-title">
+		KHS Semester <span ng-bind="data.semester.nama"></span>
+	</h5>
+{% endblock %}
+
+
+{% block content %}
+
+	<div class="modal-body ui-front">
+		<div class="row">
+			<div class="col-md-6">
+				<table class="custom-table">
+					{% include 'components/preview-text.twig' with {'name': 'semester.nama', 'label': 'Semester', 'prefix': 'data'} %}
+					{% include 'components/preview-text.twig' with {'name': 'total_sks', 'label': 'Total SKS', 'prefix': 'data'} %}
+				</table>
+			</div>
+
+			<div class="col-md-6">
+				<table class="custom-table">
+					{% include 'components/preview-text.twig' with {'name': 'ips', 'label': 'IPS', 'prefix': 'data'} %}
+				</table>
+			</div>
+		</div>
+
+		<hr>
+
+		{% verbatim %}
+		
+		<div class="mt-3">
+			<table class="table table-bordered">
+                <tr>
+                    <th>NO.</th>
+                    <th>KODE</th>
+                    <th>MATA AJARAN</th>
+                    <th>BEBAN <br> SKS</th>
+                    <th>NILAI <br> ABSOLUT</th>
+                    <th>NILAI <br> LAMBANG</th>
+                    <th>MUTU</th>
+                    <th>NILAI SKS <br> X MUTU</th>
+                </tr>
+
+                <tr ng-repeat="khs_detail in data.khs_detail track by $index">
+                    <td ng-bind="$index+1"></td>
+                    <td ng-bind="khs_detail.mata_kuliah.kode"></td>
+                    <td ng-bind="khs_detail.mata_kuliah.nama"></td>
+                    <td class="text-center" ng-bind="khs_detail.mata_kuliah.sks"></td>
+                    <td class="text-center" ng-bind="khs_detail.nilai_absolut"></td>
+                    <td class="text-center" ng-bind="khs_detail.nilai_bobot"></td>
+                    <td class="text-center" ng-bind="khs_detail.nilai_mutu"></td>
+                    <td class="text-center" ng-bind="khs_detail.mata_kuliah.sks * khs_detail.nilai_mutu"></td>
+                </tr>
+
+                <tr class="bold text-center">
+                    <td colspan="3">Jumlah</td>
+                    <td ng-bind="data.total_sks"></td>
+                    <td ng-bind="total_nilai_absolut || '0'"></td>
+                    <td colspan="2"></td>
+                    <td ng-bind="total_nilai || '0'"></td>
+                </tr>
+
+            </table>
+		</div>
+
+		{% endverbatim %}
+	</div>
+
+{% endblock %}
+
+{% block footer %}
+		<button class="btn" data-bs-dismiss="modal">Close</button>
+{% endblock %}

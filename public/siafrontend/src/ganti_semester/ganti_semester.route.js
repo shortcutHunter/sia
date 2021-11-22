@@ -23,7 +23,8 @@
           title: 'ganti_semester',
           settings: {
             nav: 1,
-            content: '<i class="fa fa-list"></i> <span>Ganti Semester</span>'
+            content: '<i class="fa fa-list"></i> <span>Ganti Semester</span>',
+            parent: 'Kemahasiswaan'
           }
         }
       },
