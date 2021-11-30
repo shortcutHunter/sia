@@ -5,9 +5,9 @@
     .module('app.ganti_semester')
     .controller('GantiSemesterMahasiswaController', GantiSemesterMahasiswaController);
 
-  GantiSemesterMahasiswaController.$inject = ['$q', 'dataservice', 'logger', '$scope', '$stateParams', '$compile'];
+  GantiSemesterMahasiswaController.$inject = ['$q', 'dataservice', 'logger', '$scope', '$stateParams', '$compile', '$state'];
   /* @ngInject */
-  function GantiSemesterMahasiswaController($q, dataservice, logger, scope, stateParams, compile) {
+  function GantiSemesterMahasiswaController($q, dataservice, logger, scope, stateParams, compile, state) {
     var vm = this;
     vm.title = 'Ganti Semester';
     vm.data = {};
@@ -17,7 +17,7 @@
     vm.lihatDetailTagihan = lihatDetailTagihan;
     vm.checkAll = checkAll;
     vm.lulusKan = lulusKan;
-    // vm.gantiSemester = gantiSemester;
+    vm.berhenti = berhenti;
 
     activate();
 
@@ -66,29 +66,34 @@
     }
 
     function lulusKan() {
-      
+      let mahasiwa = [];
+      $.each(vm.form.selected, function(i, v){
+        if (v) {mahasiwa.push(i);}
+      });
+      let data = {
+        mahasiswa: mahasiwa,
+        semester_id: stateParams.semester_id
+      };
+      let url = `/rekap/semester/mahasiswa/lulus`;
+        return dataservice.postDataUrl(url, data).then(function(response){
+          state.reload();
+        });
     }
 
     function berhenti() {
-      
+      let mahasiwa = [];
+      $.each(vm.form.selected, function(i, v){
+        if (v) {mahasiwa.push(i);}
+      });
+      let data = {
+        mahasiswa: mahasiwa,
+        semester_id: stateParams.semester_id
+      };
+      let url = `/rekap/semester/mahasiswa/berhenti`;
+        return dataservice.postDataUrl(url, data).then(function(response){
+          state.reload();
+        });
     }
 
-    // function gantiSemester() {
-    //   let mahasiwa = [];
-    //   $.each(vm.form.selected, function(i, v){
-    //     if (v) {
-    //       mahasiwa.push(i);
-    //     }
-    //   });
-
-    //   let data = {
-    //     mahasiwa: mahasiwa,
-    //     semester_id: stateParams.semester_id
-    //   };
-    //   let url = `/rekap/semester/mahasiswa`;
-    //   return dataservice.postDataUrl(url, data).then(function(response){
-    //     state.reload();
-    //   });
-    // }
   }
 })();

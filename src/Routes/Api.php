@@ -21,6 +21,8 @@ class Api extends BaseRoute {
         $this->app->get('/rekap/semester', \App\Controllers\ApiController::class . ':rekapSemester');
         $this->app->get('/rekap/semester/{semester_id}', \App\Controllers\ApiController::class . ':rekapSemesterDetail');
         $this->app->post('/rekap/semester/mahasiswa', \App\Controllers\ApiController::class . ':rekapSemesterMahasiswa');
+        $this->app->post('/rekap/semester/mahasiswa/lulus', \App\Controllers\ApiController::class . ':mahasiswaLulus');
+        $this->app->post('/rekap/semester/mahasiswa/berhenti', \App\Controllers\ApiController::class . ':mahasiswaBerhenti');
 
         $this->app->post('/proses/nilai/mahasiswa', \App\Controllers\ApiController::class . ':prosesNilai');
         $this->app->post('/buat/tagihan/mahasiswa', \App\Controllers\ApiController::class . ':buatTagihan');

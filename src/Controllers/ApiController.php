@@ -396,7 +396,12 @@ final class ApiController extends BaseController
     {
         $container = $this->container;
 
-        $semester = $this->get_object('semester')->withCount('mahasiswa')->get();
+        $semester = $this->get_object('semester')->withCount([
+            'mahasiswa',
+            'mahasiswa as mahasiswa_count' => function($q) {
+                $q->where('status', 'mahasiswa');
+            }
+        ])->get();
 
         foreach ($semester as $s) {
             $semester_id = $s->id;
@@ -406,6 +411,7 @@ final class ApiController extends BaseController
                 INNER JOIN `mahasiswa` ON `mahasiswa`.`id` = `pengajuan_ks`.`mahasiswa_id`
                 WHERE `pengajuan_ks`.`semester_id` = $semester_id AND
                 `mahasiswa`.`semester_id` = $semester_id AND
+                `mahasiswa`.`status` = 'mahasiswa' AND
                 NOT EXISTS(
                     SELECT * FROM `mahasiswa`
                     WHERE `mahasiswa`.`id` = `pengajuan_ks`.`mahasiswa_id` AND
@@ -437,7 +443,9 @@ final class ApiController extends BaseController
     {
         $container = $this->container;
 
-        $semester = $this->get_object('semester')->with('mahasiswa')->find($args['semester_id']);
+        $semester = $this->get_object('semester')->with('mahasiswa')->where('id', $args['semester_id'])->whereHas('mahasiswa', function($q){
+            $q->where('status', 'mahasiswa');
+        })->first();
         $data = ['data' => $semester];
         $response->getBody()->write(json_encode($data));
         return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
@@ -656,9 +664,15 @@ final class ApiController extends BaseController
     public function setDosenPjmk($semester_id)
     {
         $dosen_pjmk_obj = $this->get_object('dosen_pjmk');
+        $mahasiswa_obj = $this->get_object('mahasiswa');
         $konfigurasi_nilai_obj = $this->get_object('konfigurasi_nilai');
 
         $dosen_pjmks = $dosen_pjmk_obj->where([['semester_id', $semester_id], ['status', 'aktif']]);
+        $mahasiswa = $mahasiswa_obj->where([['semester_id', $semester_id], ['status', 'mahasiswa']])->count();
+
+        if ($mahasiswa != 0) {
+            return false;
+        }
 
         // set konfigurasi nilai to nonaktif
         foreach ($dosen_pjmks->get() as $dosen_pjmk) {
@@ -673,7 +687,13 @@ final class ApiController extends BaseController
     public function setDosenPa($semester_id)
     {
         $dosen_pa_obj = $this->get_object('dosen_pa');
-        $dosen_pa_obj->where([['semester_id', $semester_id], ['status', 'aktif']])->update(['status' => 'nonaktif']);
+        $mahasiswa_obj = $this->get_object('mahasiswa');
+
+        $mahasiswa = $mahasiswa_obj->where([['semester_id', $semester_id], ['status', 'mahasiswa']])->count();
+
+        if ($mahasiswa == 0) {
+            $dosen_pa_obj->where([['semester_id', $semester_id], ['status', 'aktif']])->update(['status' => 'nonaktif']);
+        }
     }
 
     public function rekapSemesterMahasiswa($request, $response, $args)
@@ -681,12 +701,11 @@ final class ApiController extends BaseController
         $container             = $this->container;
         $mahasiswa_obj         = $this->get_object('mahasiswa');
         $riwayat_belajar_obj   = $this->get_object('riwayat_belajar');
-        $tagihan_obj   = $this->get_object('tagihan');
         $postData              = $request->getParsedBody();
 
-        $mahasiswa_ids = $postData['mahasiswa'];
-        $tagihan_item_ids = $postData['tagihan_item'];
-        $semester_id = $postData['semester_id'];
+        $mahasiswa_ids     = $postData['mahasiswa'];
+        $tagihan_item_ids  = $postData['tagihan_item'];
+        $semester_id       = $postData['semester_id'];
         $semester_ganti_id = $postData['semester_ganti_id'];
 
         $mahasiswas = $mahasiswa_obj->whereIn('id', $mahasiswa_ids)->get();
@@ -707,6 +726,80 @@ final class ApiController extends BaseController
 
             $this->buatTagihanMahasiswa($tagihan_item_ids, $semester_id, $mahasiswa->orang_id);
             $this->updateMahasiswa($mahasiswa, $semester_ganti_id);
+        }
+
+        $this->setDosenPjmk($semester_id);
+        $this->setDosenPa($semester_id);
+
+        $data = ['status' => 'sukses'];
+        $response->getBody()->write(json_encode($data));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
+    }
+
+    public function mahasiswaLulus($request, $response, $args)
+    {
+        $container             = $this->container;
+        $mahasiswa_obj         = $this->get_object('mahasiswa');
+        $riwayat_belajar_obj   = $this->get_object('riwayat_belajar');
+        $postData              = $request->getParsedBody();
+
+        $mahasiswa_ids     = $postData['mahasiswa'];
+        $semester_id       = $postData['semester_id'];
+
+        $mahasiswas = $mahasiswa_obj->whereIn('id', $mahasiswa_ids)->get();
+
+        foreach ($mahasiswas as $mahasiswa) {
+            $mahasiswa_id = $mahasiswa->id;
+            $riwayat_belajar = $riwayat_belajar_obj
+                ->where([
+                    ['semester_id', $semester_id], 
+                    ['status', 'aktif'], 
+                    ['mahasiswa_id', $mahasiswa_id]
+                ])
+                ->first();
+
+            if (!empty($riwayat_belajar)) {
+                $this->nilaiMahasiswa($riwayat_belajar, $semester_id, $mahasiswa_id);
+            }
+
+            $mahasiswa->update(['status' => 'alumni']);
+        }
+
+        $this->setDosenPjmk($semester_id);
+        $this->setDosenPa($semester_id);
+
+        $data = ['status' => 'sukses'];
+        $response->getBody()->write(json_encode($data));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
+    }
+
+    public function mahasiswaBerhenti($request, $response, $args)
+    {
+        $container             = $this->container;
+        $mahasiswa_obj         = $this->get_object('mahasiswa');
+        $riwayat_belajar_obj   = $this->get_object('riwayat_belajar');
+        $postData              = $request->getParsedBody();
+
+        $mahasiswa_ids     = $postData['mahasiswa'];
+        $semester_id       = $postData['semester_id'];
+
+        $mahasiswas = $mahasiswa_obj->whereIn('id', $mahasiswa_ids)->get();
+
+        foreach ($mahasiswas as $mahasiswa) {
+            $mahasiswa_id = $mahasiswa->id;
+            $riwayat_belajar = $riwayat_belajar_obj
+                ->where([
+                    ['semester_id', $semester_id], 
+                    ['status', 'aktif'], 
+                    ['mahasiswa_id', $mahasiswa_id]
+                ])
+                ->first();
+
+            if (!empty($riwayat_belajar)) {
+                $this->nilaiMahasiswa($riwayat_belajar, $semester_id, $mahasiswa_id);
+            }
+
+            $mahasiswa->update(['status' => 'dropout']);
         }
 
         $this->setDosenPjmk($semester_id);
