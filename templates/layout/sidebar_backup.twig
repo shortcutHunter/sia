@@ -1,0 +1,24 @@
+<div ng-controller="SidebarController as vm">
+  <ht-sidebar when-done-animating="vm.sidebarReady()">
+
+    {% verbatim %}
+      
+      <div class="sidebar-menu">
+        <ul class="menu">
+          <li class="sidebar-title">Menu</li>
+          <li class="sidebar-item has-sub" ng-repeat="(key, r) in vm.navRoutes">
+            <a ng-bind-html="key" class="sidebar-link" href="javascript:void(0)"></a>
+
+            <ul class="submenu">
+              <li class="submenu-item" ng-repeat="menu in r">
+                <a ui-sref="{{menu.name}}" ng-bind-html="menu.settings.content" class="sidebar-link"></a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      
+    {% endverbatim %}
+
+  </ht-sidebar>
+</div>

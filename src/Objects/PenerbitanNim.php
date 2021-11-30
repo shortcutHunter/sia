@@ -14,6 +14,8 @@ class PenerbitanNim extends BaseModel
 		"pengajuan" => "Pengajuan",
 		"belum" => "Belum",
 	];
+	
+	public $like_fields = ['nama'];
 
 	public function pmb()
 	{

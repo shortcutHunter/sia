@@ -47,7 +47,16 @@ class Mahasiswa extends BaseModel
 			$object_tahun_ajaran = self::getModelByName('tahun_ajaran');
 			$attributes['nim'] = $object_tahun_ajaran->getnextCode();
 		}
-		return parent::create($attributes);
+		$mahasiswa = parent::create($attributes);
+
+		$object_user = self::getModelByName('user');
+		$user = $object_user->create([
+			'orang_id' => $mahasiswa->orang_id,
+			'role' => 'mahasiswa',
+			'username' => $attributes['nim']
+		]);
+
+		return $mahasiswa;
 	}
 
 	public function orang()

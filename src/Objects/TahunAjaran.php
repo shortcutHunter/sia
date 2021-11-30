@@ -13,6 +13,8 @@ class TahunAjaran extends BaseModel
 		"aktif" => "Aktif",
 		"nonaktif" => "Nonaktif",
 	];
+	
+	public $like_fields = ['nama'];
 
 	public static $relation = [
 		['name' => 'paket', 'is_selection' => false, 'skip' => true]

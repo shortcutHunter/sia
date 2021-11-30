@@ -8,12 +8,12 @@
 
 {% block search %}
 
-	{# <div class="form-group position-relative has-icon-right">
-        <input type="text" class="form-control">
-        <div class="form-control-icon">
+	<div class="form-group position-relative has-icon-right">
+        <input type="text" class="form-control" ng-model="vm.searchData">
+        <div class="form-control-icon" ng-click="vm.search()">
             <i class="fa fa-search"></i>
         </div>
-    </div> #}
+    </div>
 
 {% endblock %}
 

@@ -26,6 +26,7 @@
       scope.tolak = tolak;
       scope.terima = terima;
       scope.closeModal = closeModal;
+      scope.lihatKhs = lihatKhs;
 
       activate();
 
@@ -60,6 +61,11 @@
           closeModal();
           state.reload();
         });
+      }
+
+      function lihatKhs() {
+        let el = "<modal-lihat-khs data='data'></modal-lihat-khs>";
+        el = compile(el)(scope);
       }
 
       function closeModal() {

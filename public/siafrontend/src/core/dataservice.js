@@ -23,8 +23,14 @@
 
     return service;
 
-    function getData(table, page=1) {
-      return $http.get(`${table}/get?page=${page}`)
+    function getData(table, page=1, search=false) {
+      let url = `${table}/get?page=${page}`;
+
+      if (search) {
+        url = `${url}&${search['field']}=${search['value']}`;
+      }
+
+      return $http.get(url)
         .then(success)
         .catch(fail);
     }

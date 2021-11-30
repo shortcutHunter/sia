@@ -57,8 +57,8 @@ class MainSeed {
         $orang = new Orang;
 
         // Drop and re-import database
-        exec('../bin/mysql -u root -e "DROP DATABASE IF EXISTS '.$db_name.'; create database '.$db_name.'"');
-        exec('../bin/mysql -u root '.$db_name.' < database/SIA.sql');
+        exec('..\mysql\bin\mysql -u root -e "DROP DATABASE IF EXISTS '.$db_name.'; create database '.$db_name.'"');
+        exec('..\mysql\bin\mysql -u root '.$db_name.' < database/SIA.sql');
 
         // create super admin user
         $orang_id = $orang->create(['nama' => 'Admin'])->id;

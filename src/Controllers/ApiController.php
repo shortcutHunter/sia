@@ -17,6 +17,10 @@ final class ApiController extends BaseController
         $object = $this->get_object($object_name);
         $like_fields = $object->like_fields;
         $domain = [];
+        $is_orang = false;
+        $orang_value = false;
+        $is_karyawan = false;
+        $karyawan_value = false;
 
         if (array_key_exists('page', $getData)) {
             $current_page = $getData['page'];
@@ -31,6 +35,19 @@ final class ApiController extends BaseController
             if ($key == 'page') {
                 continue;
             }
+
+            if ($key == 'orang') {
+                $is_orang = true;
+                $orang_value = $value;
+                continue;
+            }
+
+            if ($key == 'karyawan') {
+                $is_karyawan = true;
+                $karyawan_value = $value;
+                continue;
+            }
+
             if (in_array($key, $like_fields)) {
                 array_push($domain, [$key, 'like', '%'.$value.'%']);
             }else{
@@ -40,6 +57,20 @@ final class ApiController extends BaseController
 
         if (count($domain) > 0) {
             $object = $object->where($domain);
+        }
+
+        if ($is_orang) {
+            $object = $object->whereHas('orang', function($q) use ($orang_value) {
+                $q->where('nama', 'like', '%'.$orang_value.'%');
+            });
+        }
+
+        if ($is_karyawan) {
+            $object = $object->whereHas('karyawan', function($q) use ($karyawan_value) {
+                $q->whereHas('orang', function($w) use ($karyawan_value) {
+                    $w->where('nama', 'like', '%'.$karyawan_value.'%');
+                });
+            });
         }
 
         if ($current_page) {

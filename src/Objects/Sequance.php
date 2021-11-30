@@ -8,6 +8,7 @@ class Sequance extends BaseModel
 {
 	protected $table = 'sequance';
 
+	public $like_fields = ['nama'];
 
 	public function getnextCode($code_name)
 	{

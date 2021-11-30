@@ -16,6 +16,7 @@
 
     vm.lihatDetailTagihan = lihatDetailTagihan;
     vm.checkAll = checkAll;
+    vm.lulusKan = lulusKan;
     // vm.gantiSemester = gantiSemester;
 
     activate();
@@ -62,6 +63,14 @@
       }else{
         $('.mahasiswa:checked').click();
       }
+    }
+
+    function lulusKan() {
+      
+    }
+
+    function berhenti() {
+      
     }
 
     // function gantiSemester() {
