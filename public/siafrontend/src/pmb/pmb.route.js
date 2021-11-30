@@ -24,7 +24,8 @@
           settings: {
             nav: 1,
             content: '<i class="fa fa-users"></i> <span>PMB</span>',
-            parent: 'Kemahasiswaan'
+            parent: 'Kemahasiswaan',
+            roles: ['admin', 'akademik']
           }
         }
       },

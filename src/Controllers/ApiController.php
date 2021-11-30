@@ -365,6 +365,15 @@ final class ApiController extends BaseController
         }
     }
 
+    public function logout($request, $response)
+    {
+        $user = $this->get_object('user');
+        $user->logout();
+        $data = ['status' => 'sukses'];
+        $response->getBody()->write(json_encode($data));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
+    }
+
     public function session($request, $response, $args)
     {
         $container = $this->container;

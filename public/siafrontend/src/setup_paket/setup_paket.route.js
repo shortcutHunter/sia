@@ -24,7 +24,8 @@
           settings: {
             nav: 1,
             content: '<i class="fa fa-list"></i> <span>Setup Paket</span>',
-            parent: 'Keuangan'
+            parent: 'Keuangan',
+            roles: ['admin', 'keuangan']
           }
         }
       },

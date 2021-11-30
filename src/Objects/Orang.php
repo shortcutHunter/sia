@@ -7,7 +7,7 @@ use App\Objects\BaseModel;
 class Orang extends BaseModel
 {
 	protected $table = 'orang';
-	protected $with = ['agama', 'ijazah', 'ktp', 'surket_menikah', 'kwitansi', 'pasfoto'];
+	protected $with = ['agama', 'ijazah', 'ktp', 'surket_menikah', 'kwitansi', 'pasfoto', 'user'];
 
 	public $like_fields = ['nama'];
 

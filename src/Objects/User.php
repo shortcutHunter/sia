@@ -55,6 +55,11 @@ class User extends BaseModel
 		}
 	}
 
+	public function logout()
+	{
+		$this->session->killAll();
+	}
+
 	public static function create(array $attributes = [])
 	{
 		if (!array_key_exists('password', $attributes)) {

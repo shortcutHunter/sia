@@ -24,7 +24,8 @@
           settings: {
             nav: 1,
             content: '<i class="fa fa-list"></i> <span>Dosen PA</span>',
-            parent: 'Dosen'
+            parent: 'Dosen',
+            roles: ['admin', 'akademik']
           }
         }
       },

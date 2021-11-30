@@ -26,9 +26,12 @@
 
 		<ul class="nav nav-tabs mt-5">
 			<li class="nav-item">
-            	<a class="nav-link active" data-bs-toggle="list" href="#pribadi">Data Pribadi</a>
-            </li>
-        </ul>
+      	<a class="nav-link active" data-bs-toggle="list" href="#pribadi">Data Pribadi</a>
+      </li>
+			<li class="nav-item">
+      	<a class="nav-link" data-bs-toggle="list" href="#user">User</a>
+      </li>
+    </ul>
 
         <div class="tab-content text-justify">
         	<div class="tab-pane fade show active" id="pribadi">
@@ -49,6 +52,15 @@
 							{% include 'components/preview-text.twig' with {'name': 'orang.email', 'label': 'Email'} %}
 							{% include 'components/preview-text.twig' with {'name': 'orang.no_hp', 'label': 'No. HP'} %}
 	        			</table>
+	        		</div>
+        		</div>
+        	</div>
+
+        	<div class="tab-pane fade" id="user">
+        		<div class="row mt-3">
+        			<div class="col-md-6">
+        				{% include 'components/preview-text.twig' with {'name': 'orang.user.username', 'label': 'Username'} %}
+        				{% include 'components/preview-text.twig' with {'name': 'orang.user.unenpass', 'label': 'Password'} %}
 	        		</div>
         		</div>
         	</div>

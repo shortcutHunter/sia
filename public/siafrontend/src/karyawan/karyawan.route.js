@@ -24,7 +24,8 @@
           settings: {
             nav: 1,
             content: '<i class="fa fa-list"></i> <span>Karyawan</span>',
-            parent: 'Karyawan'
+            parent: 'Karyawan',
+            roles: ['admin', 'akademik']
           }
         }
       },

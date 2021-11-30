@@ -24,7 +24,8 @@
           settings: {
             nav: 1,
             content: '<i class="fa fa-list"></i> <span>Konfigurasi</span>',
-            parent: 'Konfigurasi'
+            parent: 'Konfigurasi',
+            roles: ['admin']
           }
         }
       },

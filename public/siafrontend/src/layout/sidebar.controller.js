@@ -5,34 +5,40 @@
     .module('app.layout')
     .controller('SidebarController', SidebarController);
 
-  SidebarController.$inject = ['$state', 'routerHelper'];
+  SidebarController.$inject = ['$state', 'routerHelper', '$http'];
   /* @ngInject */
-  function SidebarController($state, routerHelper) {
+  function SidebarController($state, routerHelper, $http) {
     var vm = this;
     var states = routerHelper.getStates();
     vm.isCurrent = isCurrent;
+
+    vm.logout = logout;
 
     activate();
 
     function activate() { getNavRoutes(); }
 
     function getNavRoutes() {
-      // vm.navRoutes = {};
-      // $.each(states, function(i, v){
-      //   if (v.settings && v.settings.parent) {
-      //     if (vm.navRoutes[v.settings.parent] === undefined) {
-      //       vm.navRoutes[v.settings.parent] = [];
-      //     }
 
-      //     vm.navRoutes[v.settings.parent].push(v);
-      //   }
-      // });
+      $http.get('/session').then(function(response){
+        let data = response.data;
 
-      
-      vm.navRoutes = states.filter(function(r) {
-        return !!(r.settings && r.settings.parent);
-      }).sort(function(r1, r2) {
-        return r1.settings.parent - r2.settings.parent;
+        vm.navRoutes = states.filter(function(r) {
+          return !!(r.settings && r.settings.parent && r.settings.roles.includes(data.role));
+        }).sort(function(r1, r2) {
+          return r1.settings.parent - r2.settings.parent;
+        });
+
+        console.log(data.role);
+
+      });
+    }
+
+    function logout() {
+      console.log('Running ?');
+      return $http.post('/logout' , {})
+      .then(function(){
+        window.location = '/';
       });
     }
 
