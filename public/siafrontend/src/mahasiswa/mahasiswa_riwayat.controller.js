@@ -9,7 +9,7 @@
   /* @ngInject */
   function MahasiswaRiwayatController($q, dataservice, logger, scope, stateParams) {
     var vm = this;
-    vm.title = 'KRS Mahasiswa';
+    vm.title = 'Riwayat Belajar Mahasiswa';
     vm.data = [];
 
     activate();

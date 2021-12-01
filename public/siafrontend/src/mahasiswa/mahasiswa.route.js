@@ -96,7 +96,7 @@
         state: 'mahasiswa_riwayat',
         config: {
           url: '/mahasiswa/riwayat',
-          templateUrl: '/template/mahasiswa/riwayat',
+          templateUrl: '/template/mahasiswa/riwayat_belajar',
           controller: 'MahasiswaRiwayatController',
           controllerAs: 'vm',
           title: 'mahasiswa_riwayat',

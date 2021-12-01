@@ -106,6 +106,10 @@ import './mahasiswa/mahasiswa.controller';
 import './mahasiswa/mahasiswa_form.controller';
 import './mahasiswa/mahasiswa_detail.controller';
 import './mahasiswa/mahasiswa_riwayat_belajar.controller';
+import './mahasiswa/mahasiswa_krs.controller';
+import './mahasiswa/mahasiswa_khs.controller';
+import './mahasiswa/mahasiswa_tagihan.controller';
+import './mahasiswa/mahasiswa_riwayat.controller';
 import './mahasiswa/mahasiswa.route';
 
 import './karyawan/karyawan.controller';

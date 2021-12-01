@@ -9,7 +9,7 @@
   /* @ngInject */
   function MahasiswaTagihanController($q, dataservice, logger, scope, stateParams) {
     var vm = this;
-    vm.title = 'KRS Mahasiswa';
+    vm.title = 'Tagihan Mahasiswa';
     vm.data = [];
 
     activate();
@@ -20,7 +20,7 @@
 
     function getData() {
       return dataservice.getUrl('/mahasiswa/tagihan').then(function(response) {
-        vm.data = response.data;
+        vm.data = response;
         logger.info('Data loaded');
       });
     }

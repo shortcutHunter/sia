@@ -1,5 +1,6 @@
 {% extends "structure/detail.twig" %}
 
+{% block content %}
 <div class="row mt-3">
 	<div class="col-md-12">
 		<table class="table">
@@ -12,7 +13,7 @@
 			</thead>
 
 			<tbody>
-				<tr ng-repeat="col in vm.data.tagihan" ng-if="vm.data.tagihan && vm.data.tagihan.length != 0">
+				<tr ng-repeat="col in vm.data" ng-if="vm.data && vm.data.length != 0">
 					<td ng-bind="col.tanggal || '-'"></td>
 					<td ng-bind="col.nominal || '-'"></td>
 					<td ng-bind="col.kode_pembayaran || '-'"></td>
@@ -21,10 +22,11 @@
 						<button class="btn btn-primary" ng-if="col.status == 'proses'" ng-click="vm.bayarTagihan(col)">Bayar</button>
 					</td>
 				</tr>
-				<tr ng-if="!vm.data.tagihan || vm.data.tagihan.length == 0">
+				<tr ng-if="!vm.data || vm.data.length == 0">
 					<td  class="text-center" colspan="4">Belum ada data</td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
 </div>
+{% endblock %}
