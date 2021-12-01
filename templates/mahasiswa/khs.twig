@@ -1,0 +1,39 @@
+{% extends "structure/detail.twig" %}
+
+
+{% block button %}
+	<div class="float-end">
+		{% verbatim %}
+			<a class="btn btn-primary" ui-sref="mahasiswa_riwayat_belajar({dataId: vm.data.id})">Riwayat Belajar</a>
+		{% endverbatim %}
+	</div>
+{% endblock %}
+
+
+<div class="row mt-3">
+	<div class="col-md-12">
+		<table class="table">
+			<thead>
+				<th>Semester</th>
+				<th>Total SKS</th>
+				<th>IPS</th>
+				<th></th>
+			</thead>
+
+			<tbody>
+				<tr ng-repeat="col in vm.data.khs" ng-if="vm.data.khs && vm.data.khs.length != 0">
+					<td ng-bind="col.semester.nama || '-'"></td>
+					<td ng-bind="col.total_sks || '-'"></td>
+					<td ng-bind="col.ips || '-'"></td>
+					<td>
+						<button class="btn btn-primary" ng-click="vm.cetakKhs(col)">Cetak</button>
+						<button class="btn btn-primary" ng-click="vm.detailKhs(col)">Detail</button>
+					</td>
+				</tr>
+				<tr ng-if="!vm.data.khs || vm.data.khs.length == 0">
+					<td  class="text-center" colspan="4">Belum ada data</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

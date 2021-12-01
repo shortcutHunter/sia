@@ -58,7 +58,73 @@
           controllerAs: 'vm',
           title: 'mahasiswa_riwayat_belajar'
         }
-      }
+      },
+
+      {
+        state: 'mahasiswa_krs',
+        config: {
+          url: '/mahasiswa/krs',
+          templateUrl: '/template/mahasiswa/krs',
+          controller: 'MahasiswaKrsController',
+          controllerAs: 'vm',
+          title: 'mahasiswa_krs',
+          settings: {
+            nav: 1,
+            content: '<i class="fa fa-list"></i> <span>KRS</span>',
+            parent: 'Kemahasiswaan',
+            roles: ['mahasiswa']
+          }
+        }
+      },
+      {
+        state: 'mahasiswa_khs',
+        config: {
+          url: '/mahasiswa/khs',
+          templateUrl: '/template/mahasiswa/khs',
+          controller: 'MahasiswaKhsController',
+          controllerAs: 'vm',
+          title: 'mahasiswa_khs',
+          settings: {
+            nav: 1,
+            content: '<i class="fa fa-list"></i> <span>KHS</span>',
+            parent: 'Kemahasiswaan',
+            roles: ['mahasiswa']
+          }
+        }
+      },
+      {
+        state: 'mahasiswa_riwayat',
+        config: {
+          url: '/mahasiswa/riwayat',
+          templateUrl: '/template/mahasiswa/riwayat',
+          controller: 'MahasiswaRiwayatController',
+          controllerAs: 'vm',
+          title: 'mahasiswa_riwayat',
+          settings: {
+            nav: 1,
+            content: '<i class="fa fa-list"></i> <span>Riwayat Belajar</span>',
+            parent: 'Kemahasiswaan',
+            roles: ['mahasiswa']
+          }
+        }
+      },
+      {
+        state: 'mahasiswa_tagihan',
+        config: {
+          url: '/mahasiswa/tagihan',
+          templateUrl: '/template/mahasiswa/tagihan',
+          controller: 'MahasiswaTagihanController',
+          controllerAs: 'vm',
+          title: 'mahasiswa_tagihan',
+          settings: {
+            nav: 1,
+            content: '<i class="fa fa-list"></i> <span>Tagihan</span>',
+            parent: 'Kemahasiswaan',
+            roles: ['mahasiswa']
+          }
+        }
+      },
+
     ];
   }
 })();

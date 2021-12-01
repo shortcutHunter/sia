@@ -1,0 +1,25 @@
+{% extends "structure/detail.twig" %}
+
+
+{% block button %}
+	<div class="float-end">
+		{% verbatim %}
+			<button class="btn btn-primary" ng-click="vm.pengajuanKrs()" ng-if="vm.data.ajukan_sks">Pengajuan KRS</button>
+			<button class="btn btn-primary" widget-cetak-krs="">Cetak KRS</button>
+		{% endverbatim %}
+	</div>
+{% endblock %}
+
+
+<div class="row mt-3">
+	<div class="col-md-12">
+		{% 
+			include 'components/table.twig' 
+			with {
+				'headers': ['Tahun Ajaran', 'Semester', 'Status'], 
+				'data_value': 'pengajuan_ks', 
+				'cols': ['tahun_ajaran.nama', 'semester.nama', 'status']
+			}
+		%}
+	</div>
+</div>

@@ -52,6 +52,9 @@
             <li class="nav-item">
             	<a class="nav-link" data-bs-toggle="list" href="#berkas">Berkas</a>
             </li>
+			<li class="nav-item">
+	      		<a class="nav-link" data-bs-toggle="list" href="#user">User</a>
+	      	</li>
             <li class="nav-item">
             	<a class="nav-link" data-bs-toggle="list" href="#lainnya">Lainnya</a>
             </li>
@@ -179,6 +182,14 @@
 							{% include 'components/preview-file.twig' with {'name': 'orang.ktp', 'label': 'KTP'} %}
 							{% include 'components/preview-file.twig' with {'name': 'orang.surket_menikah', 'label': 'Surket. Belum Menikah'} %}
 	        			</table>
+	        		</div>
+        		</div>
+        	</div>
+        	<div class="tab-pane fade" id="user">
+        		<div class="row mt-3">
+        			<div class="col-md-6">
+        				{% include 'components/preview-text.twig' with {'name': 'orang.user.username', 'label': 'Username'} %}
+        				{% include 'components/preview-text.twig' with {'name': 'orang.user.unenpass', 'label': 'Password'} %}
 	        		</div>
         		</div>
         	</div>
