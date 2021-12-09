@@ -166,7 +166,7 @@ final class ApiController extends BaseController
 
         $mata_kuliah_diampuh = $mata_kuliah_diampuh->find($mata_kuliah_diampuh_id);
 
-        $data = $mahasiswa->whereHas(
+        $data = $mahasiswa->where([['status', 'mahasiswa'], ['semester_id', $mata_kuliah_diampuh->dosen_pjmk->semester_id]])->whereHas(
             'pengajuan_ks', 
             function($q) use ($mata_kuliah_diampuh) {
                 $q
@@ -583,7 +583,8 @@ final class ApiController extends BaseController
         $total_sks = 0;
         $ips = 0;
 
-        $khs = $khs_obj->where([['mahasiswa_id', $semester_id], ['semester_id', $semester_id]])->first();
+        $khs = $khs_obj->where([['mahasiswa_id', $mahasiswa_id], ['semester_id', $semester_id]])->first();
+        echo $khs;
         $khs_value = [
             'mahasiswa_id' => $mahasiswa_id,
             'semester_id' => $semester_id

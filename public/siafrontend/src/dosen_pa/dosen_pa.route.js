@@ -48,7 +48,25 @@
           controllerAs: 'vm',
           title: 'dosen_pa_detail'
         }
+      },
+
+      {
+        state: 'dosen_pa_bimbingan',
+        config: {
+          url: '/dosen_pa/mahasiswa/bimbingan',
+          templateUrl: '/template/dosen_pa/bimbingan',
+          controller: 'DosenPaBimbinganController',
+          controllerAs: 'vm',
+          title: 'dosen_pa_bimbingan',
+          settings: {
+            nav: 1,
+            content: '<i class="fa fa-list"></i> <span>Mahasiswa Bimbingan</span>',
+            parent: 'Dosen',
+            roles: ['dosen']
+          }
+        }
       }
+
     ];
   }
 })();

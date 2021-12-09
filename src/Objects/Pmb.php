@@ -7,7 +7,7 @@ use App\Objects\BaseModel;
 class Pmb extends BaseModel
 {
 	protected $table = 'pmb';
-	protected $with = ['orang', 'jurusan', 'bukti_pembayaran'];
+	protected $with  = ['orang', 'jurusan', 'bukti_pembayaran'];
 
 	public $selection_fields = ['status'];
 

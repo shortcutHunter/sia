@@ -48,7 +48,25 @@
           controllerAs: 'vm',
           title: 'dosen_pjmk_detail'
         }
+      },
+
+      {
+        state: 'dosen_pjmk_mata_kuliah',
+        config: {
+          url: '/dosen_pjmk/mata_kuliah',
+          templateUrl: '/template/dosen_pjmk/mata_kuliah',
+          controller: 'DosenPjmkMataKuliahController',
+          controllerAs: 'vm',
+          title: 'dosen_pjmk_mata_kuliah',
+          settings: {
+            nav: 1,
+            content: '<i class="fa fa-list"></i> <span>Mata Kuliah</span>',
+            parent: 'Dosen',
+            roles: ['dosen']
+          }
+        }
       }
+
     ];
   }
 })();

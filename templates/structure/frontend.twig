@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>SIA | Login</title>
+
+	<!-- style -->
+	<link href="/public/assets/libs/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/public/assets/libs/css/font-awesome.min.css" rel="stylesheet">
+
+	<!-- script -->
+	<script src="/public/assets/jquery-1.11.1.min.js" defer="true"></script>
+	<script src="/public/assets/libs/js/bootstrap.min.js" defer="true"></script>
+
+</head>
+<body>
+
+	<div class="container-fluid p-0">
+		
+		<nav class="navbar navbar-expand-lg navbar-dark align-items-end shadow" style="background: #00a85a">
+			<a class="navbar-brand" href="#">
+				<div class="d-flex align-items-center">
+					<img src="/public/assets/images/bethesda.png" class="w-25">
+					<div>
+						<h1>AKPER</h1>
+						<h5>Bethesda Serukam Kab. Bengkayang</h5>
+					</div>
+				</div>
+			</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="/register">Pendaftaran Mahasiswa Baru</a>
+					</li>
+					<li class="nav-item active">
+						<a class="nav-link" href="/login">Login <span class="sr-only">(current)</span></a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+
+		{% block content %}{% endblock %}
+
+	</div>
+
+</body>
+</html>

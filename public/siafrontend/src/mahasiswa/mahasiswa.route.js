@@ -93,22 +93,6 @@
         }
       },
       {
-        state: 'mahasiswa_riwayat',
-        config: {
-          url: '/mahasiswa/riwayat',
-          templateUrl: '/template/mahasiswa/riwayat_belajar',
-          controller: 'MahasiswaRiwayatController',
-          controllerAs: 'vm',
-          title: 'mahasiswa_riwayat',
-          settings: {
-            nav: 1,
-            content: '<i class="fa fa-list"></i> <span>Riwayat Belajar</span>',
-            parent: 'Kemahasiswaan',
-            roles: ['mahasiswa']
-          }
-        }
-      },
-      {
         state: 'mahasiswa_tagihan',
         config: {
           url: '/mahasiswa/tagihan',

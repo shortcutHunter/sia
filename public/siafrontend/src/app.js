@@ -109,7 +109,6 @@ import './mahasiswa/mahasiswa_riwayat_belajar.controller';
 import './mahasiswa/mahasiswa_krs.controller';
 import './mahasiswa/mahasiswa_khs.controller';
 import './mahasiswa/mahasiswa_tagihan.controller';
-import './mahasiswa/mahasiswa_riwayat.controller';
 import './mahasiswa/mahasiswa.route';
 
 import './karyawan/karyawan.controller';
@@ -120,11 +119,13 @@ import './karyawan/karyawan.route';
 import './dosen_pa/dosen_pa.controller';
 import './dosen_pa/dosen_pa_form.controller';
 import './dosen_pa/dosen_pa_detail.controller';
+import './dosen_pa/dosen_pa_bimbingan.controller';
 import './dosen_pa/dosen_pa.route';
 
 import './dosen_pjmk/dosen_pjmk.controller';
 import './dosen_pjmk/dosen_pjmk_form.controller';
 import './dosen_pjmk/dosen_pjmk_detail.controller';
+import './dosen_pjmk/dosen_pjmk_mata_kuliah.controller';
 import './dosen_pjmk/dosen_pjmk.route';
 
 import './penerbitan_nim/penerbitan_nim.controller';
