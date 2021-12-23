@@ -50,6 +50,7 @@ import './widgets/widget-tr.directive';
 import './widgets/widget-preview.directive';
 import './widgets/widget-update-status.directive';
 import './widgets/widget-cetak-peserta.directive';
+import './widgets/widget-cetak-transkrip.directive';
 import './widgets/widget-cetak-krs.directive';
 import './widgets/widget-cetak-khs.directive';
 import './widgets/widget-autocomplete.directive';

@@ -78,3 +78,17 @@
 .sidebar-wrapper .sidebar-header img{
   height: auto;
 }
+
+.mr-20 {
+  margin-right: 20px;
+}
+
+.required::after {
+  content: " *";
+  color: red;
+}
+
+
+.invalid {
+  outline: 1px solid red;
+}

@@ -15,6 +15,7 @@
       getDataDetail: getDataDetail,
       getOption: getOption,
       getKartuPeserta: getKartuPeserta,
+      getTranskripNilai: getTranskripNilai,
       getReport: getReport,
       postData: postData,
       postDataUrl: postDataUrl,
@@ -23,11 +24,19 @@
 
     return service;
 
-    function getData(table, page=1, search=false) {
+    function getData(table, page=1, search=false, filter=false) {
       let url = `${table}/get?page=${page}`;
 
       if (search) {
-        url = `${url}&${search['field']}=${search['value']}`;
+        url = `${url}&${search.field}=${search.value}`;
+      }
+
+      if (filter) {
+        $.each(filter, function(i, v){
+          if (v.value) {
+            url = `${url}&${v.field}=${v.value}`;
+          }
+        });
       }
 
       return $http.get(url)
@@ -61,6 +70,12 @@
 
     function getKartuPeserta(id) {
       return $http.get(`report/kartu_peserta/${id}`)
+        .then(success)
+        .catch(fail);
+    }
+
+    function getTranskripNilai(id) {
+      return $http.get(`report/transkrip/${id}`)
         .then(success)
         .catch(fail);
     }

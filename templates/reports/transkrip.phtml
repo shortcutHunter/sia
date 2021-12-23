@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+    <?php include('header.phtml'); ?>
+
+    <style type="text/css">
+        .m-top {
+            margin-top: 20px;
+        }
+        .bold {
+            font-weight: bold;
+        }
+        .m-top-table {
+            margin-top: 20px;
+        }
+        .w-50 {
+            width: 400px;
+        }
+        .table {
+            border-collapse: collapse;
+        }
+
+        ul {
+            list-style: decimal;
+            width: 40%;
+        }
+        ul li .dashed {
+            border-bottom: 1px solid dashed black;
+            margin-bottom: 10px;
+        }
+        .catatan {
+            font-style: italic;
+            text-decoration: underline;
+        }
+        .my-5 {
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+        .mt-50 {
+            margin-top: 50px;
+        }
+        .ml-40 {
+            margin-top: 10px;
+            margin-left: 50%;
+            width: 200px;
+        }
+        .container {
+            font-size: 12px;
+        }
+
+    </style>
+
+    <div class="container">
+        <h4 class="text-center m-top bold">
+            TRANSKRIP <br>
+            <small><i>TRANSCRIPT</i></small>
+        </h4>
+
+        <div class="m-top-table">
+            <table>
+                <tr>
+                    <td>
+                        <table>
+                            <tr>
+                                <td> <b>Nama</b> <br><i>Student Name</i></td>
+                                <td>:</td>
+                                <td><?= $mahasiswa->orang->nama ?? '-' ?></td>
+
+                                <td style="width: 50px;"></td>
+
+                                <td><b>Program Studi</b> <br><i>Study Program</i></td>
+                                <td>:</td>
+                                <td> Diploma III Keperawatan <br><i>Three Year Degree Nursing Diploma</i> </td>
+                            </tr>
+                            <tr>
+                                <td><b>Nomor Induk Mahasiswa</b> <br><i>Student Registered Number</i></td>
+                                <td>:</td>
+                                <td><?= $mahasiswa->nim ?? '-' ?></td>
+
+                                <td style="width: 50px;"></td>
+
+                                <td><b>Tanggal Yudisium</b> <br><i>Date Of Graduation</i></td>
+                                <td>:</td>
+                                <td> 18 Agustus 2020 </td>
+                            </tr>
+                            <tr>
+                                <td><b>Tempat dan Tanggal Lahir</b> <br><i>Place and Date Of Birth</i></td>
+                                <td>:</td>
+                                <td><?= $mahasiswa->orang->tempat_lahir ?? '-' ?> / <?= $mahasiswa->orang->tanggal_lahir ?? '-' ?></td>
+                                
+                                <td style="width: 50px;"></td>
+
+                                <td><b>Nomor Ijazah</b> <br><i>Appendix to Diploma Number</i></td>
+                                <td>:</td>
+                                <td>144012020000085</td>
+                            </tr>
+                            <tr>
+                                <td><b>Jenis Kelamin</b> <br><i>Gender</i></td>
+                                <td>:</td>
+                                <td><?= $mahasiswa->orang->jenis_kelamin || '-' ?></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="m-top-table">
+            <table>
+                <tr>
+                    <td rowspan="2" class="text-center"><b>Kode</b> <br> <i>Code</i></td>
+                    <td rowspan="2" class="text-center"><b>MATA KULIAH</b> <br> <i>Course Title</i></td>
+                    <td rowspan="2" class="text-center"><b>SKS</b> <br> <i>Credit</i></td>
+                    <td colspan="3" class="text-center"><b>Nilai</b> <br> <i>School Grades</i></td>
+                </tr>
+                <tr>
+                    <td class="text-center"><b>H</b> <br> <i>Grade</i></td>
+                    <td class="text-center"><b>M</b> <br> <i>Score</i></td>
+                    <td class="text-center"><b>K x M</b> <br> <i>Point</i></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="mt-50">
+            <div class="catatan">Catatan Pembimbing Akademik (PA):</div>
+            <ul>
+                <li><div class="dashed">&nbsp;</div><div class="dashed">&nbsp;</div></li>
+                <li><div class="dashed">&nbsp;</div><div class="dashed">&nbsp;</div></li>
+            </ul>
+        </div>
+
+        <div class="ml-40 text-center">
+            <div>Serukam, <?= date('d F Y') ?></div>
+            <div class="bold">PUDIR I Bidang Akademik</div>
+            <div>
+                <img src="http://localhost/public/assets/images/ttd.png">
+            </div>
+            <div class="bold">Herlina, S.Kep., Ners., M.Kep</div>
+        </div>
+    </div>
+
+</body>
+</html>

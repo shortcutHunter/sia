@@ -1,11 +1,11 @@
 <tr>
 	<td>
-		<div class="text-muted font-semibold me-3">{{ label }}</div>
+		<div class="text-muted font-semibold me-3 {{ required ? 'required' : '' }}">{{ label }}</div>
 	</td>
 	<td>
 		<div class="form-check">
 	        <div class="checkbox">
-	            <input type="checkbox" ng-model="vm.data.{{ name }}" class="form-check-input">
+	            <input type="checkbox" ng-model="vm.data.{{ name }}" name="{{ name }}" class="form-check-input" {{ required ? 'required' : '' }}>
 	        </div>
 	    </div>
 	</td>

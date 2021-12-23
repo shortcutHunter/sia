@@ -6,14 +6,14 @@
     <div class="row">
       <div class="col-md-6">
         <table class="custom-table">
-          {% include 'components/input.twig' with {'name': 'orang.nama', 'label': 'Nama'} %}
+          {% include 'components/input.twig' with {'name': 'orang.nama', 'label': 'Nama', 'required': true} %}
         </table>
       </div>
       
       <div class="col-md-6">
         <table class="custom-table">
-          {% include 'components/checkbox.twig' with {'name': 'pernyataan', 'label': 'Pernyataan'} %}
-          {% include 'components/date-picker.twig' with {'name': 'tanggal_pendaftaran', 'label': 'Tanggal Pendfataran'} %}
+          {% include 'components/checkbox.twig' with {'name': 'pernyataan', 'label': 'Pernyataan', 'required': true} %}
+          {% include 'components/date-picker.twig' with {'name': 'tanggal_pendaftaran', 'label': 'Tanggal Pendfataran', 'required': true} %}
         </table>
       </div>
     </div>
@@ -38,19 +38,19 @@
             <div class="row mt-3">
               <div class="col-md-6">
                 <table class="custom-table">
-            {% include 'components/input.twig' with {'name': 'orang.nik', 'label': 'NIK'} %}
-            {% include 'components/input.twig' with {'name': 'orang.tempat_lahir', 'label': 'Tempat Lahir'} %}
-            {% include 'components/date-picker.twig' with {'name': 'orang.tanggal_lahir', 'label': 'Tanggal Lahir'} %}
-            {% include 'components/radio.twig' with {'name': 'orang.jenis_kelamin', 'label': 'Jenis Kelamin', 'option': 'orang.option.jenis_kelamin'} %}
-            {% include 'components/select.twig' with {'name': 'orang.agama_id', 'label': 'Agama', 'option': 'orang.selection.agama', 'label_selection': 'nama'} %}
+            {% include 'components/input.twig' with {'name': 'orang.nik', 'label': 'NIK', 'required': true} %}
+            {% include 'components/input.twig' with {'name': 'orang.tempat_lahir', 'label': 'Tempat Lahir', 'required': true} %}
+            {% include 'components/date-picker.twig' with {'name': 'orang.tanggal_lahir', 'label': 'Tanggal Lahir', 'required': true} %}
+            {% include 'components/radio.twig' with {'name': 'orang.jenis_kelamin', 'label': 'Jenis Kelamin', 'option': 'orang.option.jenis_kelamin', 'required': true} %}
+            {% include 'components/select.twig' with {'name': 'orang.agama_id', 'label': 'Agama', 'option': 'orang.selection.agama', 'label_selection': 'nama', 'required': true} %}
                 </table>
               </div>
 
               <div class="col-md-6">
                 <table class="custom-table">
-              {% include 'components/textarea.twig' with {'name': 'orang.alamat', 'label': 'Alamat'} %}
-              {% include 'components/input.twig' with {'name': 'orang.email', 'label': 'Email'} %}
-              {% include 'components/input.twig' with {'name': 'orang.no_hp', 'label': 'No. HP'} %}
+              {% include 'components/textarea.twig' with {'name': 'orang.alamat', 'label': 'Alamat', 'required': true} %}
+              {% include 'components/input.twig' with {'name': 'orang.email', 'label': 'Email', 'required': true} %}
+              {% include 'components/input.twig' with {'name': 'orang.no_hp', 'label': 'No. HP', 'required': true} %}
                 </table>
               </div>
             </div>
@@ -77,10 +77,10 @@
             <div class="row mt-3">
               <div class="col-md-6">
                 <table class="custom-table">
-              {% include 'components/input-file.twig' with {'name': 'bukti_pembayaran', 'label': 'Bukti Pembayaran'} %}
-              {% include 'components/input-file.twig' with {'name': 'orang.pasfoto', 'label': 'Pasfoto'} %}
-              {% include 'components/input-file.twig' with {'name': 'orang.ijazah', 'label': 'Ijazah/SKL'} %}
-              {% include 'components/input-file.twig' with {'name': 'orang.ktp', 'label': 'KTP'} %}
+              {% include 'components/input-file.twig' with {'name': 'bukti_pembayaran', 'label': 'Bukti Pembayaran', 'required': true} %}
+              {% include 'components/input-file.twig' with {'name': 'orang.pasfoto', 'label': 'Pasfoto', 'required': true} %}
+              {% include 'components/input-file.twig' with {'name': 'orang.ijazah', 'label': 'Ijazah/SKL', 'required': true} %}
+              {% include 'components/input-file.twig' with {'name': 'orang.ktp', 'label': 'KTP', 'required': true} %}
               {% include 'components/input-file.twig' with {'name': 'orang.surket_menikah', 'label': 'Surket. Belum Menikah'} %}
                 </table>
               </div>

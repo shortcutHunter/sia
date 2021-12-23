@@ -1,9 +1,9 @@
 <tr>
 	<td>
-		<div class="text-muted font-semibold me-3">{{ label }}</div>
+		<div class="text-muted font-semibold me-3 {{ required ? 'required' : '' }}">{{ label }}</div>
 	</td>
 	<td>
-		<select class="form-select" ng-model="{{prefix ?? 'vm.data'}}.{{ name }}">
+		<select class="form-select" ng-model="{{prefix ?? 'vm.data'}}.{{ name }}" {{ required ? 'required' : '' }}>
 			<option value=""></option>
 			<option ng-repeat="select in vm.option.{{ option }}" ng-value="select.id" ng-bind="select.{{ label_selection }}"></option>
 		</select>

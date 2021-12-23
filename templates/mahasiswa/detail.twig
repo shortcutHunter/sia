@@ -6,7 +6,8 @@
 		{% verbatim %}
 			<!-- <button class="btn btn-primary" ng-click="vm.regUlang()" ng-if="vm.data.reg_ulang">Register Ulang</button> !-->
 			<button class="btn btn-primary" ng-click="vm.pengajuanKrs()" ng-if="vm.data.ajukan_sks">Pengajuan KRS</button>
-			<button class="btn btn-primary" widget-cetak-krs="">Cetak KRS</button>
+			<button class="btn btn-primary" widget-cetak-krs="" ng-if="vm.data.status == 'mahasiswa'">Cetak KRS</button>
+			<button class="btn btn-primary" ng-if="vm.data.status == 'alumni'" widget-cetak-transkrip="">Cetak Transkrip</button>
 			<a class="btn btn-primary" ui-sref="mahasiswa_riwayat_belajar({dataId: vm.data.id})">Riwayat Belajar</a>
 			<!-- <button class="btn btn-primary" widget-cetak-khs="">Cetak KHS</button> -->
 		{% endverbatim %}

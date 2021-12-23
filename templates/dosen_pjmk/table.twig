@@ -6,6 +6,33 @@
 	</a>
 {% endblock %}
 
+{% block filter %}
+
+	<div class="d-flex align-items-center">
+		<div class="form-group mr-20">
+			<div class="form-check form-switch">
+	            <label class="form-check-label" for="status" ng-bind="vm.status_info"></label>
+	            <input class="form-check-input" type="checkbox" id="status" ng-model="vm.status" ng-change="vm.statusChanges()">
+	        </div>
+		</div>
+
+		<div class="form-group mr-20">
+			<select class="form-select" ng-model="vm.tahun_ajaran">
+				<option value="">Tahun Ajaran</option>
+				<option ng-repeat="ta in vm.option.selection.tahun_ajaran" ng-bind="ta.nama" ng-value="ta.id"></option>
+			</select>
+		</div>
+
+		<div class="form-group">
+			<select class="form-select" ng-model="vm.semester">
+				<option value="">Semester</option>
+				<option ng-repeat="s in vm.option.selection.semester" ng-bind="s.nama" ng-value="s.id"></option>
+			</select>
+		</div>
+	</div>
+
+{% endblock %}
+
 {% block search %}
 
 	<div class="form-group position-relative has-icon-right">

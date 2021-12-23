@@ -25,6 +25,21 @@ final class ReportController extends BaseController
         //     ->withStatus(201);
    }
 
+    public function transkrip($request, $response, $args)
+   {
+        $container = $this->container;
+        $mahasiswa_id = $args['mahasiswa_id'];
+        $mahasiswa_obj = $this->get_object('mahasiswa');
+        $mahasiswa = $mahasiswa_obj->find($mahasiswa_id);
+        $value = ['mahasiswa' => $mahasiswa];
+
+        $pdfContent = $this->container->get('renderPDF')("reports/transkrip.phtml", $value);
+        $pdfContent = ['content' => base64_encode($pdfContent)];
+
+        $response->getBody()->write(json_encode($pdfContent));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
+   }
+
     public function krs($request, $response, $args)
    {
         $container = $this->container;

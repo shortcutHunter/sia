@@ -8,6 +8,8 @@ class Reports extends BaseRoute {
 
     function register_route() {
         $this->app->get('/report/kartu_peserta/{pmb_id}', \App\Controllers\ReportController::class . ':kartu_peserta');
+
+        $this->app->get('/report/transkrip/{mahasiswa_id}', \App\Controllers\ReportController::class . ':transkrip');
         $this->app->get('/report/krs/{mahasiswa_id}', \App\Controllers\ReportController::class . ':krs');
         $this->app->get('/report/khs/{mahasiswa_id}/{semester_id}', \App\Controllers\ReportController::class . ':khs');
 
