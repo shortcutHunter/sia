@@ -6,9 +6,10 @@
 	<div class="row">
 		<div class="col-md-6">
 			<table class="custom-table">
-				{% include 'components/input.twig' with {'name': 'kode', 'label': 'Kode'} %}
-				{% include 'components/input.twig' with {'name': 'nama', 'label': 'Nama'} %}
-				{% include 'components/input.twig' with {'name': 'sks', 'label': 'SKS'} %}
+				{% include 'components/input.twig' with {'name': 'kode', 'label': 'Kode', 'required': true} %}
+				{% include 'components/input.twig' with {'name': 'nama', 'label': 'Nama', 'required': true} %}
+				{% include 'components/input.twig' with {'name': 'nama_inggris', 'label': 'Nama Inggris', 'required': true} %}
+				{% include 'components/input.twig' with {'name': 'sks', 'label': 'SKS', 'required': true} %}
 			</table>
 		</div>
 
@@ -16,7 +17,7 @@
 			<table class="custom-table">
 				{% include 'components/checkbox.twig' with {'name': 't', 'label': 'Teori'} %}
 				{% include 'components/checkbox.twig' with {'name': 'p', 'label': 'Praktek'} %}
-				{% include 'components/checkbox.twig' with {'name': 'k', 'label': 'SKS'} %}
+				{% include 'components/checkbox.twig' with {'name': 'k', 'label': 'Kerja Lapangan'} %}
 			</table>
 		</div>
 

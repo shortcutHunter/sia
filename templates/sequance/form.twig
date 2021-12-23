@@ -5,9 +5,9 @@
 		
 		<div class="col-md-6">
 			<table class="custom-table">
-				{% include 'pages/components/input.twig' with {'name': 'nama', 'label': 'Nama'} %}
-				{% include 'pages/components/input.twig' with {'name': 'kode', 'label': 'Kode'} %}
-				{% include 'pages/components/input.twig' with {'name': 'nomor', 'label': 'Nomor'} %}
+				{% include 'components/input.twig' with {'name': 'nama', 'label': 'Nama', 'required': true} %}
+				{% include 'components/input.twig' with {'name': 'kode', 'label': 'Kode', 'required': true} %}
+				{% include 'components/input.twig' with {'name': 'nomor', 'label': 'Nomor', 'required': true} %}
 			</table>
 		</div>
 

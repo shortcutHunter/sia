@@ -134,7 +134,7 @@
                 <div  class="ml-10">
                     <table>
                         <tr>
-                            <?php if ($pmb->orang->pasfoto): ?>
+                            <?php if ($pmb->orang->pasfoto && strpos($pmb->orang->pasfoto->filetype, 'image') ): ?>
                                 <?php $images_url = "data:".$pmb->orang->pasfoto->filetype.";base64,".$pmb->orang->pasfoto->base64 ?>
                                 <td><img src="<?= $images_url ?>" class="img"></td>
                             <?php endif ?>

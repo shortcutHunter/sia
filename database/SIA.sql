@@ -170,6 +170,7 @@ CREATE TABLE `mata_kuliah` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `kode` varchar(255) UNIQUE,
   `nama` varchar(255),
+  `nama_inggris` varchar(255),
   `sks` int,
   `t` boolean,
   `p` boolean,

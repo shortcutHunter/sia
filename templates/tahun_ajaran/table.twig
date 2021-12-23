@@ -25,8 +25,6 @@
 			<tr>
 				<th>Nama</th>
 				<th>Tahun</th>
-				<th>Nomor</th>
-				<th>Status</th>
 			</tr>
 		</thead>
 
@@ -37,8 +35,6 @@
 	        <tr ng-repeat="data in vm.data" class="clickable" ng-attr-tr_id="{{data.id}}" state_name="tahun_ajaran_detail" widget-tr="">
 	          <td ng-bind="data.nama || '-'"></td>
 	          <td ng-bind="data.tahun || '-'"></td>
-	          <td ng-bind="data.nomor || '-'"></td>
-	          <td ng-bind="data.status || '-'"></td>
 	        </tr>
 		</tbody>
 

@@ -7,7 +7,7 @@
 		<div class="col-md-6">
 			<table class="custom-table">
 				{# {% include 'components/input.twig' with {'name': 'kode', 'label': 'Kode'} %} #}
-					{% include 'components/select.twig' with {'name': 'semester_id', 'label': 'Semester', 'option': 'selection.semester', 'label_selection': 'nama'} %}
+					{% include 'components/select.twig' with {'name': 'semester_id', 'label': 'Semester', 'option': 'selection.semester', 'label_selection': 'nama', 'required': true} %}
 				{% include 'components/preview-text.twig' with {'name': 'nominal', 'label': 'Nominal'} %}
 			</table>
 		</div>
