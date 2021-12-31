@@ -4,6 +4,8 @@ namespace App\Objects;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Objects\Session;
+use Spipu\Html2Pdf\Html2Pdf;
+use \Slim\Views\PhpRenderer;
 
 class BaseModel extends Model
 {
@@ -18,6 +20,7 @@ class BaseModel extends Model
 	public static $date_fields = [];
 
 	public $session;
+
 
 	public function __construct(array $attributes = array())
 	{
@@ -37,6 +40,21 @@ class BaseModel extends Model
         $class_name = "App\\Objects\\".$class_name;
         $model = new $class_name();
         return $model;
+	}
+
+	public static function renderHtml($template_name, $value) {
+		$settings = require __DIR__ . '/../../config/settings.php';
+		$renderer = new PhpRenderer($settings['template_path']);
+		$rendered_template = $renderer->fetch($template_name, $value);
+		return $rendered_template;
+	}
+
+	public function renderPdf($template_name, $value) {
+		$html2pdf = new Html2Pdf();
+		$rendered_template = self::renderHtml($template_name, $value);
+        $html2pdf->writeHTML($rendered_template);
+        $pdfContent = $html2pdf->output('my_doc.pdf', 'S');
+        return $pdfContent;
 	}
 
 	public static function relationName()

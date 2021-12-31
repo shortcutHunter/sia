@@ -3,6 +3,7 @@
 namespace App\Objects;
 
 use App\Objects\BaseModel;
+use App\Objects\MailModel;
 
 class Pmb extends BaseModel
 {
@@ -54,6 +55,29 @@ class Pmb extends BaseModel
 		return parent::create($attributes);
 	}
 
+	public function kartuPeserta() {
+		$value = ['pmb' => $this];
+
+		$pdf = self::renderPdf("reports/kartu_peserta.phtml", $value);
+		return $pdf;
+	}
+
+	public function sendKartuPeserta() {
+		$mailModel = new MailModel();
+		$recipient = [
+			"email" => $this->orang->email,
+			"name" => $this->orang->nama
+		];
+		$subject = "Kartu Peserta Ujian";
+		$content = self::renderHtml("reports/kartu_peserta_email.phtml", ['pmb' => $this]);
+		$attachment = [
+			"file" => $this->kartuPeserta(),
+			"name" => "Kartu Peserta.pdf"
+		];
+
+		$mailModel->sendEmail($recipient, $subject, $content, $attachment);
+	}
+
 	public function update(array $attributes = [], array $options = [])
 	{
 		if (array_key_exists('status', $attributes)) {
@@ -62,6 +86,8 @@ class Pmb extends BaseModel
 				$tagihan_obj = self::getModelByName('tagihan');
 				$konfigurasi_obj = self::getModelByName('konfigurasi');
 				$setup_paket_obj = self::getModelByName('paket_register_ulang');
+
+				$this->sendKartuPeserta();
 
 				$konfigurasi = $konfigurasi_obj->first();
 				$setup_paket = $setup_paket_obj->where('semester_id', $konfigurasi->semester_id)->first();

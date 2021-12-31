@@ -19,6 +19,7 @@
       getReport: getReport,
       postData: postData,
       postDataUrl: postDataUrl,
+      deleteRecord: deleteRecord,
       getPdf: getPdf
     };
 
@@ -96,6 +97,13 @@
 
     function postDataUrl(url, data) {
       return $http.post(url, data)
+        .then(success)
+        .catch(fail);
+    }
+
+    function deleteRecord(table, recordId) {
+      let url = `${table}/delete/${recordId}`;
+      return $http.post(url, {})
         .then(success)
         .catch(fail);
     }

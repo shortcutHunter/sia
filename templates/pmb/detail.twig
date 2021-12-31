@@ -4,7 +4,7 @@
 {% block button %}
 
   <a class="btn btn-sm btn-success" ui-sref="pmb_form({dataId: vm.data.id})" ng-if="vm.data.status == 'baru'"><i class="fa fa-edit"></i> Edit</a>
-  <button class="btn btn-sm btn-danger" ng-if="vm.data.status == 'baru'"><i class="fa fa-trash"></i> Delete</button>
+  <button class="btn btn-sm btn-danger" widget-button-delete="" ng-if="vm.data.status == 'baru'"><i class="fa fa-trash"></i> Delete</button>
 
   <div class="float-end">
     {% verbatim %}

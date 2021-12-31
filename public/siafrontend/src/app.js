@@ -54,6 +54,7 @@ import './widgets/widget-cetak-transkrip.directive';
 import './widgets/widget-cetak-krs.directive';
 import './widgets/widget-cetak-khs.directive';
 import './widgets/widget-autocomplete.directive';
+import './widgets/widget-button-delete.directive';
 
 import './modals/modal-preview.directive';
 import './modals/modal-mata-kuliah.directive';
