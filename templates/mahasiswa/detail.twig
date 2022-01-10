@@ -122,7 +122,7 @@
 									<td ng-bind="col.tanggal || '-'"></td>
 									<td ng-bind="col.nominal || '-'"></td>
 									<td ng-bind="col.kode_pembayaran || '-'"></td>
-									<td ng-bind="col.status || '-'"></td>
+									<td ng-bind="col.status_label || '-'"></td>
 									<td>
 										<button class="btn btn-primary" ng-if="col.status == 'proses'" ng-click="vm.bayarTagihan(col)">Bayar</button>
 									</td>
@@ -142,7 +142,7 @@
 						{% include 'components/preview-text.twig' with {'name': 'orang.nik', 'label': 'NIK'} %}
 						{% include 'components/preview-text.twig' with {'name': 'orang.tempat_lahir', 'label': 'Tempat Lahir'} %}
 						{% include 'components/preview-text.twig' with {'name': 'orang.tanggal_lahir', 'label': 'Tanggal Lahir'} %}
-						{% include 'components/preview-text.twig' with {'name': 'orang.jenis_kelamin.label', 'label': 'Jenis Kelamin'} %}
+						{% include 'components/preview-text.twig' with {'name': 'orang.jenis_kelamin_label', 'label': 'Jenis Kelamin'} %}
 						{% include 'components/preview-text.twig' with {'name': 'orang.agama.nama', 'label': 'Agama'} %}
 	        			</table>
 	        		</div>

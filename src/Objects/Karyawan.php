@@ -11,6 +11,8 @@ class Karyawan extends BaseModel
 
 	public $selection_fields = ['status', 'jenis_karyawan'];
 
+	protected $appends = ['status_label'];
+
 	public $jenis_karyawan_enum = [
 		"dosen" => "Dosen",
 		"pegawai" => "Pegawai",
@@ -26,6 +28,17 @@ class Karyawan extends BaseModel
 	public static $relation = [
 		['name' => 'orang', 'is_selection' => false, 'skip' => false],
 	];
+
+	public function getStatusLabelAttribute() {
+		$status_enum = $this->status_enum;
+		$label = null;
+
+		if ($this->status) {
+			$label = $status_enum[$this->status];
+		}
+
+		return $label;
+	}
 
 	public static function create(array $attributes = [])
 	{

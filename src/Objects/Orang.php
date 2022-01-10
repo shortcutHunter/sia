@@ -11,6 +11,8 @@ class Orang extends BaseModel
 
 	public $like_fields = ['nama'];
 
+	protected $appends = ['jenis_kelamin_label'];
+
 	public $selection_fields = ['status', 'jenis_kelamin'];
 	public static $relation = [
 		['name' => 'agama', 'is_selection' => true, 'skip' => false],
@@ -35,17 +37,16 @@ class Orang extends BaseModel
 	    'tanggal_lahir' => 'datetime:d/m/Y',
 	];
 
-	// public function getJenisKelaminAttribute($value)
-	// {
-	// 	$return_value = false;
-	// 	if ($value) {
-	// 		$return_value = [
-	// 			'value' => $value,
-	// 			'label' => $this->jenis_kelamin_enum[$value]
-	// 		];
-	// 	}
-	// 	return $return_value ;
-	// }
+	public function getJenisKelaminLabelAttribute() {
+		$jenis_kelamin_enum = $this->jenis_kelamin_enum;
+		$label = null;
+
+		if ($this->jenis_kelamin) {
+			$label = $jenis_kelamin_enum[$this->jenis_kelamin];
+		}
+
+		return $label;
+	}
 
 	public function agama()
 	{
@@ -91,5 +92,15 @@ class Orang extends BaseModel
 	public function pasfoto()
 	{
 		return $this->hasOne(File::class, 'id', 'pasfoto_id');
+	}
+
+
+	public function update(array $attributes = [], array $options = [])
+	{
+		if (array_key_exists('user', $attributes)) {
+			unset($attributes['user']);
+		}
+
+		return parent::update($attributes, $options);
 	}
 }

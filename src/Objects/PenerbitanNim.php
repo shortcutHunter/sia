@@ -14,8 +14,21 @@ class PenerbitanNim extends BaseModel
 		"pengajuan" => "Pengajuan",
 		"belum" => "Belum",
 	];
+
+	protected $appends = ['status_label'];
 	
 	public $like_fields = ['nama'];
+
+	public function getStatusLabelAttribute() {
+		$status_enum = $this->status_enum;
+		$label = null;
+
+		if ($this->status) {
+			$label = $status_enum[$this->status];
+		}
+
+		return $label;
+	}
 
 	public function pmb()
 	{

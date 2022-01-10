@@ -13,7 +13,13 @@ final class ReportController extends BaseController
         $pmb_id = $args['pmb_id'];
         $object = $this->get_object('pmb');
         $pmb = $object->find($pmb_id);
-        $value = ['pmb' => $pmb];
+        $tgl_lahir = $pmb->orang->tanggal_lahir;
+
+        if ($tgl_lahir) {
+            $tgl_lahir = date("d-m-Y", strtotime($tgl_lahir));
+        }
+
+        $value = ['pmb' => $pmb, 'tgl_lahir' => $tgl_lahir];
 
         $pdfContent = $this->container->get('renderPDF')("reports/kartu_peserta.phtml", $value);
         $pdfContent = ['content' => base64_encode($pdfContent)];

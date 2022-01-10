@@ -1,3 +1,5 @@
+import swal from 'sweetalert';
+
 (function() {
   'use strict';
 
@@ -20,9 +22,29 @@
         let vm = scope.$parent.vm;
         let data = {status: attr.widgetUpdateStatus};
         let id = attr.targetId ? attr.targetId : vm.data.id;
-        dataservice.postData(vm.table, data, id).then(function(data){
-          state.reload();
+        let warning_text = `Apakah mahasiswa benar di ${attr.widgetUpdateStatus} ?`;
+
+        if (attr.widgetUpdateStatus == 'ujian') {
+          warning_text = "Apkah pembayaran mahasiswa sudah benar diterima ?";
+        }
+
+        swal({
+          title: warning_text,
+          icon: "warning",
+          buttons: {
+            cancel: true,
+            text: "Iya"
+          }
+        })
+        .then(willDelete => {
+          if (willDelete) {
+            dataservice.postData(vm.table, data, id).then(function(data){
+              state.reload();
+            });
+          }
         });
+
+        
       });
     }
   }

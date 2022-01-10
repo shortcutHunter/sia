@@ -59,25 +59,25 @@
 							<div class="col-sm-6">
 								<div class="form-group">
 									<label for="nik">NIK</label>
-									<input type="text" name="nik" id="nik" class="form-control auto-update">
+									<input type="text" name="nik" id="nik" class="form-control auto-update" required="">
 								</div>
 							</div>
 							<div class="col-sm-6">
 								<div class="form-group">
 									<label for="nama">Nama Lengkap</label>
-									<input type="text" name="nama" id="nama" class="form-control auto-update">
+									<input type="text" name="nama" id="nama" class="form-control auto-update" required="">
 								</div>
 							</div>
 							<div class="col-sm-6">
 								<div class="form-group">
 									<label for="tempat_lahir">Tempat Lahir</label>
-									<input type="text" name="tempat_lahir" id="tempat_lahir" class="form-control auto-update">
+									<input type="text" name="tempat_lahir" id="tempat_lahir" class="form-control auto-update" required="">
 								</div>
 							</div>
 							<div class="col-sm-6">
 								<div class="form-group">
 									<label for="tanggal_lahir">Tanggal Lahir</label>
-									<input type="text" name="tanggal_lahir" id="tanggal_lahir" class="form-control auto-update datepicker">
+									<input type="text" name="tanggal_lahir" id="tanggal_lahir" class="form-control auto-update datepicker" required="">
 								</div>
 							</div>
 							<div class="col-sm-6">
@@ -86,7 +86,7 @@
 										{% for key, value in option['jenis_kelamin'] %}
 										    <div>
 												<label class="form-check">
-													<input class="form-check-input" type="radio" name="jenis_kelamin" value="{{ key }}">
+													<input class="form-check-input" type="radio" name="jenis_kelamin" value="{{ key }}" required="">
 													<span class="form-check-label">{{ value }}</span>
 												</label>
 											</div>
@@ -96,13 +96,13 @@
 							<div class="col-sm-6">
 								<div class="form-group">
 									<label for="alamat">Alamat</label>
-									<textarea class="form-control" name="alamat"></textarea>
+									<textarea class="form-control" name="alamat" required=""></textarea>
 								</div>
 							</div>
 							<div class="col-sm-6">
 								<div class="form-group">
 									<label for="alamat">Agama</label>
-									<select class="form-control" name="agama_id">
+									<select class="form-control" name="agama_id" required="">
 										<option value=""></option>
 										{% for value in selection['agama'] %}
 										    <option value="{{ value.id }}">{{ value.nama }}</option>
@@ -113,13 +113,13 @@
 							<div class="col-sm-6">
 								<div class="form-group">
 									<label for="email">Email</label>
-									<input type="text" name="email" id="email" class="form-control auto-update">
+									<input type="text" name="email" id="email" class="form-control auto-update" required="">
 								</div>
 							</div>
 							<div class="col-sm-6">
 								<div class="form-group">
 									<label for="no_hp">Nomor Handphone</label>
-									<input type="text" name="no_hp" id="no_hp" class="form-control auto-update">
+									<input type="text" name="no_hp" id="no_hp" class="form-control auto-update" required="">
 								</div>
 							</div>
 					    </div>
@@ -191,25 +191,25 @@
 							<div class="col-sm-6">
 								<div class="form-group">
 									<label for="pasfoto">Pasphoto 3x4</label>
-									<input type="file" name="pasfoto" id="pasfoto">
+									<input type="file" name="pasfoto" id="pasfoto" required="">
 								</div>
 							</div>
 							<div class="col-sm-6">
 								<div class="form-group">
 									<label for="ijazah">Ijazah/SKL</label>
-									<input type="file" name="ijazah" id="ijazah">
+									<input type="file" name="ijazah" id="ijazah" required="">
 								</div>
 							</div>
 							<div class="col-sm-6">
 								<div class="form-group">
 									<label for="ktp">KTP</label>
-									<input type="file" name="ktp" id="ktp">
+									<input type="file" name="ktp" id="ktp" required="">
 								</div>
 							</div>
 							<div class="col-sm-6">
 								<div class="form-group">
 									<label for="surket_menikah">Surket Belum Menikah</label>
-									<input type="file" name="surket_menikah" id="surket_menikah">
+									<input type="file" name="surket_menikah" id="surket_menikah" required="">
 								</div>
 							</div>
 					    </div>
@@ -256,7 +256,7 @@
 							</div>
 					    	<div class="col-sm-12">
 					    		<label>
-					    			<input type="checkbox" name="pernyataan">
+					    			<input type="checkbox" name="pernyataan" required="">
 					    			Dengan ini saya menyatakan bahwa data yang saya isi adalah benar dan sesuai dengan dokumen terkait dan saya memberikan data atas persetujuan saya pribadi
 					    		</label>
 					    	</div>
@@ -286,7 +286,7 @@
 				    		</ul>
 				    		<div class="form-group">
 				    			<label>Bukti Pembayaran</label>
-				    			<input type="file" name="bukti_pembayaran" class="form-control">
+				    			<input type="file" name="bukti_pembayaran" class="form-control" required="">
 				    		</div>
 				    	</div>
 				    </div>

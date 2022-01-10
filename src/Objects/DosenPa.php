@@ -14,10 +14,24 @@ class DosenPa extends BaseModel
 		['name' => 'tahun_ajaran', 'is_selection' => true, 'skip' => true],
 	];
 
+
 	public $status_enum = [
 		"aktif" => "Aktif",
 		"nonaktif" => "Nonaktif",
 	];
+
+	protected $appends = ['status_label'];
+	
+	public function getStatusLabelAttribute() {
+		$status_enum = $this->status_enum;
+		$label = null;
+
+		if ($this->status) {
+			$label = $status_enum[$this->status];
+		}
+
+		return $label;
+	}
 
 	public function karyawan()
 	{

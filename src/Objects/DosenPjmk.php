@@ -19,6 +19,19 @@ class DosenPjmk extends BaseModel
 		"nonaktif" => "Nonaktif",
 	];
 
+	protected $appends = ['status_label'];
+	
+	public function getStatusLabelAttribute() {
+		$status_enum = $this->status_enum;
+		$label = null;
+
+		if ($this->status) {
+			$label = $status_enum[$this->status];
+		}
+
+		return $label;
+	}
+
 	public function karyawan()
 	{
 		return $this->belongsTo(Karyawan::class, 'karyawan_id', 'id');

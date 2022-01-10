@@ -15,6 +15,7 @@ class Tagihan extends BaseModel
 	];
 	
 	public $selection_fields = ['status'];
+	protected $appends = ['status_label'];
 
 	public static $relation = [
 		['name' => 'orang', 'is_selection' => false, 'skip' => true],
@@ -26,6 +27,17 @@ class Tagihan extends BaseModel
 		"proses" => "Proses",
 		"bayar" => "Lunas",
 	];
+
+	public function getStatusLabelAttribute() {
+		$status_enum = $this->status_enum;
+		$label = null;
+
+		if ($this->status) {
+			$label = $status_enum[$this->status];
+		}
+
+		return $label;
+	}
 
 	public function orang()
 	{

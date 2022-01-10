@@ -72,6 +72,12 @@ class BaseModel extends Model
 	{
 		$relation_name = static::$relation;
 
+		foreach ($attributes as $key => $value) {
+			if (strpos($key, "_label") !== false) {
+				unset($attributes[$key]);
+			}
+		}
+
 		foreach ($relation_name as $key => $value) {
 			$relation_model_name = $value['name'];
 
@@ -119,6 +125,12 @@ class BaseModel extends Model
 	{
 		$relation_name = static::$relation;
 		$file_fields = static::$file_fields;
+
+		foreach ($attributes as $key => $value) {
+			if (strpos($key, "_label") !== false) {
+				unset($attributes[$key]);
+			}
+		}
 
 		foreach ($relation_name as $key => $value) {
 			$relation_model_name = $value['name'];

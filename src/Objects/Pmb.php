@@ -15,11 +15,13 @@ class Pmb extends BaseModel
 	public static $file_fields = ['bukti_pembayaran'];
 	public static $date_fields = ['tanggal_pendaftaran'];
 
+	protected $appends = ['status_label'];
+
 	public $status_enum = [
 		"baru" => "Baru",
 		"ujian" => "Ujian",
 		"terima" => "Terima",
-		"tolak" => "Tolak",
+		"tolak" => "Tolak",	
 	];
 
 	public static $relation = [
@@ -45,6 +47,17 @@ class Pmb extends BaseModel
 	public function bukti_pembayaran()
 	{
 		return $this->hasOne(File::class, 'id', 'bukti_pembayaran_id');
+	}
+
+	public function getStatusLabelAttribute() {
+		$status_enum = $this->status_enum;
+		$label = null;
+
+		if ($this->status) {
+			$label = $status_enum[$this->status];
+		}
+
+		return $label;
 	}
 
 	public static function create(array $attributes = [])
@@ -87,8 +100,6 @@ class Pmb extends BaseModel
 				$konfigurasi_obj = self::getModelByName('konfigurasi');
 				$setup_paket_obj = self::getModelByName('paket_register_ulang');
 
-				$this->sendKartuPeserta();
-
 				$konfigurasi = $konfigurasi_obj->first();
 				$setup_paket = $setup_paket_obj->where('semester_id', $konfigurasi->semester_id)->first();
 
@@ -113,6 +124,8 @@ class Pmb extends BaseModel
 					'status' => 'bayar'
 				];
 				$tagihan = $tagihan_obj->create($tagihan_value);
+
+				$this->sendKartuPeserta();
 			}
 			if ($status == 'terima') {
 				$object_penerbitan_nim = self::getModelByName('penerbitan_nim');

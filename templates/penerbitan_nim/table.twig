@@ -23,7 +23,7 @@
 	          <td ng-bind="data.pmb.orang.nik || '-'"></td>
 	          <td ng-bind="data.pmb.orang.nama || '-'"></td>
 	          <td ng-bind="data.pmb.tanggal_pendaftaran || '-'"></td>
-	          <td ng-bind="data.status || '-'"></td>
+	          <td ng-bind="data.status_label || '-'"></td>
 	          <td>
           		<button class="btn btn-primary" widget-update-status="pengajuan" ng-attr-target-id="{{data.id}}" ng-if="data.status == 'belum'">Ajukan</button>
           		<button class="btn btn-primary" widget-update-status="terbit" ng-attr-target-id="{{data.id}}" ng-if="data.status == 'pengajuan'">Terbitkan</button>
