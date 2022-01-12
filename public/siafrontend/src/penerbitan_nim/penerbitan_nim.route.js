@@ -25,7 +25,7 @@
             nav: 1,
             content: '<i class="fa fa-list"></i> <span>Penerbitan NIM</span>',
             parent: 'Kemahasiswaan',
-            roles: ['admin', 'akademik']
+            roles: ['admin', 'akademik', 'panitia']
           }
         }
       }

@@ -20,7 +20,8 @@
       postData: postData,
       postDataUrl: postDataUrl,
       deleteRecord: deleteRecord,
-      getPdf: getPdf
+      getPdf: getPdf,
+      user: {}
     };
 
     return service;

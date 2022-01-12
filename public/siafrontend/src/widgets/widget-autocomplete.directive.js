@@ -34,6 +34,7 @@
             },
             listLocation: "data",
             list: {
+                maxNumberOfElements: 10,
                 onSelectItemEvent: function()
                 {
                     var data = $(element).find('input').getSelectedItemData();

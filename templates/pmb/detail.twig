@@ -8,10 +8,10 @@
 
   <div class="float-end">
     {% verbatim %}
-      <button class="btn btn-primary" widget-cetak-peserta="" ng-if="vm.data.status == 'ujian'">Cetak Kartu Peserta</button>
+      <button class="btn btn-primary" widget-cetak-peserta="" ng-if="vm.data.status == 'ujian' && vm.dataservice.user.role != 'panitia'">Cetak Kartu Peserta</button>
       <button class="btn btn-primary" widget-update-status="ujian" ng-if="vm.data.status == 'baru'">Verifikasi</button>
-      <button class="btn btn-primary" widget-update-status="terima" ng-if="vm.data.status == 'ujian'">Terima</button>
-      <button class="btn" widget-update-status="tolak" ng-if="vm.data.status == 'ujian'">Tolak</button>
+      <button class="btn btn-primary" widget-update-status="terima" ng-if="vm.data.status == 'ujian' && vm.dataservice.user.role != 'panitia'">Terima</button>
+      <button class="btn" widget-update-status="tolak" ng-if="vm.data.status == 'ujian' && vm.dataservice.user.role != 'panitia'">Tolak</button>
     {% endverbatim %}
   </div>
 

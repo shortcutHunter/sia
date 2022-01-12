@@ -5,9 +5,9 @@
     .module('app.layout')
     .controller('SidebarController', SidebarController);
 
-  SidebarController.$inject = ['$state', 'routerHelper', '$http'];
+  SidebarController.$inject = ['$state', 'routerHelper', '$http', 'dataservice'];
   /* @ngInject */
-  function SidebarController($state, routerHelper, $http) {
+  function SidebarController($state, routerHelper, $http, dataservice) {
     var vm = this;
     var states = routerHelper.getStates();
     vm.isCurrent = isCurrent;
@@ -22,14 +22,13 @@
 
       $http.get('/session').then(function(response){
         let data = response.data;
+        dataservice.user = data;
 
         vm.navRoutes = states.filter(function(r) {
           return !!(r.settings && r.settings.parent && r.settings.roles.includes(data.role));
         }).sort(function(r1, r2) {
           return r1.settings.parent - r2.settings.parent;
         });
-
-        console.log(data.role);
 
       });
     }

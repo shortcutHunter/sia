@@ -67,7 +67,7 @@ CREATE TABLE `karyawan` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `orang_id` int,
   `ni` varchar(255),
-  `jenis_karyawan` ENUM ('dosen', 'pegawai', 'akademik', 'keuangan'),
+  `jenis_karyawan` ENUM ('dosen', 'pegawai', 'akademik', 'keuangan', 'panitia'),
   `status` ENUM ('aktif', 'nonaktif') DEFAULT "aktif"
 );
 
@@ -77,7 +77,7 @@ CREATE TABLE `user` (
   `username` varchar(255),
   `password` varchar(255),
   `unenpass` varchar(255),
-  `role` ENUM ('mahasiswa', 'dosen', 'keuangan', 'akademik', 'admin') DEFAULT "mahasiswa"
+  `role` ENUM ('mahasiswa', 'dosen', 'keuangan', 'akademik', 'admin', 'panitia') DEFAULT "mahasiswa"
 );
 
 CREATE TABLE `pengajuan_ks` (

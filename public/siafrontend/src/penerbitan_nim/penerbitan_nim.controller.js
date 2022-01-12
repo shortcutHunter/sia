@@ -14,6 +14,7 @@
     vm.page = 0;
     vm.data = [];
     vm.pageData = {};
+    vm.dataservice = dataservice;
 
     activate();
 

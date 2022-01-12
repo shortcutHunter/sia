@@ -12,6 +12,7 @@
     vm.title = 'Detail PMB';
     vm.table = 'pmb';
     vm.data = {};
+    vm.dataservice = dataservice;
 
     activate();
 

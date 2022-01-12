@@ -14,6 +14,7 @@ class User extends BaseModel
 		"keuangan" => "Keuangan",
 		"akademik" => "Akademik",
 		"admin" => "Admin",
+		"panitia" => "Panitia"
 	];
 
 	public function orang()

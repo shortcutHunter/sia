@@ -11,13 +11,14 @@ class Karyawan extends BaseModel
 
 	public $selection_fields = ['status', 'jenis_karyawan'];
 
-	protected $appends = ['status_label'];
+	protected $appends = ['status_label', 'jenis_karyawan_label'];
 
 	public $jenis_karyawan_enum = [
 		"dosen" => "Dosen",
 		"pegawai" => "Pegawai",
 		"akademik" => "Akademik",
 		"keuangan" => "Keuangan",
+		"panitia" => "Panitia"
 	];
 
 	public $status_enum = [
@@ -35,6 +36,17 @@ class Karyawan extends BaseModel
 
 		if ($this->status) {
 			$label = $status_enum[$this->status];
+		}
+
+		return $label;
+	}
+
+	public function getJenisKaryawanLabelAttribute() {
+		$jenis_karyawan_enum = $this->jenis_karyawan_enum;
+		$label = null;
+
+		if ($this->jenis_karyawan) {
+			$label = $jenis_karyawan_enum[$this->jenis_karyawan];
 		}
 
 		return $label;

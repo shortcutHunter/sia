@@ -37,7 +37,7 @@
 	        <tr ng-repeat="data in vm.data" class="clickable" ng-attr-tr_id="{{data.id}}" state_name="karyawan_detail" widget-tr="">
 	          <td ng-bind="data.ni || '-'"></td>
 	          <td ng-bind="data.orang.nama || '-'"></td>
-	          <td ng-bind="data.jenis_karyawan || '-'"></td>
+	          <td ng-bind="data.jenis_karyawan_label || '-'"></td>
 	          <td ng-bind="data.status_label || '-'"></td>
 	        </tr>
 		</tbody>
