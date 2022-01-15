@@ -1,11 +1,17 @@
 <div class="modal fade">
 	<div class="modal-dialog modal-dialog-scrollable modal-lg">
-		<div class="modal-content">
+
+	{% verbatim %}
+    	<div class="modal-content" style="{{ no_scroll ? 'overflow:  visible;' : ''  }}">
+	{% endverbatim %}
 
 			<div class="modal-header">
 				{% block title %}{% endblock %}
 			</div>
-			<div class="modal-body">
+
+		{% verbatim %}
+		    <div class="modal-body" style="{{ no_scroll ? 'overflow:  visible;' : ''  }}">
+		{% endverbatim %}
 				{% block content %}{% endblock %}
 			</div>
 

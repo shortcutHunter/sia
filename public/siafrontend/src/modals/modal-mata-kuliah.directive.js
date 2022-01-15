@@ -25,6 +25,7 @@
       activate();
 
       scope.addMatkul = addMatkul;
+      scope.no_scroll = true;
 
       function activate() {
         $(element).modal('show');

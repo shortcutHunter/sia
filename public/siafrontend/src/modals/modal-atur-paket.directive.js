@@ -25,6 +25,7 @@
       activate();
 
       scope.aturPaket = aturPaket;
+      scope.no_scroll = true;
 
       scope.$watch('data.paket_id', paketChanges, true);
 

@@ -25,6 +25,7 @@
       activate();
 
       scope.addMahasiswa = addMahasiswa;
+      scope.no_scroll = true;
 
       function activate() {
         $(element).modal('show');

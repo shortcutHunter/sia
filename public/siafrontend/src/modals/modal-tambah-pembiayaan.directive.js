@@ -23,6 +23,7 @@
       activate();
 
       scope.addPembiayaan = addPembiayaan;
+      scope.no_scroll = true;
 
       function activate() {
         $(element).modal('show');

@@ -23,6 +23,7 @@
       activate();
 
       scope.addPaket = addPaket;
+      scope.no_scroll = true;
 
       function activate() {
         $(element).modal('show');
