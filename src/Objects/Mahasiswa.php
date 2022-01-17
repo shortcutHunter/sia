@@ -105,5 +105,10 @@ class Mahasiswa extends BaseModel
 		return $this->hasMany(Khs::class, 'mahasiswa_id', 'id');
 	}
 
+	public function tagihan()
+	{
+		return $this->hasOne(Tagihan::class, 'id', 'tagihan_id');
+	}
+
 
 }

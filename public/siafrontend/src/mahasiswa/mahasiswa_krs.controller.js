@@ -12,7 +12,7 @@
     vm.title = 'KRS Mahasiswa';
     vm.data = [];
 
-    vm.pengajuanKrs = pengajuanKrs;
+    vm.inputKode = inputKode;
 
     activate();
 
@@ -27,8 +27,8 @@
       });
     }
 
-    function pengajuanKrs() {
-      let el = "<modal-pengajuan-krs></modal-pengajuan-krs>";
+    function inputKode() {
+      let el = "<modal-input-kode></modal-input-kode>";
       el = compile(el)(scope);
       $(element).append(el);
     }

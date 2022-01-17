@@ -18,10 +18,6 @@ final class MahasiswaController extends BaseController
         $orang = $container->get('session')->get('orang');
 
         $mahasiswa = $mahasiswa_obj->where('orang_id', $orang->id)->without([
-            'orang', 
-            'jurusan', 
-            'semester',
-            'tahun_ajaran',
             'riwayat_belajar',
             'mahasiswa_bimbingan',
             'register_ulang',
@@ -70,6 +66,27 @@ final class MahasiswaController extends BaseController
         $data = $tagihan->toJson();
 
         $response->getBody()->write($data);
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
+    }
+
+    public function cekKode($request, $response, $args)
+    {   
+        $container = $this->container;
+        $postData = $request->getParsedBody();
+
+        $mahasiswa_obj = $this->get_object('mahasiswa');
+        $orang = $container->get('session')->get('orang');
+
+        $mahasiswa = $mahasiswa_obj->where('orang_id', $orang->id)->first();
+
+        $result = ["status" => "success"];
+
+        if ($mahasiswa->tagihan->kode_pembayaran != $postData['kode']) {
+            $result['status'] = 'fail';
+        }
+
+
+        $response->getBody()->write(json_encode($result));
         return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
     }
 

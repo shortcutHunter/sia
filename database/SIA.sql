@@ -60,6 +60,7 @@ CREATE TABLE `mahasiswa` (
   `pengajuan` boolean DEFAULT false,
   `sudah_pengajuan` boolean DEFAULT false,
   `tahun_masuk` int,
+  `tagihan_id` int,
   `status` ENUM ('mahasiswa', 'alumni', 'dropout') DEFAULT "mahasiswa"
 );
 
@@ -376,6 +377,8 @@ ALTER TABLE `mahasiswa` ADD FOREIGN KEY (`jurusan_id`) REFERENCES `jurusan` (`id
 ALTER TABLE `mahasiswa` ADD FOREIGN KEY (`semester_id`) REFERENCES `semester` (`id`);
 
 ALTER TABLE `mahasiswa` ADD FOREIGN KEY (`tahun_ajaran_id`) REFERENCES `tahun_ajaran` (`id`);
+
+ALTER TABLE `mahasiswa` ADD FOREIGN KEY (`tagihan_id`) REFERENCES `tagihan` (`id`);
 
 ALTER TABLE `pengajuan_ks` ADD FOREIGN KEY (`tahun_ajaran_id`) REFERENCES `tahun_ajaran` (`id`);
 

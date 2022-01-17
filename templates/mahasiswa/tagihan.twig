@@ -17,7 +17,7 @@
 					<td ng-bind="col.tanggal || '-'"></td>
 					<td ng-bind="col.nominal || '-'"></td>
 					<td ng-bind="col.kode_pembayaran || '-'"></td>
-					<td ng-bind="col.status || '-'"></td>
+					<td ng-bind="col.status_label || '-'"></td>
 					<td>
 						<button class="btn btn-primary" ng-if="col.status == 'proses'" ng-click="vm.bayarTagihan(col)">Bayar</button>
 					</td>

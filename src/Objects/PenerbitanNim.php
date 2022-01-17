@@ -40,6 +40,9 @@ class PenerbitanNim extends BaseModel
 		if (array_key_exists('status', $attributes)) {
 			if ($attributes['status'] == 'terbit') {
 				$object_mahasiswa = self::getModelByName('mahasiswa');
+				$tagihan_obj = self::getModelByName('tagihan');
+
+				$tagihan = $tagihan_obj->where('orang_id', $this->pmb->orang_id)->first();
 
 				if (!$this->mahasiswa_id) {
 					$konfigurasi_obj = self::getModelByName('konfigurasi');
@@ -50,7 +53,8 @@ class PenerbitanNim extends BaseModel
 						'orang_id' => $this->pmb->orang_id, 
 						'tahun_masuk' => date('Y'),
 						'semester_id' => $konfigurasi->semester_id,
-						'tahun_ajaran_id' => $konfigurasi->tahun_ajaran_id
+						'tahun_ajaran_id' => $konfigurasi->tahun_ajaran_id,
+						'tagihan_id' => $tagihan->id
 					]);
 				}
 			}

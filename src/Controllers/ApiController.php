@@ -636,7 +636,7 @@ final class ApiController extends BaseController
         $khs->update(['total_sks' => $total_sks, 'ips' => $ips]);
     }
 
-    public function buatTagihanMahasiswa($item_ids, $semester_id, $orang_id)
+    public function buatTagihanMahasiswa($item_ids, $semester_id, $mahasiswa)
     {
         $setup_paket_obj = $this->get_object('paket_register_ulang');
         $item_obj = $this->get_object('item');
@@ -650,7 +650,7 @@ final class ApiController extends BaseController
         $tagihan_value = [
             'tanggal' => date('d/m/Y'),
             'nominal' => $total_nominal,
-            'orang_id' => $orang_id,
+            'orang_id' => $mahasiswa->orang_id,
             'system' => true,
             'paket_register_ulang_id' => $setup_paket->id,
             'tagihan_item' => $item_value,
@@ -658,6 +658,9 @@ final class ApiController extends BaseController
             'status' => 'proses'
         ];
         $tagihan = $tagihan_obj->create($tagihan_value);
+        $mahasiswa->update([
+            "tagihan_id" => $tagihan->id
+        ]);
     }
 
     public function updateMahasiswa($mahasiswa, $semester_id)
@@ -734,7 +737,7 @@ final class ApiController extends BaseController
                 $this->nilaiMahasiswa($riwayat_belajar, $semester_id, $mahasiswa_id);
             }
 
-            $this->buatTagihanMahasiswa($tagihan_item_ids, $semester_id, $mahasiswa->orang_id);
+            $this->buatTagihanMahasiswa($tagihan_item_ids, $semester_id, $mahasiswa);
             $this->updateMahasiswa($mahasiswa, $semester_ganti_id);
         }
 
