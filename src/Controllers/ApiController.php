@@ -150,7 +150,13 @@ final class ApiController extends BaseController
 
         $data = $object->whereHas('orang', function($q) use ($getData) {
             $q->where('nama', 'like', '%'.$getData['nama'].'%');
-        })->get();
+        });
+
+        if (array_key_exists('semester', $getData)) {
+            $data->where('semester_id', $getData['semester']);
+        }
+
+        $data = $data->get();
 
         $data = json_encode(['data' => $data]);
 

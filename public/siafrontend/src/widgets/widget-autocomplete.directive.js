@@ -24,11 +24,19 @@
     return directive;
 
     function link(scope, element, attr, ctrl) {
+
+        scope.attr = attr;
+
         var options = {
             url: function(phrase) {
                 if (attr.normalSearch) {
                     return `/${attr.table}/get?nama=${phrase}`;
                 }else{
+                    if (attr.table == 'mahasiswa') {
+                        let data = scope.$parent.$parent.vm.data;
+                        return `/search/${attr.table}?nama=${phrase}&semester=${data.semester_id}`;
+                    }
+
                     return `/search/${attr.table}?nama=${phrase}`;
                 }
             },

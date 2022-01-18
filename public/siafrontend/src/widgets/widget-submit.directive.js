@@ -26,6 +26,7 @@
         state_name = state_name.split("_detail").shift();
 
         $('[required]').each(function(i, v){
+
           if (['text', 'textarea', 'select-one'].includes(v.type)) {
             if (v.value) {
               $(v).removeClass('invalid');
@@ -60,6 +61,14 @@
             }else{
               is_valid = false;
               $(v).parent().addClass('invalid');
+            }
+          }else if (v.tagName == 'DIV') {
+            var value = parse($(v).attr('ng-model'))(scope);
+            if (value) {
+              $(v).removeClass('invalid');
+            }else{
+              is_valid = false;
+              $(v).addClass('invalid');
             }
           }
         });
