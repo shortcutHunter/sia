@@ -15,6 +15,7 @@ class PenerbitanNim extends BaseModel
 		"belum" => "Belum",
 	];
 
+	public $selection_fields = ['status'];
 	protected $appends = ['status_label'];
 	
 	public $like_fields = ['nama'];
@@ -49,13 +50,15 @@ class PenerbitanNim extends BaseModel
 					$konfigurasi = $konfigurasi_obj->first();
 
 
-					$object_mahasiswa->create([
+					$mahasiswa = $object_mahasiswa->create([
 						'orang_id' => $this->pmb->orang_id, 
 						'tahun_masuk' => date('Y'),
 						'semester_id' => $konfigurasi->semester_id,
 						'tahun_ajaran_id' => $konfigurasi->tahun_ajaran_id,
 						'tagihan_id' => $tagihan->id
 					]);
+
+					$attributes['mahasiswa_id'] = $mahasiswa->id;
 				}
 			}
 		}

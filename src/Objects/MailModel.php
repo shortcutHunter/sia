@@ -38,6 +38,10 @@ class MailModel
 			$this->mail->AddStringAttachment($attachment['file'], $attachment['name']);
 		}
 
-		$this->mail->send();
+		try {
+			$this->mail->send();
+		} catch (Exception $e) {
+			return false;
+		}
 	}
 }
