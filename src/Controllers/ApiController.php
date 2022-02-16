@@ -156,6 +156,10 @@ final class ApiController extends BaseController
             $data->where('semester_id', $getData['semester']);
         }
 
+        if (array_key_exists('jenis_karyawan', $getData)) {
+            $data->where('jenis_karyawan', $getData['jenis_karyawan']);
+        }
+
         $data = $data->get();
 
         $data = json_encode(['data' => $data]);
@@ -231,13 +235,12 @@ final class ApiController extends BaseController
 
         foreach ($postData['data'] as $key => $value) {
             $mahasiswa_id = $value['mahasiswa_id'];
-            $semester_id = $value['semester_id'];
             $mahasiswa = $mahasiswa_obj->find($mahasiswa_id);
-            $riwayat_belajar_condition = [['mahasiswa_id', $mahasiswa_id], ['semester_id', $semester_id]];
+            $riwayat_belajar_condition = [['mahasiswa_id', $mahasiswa_id]];
             $riwayat_belajar = $riwayat_belajar_obj->where($riwayat_belajar_condition);
             $riwayat_belajar_value = [
                 'mahasiswa_id' => $mahasiswa_id,
-                'semester_id' => $semester_id,
+                'semester_id' => $mahasiswa->semester_id,
                 'riwayat_belajar_detail' => $value['riwayat_belajar_detail']
             ];
 

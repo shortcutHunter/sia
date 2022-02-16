@@ -98,7 +98,7 @@ final class ReportController extends BaseController
 
         $mata_kuliah_diampuh = $mata_kuliah_diampuh_obj->find($mata_kuliah_diampuh_id);
 
-        $mahasiswa = $mahasiswa_obj->whereHas(
+        $mahasiswa = $mahasiswa_obj->where('semester_id', $mata_kuliah_diampuh->dosen_pjmk->semester_id)->whereHas(
             'pengajuan_ks', 
             function($q) use ($mata_kuliah_diampuh) {
                 $q
@@ -133,7 +133,7 @@ final class ReportController extends BaseController
         $mata_kuliah_diampuh = $mata_kuliah_diampuh_obj->find($mata_kuliah_diampuh_id);
         $nilai = $nilai_obj->all();
 
-        $mahasiswa = $mahasiswa_obj->whereHas(
+        $mahasiswa = $mahasiswa_obj->where('semester_id', $mata_kuliah_diampuh->dosen_pjmk->semester_id)->whereHas(
             'pengajuan_ks', 
             function($q) use ($mata_kuliah_diampuh) {
                 $q

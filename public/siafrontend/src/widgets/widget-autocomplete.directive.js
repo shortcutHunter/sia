@@ -37,6 +37,12 @@
                         return `/search/${attr.table}?nama=${phrase}&semester=${data.semester_id}`;
                     }
 
+                    if (attr.table == 'karyawan') {
+                        let data = scope.$parent.$parent.vm.data;
+                        console.log(attr);
+                        return `/search/${attr.table}?nama=${phrase}&jenis_karyawan=${attr.jenis}`;
+                    }
+
                     return `/search/${attr.table}?nama=${phrase}`;
                 }
             },

@@ -15,6 +15,19 @@ class PengajuanKs extends BaseModel
 		"tolak" => "Tolak",
 	];
 
+	protected $appends = ['status_label'];
+
+	public function getStatusLabelAttribute() {
+		$status_enum = $this->status_enum;
+		$label = null;
+
+		if ($this->status) {
+			$label = $status_enum[$this->status];
+		}
+
+		return $label;
+	}
+
 	public static function create(array $attributes = [])
 	{
 		$mahasiswa = self::getModelByName('mahasiswa')->find($attributes['mahasiswa_id']);

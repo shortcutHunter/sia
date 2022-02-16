@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '13b6c1254f67b9a5464db0b544a8b6f606088e59',
+        'reference' => '4dc4d3ab37325d745b9790b544c3053208593cf8',
         'name' => 'slim/slim-skeleton',
         'dev' => true,
     ),
@@ -28,6 +28,21 @@
             'reference' => 'd56bf6102915de5702778fe20f2de3b2fe570b5b',
             'dev_requirement' => true,
         ),
+        'ergebnis/faker' => array(
+            'dev_requirement' => false,
+            'replaced' => array(
+                0 => '1.9.2',
+            ),
+        ),
+        'fakerphp/faker' => array(
+            'pretty_version' => 'v1.9.2',
+            'version' => '1.9.2.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../fakerphp/faker',
+            'aliases' => array(),
+            'reference' => '84220cf137a9344acffb10374e781fed785ff307',
+            'dev_requirement' => false,
+        ),
         'fig/http-message-util' => array(
             'pretty_version' => '1.1.5',
             'version' => '1.1.5.0',
@@ -36,6 +51,12 @@
             'aliases' => array(),
             'reference' => '9d94dc0154230ac39e5bf89398b324a86f63f765',
             'dev_requirement' => false,
+        ),
+        'fzaninotto/faker' => array(
+            'dev_requirement' => false,
+            'replaced' => array(
+                0 => '1.9.2',
+            ),
         ),
         'illuminate/container' => array(
             'pretty_version' => 'v5.8.36',
@@ -505,7 +526,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '13b6c1254f67b9a5464db0b544a8b6f606088e59',
+            'reference' => '4dc4d3ab37325d745b9790b544c3053208593cf8',
             'dev_requirement' => false,
         ),
         'slim/twig-view' => array(
@@ -621,6 +642,15 @@
             'aliases' => array(),
             'reference' => '6964c76c7804814a842473e0c8fd15bab0f18e25',
             'dev_requirement' => true,
+        ),
+        'xvladqt/faker-lorem-flickr' => array(
+            'pretty_version' => 'v1.0.0',
+            'version' => '1.0.0.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../xvladqt/faker-lorem-flickr',
+            'aliases' => array(),
+            'reference' => 'ed4b8c2892b873b9c4949829c8b6f760827f97f4',
+            'dev_requirement' => false,
         ),
     ),
 );

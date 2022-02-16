@@ -25,6 +25,7 @@ class MataKuliahDiampuh extends BaseModel
 				$value['mata_kuliah_diampuh_id'] = $data->id;
 				$object_konfigurasi_nilai->create($value);
 			}
+			unset($attributes['konfigurasi_nilai']);
 		}
 
 		return $data;

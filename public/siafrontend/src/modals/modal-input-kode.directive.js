@@ -52,6 +52,7 @@
           dataservice.postDataUrl(url, data).then((response) => {
             if (response.status == 'success') {
               $(element).modal('hide');
+              scope.vm.data = scope.data;
               pengajuanKrs();
             }else{
               logger.error('Maaf, kode pembayaran yang anda masukan tidak valid');

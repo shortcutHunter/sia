@@ -14,6 +14,7 @@
     'app.tahun_ajaran',
     'app.penerbitan_nim',
     'app.mahasiswa',
+    'app.alumni',
     'app.karyawan',
     'app.dosen_pa',
     'app.dosen_pjmk',

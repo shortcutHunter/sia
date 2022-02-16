@@ -15,10 +15,14 @@
     vm.data = [];
     vm.pageData = {};
     vm.searchValue = false;
+    vm.filterValue = false;
+    vm.status = null;
 
     vm.search = search;
 
     activate();
+
+    scope.$watch('vm.status', status_changes);
 
     scope.$watch('vm.page', function(newVal){
       if (newVal != 0) {
@@ -26,15 +30,28 @@
       }
     });
 
+    scope.$watch('vm.filterValue', function(newVal){
+      if (vm.filterValue != null) {
+        getData();
+      }
+    }, true);
+
     function activate() {
       vm.page = 1;
+      getOption();
     }
 
     function getData() {
-      return dataservice.getData(vm.table, vm.page, vm.searchValue).then(function(response) {
+      return dataservice.getData(vm.table, vm.page, vm.searchValue, vm.filterValue).then(function(response) {
         vm.pageData = response;
         vm.data = response.data;
         logger.info('Data loaded');
+      });
+    }
+
+    function getOption() {
+      return dataservice.getOption(vm.table).then(function(response) {
+        vm.option = response;
       });
     }
 
@@ -47,6 +64,33 @@
         getData();
       }else{
         vm.page = 1;
+      }
+    }
+
+    function status_changes(newVal) {
+      if (newVal != null) {
+        insertFilter('status', newVal);
+      }
+    }
+
+    function insertFilter(field, val) {
+
+      let status_value = {
+        'field': field,
+        'value': val
+      };
+
+      if (vm.filterValue) {
+        let field_name = vm.filterValue.map(function(v, i){ return v.field });
+        let array_index = field_name.indexOf(field);
+
+        if (array_index != -1) {
+          vm.filterValue[array_index]['value'] = val;
+        }else{
+          vm.filterValue.push(status_value);
+        }
+      }else{
+        vm.filterValue = [status_value];
       }
     }
 

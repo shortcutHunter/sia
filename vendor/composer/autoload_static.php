@@ -25,6 +25,10 @@ class ComposerStaticInit7ba3f9f849fffe85f7617a764a324f97
         array (
             'phpDocumentor\\Reflection\\' => 25,
         ),
+        'X' => 
+        array (
+            'Xvladqt\\Faker\\' => 14,
+        ),
         'W' => 
         array (
             'Webmozart\\Assert\\' => 17,
@@ -74,6 +78,7 @@ class ComposerStaticInit7ba3f9f849fffe85f7617a764a324f97
         array (
             'Fig\\Http\\Message\\' => 17,
             'FastRoute\\' => 10,
+            'Faker\\' => 6,
         ),
         'D' => 
         array (
@@ -100,6 +105,10 @@ class ComposerStaticInit7ba3f9f849fffe85f7617a764a324f97
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
             1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+        ),
+        'Xvladqt\\Faker\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/xvladqt/faker-lorem-flickr',
         ),
         'Webmozart\\Assert\\' => 
         array (
@@ -219,6 +228,10 @@ class ComposerStaticInit7ba3f9f849fffe85f7617a764a324f97
         'FastRoute\\' => 
         array (
             0 => __DIR__ . '/..' . '/nikic/fast-route/src',
+        ),
+        'Faker\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/fakerphp/faker/src/Faker',
         ),
         'Doctrine\\Instantiator\\' => 
         array (

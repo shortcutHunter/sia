@@ -11,6 +11,26 @@
 
 {% endblock %}
 
+{% block filter %}
+
+	<div class="d-flex align-items-center">
+		<div class="form-group mr-20">
+			<select class="form-select" ng-model="vm.tahun_ajaran">
+				<option value="">Tahun Ajaran</option>
+				<option ng-repeat="ta in vm.option.selection.tahun_ajaran" ng-bind="ta.nama" ng-value="ta.id"></option>
+			</select>
+		</div>
+
+		<div class="form-group">
+			<select class="form-select" ng-model="vm.semester">
+				<option value="">Semester</option>
+				<option ng-repeat="s in vm.option.selection.semester" ng-bind="s.nama" ng-value="s.id"></option>
+			</select>
+		</div>
+	</div>
+
+{% endblock %}
+
 {% block table %}
 
 	{% verbatim %}

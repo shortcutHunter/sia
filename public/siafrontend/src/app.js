@@ -18,6 +18,7 @@ import './sequance/sequance.module';
 import './tahun_ajaran/tahun_ajaran.module';
 import './penerbitan_nim/penerbitan_nim.module';
 import './mahasiswa/mahasiswa.module';
+import './alumni/alumni.module';
 import './karyawan/karyawan.module';
 import './dosen_pa/dosen_pa.module';
 import './dosen_pjmk/dosen_pjmk.module';
@@ -113,6 +114,9 @@ import './mahasiswa/mahasiswa_krs.controller';
 import './mahasiswa/mahasiswa_khs.controller';
 import './mahasiswa/mahasiswa_tagihan.controller';
 import './mahasiswa/mahasiswa.route';
+
+import './alumni/alumni.controller';
+import './alumni/alumni.route';
 
 import './karyawan/karyawan.controller';
 import './karyawan/karyawan_form.controller';

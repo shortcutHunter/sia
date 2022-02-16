@@ -6,6 +6,19 @@
 	</a>
 {% endblock %}
 
+{% block filter %}
+
+	<div class="d-flex align-items-center">
+		<div class="form-group mr-20">
+			<select class="form-select" ng-model="vm.status">
+				<option value="">Status</option>
+				<option ng-repeat="(key, value) in vm.option.option.status" ng-bind="value" ng-value="key"></option>
+			</select>
+		</div>
+	</div>
+
+{% endblock %}
+
 {% block search %}
 
 	<div class="form-group position-relative has-icon-right">

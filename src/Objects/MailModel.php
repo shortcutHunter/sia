@@ -14,8 +14,8 @@ class MailModel
 		//Server settings
 		$this->mail->Host       = 'smtp.gmail.com';
 		$this->mail->SMTPAuth   = true;
-		$this->mail->Username   = 'jimmyadrian27799@gmail.com';
-		$this->mail->Password   = 'sstubhyofrblarxc';
+		$this->mail->Username   = 'email.no.reply.testing@gmail.com';
+		$this->mail->Password   = 'noreplyEmail.com';
 		$this->mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
 		$this->mail->Port       = 465;
 

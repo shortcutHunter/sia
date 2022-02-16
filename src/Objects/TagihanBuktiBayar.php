@@ -42,4 +42,33 @@ class TagihanBuktiBayar extends BaseModel
 		return $tagihan;
 	}
 
+	public function update(array $attributes = [], array $options = [])
+	{
+		if (array_key_exists('file', $attributes)) {
+			$file = $attributes['file'];
+			$file_obj = self::getModelByName('file');
+
+			unset($attributes['file']);
+
+			$file_data_value = [
+				'name' => 'Bukti Pembayaran',
+				'filename' => $file['filename'],
+				'filetype' => $file['filetype'],
+				'base64' => $file['base64']
+			];
+			$file = $file_obj->find($file['id']);
+			$file->update($file_data_value);
+
+			$tagihan_value = [
+				'tagihan_id' => $attributes['tagihan_id'],
+				'file_id' => $file->id
+			];
+			$tagihan = parent::update($tagihan_value);
+		}else{
+			$tagihan = parent::update($attributes);
+		}
+
+		return $tagihan;
+	}
+
 }

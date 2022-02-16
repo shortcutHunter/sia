@@ -192,12 +192,6 @@ class Tagihan extends BaseModel
 				}
 			}
 			unset($attributes['tagihan_bukti_bayar']);
-
-			foreach ($this->tagihan_bukti_bayar as $value) {
-				if (!in_array($value->id, $item_ids)) {
-					$value->delete();
-				}
-			}
 		}
 
 		if (array_key_exists('status', $attributes)) {
