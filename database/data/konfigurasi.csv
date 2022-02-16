@@ -1,2 +1,2 @@
 kode_perusahaan,host,port,username,password,status_smtp
-114069E,smtp.gmail.com,465,email.no.reply.testing@gmail.com,noreplyEmail.com,TRUE
+114069E,smtp.gmail.com,465,email.no.reply.testing@gmail.com,noreplyEmail.com,1
