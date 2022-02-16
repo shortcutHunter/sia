@@ -12,8 +12,29 @@
 		<div class="col-md-6">
 			<table class="custom-table">
 				{% include 'components/preview-text.twig' with {'name': 'kode_perusahaan', 'label': 'Kode Perusahaan'} %}
+			</table>
+		</div>		
+	</div>
+
+	<hr>
+
+	<div class="row">
+		<div class="col-md-6">
+			<h5>Akademik</h5>
+			<table class="custom-table">
 				{% include 'components/preview-text.twig' with {'name': 'semester.nama', 'label': 'Semester Awal'} %}
 				{% include 'components/preview-text.twig' with {'name': 'tahun_ajaran.nama', 'label': 'Tahun Ajaran Awal'} %}
+			</table>
+		</div>
+
+		<div class="col-md-6">
+			<h5>SMTP Mail</h5>
+			<table class="custom-table">
+				{% include 'components/checkbox.twig' with {'name': 'status_smtp', 'label': 'Aktif', 'disabled': true} %}
+				{% include 'components/preview-text.twig' with {'name': 'host', 'label': 'Host'} %}
+				{% include 'components/preview-text.twig' with {'name': 'port', 'label': 'Port'} %}
+				{% include 'components/preview-text.twig' with {'name': 'username', 'label': 'Username'} %}
+				{% include 'components/preview-text.twig' with {'name': 'password', 'label': 'Password'} %}
 			</table>
 		</div>
 	</div>

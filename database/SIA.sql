@@ -353,7 +353,12 @@ CREATE TABLE `konfigurasi` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `kode_perusahaan` varchar(255),
   `semester_id` int,
-  `tahun_ajaran_id` int
+  `tahun_ajaran_id` int,
+  `status_smtp` boolean,
+  `host` varchar(255),
+  `username` varchar(255),
+  `password` varchar(255),
+  `port` int
 );
 
 ALTER TABLE `mahasiswa` ADD FOREIGN KEY (`orang_id`) REFERENCES `orang` (`id`);

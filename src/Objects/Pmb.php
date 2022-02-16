@@ -60,6 +60,10 @@ class Pmb extends BaseModel
 		return $label;
 	}
 
+	public function getPernyataanAttribute($value) {
+		return $value ? true : false;
+	}
+
 	public static function create(array $attributes = [])
 	{
 		$object_sequance = self::getModelByName('sequance');

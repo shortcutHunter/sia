@@ -14,6 +14,10 @@ class Konfigurasi extends BaseModel
 		['name' => 'tahun_ajaran', 'is_selection' => true, 'skip' => false]
 	];
 
+	public function getStatusSmtpAttribute($value) {
+		return $value ? true : false;
+	}
+
 	public function semester()
 	{
 		return $this->hasOne(Semester::class, 'id', 'semester_id');

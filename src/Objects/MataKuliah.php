@@ -11,6 +11,23 @@ class MataKuliah extends BaseModel
 
 	public $like_fields = ['nama'];
 
+	public static $relation = [
+		['name' => 'jurusan', 'is_selection' => true, 'skip' => true],
+		['name' => 'semester', 'is_selection' => true, 'skip' => true],
+	];
+
+	public function getTAttribute($value) {
+		return $value ? true : false;
+	}
+
+	public function getPAttribute($value) {
+		return $value ? true : false;
+	}
+
+	public function getKAttribute($value) {
+		return $value ? true : false;
+	}
+
 	public function jurusan()
 	{
 		return $this->hasOne(Jurusan::class, 'id', 'jurusan_id');

@@ -8,16 +8,27 @@ use PHPMailer\PHPMailer\Exception;
 class MailModel
 {
 
+	public static function getModelByName($name)
+	{
+		$class_name = join("", array_map("ucfirst", explode("_", $name)));
+        $class_name = "App\\Objects\\".$class_name;
+        $model = new $class_name();
+        return $model;
+	}
+
 	public function __construct()
 	{
+		$konfigurasi_obj = $this->getModelByName('konfigurasi');
+		$konfigurasi = $konfigurasi_obj->first();
+
 		$this->mail = new PHPMailer(true);
 		//Server settings
-		$this->mail->Host       = 'smtp.gmail.com';
+		$this->mail->Host       = $konfigurasi->host;
 		$this->mail->SMTPAuth   = true;
-		$this->mail->Username   = 'email.no.reply.testing@gmail.com';
-		$this->mail->Password   = 'noreplyEmail.com';
+		$this->mail->Username   = $konfigurasi->username;
+		$this->mail->Password   = $konfigurasi->password;
 		$this->mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-		$this->mail->Port       = 465;
+		$this->mail->Port       = $konfigurasi->port;
 
 		$this->mail->isSMTP();
 		$this->mail->isHTML(true);
@@ -29,6 +40,14 @@ class MailModel
 	}
 
 	public function sendEmail($recipient, $subject, $content, $attachment=false) {
+
+		$konfigurasi_obj = $this->getModelByName('konfigurasi');
+		$konfigurasi = $konfigurasi_obj->first();
+
+		if (!$konfigurasi->status_smtp) {
+			return false;
+		}
+
 		$this->addRecipients($recipient);
 
 		$this->mail->Subject = $subject;
