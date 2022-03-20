@@ -39,7 +39,6 @@
 
                     if (attr.table == 'karyawan') {
                         let data = scope.$parent.$parent.vm.data;
-                        console.log(attr);
                         return `/search/${attr.table}?nama=${phrase}&jenis_karyawan=${attr.jenis}`;
                     }
 

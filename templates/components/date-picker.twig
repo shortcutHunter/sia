@@ -3,8 +3,9 @@
 		<div class="text-muted font-semibold me-3 {{ required ? 'required' : '' }}">{{ label }}</div>
 	</td>
 	<td>
-		<datepicker date-format="dd/MM/yyyy">
+		<input type="text" ng-model="vm.data.{{ name }}" class="form-control form-control-sm widget-date-picker" {{ required ? 'required' : '' }} data-inputmask="'alias': 'datetime', 'inputFormat': 'dd/mm/yyyy'">
+		{# <datepicker date-format="dd/MM/yyyy">
 			<input type="text" ng-model="vm.data.{{ name }}" class="form-control form-control-sm date-picker" {{ required ? 'required' : '' }}>
-		</datepicker>
+		</datepicker> #}
 	</td>
 </tr>

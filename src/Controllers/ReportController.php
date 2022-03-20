@@ -54,10 +54,16 @@ final class ReportController extends BaseController
         $pengajuan_ks_obj = $this->get_object('pengajuan_ks');
         $mahasiswa = $mahasiswa_obj->find($mahasiswa_id);
         $pengajuan_ks = $pengajuan_ks_obj->where([['mahasiswa_id', $mahasiswa->id], ['semester_id', $mahasiswa->semester_id]])->first();
-        $value = ['mahasiswa' => $mahasiswa, 'sks' => $pengajuan_ks->pengajuan_ks_detail];
 
-        $pdfContent = $this->container->get('renderPDF')("reports/krs.phtml", $value, true);
-        $pdfContent = ['content' => base64_encode($pdfContent)];
+        if (!empty($pengajuan_ks)) {
+            $value = ['mahasiswa' => $mahasiswa, 'sks' => $pengajuan_ks->pengajuan_ks_detail];
+            $pdfContent = $this->container->get('renderPDF')("reports/krs.phtml", $value, true);
+            $pdfContent = ['content' => base64_encode($pdfContent)];
+        }else {
+            $pdfContent = ['content' => false, 'error' => "Belum ada KRS yang dapat dicetak. harap melakukan pengajuan KRS terlebih dahulu"];
+        }
+
+        
 
         $response->getBody()->write(json_encode($pdfContent));
         return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
@@ -116,6 +122,11 @@ final class ReportController extends BaseController
           'mahasiswa' => $mahasiswa,
           'mata_kuliah_diampuh' => $mata_kuliah_diampuh
         ];
+
+        if ($mahasiswa->count() < 1) {
+            throw new \Exception("Belum ada mahasiswa yang diajar");
+        }
+
         $pdfContent = $this->container->get('renderPDF')("reports/list_mahasiswa.phtml", $value);
         $pdfContent = ['content' => base64_encode($pdfContent)];
 
@@ -167,6 +178,11 @@ final class ReportController extends BaseController
           'mata_kuliah_diampuh' => $mata_kuliah_diampuh,
           'nilai' => $nilai
         ];
+
+        if ($mahasiswa->count() < 1) {
+            throw new \Exception("Belum ada mahasiswa yang diajar");
+        }
+
         $pdfContent = $this->container->get('renderPDF')("reports/rekap_nilai.phtml", $value);
         $pdfContent = ['content' => base64_encode($pdfContent)];
 

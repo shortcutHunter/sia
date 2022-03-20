@@ -74,7 +74,7 @@ final class ApiController extends BaseController
         }
 
         if ($current_page) {
-            $object = $object->paginate($this->settings['row_per_page']);
+            $object = $object->orderBy('id', 'desc')->paginate($this->settings['row_per_page']);
             $data = $object->toJson();
         }else{
             $object = $object->get();

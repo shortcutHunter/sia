@@ -87,9 +87,17 @@
                         <td><?= $value->nim ?></td>
                         <td><?= $value->orang->nama ?></td>
 
-                        <?php foreach($value->nilai->riwayat_belajar_nilai as $key => $value): ?>
-                            <td><?= $value->nilai ?></td>
-                        <?php endforeach ?>
+                        <?php if ($value->nilai): ?>
+                            <?php foreach($value->nilai->riwayat_belajar_nilai as $key => $value): ?>
+                                <td><?= $value->nilai ?></td>
+                            <?php endforeach ?>
+                        <?php endif ?>
+
+                        <?php if (!$value->nilai): ?>
+                            <?php foreach($nilai as $key => $value): ?>
+                                <th></th>
+                            <?php endforeach ?>
+                        <?php endif ?>
 
                     </tr>
                 <?php endforeach ?>

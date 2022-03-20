@@ -13,6 +13,8 @@ class DosenPjmk extends BaseModel
 		['name' => 'semester', 'is_selection' => true, 'skip' => true],
 		['name' => 'tahun_ajaran', 'is_selection' => true, 'skip' => true],
 	];
+	
+	public $selection_fields = ['status'];
 
 	public $status_enum = [
 		"aktif" => "Aktif",
@@ -50,6 +52,18 @@ class DosenPjmk extends BaseModel
 	public function mata_kuliah_diampuh()
 	{
 		return $this->hasMany(MataKuliahDiampuh::class, 'dosen_pjmk_id', 'id');
+	}
+
+	public static function create(array $attributes = [])
+	{
+		$object_dosen_pjmk = self::getModelByName('dosen_pjmk');
+		$dosen_pjmk_data = $object_dosen_pjmk->where('status', 'aktif')->where('karyawan_id', $attributes['karyawan_id']);
+		$isexist = $dosen_pjmk_data->count() > 0;
+		if ($isexist) {
+			throw new \Exception("1 Karyawan tidak dapat memiliki 2 record dosen pjmk.");
+		}
+		$dosen_pjmk = parent::create($attributes);
+		return $dosen_pjmk;
 	}
 
 }

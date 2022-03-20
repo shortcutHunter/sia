@@ -16,6 +16,17 @@ class MataKuliahDiampuh extends BaseModel
 
 	public static function create(array $attributes = [])
 	{
+		$mata_kuliah_diampuh_obj = self::getModelByName('mata_kuliah_diampuh');
+		$mata_kuliah_diampuh = $mata_kuliah_diampuh_obj
+			->where('mata_kuliah_id', $attributes['mata_kuliah_id'])
+			->whereHas("dosen_pjmk", function($q) use ($attributes) {
+				$q->where('status', 'aktif');
+			});
+
+		if ($mata_kuliah_diampuh->count() > 0) {
+			throw new \Exception("Mata kuliah telah diampuh");
+		}
+
 		$data = parent::create($attributes);
 
 		if (array_key_exists('konfigurasi_nilai', $attributes)) {

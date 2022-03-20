@@ -33,6 +33,18 @@ class DosenPa extends BaseModel
 		return $label;
 	}
 
+	public static function create(array $attributes = [])
+	{
+		$object_dosen_pa = self::getModelByName('dosen_pa');
+		$dosen_pa_data = $object_dosen_pa->where('status', 'aktif')->where('karyawan_id', $attributes['karyawan_id']);
+		$isexist = $dosen_pa_data->count() > 0;
+		if ($isexist) {
+			throw new \Exception("1 Karyawan tidak dapat memiliki 2 record dosen pa.");
+		}
+		$dosen_pjmk = parent::create($attributes);
+		return $dosen_pjmk;
+	}
+
 	public function karyawan()
 	{
 		return $this->belongsTo(Karyawan::class, 'karyawan_id', 'id');

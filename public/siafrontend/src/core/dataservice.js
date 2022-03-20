@@ -21,7 +21,8 @@
       postDataUrl: postDataUrl,
       deleteRecord: deleteRecord,
       getPdf: getPdf,
-      user: {}
+      user: {},
+      filter: {}
     };
 
     return service;

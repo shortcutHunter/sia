@@ -39,10 +39,6 @@
 
         let preview_modal = '<modal-preview file="file" name="fileName" mimetype="filetype" base64="base64" type="type"></modal-preview>';
         let el = compile(preview_modal)(scope);
-
-        dataservice.getPdf(base64).then(function(file){
-          el.find('#pdf-container').append(file);
-        });
       });
     }
 

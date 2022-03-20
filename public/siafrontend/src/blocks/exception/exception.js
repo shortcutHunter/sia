@@ -6,6 +6,8 @@
     .factory('exception', exception);
 
   /* @ngInject */
+  exception.$inject = ['$q', 'logger'];
+
   function exception($q, logger) {
     var service = {
       catcher: catcher
@@ -14,14 +16,13 @@
 
     function catcher(message) {
       return function(e) {
-        var thrownDescription;
-        var newMessage;
-        if (e.data && e.data.description) {
-          thrownDescription = '\n' + e.data.description;
-          newMessage = message + thrownDescription;
+        var newException;
+        if (e.data && e.data.exception.length > 0) {
+          newException = e.data.exception[0];
+          logger.error(newException.message, e);
+          return $q.reject(newException.message);
         }
-        e.data.description = newMessage;
-        logger.error(newMessage);
+
         return $q.reject(e);
       };
     }

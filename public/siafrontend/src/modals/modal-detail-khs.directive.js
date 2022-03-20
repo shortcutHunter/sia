@@ -7,8 +7,6 @@
 
   /* @ngInject */
   function modalDetailKhs() {
-    //Usage:
-    //<div modal-preview></div>
     var directive = {
       restrict: 'EA',
       link: link,

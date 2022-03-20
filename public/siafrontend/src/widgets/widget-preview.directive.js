@@ -46,12 +46,10 @@
                 scope.fileName = model_value.filename;
                 scope.filetype = model_value.filetype;
                 scope.base64 = model_value.base64;
-                let preview_modal = '<modal-preview file="preview_modal" mimetype="filetype" base64="base64" name="fileName" type="type"></modal-preview>';
-                let el = compile(preview_modal)(scope);
-                if (pdfFile) {
-                    pdfFile.then(function(file){
-                        el.find('#pdf-container').append(file);
-                    });
+                
+                if (pdfFile || file_preview) {
+                    let preview_modal = '<modal-preview file="preview_modal" mimetype="filetype" base64="base64" name="fileName" type="type"></modal-preview>';
+                    let el = compile(preview_modal)(scope);
                 }
             });
         }
