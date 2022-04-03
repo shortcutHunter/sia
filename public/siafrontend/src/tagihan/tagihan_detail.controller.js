@@ -15,6 +15,7 @@
     vm.option = {};
 
     vm.tambahPembiayaan = tambahPembiayaan;
+    vm.hapusBukti = hapusBukti;
 
     scope.$watch('vm.data.upload_file', uploadFileChanges);
 
@@ -46,13 +47,21 @@
     function uploadFileChanges(newVal, oldVal) {
       if (newVal) {
         let data = {
-          file: newVal,
-          tagihan_id: vm.data.id
+          tagihan_bukti_bayar: []
         };
-        return dataservice.postData('tagihan_bukti_bayar', data).then(function(response) {
+
+        $.each(newVal, (i, v) => {
+          data.tagihan_bukti_bayar.push({'file': v});
+        });
+
+        return dataservice.postData('tagihan', data, vm.data.id).then(function(response) {
           state.reload();
         });
       }
+    }
+
+    function hapusBukti(data) {
+      dataservice.deleteRecord('tagihan_bukti_bayar', data.id).then(() => state.reload());
     }
 
   }

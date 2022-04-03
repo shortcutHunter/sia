@@ -60,10 +60,24 @@ class DosenPjmk extends BaseModel
 		$dosen_pjmk_data = $object_dosen_pjmk->where('status', 'aktif')->where('karyawan_id', $attributes['karyawan_id']);
 		$isexist = $dosen_pjmk_data->count() > 0;
 		if ($isexist) {
-			throw new \Exception("1 Karyawan tidak dapat memiliki 2 record dosen pjmk.");
+			throw new \Exception("1 Karyawan tidak dapat memiliki 2 record dosen pjmk yang aktif.");
 		}
 		$dosen_pjmk = parent::create($attributes);
 		return $dosen_pjmk;
+	}
+
+	public function delete()
+	{
+		$object_mata_kuliah_diampuh = self::getModelByName('mata_kuliah_diampuh');
+		$mata_kuliah_diampuh = $object_mata_kuliah_diampuh->where('dosen_pjmk_id', $this->id);
+
+		$object_konfigurasi_nilai = self::getModelByName('konfigurasi_nilai');
+		$konfigurasi_nilai = $object_konfigurasi_nilai->whereIn('mata_kuliah_diampuh_id', $mata_kuliah_diampuh->pluck('id')->toArray());
+		$konfigurasi_nilai->delete();
+
+		$mata_kuliah_diampuh->delete();
+		
+		return parent::delete();
 	}
 
 }

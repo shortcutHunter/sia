@@ -25,7 +25,11 @@ import swal from 'sweetalert';
         let warning_text = `Apakah mahasiswa benar di ${attr.widgetUpdateStatus} ?`;
 
         if (attr.widgetUpdateStatus == 'ujian') {
-          warning_text = "Apkah pembayaran mahasiswa sudah benar diterima ?";
+          warning_text = "Apakah pembayaran mahasiswa sudah benar diterima ?";
+        }
+
+        if (attr.widgetUpdateStatus == 'aktif' || attr.widgetUpdateStatus == 'nonaktif') {
+          warning_text = `Apakah yakin ingin men${attr.widgetUpdateStatus}kan dosen ini ?`;
         }
 
         swal({

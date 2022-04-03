@@ -90,7 +90,12 @@
 
       function gantiSemester() {
         let data = scope.data;
-        data['tagihan_item'] = scope.setup_paket.paket_register_ulang_item;
+        data['tagihan_item'] = [];
+
+        $.each(scope.setup_paket.paket_register_ulang_item, (i, v) => {
+          data.tagihan_item.push(v.item_id);
+        });
+
         let url = `/rekap/semester/mahasiswa`;
         return dataservice.postDataUrl(url, data).then(function(response){
           $(element).modal('hide');

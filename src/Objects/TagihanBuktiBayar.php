@@ -28,11 +28,11 @@ class TagihanBuktiBayar extends BaseModel
 				'filetype' => $file['filetype'],
 				'base64' => $file['base64']
 			];
-			$file = $file_obj->create($file_data_value);
+			$file_saved = $file_obj->create($file_data_value);
 
 			$tagihan_value = [
 				'tagihan_id' => $attributes['tagihan_id'],
-				'file_id' => $file->id
+				'file_id' => $file_saved->id
 			];
 			$tagihan = parent::create($tagihan_value);
 		}else{

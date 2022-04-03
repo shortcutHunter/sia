@@ -2,8 +2,10 @@
 
 {% block button %}
 
-  <a class="btn btn-sm btn-success" ui-sref="dosen_pjmk_form({dataId: vm.data.id})" ng-if="vm.data.status == 'aktif'"><i class="fa fa-edit"></i> Edit</a>
-  <!-- <button class="btn btn-sm btn-danger" ng-if="vm.data.status == 'aktif'"><i class="fa fa-trash"></i> Delete</button> -->
+  <a class="btn btn-sm btn-success" ui-sref="dosen_pjmk_form({dataId: vm.data.id})" ng-if="vm.data.status == 'aktif'">
+  	<i class="fa fa-edit"></i> Edit
+	</a>
+  <button class="btn btn-sm btn-danger" widget-delete=""><i class="fa fa-trash"></i> Delete</button>
 
   <div class="float-end">
   	<button class="btn btn-primary" widget-update-status="nonaktif" ng-if="vm.data.status == 'aktif'">Nonaktif</button>

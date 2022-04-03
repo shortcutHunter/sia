@@ -45,6 +45,15 @@ class DosenPa extends BaseModel
 		return $dosen_pjmk;
 	}
 
+	public function delete()
+	{
+		$object_mahasiswa_bimbingan = self::getModelByName('mahasiswa_bimbingan');
+		$mahasiswa_bimbingan = $object_mahasiswa_bimbingan->where('dosen_pa_id', $this->id);
+		$mahasiswa_bimbingan->delete();
+		
+		return parent::delete();
+	}
+
 	public function karyawan()
 	{
 		return $this->belongsTo(Karyawan::class, 'karyawan_id', 'id');

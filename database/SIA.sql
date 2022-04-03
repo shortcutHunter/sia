@@ -361,6 +361,12 @@ CREATE TABLE `konfigurasi` (
   `port` int
 );
 
+CREATE TABLE `log` (
+  `id` int PRIMARY KEY AUTO_INCREMENT,
+  `userid` int,
+  `query` longtext
+);
+
 ALTER TABLE `mahasiswa` ADD FOREIGN KEY (`orang_id`) REFERENCES `orang` (`id`);
 
 ALTER TABLE `karyawan` ADD FOREIGN KEY (`orang_id`) REFERENCES `orang` (`id`);
@@ -478,3 +484,5 @@ ALTER TABLE `navigation` ADD FOREIGN KEY (`parent`) REFERENCES `navigation` (`id
 ALTER TABLE `konfigurasi` ADD FOREIGN KEY (`semester_id`) REFERENCES `semester` (`id`);
 
 ALTER TABLE `konfigurasi` ADD FOREIGN KEY (`tahun_ajaran_id`) REFERENCES `tahun_ajaran` (`id`);
+
+ALTER TABLE `log` ADD FOREIGN KEY (`userid`) REFERENCES `user` (`id`);

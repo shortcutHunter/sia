@@ -81,25 +81,31 @@
 
                                 <td style="width: 100px;"></td>
 
-                                <td>SEMESTER</td>
+                                <td class="pr-20">TANGGAL LAHIR</td>
                                 <td>:</td>
-                                <td><?= $semester->nama ?? '-' ?></td>
-                            </tr>
-                            <tr>
-                                <td class="pr-20">TEMPAT/TANGGAL LAHIR</td>
-                                <td>:</td>
-                                <td><?= $mahasiswa->orang->tempat_lahir ?? '-' ?> / <?= $mahasiswa->orang->tanggal_lahir ?? '-' ?></td>
-                                
-                                <td style="width: 100px;"></td>
-
-                                <td>ANGKATAN TAHUN</td>
-                                <td>:</td>
-                                <td><?= $mahasiswa->tahun_ajaran->nama ?? '-' ?></td>
+                                <td><?= date('d/m/Y', strtotime($mahasiswa->orang->tanggal_lahir)) ?></td>
                             </tr>
                             <tr>
                                 <td>NIM</td>
                                 <td>:</td>
                                 <td><?= $mahasiswa->nim ?? '-' ?></td>
+                                
+                                <td style="width: 100px;"></td>
+
+                                <td>SEMESTER</td>
+                                <td>:</td>
+                                <td><?= $semester->nama ?? '-' ?></td>
+                            </tr>
+                            <tr>
+                                <td class="pr-20">TEMPAT LAHIR</td>
+                                <td>:</td>
+                                <td><?= $mahasiswa->orang->tempat_lahir ?? '-' ?></td>
+
+                                <td style="width: 100px;"></td>
+
+                                <td>ANGKATAN TAHUN</td>
+                                <td>:</td>
+                                <td><?= $mahasiswa->tahun_ajaran->nama ?? '-' ?></td>
                             </tr>
                         </table>
                     </td>

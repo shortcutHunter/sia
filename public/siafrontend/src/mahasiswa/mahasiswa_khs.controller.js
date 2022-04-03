@@ -29,7 +29,7 @@
     }
 
     function cetakKhs(data) {
-      let url = `khs/${vm.data.id}/${data.id}`;
+      let url = `khs/${data.id}`;
       dataservice.getReport(url).then(function(response) {
         let base64 = response.content;
         scope.fileName = 'KHS.pdf';

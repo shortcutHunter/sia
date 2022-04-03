@@ -720,6 +720,8 @@ final class ApiController extends BaseController
 
     public function rekapSemesterMahasiswa($request, $response, $args)
     {
+        // DB::beginTransaction();
+
         $container             = $this->container;
         $mahasiswa_obj         = $this->get_object('mahasiswa');
         $riwayat_belajar_obj   = $this->get_object('riwayat_belajar');
@@ -752,6 +754,8 @@ final class ApiController extends BaseController
 
         $this->setDosenPjmk($semester_id);
         $this->setDosenPa($semester_id);
+
+        // DB::rollback();
 
         $data = ['status' => 'sukses'];
         $response->getBody()->write(json_encode($data));

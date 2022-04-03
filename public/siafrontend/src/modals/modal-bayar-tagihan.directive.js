@@ -29,7 +29,7 @@
 
       scope.$watch('vm.data.file', function(newVal, oldVal){
         if (newVal) {
-          scope.data.tagihan_bukti_bayar.push({'file': newVal});
+          scope.data.tagihan_bukti_bayar.push({'file': angular.copy(newVal)});
           scope.vm.data.file = false;
         }
       });

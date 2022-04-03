@@ -71,22 +71,17 @@ final class ReportController extends BaseController
 
     public function khs($request, $response, $args)
    {
-        $container     = $this->container;
-        $mahasiswa_id  = $args['mahasiswa_id'];
-        $semester_id   = $args['semester_id'];
-        $mahasiswa_obj = $this->get_object('mahasiswa');
-        $khs_obj       = $this->get_object('khs');
-        $semester_obj  = $this->get_object('semester');
+        $container = $this->container;
+        $khs_id    = $args['khs_id'];
+        $khs_obj   = $this->get_object('khs');
 
-        $mahasiswa = $mahasiswa_obj->find($mahasiswa_id);
-        $semester  = $semester_obj->find($semester_id);
-        $khs       = $khs_obj->where([['semester_id', $semester_id], ['mahasiswa_id', $mahasiswa_id]])->first();
+        $khs = $khs_obj->where('id', $khs_id)->first();
 
 
         $value = [
-          'mahasiswa' => $mahasiswa, 
+          'mahasiswa' => $khs->mahasiswa, 
           'khs' => $khs,
-          'semester' => $semester
+          'semester' => $khs->semester
         ];
         $pdfContent = $this->container->get('renderPDF')("reports/khs.phtml", $value);
         $pdfContent = ['content' => base64_encode($pdfContent)];

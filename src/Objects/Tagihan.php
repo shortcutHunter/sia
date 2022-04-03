@@ -181,6 +181,7 @@ class Tagihan extends BaseModel
 				}else {
 					$is_empty = true;
 				}
+
 				if (!$is_empty) {
 					if (array_key_exists('id', $value)) {
 						$tagihan_bukti_bayar_data = $tagihan_bukti_bayar_obj->find($value['id']);
@@ -209,5 +210,14 @@ class Tagihan extends BaseModel
 		}
 
 		return parent::update($attributes, $options);
+	}
+
+	public function delete()
+	{
+		$object_tagihan_item = self::getModelByName('tagihan_item');
+		$tagihan_item = $object_tagihan_item->where('tagihan_id', $this->id);
+		$tagihan_item->delete();
+		
+		return parent::delete();
 	}
 }

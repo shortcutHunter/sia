@@ -3,7 +3,7 @@
 {% block button %}
 
   <a class="btn btn-sm btn-success" ui-sref="tagihan_form({dataId: vm.data.id})" ng-if="vm.data.status == 'draft'"><i class="fa fa-edit"></i> Edit</a>
-  <button class="btn btn-sm btn-danger" ng-if="vm.data.status == 'draft'"><i class="fa fa-trash"></i> Delete</button>
+  <button class="btn btn-sm btn-danger" widget-delete="" ng-if="vm.data.status == 'draft'"><i class="fa fa-trash"></i> Delete</button>
 
   <div class="float-end">
     {% verbatim %}
@@ -91,12 +91,18 @@
 
 							<thead>
 								<th>Nama</th>
+								<th></th>
 							</thead>
 
 							<tbody>
 								<tr ng-repeat="col in vm.data.tagihan_bukti_bayar track by $index" ng-if="vm.data.tagihan_bukti_bayar && vm.data.tagihan_bukti_bayar.length != 0">
 									<td class="font-extrabold">
 										<a href="javascript:void(0)" widget-preview="col.file" ng-bind="col.file.filename || '-'"></a>
+									</td>
+									<td>
+										<button class="btn btn-sm btn-danger" ng-if="vm.data.status != 'bayar'" ng-click="vm.hapusBukti(col)">
+											<i class="fa fa-trash"></i>
+										</button>
 									</td>
 								</tr>
 								<tr ng-if="!vm.data.tagihan_bukti_bayar || vm.data.tagihan_bukti_bayar.length == 0">

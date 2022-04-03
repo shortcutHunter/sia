@@ -5,6 +5,8 @@ use App\Objects\Orang;
 
 class MainSeed {
 
+    protected $total_mahasiswa = 10;
+
     function extract_csv_data($file_name)
     {
         $data_file = fopen(DATA_PATH.'/'.$file_name, "r");
@@ -402,7 +404,7 @@ class MainSeed {
         $this->paketData();
 
         echo "Create fake PMB data using faker.... \r\n";
-        $this->mahasiswaData(100);
+        $this->mahasiswaData($this->total_mahasiswa);
 
         echo "Create fake Karyawan data using faker.... \r\n";
         $this->karyawanData();

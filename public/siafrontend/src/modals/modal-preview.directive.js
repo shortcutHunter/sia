@@ -40,10 +40,13 @@
               element.remove();
           });
 
-          // render pdf
-          dataservice.getPdf(scope.base64).then(function(file){
-            element.find('#pdf-container').append(file);
-          });
+          if (scope.type == 'pdf') {
+            // render pdf
+            dataservice.getPdf(scope.base64).then(function(file){
+              element.find('#pdf-container').append(file);
+            });
+          }
+          
         }, 0);
       }
     }
