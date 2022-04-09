@@ -5,7 +5,7 @@ use App\Objects\Orang;
 
 class MainSeed {
 
-    protected $total_mahasiswa = 10;
+    protected $total_mahasiswa = 5;
 
     function extract_csv_data($file_name)
     {

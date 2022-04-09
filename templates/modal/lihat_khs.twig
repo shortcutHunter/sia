@@ -42,7 +42,7 @@
                 </thead>
 
 		        <tbody>
-			        <tr ng-if="!vm.data.mahasiswa.khs || vm.data.mahasiswa.khs.length == 0">
+			        <tr ng-if="vm.data.mahasiswa.khs.length < 1">
 			          <td colspan="4" class="text-center">Tidak ada data yang tersedia</td>
 			        </tr>
 		        	<tr ng-repeat="khs in data.mahasiswa.khs">

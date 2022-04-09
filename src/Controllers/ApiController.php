@@ -236,7 +236,7 @@ final class ApiController extends BaseController
         foreach ($postData['data'] as $key => $value) {
             $mahasiswa_id = $value['mahasiswa_id'];
             $mahasiswa = $mahasiswa_obj->find($mahasiswa_id);
-            $riwayat_belajar_condition = [['mahasiswa_id', $mahasiswa_id]];
+            $riwayat_belajar_condition = [['mahasiswa_id', $mahasiswa_id], ['semester_id', $mahasiswa->semester_id]];
             $riwayat_belajar = $riwayat_belajar_obj->where($riwayat_belajar_condition);
             $riwayat_belajar_value = [
                 'mahasiswa_id' => $mahasiswa_id,
