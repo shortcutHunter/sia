@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use Illuminate\Database\Capsule\Manager as DB;
 
 final class ReportController extends BaseController
 {
@@ -36,14 +37,76 @@ final class ReportController extends BaseController
         $container = $this->container;
         $mahasiswa_id = $args['mahasiswa_id'];
         $mahasiswa_obj = $this->get_object('mahasiswa');
+        // $riwayat_belajar_obj = $this->get_object('riwayat_belajar');
+        $riwayat_belajar_detail_obj = $this->get_object('riwayat_belajar_detail');
         $mahasiswa = $mahasiswa_obj->find($mahasiswa_id);
-        $value = ['mahasiswa' => $mahasiswa];
+        // $riwayat_belajar = $riwayat_belajar_obj->where('mahasiswa_id', $mahasiswa_id)->get();
+
+        $riwayat_belajar_detail = $riwayat_belajar_detail_obj
+                ->select(
+                    'mata_kuliah_id', 
+                    'nilai_bobot', 
+                    'nilai_mutu', 
+                    DB::raw('MAX(nilai_absolut) as nilai_absolut'),
+                    DB::raw('mata_kuliah.sks * nilai_mutu as nilai_point')
+                )
+                ->whereHas('riwayat_belajar', function($q) use ($mahasiswa_id) {
+                    $q->where('mahasiswa_id', $mahasiswa_id);
+                })
+                ->join('mata_kuliah', 'mata_kuliah.id', '=', 'riwayat_belajar_detail.mata_kuliah_id')
+                ->groupBy('mata_kuliah_id')
+                ->orderBy('mata_kuliah_id')
+                ->orderBy('mata_kuliah.semester_id')
+                ->get();
+
+        $longest_table = 0;
+        $jumlah_sks = $riwayat_belajar_detail->sum('mata_kuliah.sks');
+        $jumlah_point = $riwayat_belajar_detail->sum('nilai_point');
+        $ipk = ceil($jumlah_point / $jumlah_sks);
+        $predikat = "";
+        $predikat_eng = "";
+
+        if ($ipk >= 3.51) {
+            $predikat = "Dengan Pujian / Cum Laude";
+            $predikat_eng = "Excellent";
+        }
+        else if ($ipk >= 2.76) {
+            $predikat = "Sangat Memuaskan";
+            $predikat_eng = "Highly Satisfactory";
+        }
+        else {
+            $predikat = "Memuaskan";
+            $predikat_eng = "Satisfactory";
+        }
+
+        $riwayat_belajar_detail_chunk = $riwayat_belajar_detail->chunk(22);
+
+        foreach ($riwayat_belajar_detail_chunk as $value) {
+            if (count($value) > $longest_table) {
+                $longest_table = count($value);
+            }
+        }
+
+        $value = [
+            'mahasiswa' => $mahasiswa,
+            'riwayat_belajar_detail_chunk' => $riwayat_belajar_detail_chunk,
+            'longest_table' => $longest_table,
+            'jumlah_sks' => $jumlah_sks,
+            'jumlah_point' => $jumlah_point,
+            'predikat' => $predikat,
+            'predikat_eng' => $predikat_eng,
+            'ipk' => $ipk,
+        ];
 
         $pdfContent = $this->container->get('renderPDF')("reports/transkrip.phtml", $value);
         $pdfContent = ['content' => base64_encode($pdfContent)];
 
         $response->getBody()->write(json_encode($pdfContent));
         return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
+
+        // $rendered_value = $container->get('renderer')->fetch('reports/transkrip.phtml', $value);
+        // $response->getBody()->write($rendered_value);
+        // return $response;
    }
 
     public function krs($request, $response, $args)

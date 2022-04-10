@@ -49,6 +49,25 @@
             font-size: 12px;
         }
 
+        .border-solid {
+            border: solid;
+        }
+
+        .border-lr {
+            border-right: solid;
+            border-left: solid;
+        }
+
+        .border-lrb {
+            border-right: solid;
+            border-left: solid;
+            border-bottom: solid;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
     </style>
 
     <div class="container">
@@ -58,7 +77,7 @@
         </h4>
 
         <div class="m-top-table">
-            <table>
+            <table style="font-size: 9px;">
                 <tr>
                     <td>
                         <table>
@@ -87,7 +106,7 @@
                             <tr>
                                 <td><b>Tempat dan Tanggal Lahir</b> <br><i>Place and Date Of Birth</i></td>
                                 <td>:</td>
-                                <td><?= $mahasiswa->orang->tempat_lahir ?? '-' ?> / <?= $mahasiswa->orang->tanggal_lahir ?? '-' ?></td>
+                                <td style="width: 250px;"><?= $mahasiswa->orang->tempat_lahir ?? '-' ?> / <?= date('d-m-Y', strtotime($mahasiswa->orang->tanggal_lahir)) ?></td>
                                 
                                 <td style="width: 50px;"></td>
 
@@ -98,7 +117,7 @@
                             <tr>
                                 <td><b>Jenis Kelamin</b> <br><i>Gender</i></td>
                                 <td>:</td>
-                                <td><?= $mahasiswa->orang->jenis_kelamin || '-' ?></td>
+                                <td><?= $mahasiswa->orang->jenis_kelamin_label || '-' ?></td>
                             </tr>
                         </table>
                     </td>
@@ -107,37 +126,171 @@
         </div>
 
         <div class="m-top-table">
-            <table>
+            <table style="font-size: 9px;">
                 <tr>
-                    <td rowspan="2" class="text-center"><b>Kode</b> <br> <i>Code</i></td>
-                    <td rowspan="2" class="text-center"><b>MATA KULIAH</b> <br> <i>Course Title</i></td>
-                    <td rowspan="2" class="text-center"><b>SKS</b> <br> <i>Credit</i></td>
-                    <td colspan="3" class="text-center"><b>Nilai</b> <br> <i>School Grades</i></td>
+                    <?php foreach ($riwayat_belajar_detail_chunk as $riwayat_belajar_detail): ?>
+                        <td>
+                            <table style="border-collapse: collapse;">
+                                <tr>
+                                    <td rowspan="2" class="text-center border-solid"><b>Kode</b> <br> <i>Code</i></td>
+                                    <td rowspan="2" class="text-center border-solid"><b>MATA KULIAH</b> <br> <i>Course Title</i></td>
+                                    <td rowspan="2" class="text-center border-solid"><b>SKS</b> <br> <i>Credit</i></td>
+                                    <td colspan="3" class="text-center border-solid"><b>Nilai</b> <br> <i>School Grades</i></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center border-solid"><b>H</b> <br> <i>Grade</i></td>
+                                    <td class="text-center border-solid"><b>M</b> <br> <i>Score</i></td>
+                                    <td class="text-center border-solid"><b>K x M</b> <br> <i>Point</i></td>
+                                </tr>
+
+                                <?php foreach ($riwayat_belajar_detail as $rbd): ?>
+                                    
+                                    <tr>
+                                        <td class="text-center border-lr"><?= $rbd->mata_kuliah->kode ?></td>
+                                        <td class="border-lr">
+                                            <?= $rbd->mata_kuliah->nama ?> <br>
+                                            <?= $rbd->mata_kuliah->nama_inggris ?>
+                                        </td>
+                                        <td class="text-center border-lr"><?= $rbd->mata_kuliah->sks ?></td>
+                                        <td class="text-center border-lr"><?= $rbd->nilai_bobot ?></td>
+                                        <td class="text-center border-lr"><?= $rbd->nilai_mutu ?></td>
+                                        <td class="text-center border-lr"><?= $rbd->nilai_mutu * $rbd->mata_kuliah->sks ?></td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td class="border-lrb"></td>
+                                        <td class="border-lrb"></td>
+                                        <td class="border-lrb"></td>
+                                        <td class="border-lrb"></td>
+                                        <td class="border-lrb"></td>
+                                        <td class="border-lrb"></td>
+                                    </tr>
+
+                                <?php endforeach ?>
+
+                                <?php 
+                                    for($i = 0; $i < $longest_table - count($riwayat_belajar_detail); $i++) {
+                                ?>
+
+                                    <?php if ($i < $longest_table - count($riwayat_belajar_detail)-1): ?>
+                                        <tr>
+                                            <td class="text-center border-lr">&nbsp; <br> &nbsp;</td>
+                                            <td class="border-lr"></td>
+                                            <td class="text-center border-lr"></td>
+                                            <td class="text-center border-lr"></td>
+                                            <td class="text-center border-lr"></td>
+                                            <td class="text-center border-lr"></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="border-lrb"></td>
+                                            <td class="border-lrb"></td>
+                                            <td class="border-lrb"></td>
+                                            <td class="border-lrb"></td>
+                                            <td class="border-lrb"></td>
+                                            <td class="border-lrb"></td>
+                                        </tr>
+
+                                    <?php else: ?>
+                                        
+                                        <tr>
+                                            <td class="text-right border-lrb" colspan="2">
+                                                Jumlah SKS <br>
+                                                Total Credit
+                                            </td>
+                                            <td class="text-center border-lrb"> <?= $jumlah_sks ?> </td>
+                                            <td class="border-lrb" colspan="2">
+                                                Jumlah Nilai <br>
+                                                Total Point
+                                            </td>
+                                            <td class="text-center border-lrb">
+                                                <?= $jumlah_point ?>
+                                            </td>
+                                        </tr>
+
+                                    <?php endif ?>
+
+                                    
+
+                                <?php } ?>
+                                
+                            </table>
+                        </td>
+                    <?php endforeach ?>
                 </tr>
+
                 <tr>
-                    <td class="text-center"><b>H</b> <br> <i>Grade</i></td>
-                    <td class="text-center"><b>M</b> <br> <i>Score</i></td>
-                    <td class="text-center"><b>K x M</b> <br> <i>Point</i></td>
+                    <td>
+                        <table>
+                            <tr>
+                                <td>
+                                    Indeks Prestasi Kumulatif (IPK) <br>
+                                    Grade Point Average (GPA)
+                                </td>
+                                <td>:</td>
+                                <td>
+                                    <?= $ipk ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Gelar yang diperoleh <br>
+                                    Degree Granted
+                                </td>
+                                <td>:</td>
+                                <td>
+                                    A.Md.Kep
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+
+                    <td>
+                        <table>
+                            <tr>
+                                <td>
+                                    Predikat Kelulusan <br>
+                                    Proficiency Status
+                                </td>
+                                <td>:</td>
+                                <td>
+                                    <?= $predikat ?> <br>
+                                    <?= $predikat_eng ?>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr> <td>&nbsp;</td> </tr>
+
+                <tr>
+                    <td class="text-center">
+                        <b>DIREKTUR</b> <br>
+                        Director
+                    </td>
+                    <td class="text-center">
+                        Serukam, <?= date("d M Y") ?> <br>
+                        <b>PEMBANTU DIREKTUR BIDANG AKADEMIK</b> <br>
+                        Deputy Director in Academic
+                    </td>
+                </tr>
+
+                <tr> <td>&nbsp;</td> </tr>
+                <tr> <td>&nbsp;</td> </tr>
+                <tr> <td>&nbsp;</td> </tr>
+                <tr>
+                    <td class="text-center">
+                        <b>Rossiani, S.Kep., Ners., M.Kes</b>
+                    </td>
+                    <td class="text-center">
+                        <b>Herlina, S.Kep., Ners., M.Kep</b>
+                    </td>
                 </tr>
             </table>
+            
         </div>
 
-        <div class="mt-50">
-            <div class="catatan">Catatan Pembimbing Akademik (PA):</div>
-            <ul>
-                <li><div class="dashed">&nbsp;</div><div class="dashed">&nbsp;</div></li>
-                <li><div class="dashed">&nbsp;</div><div class="dashed">&nbsp;</div></li>
-            </ul>
-        </div>
-
-        <div class="ml-40 text-center">
-            <div>Serukam, <?= date('d F Y') ?></div>
-            <div class="bold">PUDIR I Bidang Akademik</div>
-            <div>
-                <img src="http://localhost/public/assets/images/ttd.png">
-            </div>
-            <div class="bold">Herlina, S.Kep., Ners., M.Kep</div>
-        </div>
     </div>
 
 </body>
