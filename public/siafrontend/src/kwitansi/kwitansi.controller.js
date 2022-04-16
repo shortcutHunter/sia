@@ -31,7 +31,6 @@
       return dataservice.getData(vm.table, vm.page).then(function(response) {
         vm.pageData = response;
         vm.data = response.data;
-        logger.info('Data loaded');
       });
     }
 

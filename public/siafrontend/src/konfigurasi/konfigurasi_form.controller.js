@@ -20,7 +20,7 @@
     function activate() {
       var promises = [getOption(), getDataDetail()];
       return $q.all(promises).then(function() {
-        logger.info('Data loaded');
+        
       });
     }
 

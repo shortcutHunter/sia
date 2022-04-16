@@ -5,6 +5,8 @@
   <a class="btn btn-sm btn-success" ui-sref="dosen_pa_form({dataId: vm.data.id})" ng-if="vm.data.status == 'aktif'"><i class="fa fa-edit"></i> Edit</a>
   <button class="btn btn-sm btn-danger" widget-delete=""><i class="fa fa-trash"></i> Delete</button>
 
+  {# {% include 'widget/nextprev.twig' %} #}
+
 {% endblock %}
 
 
@@ -61,6 +63,7 @@
 									<td>
 										{% verbatim %}
 											<button class="btn btn-primary" ng-click="vm.prosesPengajuan(col)" ng-if="col.mahasiswa.pengajuan && vm.data.status == 'aktif'">Proses Pengajuan</button>
+											<button class="btn btn-primary" ng-click="vm.lihatKRS(col)" ng-if="!col.mahasiswa.pengajuan">Lihat KRS</button>
 										{% endverbatim %}
 									</td>
 								</tr>

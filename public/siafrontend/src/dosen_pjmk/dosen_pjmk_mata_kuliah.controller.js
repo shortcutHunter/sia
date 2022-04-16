@@ -23,14 +23,14 @@
     function activate() {
       var promises = [getDataDetail()];
       return $q.all(promises).then(function() {
-        logger.info('Data loaded');
+        
       });
     }
 
     function getDataDetail() {
       return dataservice.getUrl('/dosen/mahasiswa/mata_kuliah').then(function(response) {
         vm.data = response;
-        logger.info('Data loaded');
+        
       });
     }
 

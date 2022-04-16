@@ -6,6 +6,12 @@ use App\Controllers\BaseController;
 
 final class TemplateController extends BaseController
 {
+    public function getKonfiguration()
+    {
+        $konfigurasi = $this->get_object('konfigurasi')->first();
+
+        return $konfigurasi;
+    }
 
     public function table($request, $response, $args)
     {
@@ -62,22 +68,29 @@ final class TemplateController extends BaseController
     public function login($request, $response)
     {
         $container = $this->container;
+        $konfigurasi = $this->getKonfiguration();
 
         if ($container->get('session')->get('user')) {
             return $response->withHeader('Location', '/');
         }
 
-        return $container->get('twig')->render($response, 'root/login.twig');
+        return $container->get('twig')->render($response, 'root/login.twig', ['konfigurasi' => $konfigurasi]);
     }
 
     public function register($request, $response)
     {
         $container = $this->container;
         $object = $this->get_object('orang');
+        $konfigurasi = $this->getKonfiguration();
+
+        if (!$konfigurasi->registrasi) {
+            return $response->withHeader('Location', '/');
+        }
 
         $data = [
             'option'    => [],
             'selection' => [],
+            'konfigurasi' => $konfigurasi
         ];
 
         foreach ($object->selection_fields as $value) {
@@ -89,7 +102,7 @@ final class TemplateController extends BaseController
             $object_relation = $this->get_object($model['name']);
             $data[$model_name] = [
                 'option'    => [],
-                'selection' => [],
+                'selection' => []
             ];
 
             if ($model['is_selection']) {
@@ -118,6 +131,12 @@ final class TemplateController extends BaseController
         $postFile = $request->getUploadedFiles();
         $orang_obj = $this->get_object('orang');
         $pmb_obj = $this->get_object('pmb');
+
+        $konfigurasi = $this->getKonfiguration();
+
+        if (!$konfigurasi->registrasi) {
+            return $response->withHeader('Location', '/');
+        }
 
         $orang_value = [
             'nik' => $postData['nik'],
@@ -180,7 +199,13 @@ final class TemplateController extends BaseController
     public function sukses($request, $response)
     {
         $container = $this->container;
-        return $container->get('twig')->render($response, 'root/register_sukses.twig');
+        $konfigurasi = $this->getKonfiguration();
+
+        if (!$konfigurasi->registrasi) {
+            return $response->withHeader('Location', '/');
+        }
+
+        return $container->get('twig')->render($response, 'root/register_sukses.twig', ['konfigurasi' => $konfigurasi]);
     }
 
     public function newTemplate($request, $response)

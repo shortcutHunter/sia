@@ -10,29 +10,16 @@ use Illuminate\Database\Capsule\Manager as DB;
 final class ApiController extends BaseController
 {
 
-    public function get($request, $response, $args)
-    {   
-        $getData = $request->getQueryParams();
-        $object_name = $args['object'];
-        $object = $this->get_object($object_name);
-        $like_fields = $object->like_fields;
+    public function buildDomain($domainData, $object, $like_fields)
+    {
         $domain = [];
         $is_orang = false;
         $orang_value = false;
         $is_karyawan = false;
         $karyawan_value = false;
 
-        if (array_key_exists('page', $getData)) {
-            $current_page = $getData['page'];
-            Paginator::currentPageResolver(function() use ($current_page) {
-                return $current_page;
-            });
-        }else{
-            $current_page = false;
-        }
-
-        foreach ($getData as $key => $value) {
-            if ($key == 'page') {
+        foreach ($domainData as $key => $value) {
+            if ($key == 'page' || $key == 'detail') {
                 continue;
             }
 
@@ -73,6 +60,28 @@ final class ApiController extends BaseController
             });
         }
 
+        return $object;
+    }
+
+
+    public function get($request, $response, $args)
+    {   
+        $getData = $request->getQueryParams();
+        $object_name = $args['object'];
+        $object = $this->get_object($object_name);
+        $like_fields = $object->like_fields;
+
+        $object = $this->buildDomain($getData, $object, $like_fields);
+
+        if (array_key_exists('page', $getData)) {
+            $current_page = $getData['page'];
+            Paginator::currentPageResolver(function() use ($current_page) {
+                return $current_page;
+            });
+        }else{
+            $current_page = false;
+        }
+
         if ($current_page) {
             $object = $object->orderBy('id', 'desc')->paginate($this->settings['row_per_page']);
             $data = $object->toJson();
@@ -81,20 +90,43 @@ final class ApiController extends BaseController
             $data = json_encode(['data' => $object]);
         }
 
-
-
         $response->getBody()->write($data);
         return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
     }
 
     public function detail($request, $response, $args)
     {
+        $getData = $request->getQueryParams();
         $id = $args['id'];
         $object_name = $args['object'];
         $object = $this->get_object($object_name);
+        $like_fields = $object->like_fields;
 
         $data = $object->find($id);
-        $data = json_encode(['data' => $data]);
+
+        $object = $this->buildDomain($getData, $object, $like_fields);
+        $prev = clone $object;
+        $next = clone $object;
+        $next = $next->where('id', '<', $id)->orderBy('id', 'DESC')->first();
+        $prev = $prev->where('id', '>', $id)->orderBy('id', 'ASC')->first();
+
+        if (empty($prev)) {
+            $prev = false;
+        }else{
+            $prev = $prev->id;
+        }
+
+        if (empty($next)) {
+            $next = false;
+        }else{
+            $next = $next->id;
+        }
+
+        $data = json_encode([
+            'data' => $data,
+            'prev' => $prev,
+            'next' => $next
+        ]);
 
         $response->getBody()->write($data);
         return $response->withHeader('Content-Type', 'application/json')->withStatus(201);

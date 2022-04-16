@@ -30,7 +30,6 @@
       return dataservice.getData('paket_register_ulang', vm.page).then(function(response) {
         vm.pageData = response;
         vm.data = response.data;
-        logger.info('Data loaded');
       });
     }
 

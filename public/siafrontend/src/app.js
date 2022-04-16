@@ -76,6 +76,7 @@ import './modals/modal-tagihan-semester.directive';
 import './modals/modal-bayar-tagihan.directive';
 import './modals/modal-detail-khs.directive';
 import './modals/modal-lihat-khs.directive';
+import './modals/modal-lihat-krs.directive';
 import './modals/modal-input-kode.directive';
 
 import './agama/agama.controller';

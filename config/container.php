@@ -77,6 +77,11 @@ return [
             }else{
                 $html2pdf = new Html2Pdf();
             }
+
+            $konfigurasi = $container->get('getObject')('konfigurasi');
+            $konfigurasi = new $konfigurasi;
+            $konfigurasi = $konfigurasi->first();
+            $value['konfigurasi'] = $konfigurasi;
             
             $rendered_template = $container->get('renderer')->fetch($template_name, $value);
             $html2pdf->writeHTML($rendered_template);

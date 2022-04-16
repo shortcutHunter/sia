@@ -135,7 +135,7 @@
                     <table>
                         <tr>
                             <?php if ($pmb->orang->pasfoto): ?>
-                                <?php $images_url = "http://localhost/public/uploaded/orang/".$pmb->orang->id."/".rawurlencode($pmb->orang->pasfoto) ?>
+                                <?php $images_url = $konfigurasi->base_url."/public/uploaded/orang/".$pmb->orang->id."/".rawurlencode($pmb->orang->pasfoto) ?>
                                 <td><img src="<?= $images_url ?>" class="img"></td>
                             <?php endif ?>
                         </tr>

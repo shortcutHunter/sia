@@ -2,14 +2,14 @@
   'use strict';
 
   angular
-    .module('app.ganti_semester')
-    .controller('GantiSemesterController', GantiSemesterController);
+    .module('app.import')
+    .controller('ImportController', ImportController);
 
-  GantiSemesterController.$inject = ['$q', 'dataservice', 'logger', '$scope'];
+  ImportController.$inject = ['$q', 'dataservice', 'logger', '$scope'];
   /* @ngInject */
-  function GantiSemesterController($q, dataservice, logger, scope) {
+  function ImportController($q, dataservice, logger, scope) {
     var vm = this;
-    vm.title = 'Ganti Semester';
+    vm.title = 'Import';
     vm.page = 0;
     vm.data = [];
     vm.pageData = {};

@@ -18,6 +18,10 @@ class Konfigurasi extends BaseModel
 		return $value ? true : false;
 	}
 
+	public function getRegistrasiAttribute($value) {
+		return $value ? true : false;
+	}
+
 	public function semester()
 	{
 		return $this->hasOne(Semester::class, 'id', 'semester_id');

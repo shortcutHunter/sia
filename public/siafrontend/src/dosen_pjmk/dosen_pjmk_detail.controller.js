@@ -24,7 +24,7 @@
     function activate() {
       var promises = [getDataDetail(), getOption()];
       return $q.all(promises).then(function() {
-        logger.info('Data loaded');
+        
       });
     }
 

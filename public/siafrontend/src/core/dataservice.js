@@ -8,6 +8,7 @@
   dataservice.$inject = ['$http', '$q', 'exception', 'logger'];
   /* @ngInject */
   function dataservice($http, $q, exception, logger) {
+
     var service = {
       getData: getData,
       getUrl: getUrl,
@@ -22,7 +23,10 @@
       deleteRecord: deleteRecord,
       getPdf: getPdf,
       user: {},
-      filter: {}
+      filter: {},
+      searchValue: false,
+      filterValue: false,
+      responseValue: false
     };
 
     return service;
@@ -60,7 +64,21 @@
     }
 
     function getDataDetail(table, id) {
-      return $http.get(`${table}/get/${id}`)
+      let url = `${table}/get/${id}?detail=true`;
+
+      if (service.searchValue) {
+        url = `${url}&${service.searchValue.field}=${service.searchValue.value}`;
+      }
+      
+      if (service.filterValue) {
+        $.each(service.filterValue, function(i, v){
+          if (v.value) {
+            url = `${url}&${v.field}=${v.value}`;
+          }
+        });
+      }
+
+      return $http.get(url)
         .then(success)
         .catch(fail);
     }
@@ -111,6 +129,7 @@
     }
 
     function success(response) {
+      service.responseValue = response.data;
       return response.data;
     }
     function fail(e) {

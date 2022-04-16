@@ -12,13 +12,14 @@
     vm.title = 'Detail Agama';
     vm.table = 'agama';
     vm.data = {};
+    vm.getDataDetail = getDataDetail;
 
     activate();
 
     function activate() {
       var promises = [getDataDetail()];
       return $q.all(promises).then(function() {
-        logger.info('Data loaded');
+        
       });
     }
 

@@ -23,7 +23,6 @@
     function getData() {
       return dataservice.getUrl('/mahasiswa/tagihan').then(function(response) {
         vm.data = response;
-        logger.info('Data loaded');
       });
     }
 

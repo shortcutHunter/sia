@@ -358,7 +358,9 @@ CREATE TABLE `konfigurasi` (
   `host` varchar(255),
   `username` varchar(255),
   `password` varchar(255),
-  `port` int
+  `port` int,
+  `registrasi` boolean,
+  `base_url` varchar(255)
 );
 
 CREATE TABLE `log` (

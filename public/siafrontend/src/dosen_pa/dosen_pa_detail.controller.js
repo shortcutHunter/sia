@@ -15,13 +15,14 @@
 
     vm.tambahMahasiswa = tambahMahasiswa;
     vm.prosesPengajuan = prosesPengajuan;
+    vm.lihatKRS = lihatKRS;
 
     activate();
 
     function activate() {
       var promises = [getDataDetail(), getOption()];
       return $q.all(promises).then(function() {
-        logger.info('Data loaded');
+        
       });
     }
 
@@ -46,6 +47,12 @@
     function prosesPengajuan(data) {
       vm.active_data = data;
       let el = "<modal-proses-pengajuan data='vm.active_data'></modal-proses-pengajuan>";
+      el = compile(el)(scope);
+    }
+
+    function lihatKRS(data) {
+      vm.active_data = data;
+      let el = "<modal-lihat-krs data='vm.active_data'></modal-lihat-krs>";
       el = compile(el)(scope);
     }
   }

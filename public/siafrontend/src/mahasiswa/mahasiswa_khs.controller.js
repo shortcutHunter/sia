@@ -24,7 +24,6 @@
     function getData() {
       return dataservice.getUrl('/mahasiswa/khs').then(function(response) {
         vm.data = response;
-        logger.info('Data loaded');
       });
     }
 

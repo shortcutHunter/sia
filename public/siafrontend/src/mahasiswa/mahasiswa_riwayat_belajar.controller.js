@@ -25,7 +25,6 @@
       return dataservice.getDataFilter(vm.table, filter).then(function(response) {
         vm.pageData = response;
         vm.data = response.data;
-        logger.info('Data loaded');
       });
     }
 
