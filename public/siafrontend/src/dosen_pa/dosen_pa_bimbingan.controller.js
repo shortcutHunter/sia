@@ -13,6 +13,7 @@
     vm.data = {};
 
     vm.prosesPengajuan = prosesPengajuan;
+    vm.lihatKRS = lihatKRS;
 
     activate();
 
@@ -32,6 +33,13 @@
     function prosesPengajuan(data) {
       vm.active_data = data;
       let el = "<modal-proses-pengajuan data='vm.active_data'></modal-proses-pengajuan>";
+      el = compile(el)(scope);
+    }
+
+    function lihatKRS(data) {
+      vm.active_data = data;
+      vm.data.semester_id = data.mahasiswa.semester_id;
+      let el = "<modal-lihat-krs data='vm.active_data'></modal-lihat-krs>";
       el = compile(el)(scope);
     }
   }

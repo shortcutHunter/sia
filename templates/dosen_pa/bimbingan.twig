@@ -23,6 +23,7 @@
 					<td>
 						{% verbatim %}
 							<button class="btn btn-primary" ng-click="vm.prosesPengajuan(col)" ng-if="col.mahasiswa.pengajuan">Proses Pengajuan</button>
+							<button class="btn btn-primary" ng-click="vm.lihatKRS(col)" ng-if="!col.mahasiswa.pengajuan">Lihat KRS</button>
 						{% endverbatim %}
 					</td>
 				</tr>
@@ -32,6 +33,7 @@
 			</tbody>
 
 		</table>
+		<small>Total data: <b ng-bind="vm.data.length || 0"></b></small>
 	</div>
 </div>
 {% endblock %}

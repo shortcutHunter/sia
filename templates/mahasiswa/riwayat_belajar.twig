@@ -36,7 +36,7 @@
 				        <tbody ng-repeat-start="data in vm.data">
 
 				        	<tr ng-repeat="riwayat_belajar_detail in data.riwayat_belajar_detail track by $index">
-				        		<td ng-bind="$index+1"></td>
+				        		<td ng-bind="riwayat_belajar_detail.mata_kuliah.nama"></td>
 				        		<td ng-bind="data.semester.nama"></td>
 				        		<td ng-bind="riwayat_belajar_detail.nilai_absolut"></td>
 				        		<td ng-bind="riwayat_belajar_detail.nilai_bobot"></td>
@@ -47,6 +47,7 @@
 
 				        <tbody ng-repeat-end=""></tbody>
 					</table>
+					<small>Total data: <b ng-bind="vm.total_row || 0"></b></small>
 
 				</div>
 			</div>

@@ -46,33 +46,34 @@
         			<div class="col-md-12">
 	        			<table class="table">
 
-							<thead>
-								<th>NIM</th>
-								<th>Nama</th>
-								<th>Semester</th>
-								<th>Keterangan</th>
-								<th></th>
-							</thead>
+									<thead>
+										<th>NIM</th>
+										<th>Nama</th>
+										<th>Semester</th>
+										<th>Keterangan</th>
+										<th></th>
+									</thead>
 
-							<tbody>
-								<tr ng-repeat="col in vm.data.mahasiswa_bimbingan" ng-if="vm.data.mahasiswa_bimbingan && vm.data.mahasiswa_bimbingan.length != 0">
-									<td ng-bind="col.mahasiswa.nim || '-'"></td>
-									<td ng-bind="col.mahasiswa.orang.nama || '-'"></td>
-									<td ng-bind="col.mahasiswa.semester.nama || '-'"></td>
-									<td ng-bind="col.mahasiswa.sudah_pengajuan ? 'Sudah KRS' : 'Belum KRS' || '-'"></td>
-									<td>
-										{% verbatim %}
-											<button class="btn btn-primary" ng-click="vm.prosesPengajuan(col)" ng-if="col.mahasiswa.pengajuan && vm.data.status == 'aktif'">Proses Pengajuan</button>
-											<button class="btn btn-primary" ng-click="vm.lihatKRS(col)" ng-if="!col.mahasiswa.pengajuan">Lihat KRS</button>
-										{% endverbatim %}
-									</td>
-								</tr>
-								<tr ng-if="!vm.data.mahasiswa_bimbingan || vm.data.mahasiswa_bimbingan.length == 0">
-									<td  class="text-center" colspan="5">Belum ada data</td>
-								</tr>
-							</tbody>
+									<tbody>
+										<tr ng-repeat="col in vm.data.mahasiswa_bimbingan" ng-if="vm.data.mahasiswa_bimbingan && vm.data.mahasiswa_bimbingan.length != 0">
+											<td ng-bind="col.mahasiswa.nim || '-'"></td>
+											<td ng-bind="col.mahasiswa.orang.nama || '-'"></td>
+											<td ng-bind="col.mahasiswa.semester.nama || '-'"></td>
+											<td ng-bind="col.mahasiswa.sudah_pengajuan ? 'Sudah KRS' : 'Belum KRS' || '-'"></td>
+											<td>
+												{% verbatim %}
+													<button class="btn btn-primary" ng-click="vm.prosesPengajuan(col)" ng-if="col.mahasiswa.pengajuan && vm.data.status == 'aktif'">Proses Pengajuan</button>
+													<button class="btn btn-primary" ng-click="vm.lihatKRS(col)" ng-if="!col.mahasiswa.pengajuan">Lihat KRS</button>
+												{% endverbatim %}
+											</td>
+										</tr>
+										<tr ng-if="!vm.data.mahasiswa_bimbingan || vm.data.mahasiswa_bimbingan.length == 0">
+											<td  class="text-center" colspan="5">Belum ada data</td>
+										</tr>
+									</tbody>
 
-						</table>
+								</table>
+								<small>Total data: <b ng-bind="vm.data.mahasiswa_bimbingan.length || 0"></b></small>
 	        		</div>
         		</div>
         	</div>

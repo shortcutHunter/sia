@@ -12,6 +12,7 @@
     vm.title = 'Riwayat Belajar Mahasiswa';
     vm.table = 'riwayat_belajar';
     vm.data = [];
+    vm.total_row = 0;
     vm.pageData = {};
 
     activate();
@@ -25,6 +26,9 @@
       return dataservice.getDataFilter(vm.table, filter).then(function(response) {
         vm.pageData = response;
         vm.data = response.data;
+        $.each(vm.data, (i, v) => {
+          vm.total_row += v.riwayat_belajar_detail.length || 0;
+        });
       });
     }
 

@@ -61,45 +61,45 @@
 
 	        			<table class="table">
 
-							<thead>
-								<th>Kode</th>
-								<th>Nama</th>
-								<th>SKS</th>
-								<th></th>
-							</thead>
+									<thead>
+										<th>Kode</th>
+										<th>Nama</th>
+										<th>SKS</th>
+										<th></th>
+									</thead>
 
-							<tbody>
-								<tr ng-repeat="col in vm.data.mata_kuliah_diampuh" ng-if="vm.data.mata_kuliah_diampuh && vm.data.mata_kuliah_diampuh.length != 0">
-									<td ng-bind="col.mata_kuliah.kode || '-'"></td>
-									<td ng-bind="col.mata_kuliah.nama || '-'"></td>
-									<td ng-bind="col.mata_kuliah.sks || '-'"></td>
-									<td ng-if="vm.data.status == 'aktif'">
-										{% verbatim %}
-											<button class="btn btn-primary" ng-click="vm.isiNilai(col)" ng-if="col.terkonfigurasi">
-												Isi Nilai
-											</button>
-											<button class="btn btn-primary" ng-click="vm.konfigureNilai(col)" ng-if="!col.terkonfigurasi">
-												Konfigurasi Nilai
-											</button>
-											<button class="btn btn-primary" ng-click="vm.konfigureNilai(col)" ng-if="col.terkonfigurasi">
-												Konfigurasi Nilai
-											</button>
-											<button class="btn btn-primary" ng-if="col.terkonfigurasi" ng-click="vm.cetakNilai(col)">
-												<i class="fa fa-print"></i> Nilai
-											</button>
-											<button class="btn btn-primary" ng-if="col.terkonfigurasi" ng-click="vm.cetakMahasiswa(col)">
-												<i class="fa fa-print"></i> Mahasiswa
-											</button>
-										{% endverbatim %}
-									</td>
-								</tr>
-								<tr ng-if="!vm.data.mata_kuliah_diampuh || vm.data.mata_kuliah_diampuh.length == 0">
-									<td  class="text-center" colspan="5">Belum ada data</td>
-								</tr>
-							</tbody>
+									<tbody>
+										<tr ng-repeat="col in vm.data.mata_kuliah_diampuh" ng-if="vm.data.mata_kuliah_diampuh && vm.data.mata_kuliah_diampuh.length != 0">
+											<td ng-bind="col.mata_kuliah.kode || '-'"></td>
+											<td ng-bind="col.mata_kuliah.nama || '-'"></td>
+											<td ng-bind="col.mata_kuliah.sks || '-'"></td>
+											<td ng-if="vm.data.status == 'aktif'">
+												{% verbatim %}
+													<button class="btn btn-primary" ng-click="vm.isiNilai(col)" ng-if="col.terkonfigurasi">
+														Isi Nilai
+													</button>
+													<button class="btn btn-primary" ng-click="vm.konfigureNilai(col)" ng-if="!col.terkonfigurasi">
+														Konfigurasi Nilai
+													</button>
+													<button class="btn btn-primary" ng-click="vm.konfigureNilai(col)" ng-if="col.terkonfigurasi">
+														Konfigurasi Nilai
+													</button>
+													<button class="btn btn-primary" ng-if="col.terkonfigurasi" ng-click="vm.cetakNilai(col)">
+														<i class="fa fa-print"></i> Nilai
+													</button>
+													<button class="btn btn-primary" ng-if="col.terkonfigurasi" ng-click="vm.cetakMahasiswa(col)">
+														<i class="fa fa-print"></i> Mahasiswa
+													</button>
+												{% endverbatim %}
+											</td>
+										</tr>
+										<tr ng-if="!vm.data.mata_kuliah_diampuh || vm.data.mata_kuliah_diampuh.length == 0">
+											<td  class="text-center" colspan="5">Belum ada data</td>
+										</tr>
+									</tbody>
 
-						</table>
-	        		
+								</table>
+	        			<small>Total data: <b ng-bind="vm.data.mata_kuliah_diampuh.length || 0"></b></small>
 	        		</div>
         		</div>
         	</div>
