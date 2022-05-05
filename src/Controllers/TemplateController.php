@@ -121,7 +121,8 @@ final class TemplateController extends BaseController
             }
         }
 
-        return $container->get('twig')->render($response, 'root/register.twig', $data);
+        // return $container->get('twig')->render($response, 'root/register.twig', $data);
+        return $container->get('twig')->render($response, 'root/register/homepage.twig', $data);
     }
 
     public function registerSubmit($request, $response)

@@ -70,6 +70,12 @@ class User extends BaseModel
 		$attributes['unenpass'] = $attributes['password'];
 		$attributes['password'] = self::encrypt($attributes['password']);
 
+		if (!array_key_exists('orang_id', $attributes)) {
+			$object_orang = self::getModelByName('user');
+			$orang = $object_orang->find($attributes['orang_id']);
+			$attributes['username'] = $orang->nik;
+		}
+
 		if (!array_key_exists('username', $attributes)) {
 			$username = bin2hex(random_bytes(3));
 			$attributes['username'] = $username;

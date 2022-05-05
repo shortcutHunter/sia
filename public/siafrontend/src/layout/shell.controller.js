@@ -5,9 +5,9 @@
     .module('app.layout')
     .controller('ShellController', ShellController);
 
-  ShellController.$inject = ['$rootScope', '$timeout', 'config', 'logger'];
+  ShellController.$inject = ['$rootScope', '$timeout', 'config', 'logger', 'dataservice'];
   /* @ngInject */
-  function ShellController($rootScope, $timeout, config, logger) {
+  function ShellController($rootScope, $timeout, config, logger, dataservice) {
     var vm = this;
     vm.busyMessage = 'Please wait ...';
     vm.isBusy = true;
@@ -17,6 +17,13 @@
       text: 'Created by Jimmy',
       link: ''
     };
+    vm.user = dataservice.user;
+
+    $rootScope.$watch(() => dataservice.user, (newVal, oldVal) => {
+      if (newVal) {
+        vm.user = dataservice.user;
+      }
+    });
 
     activate();
 

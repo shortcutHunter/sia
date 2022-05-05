@@ -20,10 +20,10 @@
           templateUrl: '/template/karyawan/table',
           controller: 'KaryawanController',
           controllerAs: 'vm',
-          title: 'karyawan',
+          title: 'Kepegawaian',
           settings: {
             nav: 1,
-            content: '<i class="fa fa-list"></i> <span>Karyawan</span>',
+            content: '<i class="fa fa-list"></i> <span>Kepegawaian</span>',
             parent: 'Karyawan',
             roles: ['admin', 'akademik']
           }

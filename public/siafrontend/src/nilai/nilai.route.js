@@ -20,10 +20,10 @@
           templateUrl: '/template/nilai/table',
           controller: 'NilaiController',
           controllerAs: 'vm',
-          title: 'nilai',
+          title: 'Komponen Penilaian',
           settings: {
             nav: 1,
-            content: '<i class="fa fa-list"></i> <span>Nilai</span>',
+            content: '<i class="fa fa-list"></i> <span>Komponen Penilaian</span>',
             parent: 'Konfigurasi',
             roles: ['admin', 'akademik']
           }
