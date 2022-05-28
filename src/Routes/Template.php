@@ -21,6 +21,9 @@ class Template extends BaseRoute {
         $this->app->get('/login', \App\Controllers\TemplateController::class . ':login');
 
         $this->app->get('/register', \App\Controllers\TemplateController::class . ':register');
+        $this->app->get('/register/online', \App\Controllers\TemplateController::class . ':registerOnline');
+        $this->app->get('/register/offline', \App\Controllers\TemplateController::class . ':registerOffline');
+
         $this->app->post('/register/submit', \App\Controllers\TemplateController::class . ':registerSubmit');
         $this->app->get('/register/sukses', \App\Controllers\TemplateController::class . ':sukses');
 

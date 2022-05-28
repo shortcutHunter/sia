@@ -203,41 +203,43 @@ final class ApiController extends BaseController
     public function getMahasiswa($request, $response, $args)
     {
         $mata_kuliah_diampuh_id = $args['matkul_diampuh_id'];
-        $mahasiswa = $this->get_object('mahasiswa');
+        $mahasiswa_obj = $this->get_object('mahasiswa');
         $mata_kuliah_diampuh = $this->get_object('mata_kuliah_diampuh');
 
         $mata_kuliah_diampuh = $mata_kuliah_diampuh->find($mata_kuliah_diampuh_id);
+        $semester_ids = $mata_kuliah_diampuh->dosen_pjmk->semester->pluck('id')->toArray();
+        $mahasiswa = $mahasiswa_obj->where('status', 'mahasiswa')->whereIn('semester_id', $semester_ids);
+        $mahasiswa = $mahasiswa->whereHas(
+            'riwayat_belajar',
+            function($q) use ($mata_kuliah_diampuh, $semester_ids) {
+                $q->where('terisi', $mata_kuliah_diampuh->terisi)
+                  ->whereIn('semester_id', $semester_ids)
+                  ->whereHas(
+                    'riwayat_belajar_detail', 
+                    function($q) use ($mata_kuliah_diampuh) {
+                        $q->where('mata_kuliah_id', $mata_kuliah_diampuh->mata_kuliah_id);
+                  });
+            }
+        );
 
-        $data = $mahasiswa->where([['status', 'mahasiswa'], ['semester_id', $mata_kuliah_diampuh->dosen_pjmk->semester_id]])->whereHas(
-            'pengajuan_ks', 
-            function($q) use ($mata_kuliah_diampuh) {
-                $q
-                    ->where('status', 'terima')
-                    ->where('semester_id', $mata_kuliah_diampuh->dosen_pjmk->semester_id)
-                    ->where('tahun_ajaran_id', $mata_kuliah_diampuh->dosen_pjmk->tahun_ajaran_id)
-                    ->whereHas(
-                        'pengajuan_ks_detail', 
-                        function($q) use ($mata_kuliah_diampuh) {
-                            $q->where('mata_kuliah_id', $mata_kuliah_diampuh->mata_kuliah_id);
-                    });
-        })->get();
-
-        foreach ($data as $key => $value) {
+        $mahasiswa = $mahasiswa->get();
+        foreach ($mahasiswa as $key => $value) {
             $riwayat_belajar_detail_obj = $this->get_object('riwayat_belajar_detail');
             $riwayat_belajar_detail = $riwayat_belajar_detail_obj->with('riwayat_belajar_nilai')
                 ->where('mata_kuliah_id', $mata_kuliah_diampuh->mata_kuliah_id)
                 ->whereHas(
                     'riwayat_belajar', 
-                    function($q) use ($mata_kuliah_diampuh, $value) {
+                    function($q) use ($mata_kuliah_diampuh, $value, $semester_ids) {
                         $q
-                            ->where('semester_id', $mata_kuliah_diampuh->dosen_pjmk->semester_id)
+                            ->whereIn('semester_id', $semester_ids)
+                            ->where('terisi', $mata_kuliah_diampuh->terisi)
                             ->where('mahasiswa_id', $value->id);
                     }
                 )->first();
             $value->{'nilai'} = $riwayat_belajar_detail;
         }
 
-        $data = json_encode(['data' => $data]);
+        $data = json_encode(['data' => $mahasiswa]);
 
         $response->getBody()->write($data);
         return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
@@ -264,6 +266,16 @@ final class ApiController extends BaseController
         $postData = $request->getParsedBody();
         $mahasiswa_obj = $this->get_object('mahasiswa');
         $riwayat_belajar_obj = $this->get_object('riwayat_belajar');
+        $submitted = false;
+        $matkul_diampuh_id = false;
+
+        if (array_key_exists('submit', $postData)) {
+            $submitted = $postData['submit'];
+        }
+
+        if (array_key_exists('matkul_diampuh_id', $postData)) {
+            $matkul_diampuh_id = $postData['matkul_diampuh_id'];
+        }
 
         foreach ($postData['data'] as $key => $value) {
             $mahasiswa_id = $value['mahasiswa_id'];
@@ -273,6 +285,8 @@ final class ApiController extends BaseController
             $riwayat_belajar_value = [
                 'mahasiswa_id' => $mahasiswa_id,
                 'semester_id' => $mahasiswa->semester_id,
+                'submitted' => $submitted,
+                'terisi' => $submitted,
                 'riwayat_belajar_detail' => $value['riwayat_belajar_detail']
             ];
 
@@ -280,6 +294,15 @@ final class ApiController extends BaseController
                 $riwayat_belajar = $riwayat_belajar_obj->create($riwayat_belajar_value);
             }else{
                 $riwayat_belajar->first()->update($riwayat_belajar_value);
+            }
+        }
+
+        if ($submitted && $matkul_diampuh_id) {
+            $mata_kuliah_diampuh_obj = $this->get_object('mata_kuliah_diampuh');
+            $mata_kuliah_diampuh = $mata_kuliah_diampuh_obj->find($matkul_diampuh_id);
+
+            if ($mata_kuliah_diampuh) {
+                $mata_kuliah_diampuh->update(['terisi' => $submitted]);
             }
         }
 
@@ -785,7 +808,7 @@ final class ApiController extends BaseController
         }
 
         $this->setDosenPjmk($semester_id);
-        $this->setDosenPa($semester_id);
+        // $this->setDosenPa($semester_id);
 
         // DB::rollback();
 

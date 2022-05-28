@@ -54,7 +54,9 @@
 
 
 .box-header {
-	border: solid black;
+	border: solid #00a85a;
+	background-color: #00a85a;
+	color: white;
 	padding:  3px;
 	text-align: center;
 	font-weight: bold;
@@ -72,7 +74,7 @@
 	border: solid #00a85a;
 	padding: 3px;
 	text-align: center;
-	margin-bottom: 10px;
+	margin-bottom: 5px;
 	width: 100%;
 }
 
@@ -85,8 +87,8 @@
 
 .box-arrow::before {
 	content: "";
-	width: 3px;
-	height: 20px;
+	width: 2.5px;
+	height: 5px;
 	background-color: #00a85a;
 }
 
@@ -94,9 +96,43 @@
 	content: "";
 	width: 0;
 	height: 0;
-	border-left: 10px solid transparent;
-	border-right: 10px solid transparent;
-	border-top: 10px solid #00a85a;
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	border-top: 5px solid #00a85a;
 	font-size: 0;
 	line-height: 0;
+}
+
+.alur {
+	font-size: 10px;
+}
+
+.box-spacing {
+	margin: 20px;
+}
+
+.persyaratan-container {
+	display: flex;
+	flex-wrap: wrap;
+	padding: 0px 10px;
+}
+
+.persyaratan {
+	border: 1px solid #00a85a;
+}
+
+.btn-pendaftaran {
+	font-size: 30px;
+	border: 1px solid #00a85a;
+	padding: 10px 20px;
+	cursor: pointer;
+	background-color: white;
+	text-decoration: none;
+	color: black;
+}
+
+.btn-pendaftaran:hover {
+	background-color: #00a85a;
+	text-decoration: none;
+	color: white;
 }

@@ -22,17 +22,9 @@
 
     function link(scope, element, attr) {
       let dm = scope.$parent.vm;
-      scope.bukti_bayar = [];
       activate();
 
       scope.upload = upload;
-
-      scope.$watch('vm.data.file', function(newVal, oldVal){
-        if (newVal) {
-          scope.data.tagihan_bukti_bayar.push({'file': angular.copy(newVal)});
-          scope.vm.data.file = false;
-        }
-      });
 
       function activate() {
         $(element).modal('show');
@@ -44,7 +36,10 @@
 
       function upload() {
         let data = {
-          tagihan_bukti_bayar: scope.data.tagihan_bukti_bayar
+          transaksi: {
+            nominal: scope.vm.data.nominal,
+            tagihan_bukti_bayar: [{'file': scope.vm.data.file}]
+          }
         };
 
         dataservice.postData('tagihan', data, scope.data.id).then(function(data){

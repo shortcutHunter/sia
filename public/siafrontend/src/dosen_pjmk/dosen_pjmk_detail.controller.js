@@ -18,6 +18,7 @@
     vm.isiNilai         = isiNilai;
     vm.cetakMahasiswa   = cetakMahasiswa;
     vm.cetakNilai       = cetakNilai;
+    vm.migrasi          = migrasi;
 
     activate();
 
@@ -84,6 +85,12 @@
         let preview_modal = '<modal-preview file="file" name="fileName" mimetype="filetype" base64="base64" type="type"></modal-preview>';
         let el = compile(preview_modal)(scope);
       });
+    }
+
+    function migrasi() {
+      let el = "<modal-migrasi-matkul data='vm.data'></modal-migrasi-matkul>";
+      el = compile(el)(scope);
+      $(element).append(el);
     }
   }
 })();

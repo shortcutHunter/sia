@@ -1,0 +1,91 @@
+{% extends "structure/detail.twig" %}
+
+{% block button %}
+
+  <a class="btn btn-sm btn-success" ui-sref="pendaftaran_form({dataId: vm.data.id})" ng-if="vm.data.status == 'process'">
+  	<i class="fa fa-edit"></i> Edit
+	</a>
+
+  <div class="float-end">
+  	<button class="btn btn-primary" widget-update-status="open" ng-if="vm.data.status == 'process'">Open</button>
+  	<button class="btn btn-primary" widget-update-status="closed" ng-if="vm.data.status == 'open'">Close</button>
+  </div>
+
+  <div class="float-end" ng-if="vm.data.status == 'closed'">
+  	<button class="btn btn-primary" ng-click="vm.terbitkanNIM()">Terbitkan NIM</button>
+  </div>
+
+{% endblock %}
+
+{% block status %}
+
+  {% verbatim %}
+    <button class="btn {{ key == vm.data.status ? 'btn-primary' : ''}}" ng-repeat="(key, status) in vm.option.option.status" ng-bind="status"></button>
+  {% endverbatim %}
+
+{% endblock %}
+
+{% block content %}
+
+	<div class="row">
+		<div class="col-md-6">
+			<table class="custom-table">
+				{% include 'components/preview-text.twig' with {'name': 'tahun_ajaran.nama', 'label': 'Tahun Ajaran'} %}
+				{# {% include 'components/preview-text.twig' with {'name': 'max_cicilan', 'label': 'Maximum Cicilan'} %} #}
+			</table>
+		</div>
+		
+		<div class="col-md-6">
+			<table class="custom-table">
+					{% include 'components/preview-text.twig' with {'name': 'tanggal_mulai', 'label': 'Tanggal Mulai'} %}
+					{% include 'components/preview-text.twig' with {'name': 'tanggal_berakhir', 'label': 'Tanggal Berakhir'} %}
+			</table>
+		</div>
+	</div>
+
+	<ul class="nav nav-tabs mt-5">
+		<li class="nav-item">
+    	<a class="nav-link active" data-bs-toggle="list" href="#pmb">PMB</a>
+    </li>
+  </ul>
+
+  <div class="tab-content text-justify">
+    	<div class="tab-pane fade show active" id="pembiayaan">
+
+    		<div class="row mt-3">
+    			<div class="col-md-12">
+
+    				<table class="table">
+
+							<thead>
+								<th>Nomor Peserta</th>
+								<th>NIK</th>
+								<th>Nama</th>
+								<th>Tanggal Pendaftaran</th>
+								<th>Status</th>
+								<th></th>
+							</thead>
+
+							<tbody>
+								<tr ng-repeat="col in vm.data.pmb track by $index" ng-if="vm.data.pmb && vm.data.pmb.length != 0">
+									<td ng-bind="col.nomor_peserta || '-'"></td>
+				          <td ng-bind="col.orang.nik || '-'"></td>
+				          <td ng-bind="col.orang.nama || '-'"></td>
+				          <td ng-bind="col.tanggal_pendaftaran || '-'"></td>
+				          <td ng-bind="col.status_label || '-'"></td>
+								</tr>
+								<tr ng-if="!vm.data.pmb || vm.data.pmb.length == 0">
+									<td  class="text-center" colspan="5">Belum ada data</td>
+								</tr>
+							</tbody>
+
+						</table>
+						<small>Total data: <b ng-bind="vm.data.pmb.length || 0"></b></small>
+        		
+    			</div>
+    		</div>
+
+    	</div>    	
+    </div>
+
+{% endblock %}

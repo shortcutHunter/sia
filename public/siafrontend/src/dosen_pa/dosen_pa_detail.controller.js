@@ -14,6 +14,7 @@
     vm.data = {};
 
     vm.tambahMahasiswa = tambahMahasiswa;
+    vm.migrasiMahasiswa = migrasiMahasiswa;
     vm.prosesPengajuan = prosesPengajuan;
     vm.lihatKRS = lihatKRS;
 
@@ -40,6 +41,12 @@
 
     function tambahMahasiswa() {
       let el = "<modal-tambah-mahasiswa></modal-tambah-mahasiswa>";
+      el = compile(el)(scope);
+      $(element).append(el);
+    }
+
+    function migrasiMahasiswa() {
+      let el = "<modal-migrasi-mahasiswa data='vm.data'></modal-migrasi-mahasiswa>";
       el = compile(el)(scope);
       $(element).append(el);
     }

@@ -53,16 +53,70 @@ class MainSeed {
     {
         $tahun_ajaran_obj = $this->getObject('tahun_ajaran');
         $konfigurasi_obj = $this->getObject('konfigurasi');
+        $semester_obj = $this->getObject('semester');
+        $pembiayaan_lainnya_obj = $this->getObject('pembiayaan_lainnya');
+        $pendaftaran_obj = $this->getObject('pendaftaran');
+
+        $pembiayaan_tahun_ajar_val = [];
+        $semester = $semester_obj->whereNotNull('tipe')->get();
+        $pembiayaan_lainnya = $pembiayaan_lainnya_obj->all();
+        $price = 3000000;
+
+        foreach ($semester as $key => $value) {
+            $pta_val = [
+                "nama" => "Pembiayaan Semester " . $value->nama,
+                "biaya_lunas" => $price / 10,
+                "total_biaya" => $price,
+                "semester_id" => $value->id,
+                "lainnya" => false,
+                "registrasi" => false,
+            ];
+            array_push($pembiayaan_tahun_ajar_val, $pta_val);
+
+            $price += 100000;
+        }
+
+        foreach ($pembiayaan_lainnya as $key => $value) {
+            $pta_val = [
+                "nama" => $value->nama,
+                "biaya_lunas" => $price / 10,
+                "total_biaya" => $price,
+                "semester_id" => null,
+                "lainnya" => true,
+                "registrasi" => false,
+            ];
+            array_push($pembiayaan_tahun_ajar_val, $pta_val);
+
+            $price += 100000;
+        }
+
+        $pta_val = [
+            "nama" => "Biaya Pendaftaran",
+            "biaya_lunas" => $price / 10,
+            "total_biaya" => $price,
+            "semester_id" => null,
+            "lainnya" => false,
+            "registrasi" => true,
+        ];
+        array_push($pembiayaan_tahun_ajar_val, $pta_val);
 
         $tahun_ajaran = $tahun_ajaran_obj->create([
             "nama" => date("Y") . "/" . date('Y', strtotime('+1 year')),
-            "tahun" => date("Y")
+            "tahun" => date("Y"),
+            'pembiayaan_tahun_ajar' => $pembiayaan_tahun_ajar_val
         ]);
 
         $konfigurasi = $konfigurasi_obj->first();
         $konfigurasi->update([
             "tahun_ajaran_id" => $tahun_ajaran->id,
             "semester_id" => 1
+        ]);
+
+        $pendaftaran = $pendaftaran_obj->create([
+            "tanggal_mulai" => date('d/m/Y'),
+            "tahun_ajaran_id" => $tahun_ajaran->id,
+            "status" => 'open',
+            "max_cicilan" => 10,
         ]);
     }
 
@@ -137,7 +191,7 @@ class MainSeed {
             ),
         ); 
 
-        $url = $faker->imageUrl($width = 640, $height = 480);
+        $url = $faker->imageUrl($width = 320, $height = 240);
         $image = file_get_contents($url, false, stream_context_create($arrContextOptions));
         $base64 = base64_encode($image);
 
@@ -217,9 +271,10 @@ class MainSeed {
     {
         $faker = Faker\Factory::create();
 
-        $bukti_pembayaran = $this->fakeImages();
+        $pendaftaran_obj = $this->getObject('pendaftaran');
+        $pendaftaran = $pendaftaran_obj->first();
 
-        for ($i=0; $i < $total; $i++) { 
+        for ($i=0; $i < $total; $i++) {
             $pmb_obj = $this->getObject('pmb');
             $penerbitan_nim_obj = $this->getObject('penerbitan_nim');
 
@@ -228,18 +283,20 @@ class MainSeed {
                 "orang" => $this->fakeDataOrang(),
                 "bukti_pembayaran" => $bukti_pembayaran,
                 "pernyataan" => 1,
-                "tanggal_pendaftaran" => date("d/m/Y")
+                "tanggal_pendaftaran" => date("d/m/Y"),
+                'pendaftaran_id' => $pendaftaran->id
             ];
 
             $pmb = $pmb_obj->create($pmb_value);
-            $pmb->update(["status" => "ujian"]);
-            $pmb->update(["status" => "terima"]);
-
-            $penerbitan_nim = $penerbitan_nim_obj->where('pmb_id', $pmb->id)->first();
-            $penerbitan_nim->update([
-                "status" => 'terbit'
-            ]);
+            $pmb->update(["status" => "terverifikasi", "test_tertulis" => date('d/m/Y')]);
+            $pmb->update(["status" => "test_lulus", "test_kesehatan" => date('d/m/Y')]);
+            $pmb->update(["status" => "kesehatan_lulus", "test_wawancara" => date('d/m/Y')]);
+            $pmb->update(["status" => "wawancara_lulus", "daftar_ulang" => date('d/m/Y')]);
         }
+
+        $pendaftaran->update(['status' => 'closed']);
+        $pendaftaran->refresh();
+        $pendaftaran->terbitkanNIM();
     }
 
     function createKaryawan($jenis_karyawan)
@@ -269,7 +326,7 @@ class MainSeed {
         $dosen_pjmk_value = [
             "karyawan_id" => $karyawan->id,
             "tahun_ajaran_id" => $tahun_ajaran->id,
-            "semester_id" => $semester_id
+            'semester' => [['id' => $semester_id]]
         ];
         $dosen_pjmk = $dosen_pjmk_obj->create($dosen_pjmk_value);
 
@@ -305,13 +362,28 @@ class MainSeed {
 
         $dosen_pa_value = [
             "karyawan_id" => $karyawan->id,
-            "tahun_ajaran_id" => $tahun_ajaran->id,
-            "semester_id" => $semester_id
+            "tahun_ajaran_id" => $tahun_ajaran->id
         ];
 
         $dosen_pa = $dosen_pa_obj->create($dosen_pa_value);
 
         return $dosen_pa;
+    }
+
+    function createPanitia($total)
+    {
+        $faker = Faker\Factory::create();
+
+        for ($i=0; $i < $total; $i++) {
+            $panitia_obj = $this->getObject('panitia');
+
+            $panitia_value = [
+                "nama" => $faker->name(),
+                "nohp" => $faker->phoneNumber
+            ];
+
+            $panitia = $panitia_obj->create($panitia_value);
+        }
     }
 
     function dosenData($jenis_karyawan)
@@ -361,7 +433,9 @@ class MainSeed {
     }
 
     function run()
-    {        
+    {
+        // ini_set('memory_limit', '-1');
+
         $settings = require __DIR__ . '/../../config/settings.php';
         $db_name = $settings['db']['database'];
 
@@ -396,6 +470,7 @@ class MainSeed {
         $this->importData('mata_kuliah');
         $this->importData('konfigurasi');
         $this->importData('sequance');
+        $this->importData('pembiayaan_lainnya');
 
         echo "Create fake Konfigurasi data.... \r\n";
         $this->konfigurasiData();
@@ -408,5 +483,8 @@ class MainSeed {
 
         echo "Create fake Karyawan data using faker.... \r\n";
         $this->karyawanData();
+
+        echo "Create fake Panitia data using faker.... \r\n";
+        $this->createPanitia(5);
     }
 }

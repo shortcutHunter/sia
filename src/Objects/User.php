@@ -63,18 +63,26 @@ class User extends BaseModel
 
 	public static function create(array $attributes = [])
 	{
+		if (array_key_exists('orang_id', $attributes) && $attributes['orang_id'] != '') {
+			$object_orang = self::getModelByName('user');
+			$orang = $object_orang->find($attributes['orang_id']);
+
+			if (!empty($orang)) {
+				$attributes['username'] = $orang->nik || '';
+
+				if (!empty($orang->tanggal_lahir)) {
+					$attributes['password'] = date('dmY', strtotime($orang->tanggal_lahir));
+				}
+			}
+		}
+
 		if (!array_key_exists('password', $attributes)) {
 			$created_pass = bin2hex(random_bytes(4));
 			$attributes['password'] = $created_pass;
 		}
+
 		$attributes['unenpass'] = $attributes['password'];
 		$attributes['password'] = self::encrypt($attributes['password']);
-
-		if (!array_key_exists('orang_id', $attributes)) {
-			$object_orang = self::getModelByName('user');
-			$orang = $object_orang->find($attributes['orang_id']);
-			$attributes['username'] = $orang->nik;
-		}
 
 		if (!array_key_exists('username', $attributes)) {
 			$username = bin2hex(random_bytes(3));

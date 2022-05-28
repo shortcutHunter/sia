@@ -1,0 +1,41 @@
+{% extends "structure/table.twig" %}
+
+{% block button %}
+	<a ui-sref="panitia_form({dataId: null})" class="btn btn-success btn-sm">
+		<i class="fa fa-plus"></i> Tambah
+	</a>
+{% endblock %}
+
+{% block search %}
+
+	<div class="form-group position-relative has-icon-right">
+        <input type="text" class="form-control" ng-model="vm.searchData">
+        <div class="form-control-icon" ng-click="vm.search()">
+            <i class="fa fa-search"></i>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block table %}
+	{% verbatim %}
+
+		<thead>
+			<tr>
+				<th>Nama</th>
+				<th>No HP</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr ng-if="!vm.data || vm.data.length == 0">
+	          <td colspan="5" class="text-center">Tidak ada data yang tersedia</td>
+	        </tr>
+	        <tr ng-repeat="data in vm.data" class="clickable" ng-attr-tr_id="{{data.id}}" state_name="panitia_detail" widget-tr="">
+	          <td ng-bind="data.nama || '-'"></td>
+	          <td ng-bind="data.nohp || '-'"></td>
+	        </tr>
+		</tbody>
+
+	{% endverbatim %}
+{% endblock %}

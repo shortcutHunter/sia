@@ -31,7 +31,7 @@ class TagihanBuktiBayar extends BaseModel
 			$file_saved = $file_obj->create($file_data_value);
 
 			$tagihan_value = [
-				'tagihan_id' => $attributes['tagihan_id'],
+				'transaksi_id' => $attributes['transaksi_id'],
 				'file_id' => $file_saved->id
 			];
 			$tagihan = parent::create($tagihan_value);
@@ -60,7 +60,7 @@ class TagihanBuktiBayar extends BaseModel
 			$file->update($file_data_value);
 
 			$tagihan_value = [
-				'tagihan_id' => $attributes['tagihan_id'],
+				'transaksi_id' => $attributes['transaksi_id'],
 				'file_id' => $file->id
 			];
 			$tagihan = parent::update($tagihan_value);

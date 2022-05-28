@@ -7,10 +7,9 @@ use App\Objects\BaseModel;
 class DosenPa extends BaseModel
 {
 	protected $table = 'dosen_pa';
-	protected $with = ['karyawan', 'tahun_ajaran', 'semester', 'mahasiswa_bimbingan'];
+	protected $with = ['karyawan', 'tahun_ajaran', 'mahasiswa_bimbingan'];
 
 	public static $relation = [
-		['name' => 'semester', 'is_selection' => true, 'skip' => true],
 		['name' => 'tahun_ajaran', 'is_selection' => true, 'skip' => true],
 	];
 
@@ -63,12 +62,6 @@ class DosenPa extends BaseModel
 	{
 		return $this->hasOne(TahunAjaran::class, 'id', 'tahun_ajaran_id');
 	}
-
-	public function semester()
-	{
-		return $this->hasOne(Semester::class, 'id', 'semester_id');
-	}
-
 
 	public function mahasiswa_bimbingan()
 	{

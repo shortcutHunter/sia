@@ -1,0 +1,22 @@
+{% extends 'structure/form.twig' %}
+
+
+{% block content %}
+		
+	<div class="row">
+		<div class="col-md-6">
+			<table class="custom-table">
+				{% include 'components/select.twig' with {'name': 'tahun_ajaran_id', 'label': 'Tahun Ajaran', 'option': 'selection.tahun_ajaran', 'label_selection': 'nama', 'required': true} %}
+				{# {% include 'components/input.twig' with {'name': 'max_cicilan', 'label': 'Maximum Cicilan'} %} #}
+			</table>
+		</div>
+		
+		<div class="col-md-6">
+			<table class="custom-table">
+					{% include 'components/preview-text.twig' with {'name': 'tanggal_mulai', 'label': 'Tanggal Mulai'} %}
+					{% include 'components/preview-text.twig' with {'name': 'tanggal_berakhir', 'label': 'Tanggal Berakhir'} %}
+			</table>
+		</div>
+	</div>
+
+{% endblock %}

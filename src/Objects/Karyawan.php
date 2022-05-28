@@ -58,10 +58,20 @@ class Karyawan extends BaseModel
 		$object_user = self::getModelByName('user');
 		$user = $object_user->create([
 			'orang_id' => $model->orang_id,
-			'role' => $model->jenis_karyawan
+			'role' => $model->jenis_karyawan,
+			'username' => $model->orang->nik
 		]);
 
 		return $model;
+	}
+
+	public function update(array $attributes = [], array $options = [])
+	{
+		if (array_key_exists('jenis_karyawan', $attributes)) {
+			$this->orang->user->update(['role' => $attributes['jenis_karyawan']]);
+		}
+
+		return parent::update($attributes, $options);
 	}
 
 	public function orang()

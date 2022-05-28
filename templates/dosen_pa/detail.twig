@@ -2,8 +2,12 @@
 
 {% block button %}
 
-  <a class="btn btn-sm btn-success" ui-sref="dosen_pa_form({dataId: vm.data.id})" ng-if="vm.data.status == 'aktif'"><i class="fa fa-edit"></i> Edit</a>
-  <button class="btn btn-sm btn-danger" widget-delete=""><i class="fa fa-trash"></i> Delete</button>
+  <a class="btn btn-sm btn-success" ui-sref="dosen_pa_form({dataId: vm.data.id})" ng-if="vm.data.status == 'aktif' && vm.data.mahasiswa_bimbingan.length == 0">
+  	<i class="fa fa-edit"></i> Edit
+	</a>
+  <button class="btn btn-sm btn-danger" widget-delete="" ng-if="vm.data.mahasiswa_bimbingan.length == 0">
+  	<i class="fa fa-trash"></i> Delete
+	</button>
 
   {# {% include 'widget/nextprev.twig' %} #}
 
@@ -22,7 +26,7 @@
 			<div class="col-md-6">
 				<table class="custom-table">
 						{% include 'components/preview-text.twig' with {'name': 'tahun_ajaran.nama', 'label': 'Tahun Ajaran'} %}
-						{% include 'components/preview-text.twig' with {'name': 'semester.nama', 'label': 'Semester'} %}
+						{# {% include 'components/preview-text.twig' with {'name': 'semester.nama', 'label': 'Semester'} %} #}
 				</table>
 			</div>
 		</div>
@@ -38,7 +42,8 @@
 
         		<div class="row mt-3">
         			<div class="col-12" ng-if="vm.data.status == 'aktif'">
-        				<button class="btn btn-primary" ng-click="vm.tambahMahasiswa()">Tambah Mahasiwa</button>
+        				<button class="btn btn-primary" ng-click="vm.tambahMahasiswa()">Tambah</button>
+        				<button class="btn btn-primary" ng-click="vm.migrasiMahasiswa()">Migrasi</button>
         			</div>
         		</div>
 

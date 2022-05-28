@@ -112,7 +112,7 @@ class BaseModel extends Model
 		}
 
 		foreach (static::$date_fields as $value) {
-            if (array_key_exists($value, $attributes)) {
+            if (array_key_exists($value, $attributes) && $attributes[$value]) {
                 $attributes[$value] = \DateTime::createFromFormat('d/m/Y', $attributes[$value])->format('Y-m-d');
             }
         }

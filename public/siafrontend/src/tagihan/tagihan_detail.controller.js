@@ -5,9 +5,9 @@
     .module('app.tagihan')
     .controller('TagihanDetailController', TagihanDetailController);
 
-  TagihanDetailController.$inject = ['$q', 'dataservice', 'logger', '$stateParams', '$scope', '$state'];
+  TagihanDetailController.$inject = ['$q', 'dataservice', 'logger', '$stateParams', '$scope', '$state', '$compile'];
   /* @ngInject */
-  function TagihanDetailController($q, dataservice, logger, stateParams, scope, state) {
+  function TagihanDetailController($q, dataservice, logger, stateParams, scope, state, compile) {
     var vm = this;
     vm.title = 'Detail Tagihan';
     vm.table = 'tagihan';
@@ -16,8 +16,7 @@
 
     vm.tambahPembiayaan = tambahPembiayaan;
     vm.hapusBukti = hapusBukti;
-
-    scope.$watch('vm.data.upload_file', uploadFileChanges);
+    vm.verif = verif;
 
     activate();
 
@@ -41,27 +40,16 @@
     }
 
     function tambahPembiayaan() {
-      $('#uploadFile').click();
-    }
-
-    function uploadFileChanges(newVal, oldVal) {
-      if (newVal) {
-        let data = {
-          tagihan_bukti_bayar: []
-        };
-
-        $.each(newVal, (i, v) => {
-          data.tagihan_bukti_bayar.push({'file': v});
-        });
-
-        return dataservice.postData('tagihan', data, vm.data.id).then(function(response) {
-          state.reload();
-        });
-      }
+      let el = "<modal-bayar-tagihan data='vm.data'></modal-bayar-tagihan>";
+      el = compile(el)(scope);
     }
 
     function hapusBukti(data) {
       dataservice.deleteRecord('tagihan_bukti_bayar', data.id).then(() => state.reload());
+    }
+
+    function verif(data) {
+      dataservice.postData('transaksi', {'status': 'verified'}, data.id).then(() => state.reload());
     }
 
   }

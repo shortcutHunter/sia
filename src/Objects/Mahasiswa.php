@@ -38,25 +38,43 @@ class Mahasiswa extends BaseModel
 
 	public static function create(array $attributes = [])
 	{
+		$tahun_ajaran_obj = self::getModelByName('tahun_ajaran');
+
+		if (!array_key_exists('tahun_ajaran_id', $attributes)) {
+			throw new \Exception("Harap masukkan tahun ajaran saat membuat mahasiswa");
+		}
+
+		$tahun_ajaran = $tahun_ajaran_obj->where('id', $attributes['tahun_ajaran_id'])->first();
+
+		if (empty($tahun_ajaran)) {
+			throw new \Exception("Harap masukkan tahun ajaran saat membuat mahasiswa");
+		}
+
 		if (array_key_exists('nim', $attributes)) {
 			if (!$attributes['nim']) {
-				$object_tahun_ajaran = self::getModelByName('tahun_ajaran');
-				$attributes['nim'] = $object_tahun_ajaran->getnextCode();
+				$attributes['nim'] = $tahun_ajaran->getnextCode();
 			}
 		}else{
-			$object_tahun_ajaran = self::getModelByName('tahun_ajaran');
-			$attributes['nim'] = $object_tahun_ajaran->getnextCode();
+			$attributes['nim'] = $tahun_ajaran->getnextCode();
 		}
 		$mahasiswa = parent::create($attributes);
 
-		$object_user = self::getModelByName('user');
-		$user = $object_user->create([
-			'orang_id' => $mahasiswa->orang_id,
+		$mahasiswa->orang->user->update([
 			'role' => 'mahasiswa',
-			'username' => $attributes['nim']
+			'username' => $mahasiswa->nim
 		]);
 
 		return $mahasiswa;
+	}
+
+	public function buatTagihanMahasiswa($pta_id) {
+		$pta_obj = self::getModelByName('pembiayaan_tahun_ajar');
+		$pta = $pta_obj->find($pta_id);
+
+		$tagihan = $pta->createTagihan($this->orang_id);
+		$this->update([
+            "tagihan_id" => $tagihan->id
+        ]);
 	}
 
 	public function orang()
@@ -87,7 +105,7 @@ class Mahasiswa extends BaseModel
 
 	public function riwayat_belajar()
 	{
-		return $this->hasMany(RiwayatBelajar::class, 'id', 'mahasiswa_id');
+		return $this->hasMany(RiwayatBelajar::class, 'mahasiswa_id', 'id');
 	}
 
 	public function mahasiswa_bimbingan()

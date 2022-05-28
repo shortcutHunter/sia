@@ -7,7 +7,7 @@ use App\Objects\BaseModel;
 class Tagihan extends BaseModel
 {
 	protected $table = 'tagihan';
-	protected $with = ['orang', 'tagihan_item', 'tagihan_bukti_bayar'];
+	protected $with = ['orang', 'tagihan_item', 'transaksi'];
 	public static $date_fields = ['tanggal'];
 
 	protected $casts = [
@@ -19,12 +19,13 @@ class Tagihan extends BaseModel
 
 	public static $relation = [
 		['name' => 'orang', 'is_selection' => false, 'skip' => true],
-		['name' => 'tagihan_bukti_bayar', 'is_selection' => false, 'skip' => true],
+		['name' => 'transaksi', 'is_selection' => false, 'skip' => true],
 	];
 
 	public $status_enum = [
 		"draft" => "Draft",
 		"proses" => "Proses",
+		"cicil" => "Cicil",
 		"bayar" => "Lunas",
 	];
 
@@ -49,9 +50,9 @@ class Tagihan extends BaseModel
 		return $this->hasMany(TagihanItem::class, 'tagihan_id', 'id');
 	}
 
-	public function tagihan_bukti_bayar()
+	public function transaksi()
 	{
-		return $this->hasMany(TagihanBuktiBayar::class, 'tagihan_id', 'id');
+		return $this->hasMany(Transaksi::class, 'tagihan_id', 'id');
 	}
 
 	public static function kodePem()
@@ -60,18 +61,28 @@ class Tagihan extends BaseModel
 		return $kode;
 	}
 
+	public function bayarTagihan($nominal, $tagihan_bukti_bayar, $status = 'process') {
+		$transaksi_obj = self::getModelByName('transaksi');
+
+		$transaksi_val = [
+        	'tanggal_bayar' => date('d/m/Y'),
+        	'nominal' => $nominal,
+        	'tagihan_id' => $this->id,
+        	'tagihan_bukti_bayar' => $tagihan_bukti_bayar,
+        	'status' => $status
+
+        ];
+        $transaksi = $transaksi_obj->create($transaksi_val);
+
+        return $transaksi;
+	}
+
 	public static function create(array $attributes = [])
 	{
 		$tagihan_item = false;
 		if (array_key_exists('tagihan_item', $attributes)) {
 			$tagihan_item = $attributes['tagihan_item'];
 			unset($attributes['tagihan_item']);
-		}
-
-		$tagihan_bukti_bayar = false;
-		if (array_key_exists('tagihan_bukti_bayar', $attributes)) {
-			$tagihan_bukti_bayar = $attributes['tagihan_bukti_bayar'];
-			unset($attributes['tagihan_bukti_bayar']);
 		}
 
 		if (array_key_exists('status', $attributes)) {
@@ -97,34 +108,12 @@ class Tagihan extends BaseModel
 				$tagihan_item_value = [
 					'tagihan_id' => $tagihan->id,
 					'nama' => $value['nama'],
-					'kode' => $value['kode'],
 					'nominal' => $value['nominal'],
+					'biaya_lunas' => $value['biaya_lunas'],
 
 				];
 				$tagihan_item_data = $tagihan_item_obj->create($tagihan_item_value);
 
-			}
-		}
-
-		if ($tagihan_bukti_bayar) {
-			foreach ($tagihan_bukti_bayar as $key => $value) {
-				$tagihan_bukti_bayar_obj = self::getModelByName('tagihan_bukti_bayar');
-				$tagihan_bukti_bayar_value = [
-					'tagihan_id' => $tagihan->id
-				];
-				$is_empty = false;
-
-				if (array_key_exists('file', $value)) {
-					$tagihan_bukti_bayar_value['file'] = $value['file'];
-				}
-				else if (array_key_exists('file_id', $value)) {
-					$tagihan_bukti_bayar_value['file_id'] = $value['file_id'];
-				}else {
-					$is_empty = true;
-				}
-				if (!$is_empty) {
-					$tagihan_bukti_bayar_data = $tagihan_bukti_bayar_obj->create($tagihan_bukti_bayar_value);
-				}
 			}
 		}
 
@@ -141,8 +130,8 @@ class Tagihan extends BaseModel
 				$tagihan_item_value = [
 					'tagihan_id' => $this->id,
 					'nama' => $value['nama'],
-					'kode' => $value['kode'],
 					'nominal' => $value['nominal'],
+					'biaya_lunas' => $value['biaya_lunas'],
 
 				];
 				if (array_key_exists('id', $value)) {
@@ -162,41 +151,26 @@ class Tagihan extends BaseModel
 			}
 		}
 
-		if (array_key_exists('tagihan_bukti_bayar', $attributes)) {
-			$bukti_bayar_ids = [];
-			$tagihan_bukti_bayar = $attributes['tagihan_bukti_bayar'];
+		if (array_key_exists('transaksi', $attributes)) {
+			$item_ids = [];
+			$transaksi_obj = self::getModelByName('transaksi');
+			$transaksi = $attributes['transaksi'];
+			$transaksi['tagihan_id'] = $this->id;
+			$transaksi['status'] = 'process';
 
-			foreach ($tagihan_bukti_bayar as $key => $value) {
-				$tagihan_bukti_bayar_obj = self::getModelByName('tagihan_bukti_bayar');
-				$tagihan_bukti_bayar_value = [
-					'tagihan_id' => $this->id
-				];
-				$is_empty = false;
+			$transaksi = $transaksi_obj->create($transaksi);
 
-				if (array_key_exists('file', $value)) {
-					$tagihan_bukti_bayar_value['file'] = $value['file'];
-				}
-				else if (array_key_exists('file_id', $value)) {
-					$tagihan_bukti_bayar_value['file_id'] = $value['file_id'];
-				}else {
-					$is_empty = true;
-				}
+			unset($attributes['transaksi']);
 
-				if (!$is_empty) {
-					if (array_key_exists('id', $value)) {
-						$tagihan_bukti_bayar_data = $tagihan_bukti_bayar_obj->find($value['id']);
-						$tagihan_bukti_bayar_data->update($tagihan_bukti_bayar_value);
-					}else{
-						$tagihan_bukti_bayar_data = $tagihan_bukti_bayar_obj->create($tagihan_bukti_bayar_value);
-					}
-					array_push($bukti_bayar_ids, $tagihan_bukti_bayar_data->id);
+			foreach ($this->tagihan_item as $value) {
+				if (!in_array($value->id, $item_ids)) {
+					$value->delete();
 				}
 			}
-			unset($attributes['tagihan_bukti_bayar']);
 		}
 
 		if (array_key_exists('status', $attributes)) {
-			if ($attributes['status'] == 'bayar') {
+			if ($attributes['status'] == 'bayar' || $attributes['status'] == 'cicil') {
 				$attributes['kode_pembayaran'] = self::kodePem();
 
 				if ($this->register_ulang || (array_key_exists('register_ulang', $attributes) && $attributes['register_ulang'])) {

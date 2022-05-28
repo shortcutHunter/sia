@@ -1,0 +1,24 @@
+{% extends 'modal/template.twig' %}
+
+{% block title %}
+	<h5 class="modal-title">Isi Tanggal <span ng-bind="text_tanggal"></span></h5>
+{% endblock %}
+
+
+{% block content %}
+
+	<div class="modal-body ui-front">
+		<div class="row">
+			<div class="col-md-6">
+				<table class="custom-table">
+					{% include 'components/date-picker.twig' with {'name': 'tanggal', 'label': 'Tanggal', 'prefix': 'data'} %}
+				</table>
+			</div>
+		</div>
+
+{% endblock %}
+
+{% block footer %}
+		<button class="btn" data-bs-dismiss="modal">Close</button>
+		<button class="btn btn-primary" ng-click="updateStatus()">Simpan</button>
+{% endblock %}

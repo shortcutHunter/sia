@@ -7,11 +7,18 @@ CREATE TABLE `agama` (
 CREATE TABLE `orang` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `nik` bigint,
+  `npwp` bigint,
+  `bpjs` bigint,
+  `bpjstk` bigint,
   `nama` varchar(255),
   `tempat_lahir` varchar(255),
   `tanggal_lahir` date,
   `jenis_kelamin` ENUM ('l', 'p'),
   `alamat` varchar(255),
+  `rt_rw` varchar(255),
+  `kel_desa` varchar(255),
+  `kab_kota` varchar(255),
+  `provinsi` varchar(255),
   `agama_id` int,
   `email` varchar(255),
   `no_hp` varchar(255),
@@ -78,7 +85,7 @@ CREATE TABLE `user` (
   `username` varchar(255),
   `password` varchar(255),
   `unenpass` varchar(255),
-  `role` ENUM ('mahasiswa', 'dosen', 'keuangan', 'akademik', 'admin', 'panitia') DEFAULT "mahasiswa"
+  `role` ENUM ('mahasiswa', 'dosen', 'keuangan', 'akademik', 'admin', 'panitia', 'pmb') DEFAULT "mahasiswa"
 );
 
 CREATE TABLE `pengajuan_ks` (
@@ -126,6 +133,8 @@ CREATE TABLE `riwayat_belajar` (
   `mahasiswa_id` int,
   `semester_id` int,
   `total_sks` int,
+  `submitted` boolean,
+  `terisi` boolean DEFAULT false,
   `status` ENUM ('aktif', 'nonaktif') DEFAULT "aktif"
 );
 
@@ -157,7 +166,6 @@ CREATE TABLE `dosen_pa` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `karyawan_id` int,
   `tahun_ajaran_id` int,
-  `semester_id` int,
   `status` ENUM ('aktif', 'nonaktif') DEFAULT "aktif"
 );
 
@@ -185,15 +193,21 @@ CREATE TABLE `dosen_pjmk` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `karyawan_id` int,
   `tahun_ajaran_id` int,
-  `semester_id` int,
   `status` ENUM ('aktif', 'nonaktif') DEFAULT "aktif"
+);
+
+CREATE TABLE `dosen_pjmk_semester` (
+  `id` int PRIMARY KEY AUTO_INCREMENT,
+  `semester_id` int,
+  `dosen_pjmk_id` int
 );
 
 CREATE TABLE `mata_kuliah_diampuh` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `dosen_pjmk_id` int,
   `mata_kuliah_id` int,
-  `terkonfigurasi` boolean DEFAULT false
+  `terkonfigurasi` boolean DEFAULT false,
+  `terisi` boolean DEFAULT false
 );
 
 CREATE TABLE `konfigurasi_nilai` (
@@ -225,12 +239,14 @@ CREATE TABLE `tagihan` (
   `kode` varchar(255),
   `tanggal` date,
   `nominal` float,
+  `biaya_lunas` float,
+  `sisa_hutang` float,
   `orang_id` int,
   `system` boolean,
   `kode_pembayaran` varchar(255),
   `register_ulang` boolean,
   `paket_register_ulang_id` int,
-  `status` ENUM ('draft', 'proses', 'bayar') DEFAULT "draft"
+  `status` ENUM ('draft', 'proses', 'cicil', 'bayar') DEFAULT "draft"
 );
 
 CREATE TABLE `tagihan_item` (
@@ -238,12 +254,13 @@ CREATE TABLE `tagihan_item` (
   `tagihan_id` int,
   `nama` varchar(255),
   `kode` varchar(255),
-  `nominal` float
+  `nominal` float,
+  `biaya_lunas` float
 );
 
 CREATE TABLE `tagihan_bukti_bayar` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
-  `tagihan_id` int,
+  `transaksi_id` int,
   `file_id` int
 );
 
@@ -274,10 +291,23 @@ CREATE TABLE `pmb` (
   `nomor_peserta` varchar(255),
   `orang_id` int,
   `jurusan_id` int,
-  `status` ENUM ('terima', 'tolak', 'ujian', 'terverifikasi', 'baru') DEFAULT "baru",
+  `status` ENUM ('terima', 'tolak', 'ujian', 'pending', 'baru', 'terverifikasi', 'test_lulus', 'test_gagal', 'kesehatan_lulus', 'kesehatan_gagal', 'wawancara_lulus', 'wawancara_gagal') DEFAULT "baru",
   `bukti_pembayaran_id` int,
   `pernyataan` boolean,
-  `tanggal_pendaftaran` date DEFAULT (now())
+  `pendaftaran_id` int,
+  `tanggal_pendaftaran` date DEFAULT (now()),
+  `tanggal_verifikasi` date,
+  `tanggal_lulus` date,
+  `test_kesehatan` date,
+  `test_wawancara` date,
+  `test_tertulis` date,
+  `daftar_ulang` date,
+  `tanggal_kesehatan` date,
+  `tanggal_wawancara` date,
+  `terverif` boolean,
+  `test` boolean,
+  `kesehatan` boolean,
+  `wawancara` boolean
 );
 
 CREATE TABLE `jurusan` (
@@ -360,13 +390,56 @@ CREATE TABLE `konfigurasi` (
   `password` varchar(255),
   `port` int,
   `registrasi` boolean,
-  `base_url` varchar(255)
+  `base_url` varchar(255),
+  `sequance_nim` int,
+  `pernyataan` int
 );
 
 CREATE TABLE `log` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `userid` int,
   `query` longtext
+);
+
+CREATE TABLE `pendaftaran` (
+  `id` int PRIMARY KEY AUTO_INCREMENT,
+  `tanggal_mulai` date,
+  `tanggal_berakhir` date,
+  `tahun_ajaran_id` int,
+  `status` ENUM ('process', 'open', 'closed'),
+  `max_cicilan` int
+);
+
+CREATE TABLE `pembiayaan_tahun_ajar` (
+  `id` int PRIMARY KEY AUTO_INCREMENT,
+  `nama` varchar(255),
+  `biaya_lunas` float,
+  `total_biaya` float,
+  `semester_id` int,
+  `registrasi` boolean,
+  `lainnya` boolean,
+  `tahun_ajaran_id` int
+);
+
+CREATE TABLE `pembiayaan_lainnya` (
+  `id` int PRIMARY KEY AUTO_INCREMENT,
+  `nama` varchar(255),
+  `biaya_lunas` float,
+  `total_biaya` float
+);
+
+CREATE TABLE `panitia` (
+  `id` int PRIMARY KEY AUTO_INCREMENT,
+  `nama` varchar(255),
+  `nohp` varchar(255)
+);
+
+CREATE TABLE `transaksi` (
+  `id` int PRIMARY KEY AUTO_INCREMENT,
+  `tanggal_bayar` date,
+  `nominal` float,
+  `tagihan_id` int,
+  `status` ENUM ('process', 'verified')
 );
 
 ALTER TABLE `mahasiswa` ADD FOREIGN KEY (`orang_id`) REFERENCES `orang` (`id`);
@@ -429,8 +502,6 @@ ALTER TABLE `dosen_pa` ADD FOREIGN KEY (`karyawan_id`) REFERENCES `karyawan` (`i
 
 ALTER TABLE `dosen_pa` ADD FOREIGN KEY (`tahun_ajaran_id`) REFERENCES `tahun_ajaran` (`id`);
 
-ALTER TABLE `dosen_pa` ADD FOREIGN KEY (`semester_id`) REFERENCES `semester` (`id`);
-
 ALTER TABLE `mahasiswa_bimbingan` ADD FOREIGN KEY (`mahasiswa_id`) REFERENCES `mahasiswa` (`id`);
 
 ALTER TABLE `mahasiswa_bimbingan` ADD FOREIGN KEY (`dosen_pa_id`) REFERENCES `dosen_pa` (`id`);
@@ -441,7 +512,9 @@ ALTER TABLE `dosen_pjmk` ADD FOREIGN KEY (`karyawan_id`) REFERENCES `karyawan` (
 
 ALTER TABLE `dosen_pjmk` ADD FOREIGN KEY (`tahun_ajaran_id`) REFERENCES `tahun_ajaran` (`id`);
 
-ALTER TABLE `dosen_pjmk` ADD FOREIGN KEY (`semester_id`) REFERENCES `semester` (`id`);
+ALTER TABLE `dosen_pjmk_semester` ADD FOREIGN KEY (`semester_id`) REFERENCES `semester` (`id`);
+
+ALTER TABLE `dosen_pjmk_semester` ADD FOREIGN KEY (`dosen_pjmk_id`) REFERENCES `dosen_pjmk` (`id`);
 
 ALTER TABLE `mata_kuliah_diampuh` ADD FOREIGN KEY (`mata_kuliah_id`) REFERENCES `mata_kuliah` (`id`);
 
@@ -459,7 +532,7 @@ ALTER TABLE `tagihan` ADD FOREIGN KEY (`paket_register_ulang_id`) REFERENCES `pa
 
 ALTER TABLE `tagihan_item` ADD FOREIGN KEY (`tagihan_id`) REFERENCES `tagihan` (`id`);
 
-ALTER TABLE `tagihan_bukti_bayar` ADD FOREIGN KEY (`tagihan_id`) REFERENCES `tagihan` (`id`);
+ALTER TABLE `tagihan_bukti_bayar` ADD FOREIGN KEY (`transaksi_id`) REFERENCES `transaksi` (`id`);
 
 ALTER TABLE `tagihan_bukti_bayar` ADD FOREIGN KEY (`file_id`) REFERENCES `file` (`id`);
 
@@ -477,6 +550,8 @@ ALTER TABLE `pmb` ADD FOREIGN KEY (`orang_id`) REFERENCES `orang` (`id`);
 
 ALTER TABLE `pmb` ADD FOREIGN KEY (`jurusan_id`) REFERENCES `jurusan` (`id`);
 
+ALTER TABLE `pmb` ADD FOREIGN KEY (`pendaftaran_id`) REFERENCES `pendaftaran` (`id`);
+
 ALTER TABLE `register_ulang` ADD FOREIGN KEY (`mahasiswa_id`) REFERENCES `mahasiswa` (`id`);
 
 ALTER TABLE `email_keluar` ADD FOREIGN KEY (`smtp_server_id`) REFERENCES `smtp_server` (`id`);
@@ -488,3 +563,11 @@ ALTER TABLE `konfigurasi` ADD FOREIGN KEY (`semester_id`) REFERENCES `semester` 
 ALTER TABLE `konfigurasi` ADD FOREIGN KEY (`tahun_ajaran_id`) REFERENCES `tahun_ajaran` (`id`);
 
 ALTER TABLE `log` ADD FOREIGN KEY (`userid`) REFERENCES `user` (`id`);
+
+ALTER TABLE `pendaftaran` ADD FOREIGN KEY (`tahun_ajaran_id`) REFERENCES `tahun_ajaran` (`id`);
+
+ALTER TABLE `pembiayaan_tahun_ajar` ADD FOREIGN KEY (`tahun_ajaran_id`) REFERENCES `tahun_ajaran` (`id`);
+
+ALTER TABLE `pembiayaan_tahun_ajar` ADD FOREIGN KEY (`semester_id`) REFERENCES `semester` (`id`);
+
+ALTER TABLE `transaksi` ADD FOREIGN KEY (`tagihan_id`) REFERENCES `tagihan` (`id`);

@@ -80,6 +80,22 @@ final class TemplateController extends BaseController
     public function register($request, $response)
     {
         $container = $this->container;
+        $konfigurasi = $this->getKonfiguration();
+
+        if (!$konfigurasi->registrasi) {
+            return $response->withHeader('Location', '/');
+        }
+
+        $data = [
+            'konfigurasi' => $konfigurasi
+        ];
+
+        return $container->get('twig')->render($response, 'root/register/homepage.twig', $data);
+    }
+
+    public function registerOnline($request, $response)
+    {
+        $container = $this->container;
         $object = $this->get_object('orang');
         $konfigurasi = $this->getKonfiguration();
 
@@ -121,8 +137,23 @@ final class TemplateController extends BaseController
             }
         }
 
-        // return $container->get('twig')->render($response, 'root/register.twig', $data);
-        return $container->get('twig')->render($response, 'root/register/homepage.twig', $data);
+        return $container->get('twig')->render($response, 'root/register/online.twig', $data);
+    }
+
+    public function registerOffline($request, $response)
+    {
+        $container = $this->container;
+        $konfigurasi = $this->getKonfiguration();
+
+        if (!$konfigurasi->registrasi) {
+            return $response->withHeader('Location', '/');
+        }
+
+        $data = [
+            'konfigurasi' => $konfigurasi
+        ];
+
+        return $container->get('twig')->render($response, 'root/register/offline.twig', $data);
     }
 
     public function registerSubmit($request, $response)

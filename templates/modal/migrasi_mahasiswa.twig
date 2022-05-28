@@ -1,0 +1,53 @@
+{% extends 'modal/template.twig' %}
+
+{% block title %}
+	<h5 class="modal-title">Pengajuan KRS</h5>
+{% endblock %}
+
+{% block content %}
+	<div class="modal-body ui-front">
+		<div class="row">
+			<div class="col-md-6">
+				<table class="custom-table">
+					{% include 'components/autocomplete.twig' with {'name': 'karyawan_id', 'label': 'Dosen', 'table': 'karyawan', 'data': 'karyawan', 'required': true, 'jenis': 'jenis=dosen', 'prefix': 'form'} %}
+				</table>
+			</div>	
+		</div>
+
+		<div class="row mt-3">
+			<div class="col-md-12">
+    			<table class="table">
+
+							<thead>
+								<th>NIM</th>
+								<th>Nama</th>
+								<th>Semester</th>
+								<th>Keterangan</th>
+							</thead>
+
+							<tbody>
+								<tr ng-repeat="col in data.mahasiswa_bimbingan" ng-if="data.mahasiswa_bimbingan && data.mahasiswa_bimbingan.length != 0">
+									<td ng-bind="col.mahasiswa.nim || '-'"></td>
+									<td ng-bind="col.mahasiswa.orang.nama || '-'"></td>
+									<td ng-bind="col.mahasiswa.semester.nama || '-'"></td>
+									<td ng-bind="col.mahasiswa.sudah_pengajuan ? 'Sudah KRS' : 'Belum KRS' || '-'"></td>
+								</tr>
+								<tr ng-if="!data.mahasiswa_bimbingan || data.mahasiswa_bimbingan.length == 0">
+									<td  class="text-center" colspan="5">Belum ada data</td>
+								</tr>
+							</tbody>
+
+						</table>
+						<small>Total data: <b ng-bind="data.mahasiswa_bimbingan.length || 0"></b></small>
+    		</div>
+		</div>
+	</div>
+{% endblock %}
+
+
+{% block footer %}
+	{% verbatim %}
+		<button class="btn" data-bs-dismiss="modal">Close</button>
+		<button class="btn btn-primary" ng-click="migrasi()">Migrasi</button>
+	{% endverbatim %}
+{% endblock %}

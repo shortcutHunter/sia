@@ -43,18 +43,33 @@ class PenerbitanNim extends BaseModel
 				$object_mahasiswa = self::getModelByName('mahasiswa');
 				$tagihan_obj = self::getModelByName('tagihan');
 
-				$tagihan = $tagihan_obj->where('orang_id', $this->pmb->orang_id)->first();
-
 				if (!$this->mahasiswa_id) {
 					$konfigurasi_obj = self::getModelByName('konfigurasi');
+					$pendaftaran_obj = self::getModelByName('pendaftaran');
+					$pta_obj = self::getModelByName('pembiayaan_tahun_ajar');
+
 					$konfigurasi = $konfigurasi_obj->first();
 
+					if ($this->pmb->pendaftaran_id) {
+						$pendaftaran = $this->pmb->pendaftaran;
+					} else {
+						$pendaftaran = $pendaftaran_obj->where('status', 'open')->first();
+					}
+					$tahun_ajaran_id = $pendaftaran->tahun_ajaran_id;
 
-					$mahasiswa = $object_mahasiswa->create([
-						'orang_id' => $this->pmb->orang_id, 
+					$pta = $pta_obj->where([
+						['tahun_ajaran_id', $tahun_ajaran_id],
+						['semester_id', $konfigurasi->semester_id]
+					]);
+
+					$pta = $pta->first();
+					$tagihan = $pta->createTagihan($this->pmb->orang_id);
+
+			        $mahasiswa = $object_mahasiswa->create([
+						'orang_id' => $this->pmb->orang_id,
 						'tahun_masuk' => date('Y'),
 						'semester_id' => $konfigurasi->semester_id,
-						'tahun_ajaran_id' => $konfigurasi->tahun_ajaran_id,
+						'tahun_ajaran_id' => $tahun_ajaran_id,
 						'tagihan_id' => $tagihan->id
 					]);
 

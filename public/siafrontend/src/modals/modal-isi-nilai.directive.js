@@ -24,6 +24,7 @@
       let dm = scope.$parent.vm;
       scope.form_data = {};
       scope.isiNilai = isiNilai;
+      scope.isiNilaiSubmit = isiNilaiSubmit;
 
       activate();
 
@@ -53,7 +54,7 @@
         });
       }
 
-      function isiNilai(action) {
+      function isiNilai() {
         let mahasiswa_data = {};
         $.each(scope.form_data, function(i, v){
           let raw_data = i.split('_');
@@ -82,6 +83,46 @@
         });
 
         dataservice.postDataUrl('/proses/nilai/mahasiswa', {'data': data}).then(function(response){
+          $(element).modal('hide');
+          state.reload();
+        });
+      }
+
+      function isiNilaiSubmit() {
+        let mahasiswa_data = {};
+        $.each(scope.form_data, function(i, v){
+          let raw_data = i.split('_');
+          let mahasiswa_id = raw_data[0];
+          let nilai_id = raw_data[1];
+          if (!mahasiswa_data[mahasiswa_id]) {
+            mahasiswa_data[mahasiswa_id] = [];
+          }
+          mahasiswa_data[mahasiswa_id].push({
+            nilai_id: nilai_id,
+            nilai: v
+          });
+        });
+
+        let data = [];
+        $.each(mahasiswa_data, function(i, v){
+          let riwayat_belajar = {
+            mahasiswa_id: i,
+            semester_id: scope.$parent.vm.data.semester_id,
+            riwayat_belajar_detail: {
+              mata_kuliah_id: scope.data.mata_kuliah_id,
+              riwayat_belajar_nilai: v
+            }
+          };
+          data.push(riwayat_belajar);
+        });
+
+        let sendData = {
+          'data': data,
+          'submit': true,
+          'matkul_diampuh_id': scope.data.id
+        };
+
+        dataservice.postDataUrl('/proses/nilai/mahasiswa', sendData).then(function(response){
           $(element).modal('hide');
           state.reload();
         });

@@ -39,8 +39,11 @@
 				<tbody>
 					<tr ng-repeat="mahasiswa in data_mahasiswa">
 						<td ng-bind-html="mahasiswa.orang.nama"></td>
-						<td ng-repeat="konfigurasi in data.konfigurasi_nilai">
+						<td ng-repeat="konfigurasi in data.konfigurasi_nilai" ng-if="!data.terisi">
 							<input type="text" ng-model="form_data[mahasiswa.id + '_' + konfigurasi.nilai.id]" class="form-control">
+						</td>
+						<td ng-repeat="konfigurasi in data.konfigurasi_nilai" ng-if="data.terisi">
+							<span ng-bind="form_data[mahasiswa.id + '_' + konfigurasi.nilai.id]"></span>
 						</td>
 					</tr>
 					<tr ng-if="!data_mahasiswa || data_mahasiswa.length == 0">
@@ -57,8 +60,7 @@
 {% endblock %}
 
 {% block footer %}
-	{% verbatim %}
-		<button class="btn" data-bs-dismiss="modal">Close</button>
-		<button class="btn btn-primary" ng-click="isiNilai()">Simpan</button>
-	{% endverbatim %}
+	<button class="btn" data-bs-dismiss="modal">Close</button>
+	<button class="btn btn-primary" ng-click="isiNilai()" ng-if="!data.terisi">Simpan</button>
+	<button class="btn btn-primary" ng-click="isiNilaiSubmit()" ng-if="!data.terisi">Submit</button>
 {% endblock %}

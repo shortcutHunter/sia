@@ -13,15 +13,30 @@ class Pmb extends BaseModel
 	public $selection_fields = ['status'];
 
 	public static $file_fields = ['bukti_pembayaran'];
-	public static $date_fields = ['tanggal_pendaftaran'];
+	public static $date_fields = [
+		'tanggal_pendaftaran',
+		'tanggal_verifikasi',
+		'tanggal_lulus',
+		'tanggal_kesehatan',
+		'tanggal_wawancara',
+		'test_tertulis',
+		'test_kesehatan',
+		'test_wawancara',
+		'daftar_ulang',
+	];
 
 	protected $appends = ['status_label'];
 
 	public $status_enum = [
 		"baru" => "Baru",
-		"ujian" => "Ujian",
-		"terima" => "Terima",
-		"tolak" => "Tolak",	
+		"pending" => "Pending",
+		"terverifikasi" => "Terverifikasi",
+		"test_lulus" => "Lulus Test",
+		"test_gagal" => "Gagal Test",
+		"kesehatan_lulus" => "Lulus Kesehatan",
+		"kesehatan_gagal" => "Gagal Kesehatan",
+		"wawancara_lulus" => "Lulus Wawancara",
+		"wawancara_gagal" => "Gagal Wawancara"
 	];
 
 	public static $relation = [
@@ -32,6 +47,14 @@ class Pmb extends BaseModel
 
 	protected $casts = [
 	    'tanggal_pendaftaran' => 'datetime:d/m/Y',
+	    'tanggal_verifikasi' => 'datetime:d/m/Y',
+	    'tanggal_lulus' => 'datetime:d/m/Y',
+	    'tanggal_kesehatan' => 'datetime:d/m/Y',
+	    'tanggal_wawancara' => 'datetime:d/m/Y',
+	    'test_tertulis' => 'datetime:d/m/Y',
+	    'test_kesehatan' => 'datetime:d/m/Y',
+	    'test_wawancara' => 'datetime:d/m/Y',
+	    'daftar_ulang' => 'datetime:d/m/Y',
 	];
 
 	public function orang()
@@ -49,6 +72,11 @@ class Pmb extends BaseModel
 		return $this->hasOne(File::class, 'id', 'bukti_pembayaran_id');
 	}
 
+	public function pendaftaran()
+	{
+		return $this->belongsTo(Pendaftaran::class, 'pendaftaran_id', 'id');
+	}
+
 	public function getStatusLabelAttribute() {
 		$status_enum = $this->status_enum;
 		$label = null;
@@ -64,12 +92,30 @@ class Pmb extends BaseModel
 		return $value ? true : false;
 	}
 
-	public static function create(array $attributes = [])
-	{
-		$object_sequance = self::getModelByName('sequance');
-		$object_sequance_next_number = $object_sequance->getnextCode('nomor_peserta');
-		$attributes['nomor_peserta'] = $object_sequance_next_number;
-		return parent::create($attributes);
+	public static function checkPendaftaran($attributes) {
+		$pendaftaran_obj = self::getModelByName('pendaftaran');
+		$result = false;
+
+		if (array_key_exists('pendaftaran_id', $attributes)) {
+			$pendaftaran = $pendaftaran_obj->find($attributes['pendaftaran_id']);
+
+			if (!empty($pendaftaran)) {
+				if ($pendaftaran->status != 'open') {
+					throw new \Exception("Harap buka status pendaftaran");
+				}
+			} else {
+				throw new \Exception("Pendaftaran tidak ditemukan");
+			}
+		} else {
+			$pendaftaran = $pendaftaran_obj->where('status', 'open')->first();
+			if (empty($pendaftaran)) {
+				throw new \Exception("Pendaftaran tidak ditemukan");
+			} else {
+				$result = true;
+			}
+		}
+
+		return $result;
 	}
 
 	public function kartuPeserta() {
@@ -95,50 +141,92 @@ class Pmb extends BaseModel
 		$mailModel->sendEmail($recipient, $subject, $content, $attachment);
 	}
 
+	public static function create(array $attributes = [])
+	{
+		$object_sequance = self::getModelByName('sequance');
+		$konfigurasi_obj = self::getModelByName('konfigurasi');
+		$pta_obj = self::getModelByName('pembiayaan_tahun_ajar');
+		$pendaftaran_obj = self::getModelByName('pendaftaran');
+
+		self::checkPendaftaran($attributes);
+
+		$object_sequance_next_number = $object_sequance->getnextCode('nomor_peserta');
+		$attributes['nomor_peserta'] = $object_sequance_next_number;
+
+		$pmb = parent::create($attributes);
+
+		if ($pmb->pendaftaran_id) {
+			$pendaftaran = $pmb->pendaftaran;
+		} else {
+			$pendaftaran = $pendaftaran_obj->where('status', 'open')->first();
+		}
+		$tahun_ajaran_id = $pendaftaran->tahun_ajaran_id;
+
+		$konfigurasi = $konfigurasi_obj->first();
+		$pta = $pta_obj->where([
+			['tahun_ajaran_id', $tahun_ajaran_id],
+			['registrasi', true]
+		])->first();
+
+        $tagihan = $pta->createTagihan($pmb->orang_id);
+
+        $object_user = self::getModelByName('user');
+		$user = $object_user->create([
+			'orang_id' => $pmb->orang_id,
+			'role' => 'pmb',
+			'username' => $pmb->orang->nik
+		]);
+
+		return $pmb;
+	}
+
 	public function update(array $attributes = [], array $options = [])
 	{
 		if (array_key_exists('status', $attributes)) {
 			$status = $attributes['status'];
-			if ($status == 'ujian') {
-				$tagihan_obj = self::getModelByName('tagihan');
-				$konfigurasi_obj = self::getModelByName('konfigurasi');
-				$setup_paket_obj = self::getModelByName('paket_register_ulang');
 
-				$konfigurasi = $konfigurasi_obj->first();
-				$setup_paket = $setup_paket_obj->where('semester_id', $konfigurasi->semester_id)->first();
+			switch ($status) {
+				case 'terverifikasi':
+					$transaksi_obj = self::getModelByName('transaksi');
+					$tagihan_obj = self::getModelByName('tagihan');
 
-				$tagihan_item_value = $setup_paket->paket_register_ulang_item->map(function($data) {
-		            return $data->item->only(['nama', 'kode', 'nominal']);
-		        })->toArray();
+	                $tagihan = $tagihan_obj->where('orang_id', $this->orang_id)->first();
 
-				$tagihan_bukti_bayar_value = [
-					[
-						'file_id' => $this->bukti_pembayaran_id
-					]
-				];
+	                $nominal = $tagihan->nominal;
+	                if (array_key_exists('nominal', $attributes)) {
+	                	$nominal = $attributes['nominal'];
+	                }
 
-				$tagihan_value = [
-					'tanggal' => date('d/m/Y'),
-					'nominal' => $setup_paket->nominal,
-					'orang_id' => $this->orang_id,
-					'system' => true,
-					'paket_register_ulang_id' => $setup_paket->id,
-					'tagihan_item' => $tagihan_item_value,
-					'tagihan_bukti_bayar' => $tagihan_bukti_bayar_value,
-					'status' => 'bayar'
-				];
-				$tagihan = $tagihan_obj->create($tagihan_value);
+	                $tagihan_bukti_bayar = [['file_id' => $this->bukti_pembayaran_id]];
+	                $transaksi = $tagihan->bayarTagihan($nominal, $tagihan_bukti_bayar, 'verified');
 
-				$this->sendKartuPeserta();
-			}
-			if ($status == 'terima') {
-				$object_penerbitan_nim = self::getModelByName('penerbitan_nim');
-				$penerbitan_nim = $object_penerbitan_nim->where('pmb_id', $this->id)->first();
+	                $attributes['terverif'] = true;
+	                $attributes['tanggal_verifikasi'] = date('d/m/Y');
 
-				if (empty($penerbitan_nim)) {
-					$object_penerbitan_nim->create(['pmb_id' => $this->id, 'tahun' => date('Y')]);
-				}
+					$this->sendKartuPeserta();
+					break;
+				
+				case 'test_lulus':
+					$attributes['test'] = true;
+					$attributes['tanggal_lulus'] = date('d/m/Y');
+					break;
 
+				case 'kesehatan_lulus':
+					$attributes['kesehatan'] = true;
+					$attributes['tanggal_kesehatan'] = date('d/m/Y');
+					break;
+				
+				case 'wawancara_lulus':
+					$attributes['wawancara'] = true;
+					$attributes['tanggal_wawancara'] = date('d/m/Y');
+
+					$object_penerbitan_nim = self::getModelByName('penerbitan_nim');
+					$penerbitan_nim = $object_penerbitan_nim->where('pmb_id', $this->id)->first();
+
+					if (empty($penerbitan_nim)) {
+						$object_penerbitan_nim->create(['pmb_id' => $this->id, 'tahun' => date('Y')]);
+					}
+					break;
 			}
 		}
 

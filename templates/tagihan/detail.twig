@@ -5,14 +5,12 @@
   <a class="btn btn-sm btn-success" ui-sref="tagihan_form({dataId: vm.data.id})" ng-if="vm.data.status == 'draft'"><i class="fa fa-edit"></i> Edit</a>
   <button class="btn btn-sm btn-danger" widget-delete="" ng-if="vm.data.status == 'draft'"><i class="fa fa-trash"></i> Delete</button>
 
-  <div class="float-end">
-    {% verbatim %}
-      <button class="btn btn-primary" widget-update-status="proses" ng-if="vm.data.status == 'draft'">Proses</button>
-      <button class="btn btn-primary" widget-update-status="bayar" ng-if="vm.data.status == 'proses'">Lunas</button>
-    {% endverbatim %}
-  </div>
+  <!-- <div class="float-end">
+    <button class="btn btn-primary" widget-update-status="proses" ng-if="vm.data.status == 'draft'">Proses</button>
+    <button class="btn btn-primary" widget-update-status="bayar" ng-if="vm.data.status == 'proses'">Lunas</button>
+  </div> -->
 
-  {% include 'widget/nextprev.twig' %}
+  {# {% include 'widget/nextprev.twig' %} #}
 {% endblock %}
 
 {% block status %}
@@ -30,8 +28,13 @@
 			<table class="custom-table">
 				{% include 'components/preview-text.twig' with {'name': 'kode', 'label': 'Kode'} %}
 				{% include 'components/preview-text.twig' with {'name': 'orang.nama', 'label': 'Nama'} %}
-				{% include 'components/preview-text.twig' with {'name': 'nominal', 'label': 'Nominal'} %}
 				{% include 'components/preview-text.twig' with {'name': 'kode_pembayaran', 'label': 'Kode Pembayaran'} %}
+			</table>
+		</div>
+		<div class="col-md-6">
+			<table class="custom-table">
+				{% include 'components/preview-text.twig' with {'name': 'nominal', 'label': 'Nominal'} %}
+				{% include 'components/preview-text.twig' with {'name': 'sisa_hutang', 'label': 'Sisa Hutang'} %}
 			</table>
 		</div>
 	</div>
@@ -41,7 +44,7 @@
     	<a class="nav-link active" data-bs-toggle="list" href="#pembiayaan">Pembiayaan</a>
     </li>
 		<li class="nav-item">
-    	<a class="nav-link" data-bs-toggle="list" href="#pembayaran" ng-if="vm.data.status != 'draft'">Bukti Pembayaran</a>
+    	<a class="nav-link" data-bs-toggle="list" href="#pembayaran" ng-if="vm.data.status != 'draft'">Transaksi</a>
     </li>
   </ul>
 
@@ -54,16 +57,16 @@
     				<table class="table">
 
 							<thead>
-								<th>Kode</th>
 								<th>Nama</th>
-								<th>Nominal</th>
+								<th>Biaya Wajib</th>
+								<th>Total Biaya</th>
 								<th></th>
 							</thead>
 
 							<tbody>
 								<tr ng-repeat="col in vm.data.tagihan_item track by $index" ng-if="vm.data.tagihan_item && vm.data.tagihan_item.length != 0">
-									<td ng-bind="col.kode || '-'"></td>
 									<td ng-bind="col.nama || '-'"></td>
+									<td ng-bind="col.biaya_lunas || '-'"></td>
 									<td ng-bind="col.nominal || '-'"></td>
 								</tr>
 								<tr ng-if="!vm.data.tagihan_item || vm.data.tagihan_item.length == 0">
@@ -79,9 +82,9 @@
     	</div>
 
     	<div class="tab-pane fade show" id="pembayaran" ng-if="vm.data.status != 'draft'">
-    		<div class="row mt-3" ng-if="vm.data.status == 'proses'">
+    		<div class="row mt-3" ng-if="vm.data.status != 'bayar'">
     			<div class="col-12">
-    				<button class="btn btn-primary" ng-click="vm.tambahPembiayaan()">Upload Bukti Pembayaran</button>
+    				<button class="btn btn-primary" ng-click="vm.tambahPembiayaan()">Bayar</button>
     				<input type="file" ng-model="vm.data.upload_file" multiple="" id="uploadFile" base-sixty-four-input="" style="display: none;">
     			</div>
     		</div>
@@ -92,32 +95,37 @@
       			<table class="table">
 
 							<thead>
-								<th>Nama</th>
+								<th>Tanggal</th>
+								<th>Nominal</th>
+								<th>Bukti Bayar</th>
+								<th>Status</th>
 								<th></th>
 							</thead>
 
 							<tbody>
-								<tr ng-repeat="col in vm.data.tagihan_bukti_bayar track by $index" ng-if="vm.data.tagihan_bukti_bayar && vm.data.tagihan_bukti_bayar.length != 0">
+								<tr ng-repeat="col in vm.data.transaksi track by $index" ng-if="vm.data.transaksi && vm.data.transaksi.length != 0">
+									<td ng-bind="col.tanggal_bayar"></td>
+									<td ng-bind="col.nominal"></td>
 									<td class="font-extrabold">
-										<a href="javascript:void(0)" widget-preview="col.file" ng-bind="col.file.filename || '-'"></a>
+										<a href="javascript:void(0)" widget-preview="col.tagihan_bukti_bayar[0].file" ng-bind="col.tagihan_bukti_bayar[0].file.filename || '-'"></a>
 									</td>
+									<td ng-bind="col.status_label"></td>
 									<td>
-										<button class="btn btn-sm btn-danger" ng-if="vm.data.status != 'bayar'" ng-click="vm.hapusBukti(col)">
-											<i class="fa fa-trash"></i>
-										</button>
+										<button class="btn btn-primary btn-sm" ng-if="col.status == 'process'" ng-click="vm.verif(col)">Verifikasi</button>
 									</td>
 								</tr>
-								<tr ng-if="!vm.data.tagihan_bukti_bayar || vm.data.tagihan_bukti_bayar.length == 0">
+								<tr ng-if="!vm.data.transaksi || vm.data.transaksi.length == 0">
 									<td  class="text-center" colspan="5">Belum ada data</td>
 								</tr>
 							</tbody>
 
 						</table>
-						<small>Total data: <b ng-bind="vm.data.tagihan_bukti_bayar.length || 0"></b></small>
+						<small>Total data: <b ng-bind="vm.data.transaksi.length || 0"></b></small>
         		
       		</div>
     		</div>
     	</div>
+
     </div>
 
 {% endblock %}

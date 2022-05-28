@@ -58,7 +58,7 @@ class MailModel
 		}
 
 		try {
-			// $this->mail->send();
+			$this->mail->send();
 		} catch (Exception $e) {
 			return false;
 		}

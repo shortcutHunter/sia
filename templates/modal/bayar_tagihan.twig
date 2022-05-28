@@ -7,85 +7,66 @@
 
 {% block content %}
 
-	<div class="row">
-		<div class="col-md-6">
-			<table class="custom-table">
-				{% include 'components/preview-text.twig' with {'name': 'tanggal', 'label': 'Tanggal', 'prefix': 'data'} %}
-				{% include 'components/preview-text.twig' with {'name': 'nominal', 'label': 'Nominal', 'prefix': 'data'} %}
-			</table>
+	<div class="modal-body ui-front" style="overflow:  visible;">
+		<div class="row">
+			<div class="col-md-6">
+				<table class="custom-table">
+					{% include 'components/preview-text.twig' with {'name': 'kode', 'label': 'Kode', 'prefix': 'data'} %}
+					{% include 'components/preview-text.twig' with {'name': 'orang.nama', 'label': 'Nama', 'prefix': 'data'} %}
+				</table>
+			</div>
+			<div class="col-md-6">
+				<table class="custom-table">
+					{% include 'components/preview-text.twig' with {'name': 'nominal', 'label': 'Nominal', 'prefix': 'data'} %}
+				</table>
+			</div>
 		</div>
-	</div>
 
-	<hr>
+		<hr>
 
-	<div class="row">
-		<div class="col-md-12">
-			<table class="custom-table">
-              {% include 'components/input-file.twig' with {'name': 'file', 'label': 'Upload Bukti Pembayaran'} %}
-			</table>
+		<div class="row">
+			<div class="col-md-12">
+				<table class="custom-table">
+	              {% include 'components/input-file.twig' with {'name': 'file', 'label': 'Upload Bukti Pembayaran'} %}
+	              {% include 'components/input.twig' with {'name': 'nominal', 'label': 'Nominal'} %}
+				</table>
+			</div>
 		</div>
-	</div>
 
-	<ul class="nav nav-tabs mt-5">
-		<li class="nav-item">
-        	<a class="nav-link active" data-bs-toggle="list" href="#bukti">Bukti Pembayaran</a>
-        </li>
-		<li class="nav-item">
-        	<a class="nav-link" data-bs-toggle="list" href="#detail">Detail Tagihan</a>
-        </li>
-    </ul>
+		<ul class="nav nav-tabs mt-5">
+			<li class="nav-item">
+	        	<a class="nav-link active" data-bs-toggle="list" href="#detail">Detail Tagihan</a>
+	        </li>
+	    </ul>
 
-    <div class="tab-content text-justify">
-    	<div class="tab-pane fade show active" id="bukti">
+	    <div class="tab-content text-justify">
+	    	<div class="tab-pane fade show active" id="detail">
 
-    		<div class="row mt-3">
-    			<div class="col-md-12">
-        			<table class="table">
-						<thead>
-							<th>Nama File</th>
-						</thead>
+	    		<div class="row mt-3">
+	    			<div class="col-md-12">
+	        			<table class="table">
+							<thead>
+								<th>Nama</th>
+								<th>Biaya Wajib</th>
+								<th>Total Biaya</th>
+							</thead>
+							<tbody>
+								<tr ng-repeat="col in data.tagihan_item track by $index" ng-if="data.tagihan_item && data.tagihan_item.length != 0">
+									<td ng-bind="col.nama || '-'"></td>
+									<td ng-bind="col.biaya_lunas || '-'"></td>
+									<td ng-bind="col.nominal || '-'"></td>
+								</tr>
+								<tr ng-if="!data.tagihan_item || data.tagihan_item.length == 0">
+									<td  class="text-center" colspan="3">Belum ada data</td>
+								</tr>
+							</tbody>
+						</table>
+						<small>Total data: <b ng-bind="data.tagihan_item.length || 0"></b></small>
+	        		</div>
+	    		</div>
 
-						<tbody>
-							<tr ng-repeat="col in data.tagihan_bukti_bayar track by $index" ng-if="data.tagihan_bukti_bayar && data.tagihan_bukti_bayar.length != 0">
-								<td>
-									<a href="javascript:void(0)" widget-preview="col.file" ng-bind="col.file.filename || '-'"></a>
-								</td>
-							</tr>
-							<tr ng-if="!data.tagihan_bukti_bayar || data.tagihan_bukti_bayar.length == 0">
-								<td  class="text-center" colspan="1">Belum ada data</td>
-							</tr>
-						</tbody>
-					</table>
-					<small>Total data: <b ng-bind="data.tagihan_bukti_bayar.length || 0"></b></small>
-        		</div>
-    		</div>
-    	</div>
-
-    	<div class="tab-pane fade" id="detail">
-
-    		<div class="row mt-3">
-    			<div class="col-md-12">
-        			<table class="table">
-						<thead>
-							<th>Kode</th>
-							<th>Nama</th>
-							<th>Nominal</th>
-						</thead>
-						<tbody>
-							<tr ng-repeat="col in data.tagihan_item track by $index" ng-if="data.tagihan_item && data.tagihan_item.length != 0">
-								<td ng-bind="col.kode || '-'"></td>
-								<td ng-bind="col.nama || '-'"></td>
-								<td ng-bind="col.nominal || '-'"></td>
-							</tr>
-							<tr ng-if="!data.tagihan_item || data.tagihan_item.length == 0">
-								<td  class="text-center" colspan="3">Belum ada data</td>
-							</tr>
-						</tbody>
-					</table>
-					<small>Total data: <b ng-bind="data.tagihan_item.length || 0"></b></small>
-        		</div>
-    		</div>
-    	</div>
+	    	</div>
+	    </div>
     </div>
 
 {% endblock %}
@@ -93,6 +74,6 @@
 {% block footer %}
 	{% verbatim %}
 		<button class="btn" data-bs-dismiss="modal">Close</button>
-		<button class="btn btn-primary" ng-click="upload()">Upload</button>
+		<button class="btn btn-primary" ng-click="upload()">Bayar</button>
 	{% endverbatim %}
 {% endblock %}

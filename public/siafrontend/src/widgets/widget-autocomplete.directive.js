@@ -34,7 +34,10 @@
                 }else{
                     if (attr.table == 'mahasiswa') {
                         let data = scope.$parent.$parent.vm.data;
-                        return `/search/${attr.table}?nama=${phrase}&semester=${data.semester_id}`;
+                        if (data.semester_id) {
+                            return `/search/${attr.table}?nama=${phrase}`;
+                        }
+                        return `/search/${attr.table}?nama=${phrase}`;
                     }
 
                     if (attr.table == 'karyawan') {

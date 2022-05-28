@@ -67,6 +67,25 @@ class PengajuanKs extends BaseModel
 	{
 		if (array_key_exists('status', $attributes)) {
 			if ($attributes['status'] == 'terima') {
+        		$riwayat_belajar_obj = self::getModelByName('riwayat_belajar');
+				$riwayat_belajar_condition = [['mahasiswa_id', $this->mahasiswa_id], ['semester_id', $this->mahasiswa->semester_id]];
+	            $riwayat_belajar = $riwayat_belajar_obj->where($riwayat_belajar_condition);
+	            $riwayat_belajar_detail = [];
+
+	            foreach ($this->pengajuan_ks_detail as $key => $value) {
+	            	array_push($riwayat_belajar_detail, ['mata_kuliah_id' => $value->mata_kuliah_id]);
+	            }
+
+	            $riwayat_belajar_value = [
+	                'mahasiswa_id' => $this->mahasiswa_id,
+	                'semester_id' => $this->mahasiswa->semester_id,
+	                'riwayat_belajar_details' => $riwayat_belajar_detail
+	            ];
+
+	            if ($riwayat_belajar->count() == 0) {
+	                $riwayat_belajar = $riwayat_belajar_obj->create($riwayat_belajar_value);
+	            }
+
 				$this->mahasiswa->update(['sudah_pengajuan' => true, 'pengajuan' => false, 'ajukan_sks' => false]);
 			}
 

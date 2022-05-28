@@ -119,5 +119,154 @@ final class MahasiswaController extends BaseController
         return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
     }
 
+    public function buatTagihan($request, $response, $args)
+    {   
+        $container = $this->container;
+        $postData = $request->getParsedBody();
+        $result = ["status" => "fail"];
 
+        $pta_obj = $this->get_object('pembiayaan_tahun_ajar');
+        $mahasiswa_obj = $this->get_object('mahasiswa');
+        $pta_id = $postData['pembiayaan_tahun_ajar'];
+
+        $pta = $pta_obj->find($pta_id);
+
+        if (!empty($pta)) {
+            $mahasiswa = $mahasiswa_obj->where([
+                ['tahun_ajaran_id', $pta->tahun_ajaran_id],
+                ['semester_id', $pta->semester_id],
+                ['status', 'mahasiswa']
+            ])->get();
+
+            foreach ($mahasiswa as $key => $value) {
+                $tagihan = $pta->createTagihan($value->orang_id);
+            }
+
+            $result['status'] = 'success';
+        }
+
+
+        $response->getBody()->write(json_encode($result));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
+    }
+
+    public function buatTagihanLainnya($request, $response, $args)
+    {   
+        $container = $this->container;
+        $postData = $request->getParsedBody();
+        $result = ["status" => "fail"];
+
+        $pta_obj = $this->get_object('pembiayaan_tahun_ajar');
+        $mahasiswa_obj = $this->get_object('mahasiswa');
+        $pta_id = $postData['pembiayaan_tahun_ajar'];
+        $mahasiswa_ids = $postData['mahasiswa'];
+
+        $pta = $pta_obj->find($pta_id);
+
+        if (!empty($pta)) {
+            $mahasiswa = $mahasiswa_obj->whereIn('id', $mahasiswa_ids)->get();
+
+            foreach ($mahasiswa as $key => $value) {
+                $tagihan = $pta->createTagihan($value->orang_id);
+            }
+
+            $result['status'] = 'success';
+        }
+
+
+        $response->getBody()->write(json_encode($result));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
+    }
+
+    public function terbitkanNim($request, $response, $args)
+    {   
+        $container = $this->container;
+        $postData = $request->getParsedBody();
+        $result = ["status" => "fail"];
+
+        $pendaftaran_obj = $this->get_object('pendaftaran');
+        $pendaftaran_id = $postData['pendaftaran_id'];
+
+        $pendaftaran = $pendaftaran_obj->find($pendaftaran_id);
+
+        if (!empty($pendaftaran)) {
+            
+            $pendaftaran->terbitkanNIM();
+            $result['status'] = 'success';
+        }
+
+
+        $response->getBody()->write(json_encode($result));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
+    }
+
+    public function pmbBaru($request, $response, $args)
+    {   
+        $container = $this->container;
+        $postData = $request->getParsedBody();
+
+        $pmb_obj = $this->get_object('pmb');
+        $orang = $container->get('session')->get('orang');
+
+        $pmb = $pmb_obj->where('orang_id', $orang->id)->first();
+
+        $data = json_encode([
+            'data' => $pmb
+        ]);
+        
+        $response->getBody()->write($data);
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
+    }
+
+    public function gantiSemester($request, $response, $args)
+    {   
+        $container = $this->container;
+        $postData = $request->getParsedBody();
+        $result = ["status" => "fail"];
+
+        $mahasiswa_obj = $this->get_object('mahasiswa');
+        $tahun_ajaran_obj = $this->get_object('tahun_ajaran');
+        $pta_obj = $this->get_object('pembiayaan_tahun_ajar');
+
+        $semester_id = $postData['semester'];
+        $semester_baru = $postData['semester_baru'];
+        $tahun_ajaran_id = $postData['tahun_ajaran_id'];
+
+        $mahasiswas = $mahasiswa_obj->whereIn('id', $postData['mahasiswa'])->get();
+        $tahun_ajaran = $tahun_ajaran_obj->find($postData['tahun_ajaran_id']);
+        $pta = $pta_obj->where([
+            ['tahun_ajaran_id', $tahun_ajaran_id],
+            ['semester_id', $semester_baru]
+        ])->first();
+
+        foreach ($mahasiswas as $mahasiswa) {
+            $riwayat_belajar_obj = $this->get_object('riwayat_belajar');
+            $mahasiswa_id = $mahasiswa->id;
+            $riwayat_belajar = $riwayat_belajar_obj
+                ->where([
+                    ['semester_id', $semester_id],
+                    ['status', 'aktif'],
+                    ['mahasiswa_id', $mahasiswa_id]
+                ])
+                ->first();
+
+            if (!empty($riwayat_belajar)) {
+                $riwayat_belajar->nilaiMahasiswa($semester_id);
+            }
+
+            $mahasiswa->buatTagihanMahasiswa($pta->id);
+            $mahasiswa->update([
+                'semester_id' => $semester_baru,
+                'reg_ulang' => true,
+                'ajukan_sks' => false,
+                'pengajuan' => false,
+                'sudah_pengajuan' => false
+            ]);
+        }
+
+        
+        
+        $response->getBody()->write(json_encode($result));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
+    }
 }

@@ -29,6 +29,9 @@ import './pembiayaan/pembiayaan.module';
 import './setup_paket/setup_paket.module';
 import './konfigurasi/konfigurasi.module';
 import './ganti_semester/ganti_semester.module';
+import './pendaftaran/pendaftaran.module';
+import './mahasiswa_baru/mahasiswa_baru.module';
+import './panitia/panitia.module';
 
 import './blocks/exception/exception-handler.provider';
 import './blocks/exception/exception';
@@ -78,6 +81,12 @@ import './modals/modal-detail-khs.directive';
 import './modals/modal-lihat-khs.directive';
 import './modals/modal-lihat-krs.directive';
 import './modals/modal-input-kode.directive';
+import './modals/modal-tagihan-ta.directive';
+import './modals/modal-pilih-mahasiswa.directive';
+import './modals/modal-isi-tanggal.directive';
+import './modals/modal-migrasi-mahasiswa.directive';
+import './modals/modal-migrasi-matkul.directive';
+import './modals/modal-ganti-semester.directive';
 
 import './agama/agama.controller';
 import './agama/agama_form.controller';
@@ -174,3 +183,16 @@ import './konfigurasi/konfigurasi.route';
 import './ganti_semester/ganti_semester.controller';
 import './ganti_semester/ganti_semester_mahasiswa.controller';
 import './ganti_semester/ganti_semester.route';
+
+import './pendaftaran/pendaftaran.controller';
+import './pendaftaran/pendaftaran_form.controller';
+import './pendaftaran/pendaftaran_detail.controller';
+import './pendaftaran/pendaftaran.route';
+
+import './mahasiswa_baru/mahasiswa_baru_detail.controller';
+import './mahasiswa_baru/mahasiswa_baru.route';
+
+import './panitia/panitia.controller';
+import './panitia/panitia_form.controller';
+import './panitia/panitia_detail.controller';
+import './panitia/panitia.route';

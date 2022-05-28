@@ -6,13 +6,22 @@
   <a class="btn btn-sm btn-success" ui-sref="pmb_form({dataId: vm.data.id})" ng-if="vm.data.status == 'baru'"><i class="fa fa-edit"></i> Edit</a>
   <button class="btn btn-sm btn-danger" widget-delete="" ng-if="vm.data.status == 'baru'"><i class="fa fa-trash"></i> Delete</button>
 
-  <div class="float-end">
-    {% verbatim %}
-      <button class="btn btn-primary" widget-cetak-peserta="" ng-if="vm.data.status == 'ujian' && vm.dataservice.user.role != 'panitia'">Cetak Kartu Peserta</button>
+  <div class="float-end">  
+
+      <button class="btn btn-primary" ng-click="vm.updStatus('terverifikasi')" ng-if="vm.data.status == 'baru'">Verifikasi</button>
+      <button class="btn btn-primary" ng-click="vm.updStatus('test_gagal')" ng-if="vm.data.status == 'terverifikasi'">Gagal Test</button>
+      <button class="btn btn-primary" ng-click="vm.updStatus('test_lulus')" ng-if="vm.data.status == 'terverifikasi'">Lulus Test</button>
+      <button class="btn btn-primary" ng-click="vm.updStatus('kesehatan_gagal')" ng-if="vm.data.status == 'test_lulus'">Gagal Kesehatan</button>
+      <button class="btn btn-primary" ng-click="vm.updStatus('kesehatan_lulus')" ng-if="vm.data.status == 'test_lulus'">Lulus Kesehatan</button>
+      <button class="btn btn-primary" ng-click="vm.updStatus('wawancara_gagal')" ng-if="vm.data.status == 'kesehatan_lulus'">Gagal Wawancara</button>
+      <button class="btn btn-primary" ng-click="vm.updStatus('wawancara_lulus')" ng-if="vm.data.status == 'kesehatan_lulus'">Lulus Wawancara</button>
+      
+      <!-- 
+      <button class="btn btn-primary" widget-cetak-peserta="" ng-if="vm.data.status == 'terverifikasi' && vm.dataservice.user.role != 'panitia'">Cetak Kartu Peserta</button>
       <button class="btn btn-primary" widget-update-status="ujian" ng-if="vm.data.status == 'baru'">Verifikasi</button>
       <button class="btn btn-primary" widget-update-status="terima" ng-if="vm.data.status == 'ujian' && vm.dataservice.user.role != 'panitia'">Terima</button>
       <button class="btn" widget-update-status="tolak" ng-if="vm.data.status == 'ujian' && vm.dataservice.user.role != 'panitia'">Tolak</button>
-    {% endverbatim %}
+      -->
   </div>
 
   {# {% include 'widget/nextprev.twig' %} #}

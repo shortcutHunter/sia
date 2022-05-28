@@ -8,48 +8,109 @@
 			<table class="custom-table">
 				{% include 'components/input.twig' with {'name': 'nama', 'label': 'Nama', 'required': true} %}
 				{% include 'components/input.twig' with {'name': 'tahun', 'label': 'Tahun', 'required': true} %}
-				{# {% include 'components/autocomplete.twig' with {'name': 'paket_id', 'label': 'Paket Biaya Registrasi', 'table': 'paket', 'normal_search': true, 'data': 'paket'} %} #}
+			</table>
+		</div>
+
+		<div class="col-md-6">
+			<h5>Biaya Pendaftaran</h5>
+			<table class="custom-table">
+				{% include 'components/input.twig' with {'name': 'pembiayaan_tahun_ajar[vm.bp_idx].biaya_lunas', 'label': 'Biaya Lunas', 'required': true} %}
+				{% include 'components/input.twig' with {'name': 'pembiayaan_tahun_ajar[vm.bp_idx].total_biaya', 'label': 'Total Biaya', 'required': true} %}
 			</table>
 		</div>
 	</div>
 
-	{# <ul class="nav nav-tabs mt-5">
+	<ul class="nav nav-tabs mt-5">
 		<li class="nav-item">
-        	<a class="nav-link active" data-bs-toggle="list" href="#pembiayaan">Pembiayaan</a>
-        </li>
-    </ul>
+    	<a class="nav-link active" data-bs-toggle="list" href="#semester">Pembiayaan Semester</a>
+    </li>
+		<li class="nav-item">
+    	<a class="nav-link" data-bs-toggle="list" href="#lainnya">Pembiayaan Lainnya</a>
+    </li>
+  </ul>
 
-    <div class="tab-content text-justify">
-    	<div class="tab-pane fade show active" id="pembiayaan">
+  <div class="tab-content text-justify">
+  	<div class="tab-pane fade show active" id="semester">
+  		<div class="row mt-3">
+  			<div class="col-md-12">
 
-    		<div class="row mt-3">
-    			<div class="col-md-12">
-
-        			<table class="table">
+    			<table class="table">
 
 						<thead>
-							<th>Kode</th>
 							<th>Nama</th>
-							<th>Nominal</th>
+							<th>Semester</th>
+							<th>Biaya Wajib</th>
+							<th>Total Biaya</th>
 							<th></th>
 						</thead>
 
 						<tbody>
-							<tr ng-repeat="col in vm.data.paket.item track by $index" ng-if="vm.data.paket.item && vm.data.paket.item.length != 0">
-								<td ng-bind="col.kode || '-'"></td>
+							<tr ng-repeat="col in vm.semesters track by $index" ng-if="vm.semesters && vm.semesters.length != 0">
+								<td>
+									Biaya Semester <span ng-bind="col.nama"></span>
+								</td>
 								<td ng-bind="col.nama || '-'"></td>
-								<td ng-bind="col.nominal || '-'"></td>
+								<td>
+									<input type="text" ng-model="vm.data.pembiayaan_tahun_ajar[$index].biaya_lunas" class="form-control">
+								</td>
+								<td>
+									<input type="text" ng-model="vm.data.pembiayaan_tahun_ajar[$index].total_biaya" class="form-control">
+								</td>
+								<!-- <td>
+									<button class="btn btn-sm btn-danger">
+										<i class="fa fa-trash"></i>
+									</button>
+								</td> -->
 							</tr>
-							<tr ng-if="!vm.data.paket.item || vm.data.paket.item.length == 0">
+							<tr ng-if="!vm.semesters || vm.semesters.length == 0">
 								<td  class="text-center" colspan="5">Belum ada data</td>
 							</tr>
 						</tbody>
 
 					</table>
-        		
-        		</div>
+    			<small>Total data: <b ng-bind="vm.data.semesters.length || 0"></b></small>
     		</div>
-    	</div>
-    </div> #}
+  		</div>
+  	</div>
+
+  	<div class="tab-pane fade" id="lainnya">
+  		<div class="row mt-3">
+  			<div class="col-md-12">
+
+    			<table class="table">
+
+						<thead>
+							<th>Nama</th>
+							<th>Biaya Wajib</th>
+							<th>Total Biaya</th>
+							<th></th>
+						</thead>
+
+						<tbody>
+							<tr ng-repeat="col in vm.biaya_lainnyas track by $index" ng-if="vm.biaya_lainnyas && vm.biaya_lainnyas.length != 0">
+								<td ng-bind="col.nama || '-'"></td>
+								<td>
+									<input type="text" ng-model="vm.data.pembiayaan_tahun_ajar[vm.semesters.length + $index].biaya_lunas" class="form-control">
+								</td>
+								<td>
+									<input type="text" ng-model="vm.data.pembiayaan_tahun_ajar[vm.semesters.length + $index].total_biaya" class="form-control">
+								</td>
+								<!-- <td>
+									<button class="btn btn-sm btn-danger">
+										<i class="fa fa-trash"></i>
+									</button>
+								</td> -->
+							</tr>
+							<tr ng-if="!vm.biaya_lainnyas || vm.biaya_lainnyas.length == 0">
+								<td  class="text-center" colspan="5">Belum ada data</td>
+							</tr>
+						</tbody>
+
+					</table>
+    			<small>Total data: <b ng-bind="vm.biaya_lainnyas.length || 0"></b></small>
+    		</div>
+  		</div>
+  	</div>
+  </div>
 
 {% endblock %}

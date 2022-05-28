@@ -58,7 +58,10 @@ class RiwayatBelajarDetail extends BaseModel
                 ->whereHas('mata_kuliah_diampuh', function($a) use ($mata_kuliah_id, $semester_id) {
                     $a->where('mata_kuliah_id', $mata_kuliah_id)
                     ->whereHas('dosen_pjmk', function($b) use ($semester_id) {
-                        $b->where([['semester_id', $semester_id], ['status', 'aktif']]);
+                        $b->where('status', 'aktif')
+                        	->whereHas('semester', function($c) use ($semester_id) {
+                        		$c->where('semester_id', $semester_id);
+                        	});
                     });
                 })
                 ->first();
@@ -91,7 +94,7 @@ class RiwayatBelajarDetail extends BaseModel
 			}
 		}
 
-		$this->updateNilai($riwayat_belajar_detail);
+		$riwayat_belajar_detail->updateNilai($riwayat_belajar_detail);
 
 		return $riwayat_belajar_detail;
 	}
