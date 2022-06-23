@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+    <?php include('header.phtml'); ?>
+
+    <style type="text/css">
+        .m-top {
+            margin-top: 20px;
+        }
+        .bold {
+            font-weight: bold;
+        }
+        .m-top-table {
+            margin-top: 20px;
+        }
+        .pr-20 {
+            padding-right: 20px;
+        }
+        .w-50 {
+            width: 400px;
+        }
+        .w-100{
+            width: 100px;
+        }
+        .w-200{
+            width: 150px;
+        }
+        .table {
+            border-collapse: collapse;
+        }
+        .table td, .table th{
+            padding: 7px;
+        }
+        th {
+            text-align: center;
+            font-weight: bold;
+            vertical-align: middle;
+        }
+
+        ul {
+            list-style: decimal;
+            width: 40%;
+        }
+        ul li .dashed {
+            border-bottom: 1px solid dashed black;
+            margin-bottom: 10px;
+        }
+        .catatan {
+            font-style: italic;
+            text-decoration: underline;
+        }
+        .mt-50 {
+            margin-top: 50px;
+        }
+        .ml-40 {
+            margin-top: 10px;
+            margin-left: 50%;
+            width: 200px;
+        }
+        .container {
+            font-size: 12px;
+        }
+
+        .highlight {
+            font-weight: bold;
+            color: #dfdfdf;
+            background: #357960;
+            padding: 5px;
+        }
+
+    </style>
+
+    <div class="container">
+        <div class="text-center m-top bold">
+            Daftar Tagihan
+        </div>
+
+        <div class="m-top-table">
+            <table>
+                <tr>
+                    <td>
+                        <table>
+                            <tr>
+                                <td>NAMA</td>
+                                <td>:</td>
+                                <td><?= $mahasiswa->orang->nama ?? '-' ?></td>
+                            </tr>
+                            <tr>
+                                <td>NIM</td>
+                                <td>:</td>
+                                <td><?= $mahasiswa->nim ?? '-' ?></td>
+                            </tr>
+                            <tr>
+                                <td>SEMESTER</td>
+                                <td>:</td>
+                                <td><?= $mahasiswa->semester->nama ?? '-' ?></td>
+                            </tr>
+                            <tr>
+                                <td class="pr-20">ANGKATAN TAHUN</td>
+                                <td>:</td>
+                                <td><?= $mahasiswa->tahun_ajaran->nama ?? '-' ?></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="m-top-table">
+            <table class="table" border="1">
+                <tr>
+                    <th>Kode</th>
+                    <th>Nama Pembiayaan</th>
+                    <th>Total</th>
+                    <th>Cicilan 1</th>
+                    <th>Cicilan 2</th>
+                    <th>Cicilan 3</th>
+                    <th>Sisa</th>
+                    <th>Status</th>
+                </tr>
+
+                <?php foreach ($tagihan as $key => $value): ?>
+                    <tr>
+                        <td style="width: 10%;"><?= $value->kode ?></td>
+
+                        <td style="width: 15%;">
+                            <?php foreach ($value->tagihan_item as $k => $v): ?>
+                                <div><?= $v->nama ?></div>
+                            <?php endforeach ?>                            
+                        </td>
+
+                        <td style="width: 12%;">
+                            <span><?= number_format($value->nominal, 2, ",", ".") ?></span>
+                        </td>
+                        <?php
+                            $counter = 0;
+                        ?>
+                        <?php foreach ($value->transaksi as $k => $v): ?>
+                            <?php if ($v->status == 'verified' && $counter <= 2): ?>
+                                <td style="width: 12%;">
+                                    <span ><?= number_format($v->nominal, 2, ",", ".") ?></span>
+                                </td>
+                                <?php $counter++; ?>
+                            <?php endif ?>
+                        <?php endforeach ?>
+
+                        <?php
+                            echo str_repeat("<td>-</td>", 3-$counter);
+                        ?>
+
+                        <td style="width: 15%;">
+                            <span><?= number_format($value->sisa_hutang, 2, ",", ".") ?></span>
+                        </td>
+                        <td style="width: 10%;">
+                            <?php if ($value->status == 'bayar'): ?>
+                                Lunas
+                            <?php else: ?>
+                                Belum Lunas
+                            <?php endif ?>
+                        </td>
+                    </tr>
+                <?php endforeach ?>
+                
+            </table>
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>SIA | Login</title>
+
+	{% include 'root/partial/assets.twig' %}
+
+</head>
+<body>
+
+	<div class="container p-0">
+
+		<div class="row">
+			<div class="img-container mt-5 col-12 d-flex justify-content-center align-items-center">
+				<img src="/public/assets/images/bethesda.png">
+			</div>
+
+			<div class="btn-container col-12 d-flex justify-content-center align-items-center flex-column mt-5">
+				{% if (register) %}
+					<a href="/register" class="btn btn-primary mb-3">PENDAFTARAN MAHASISWA BARU</a>
+				{% endif %}
+				<a href="/login" class="btn btn-primary">SISTEM INFORMASI AKADEMIK</a>
+			</div>
+
+		</div>
+
+	</div>
+
+</body>
+</html>

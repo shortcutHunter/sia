@@ -1,0 +1,21 @@
+{% extends "structure/form.twig" %}
+
+
+{% block content %}
+
+	<div class="row">
+     <div class="col-md-6">
+      <table class="custom-table">
+        {% include 'components/input.twig' with {'name': 'nama', 'label': 'Nama', 'required': true} %}
+      </table>
+    </div>
+
+     <div class="col-md-6">
+      <table class="custom-table">
+        {% include 'components/input-number.twig' with {'name': 'biaya_lunas', 'label': 'Biaya Lunas', 'required': true} %}
+        {% include 'components/input-number.twig' with {'name': 'total_biaya', 'label': 'Total Biaya', 'required': true} %}
+      </table>
+    </div> 
+  </div>
+
+{% endblock %}

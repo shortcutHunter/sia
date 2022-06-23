@@ -106,5 +106,11 @@
       }
     }
 
+    scope.$watch('vm.searchData', function(newVal, oldVal) {
+      if (newVal != undefined) {
+        search();
+      }
+    });
+
   }
 })();

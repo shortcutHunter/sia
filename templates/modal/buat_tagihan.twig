@@ -11,7 +11,7 @@
 		<div class="col-md-6">
 			<table class="custom-table">
 				{% include 'components/preview-text.twig' with {'name': 'semester.nama', 'label': 'Semester', 'prefix': 'data'} %}
-				{% include 'components/preview-text.twig' with {'name': 'nominal', 'label': 'Nominal', 'prefix': 'data'} %}
+				{% include 'components/preview-number.twig' with {'name': 'nominal', 'label': 'Nominal', 'prefix': 'data'} %}
 			</table>
 		</div>
 	</div>
@@ -59,8 +59,6 @@
 {% endblock %}
 
 {% block footer %}
-	{% verbatim %}
-		<button class="btn" data-bs-dismiss="modal">Close</button>
-		<button class="btn btn-primary" ng-click="buatTagihan()">Buat</button>
-	{% endverbatim %}
+	<button class="btn" data-bs-dismiss="modal">Close</button>
+	<button class="btn btn-primary" ng-click="buatTagihan()">Buat</button>
 {% endblock %}

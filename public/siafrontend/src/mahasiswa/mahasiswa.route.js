@@ -108,6 +108,16 @@
           }
         }
       },
+      {
+        state: 'mahasiswa_tagihan_detail',
+        config: {
+          url: '/mahasiswa/tagihan/{dataId}',
+          templateUrl: '/template/mahasiswa/detail_tagihan',
+          controller: 'MahasiswaTagihanDetailController',
+          controllerAs: 'vm',
+          title: 'mahasiswa_detail_tagihan'
+        }
+      },
 
     ];
   }

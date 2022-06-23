@@ -1,2 +1,2 @@
-kode_perusahaan,host,port,username,password,status_smtp,registrasi,base_url,sequance_nim
-114069E,smtp.gmail.com,465,email.no.reply.testing@gmail.com,noreplyEmail.com,0,1,http://localhost,11126
+kode_perusahaan,host,port,username,password,status_smtp,registrasi,base_url,sequance_nim,nohp_panitia
+114069E,smtp.gmail.com,465,email.no.reply.testing@gmail.com,gisogqukcxtatnnc,0,1,http://localhost,11126,+65592847239

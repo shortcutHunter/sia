@@ -66,7 +66,8 @@ class Pendaftaran extends BaseModel
 
 	public function terbitkanNIM()
 	{
-		foreach ($this->pmb as $key => $value) {
+		$pmbData = $this->pmb->sortBy('orang.nama');
+		foreach ($pmbData as $key => $value) {
             $penerbitan_nim_obj = self::getModelByName('penerbitan_nim');
             $penerbitan_nim = $penerbitan_nim_obj->where('pmb_id', $value->id)->first();
 

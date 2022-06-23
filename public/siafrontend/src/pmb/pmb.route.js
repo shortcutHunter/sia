@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('app.agama')
+    .module('app.pmb')
     .run(appRun);
 
   appRun.$inject = ['routerHelper'];

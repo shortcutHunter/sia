@@ -1,0 +1,36 @@
+{% extends "structure/table.twig" %}
+
+{% block button %}
+	<a ui-sref="role_form({dataId: null})" class="btn btn-success btn-sm">
+		<i class="fa fa-plus"></i> Tambah
+	</a>
+{% endblock %}
+
+{% block search %}
+
+	{% include 'components/search.twig' %}
+
+{% endblock %}
+
+{% block table %}
+	{% verbatim %}
+
+		<thead>
+			<tr>
+				<th>Nama</th>
+				<th>Value</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr ng-if="!vm.data || vm.data.length == 0">
+	          <td colspan="5" class="text-center">Tidak ada data yang tersedia</td>
+	        </tr>
+	        <tr ng-repeat="data in vm.data" class="clickable" ng-attr-tr_id="{{data.id}}" state_name="role_detail" widget-tr="">
+	          <td ng-bind="data.nama || '-'"></td>
+	          <td ng-bind="data.value || '-'"></td>
+	        </tr>
+		</tbody>
+
+	{% endverbatim %}
+{% endblock %}

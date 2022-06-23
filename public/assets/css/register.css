@@ -1,19 +1,47 @@
+/*remove outline*/
+textarea:focus, input:focus{
+    outline: none !important;
+}
+/*chrome*/
+*:focus {
+    outline: none !important;
+}
+/*bootstrap*/
+.form-control:focus {
+  border-color: inherit;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border-width: 3px !important;
+}
+
+.wizard > .steps a {
+	border-radius: 0 !important;
+	background-color: #fdfdfd !important;
+	border-bottom: 0.5px solid #357960;
+}
+
 .wizard > .steps .current a, 
 .wizard > .steps .current a:hover, 
 .wizard > .steps .current a:active {
-	background-color: #00a85a;
+	background-color: #fdfdfd;
+	color: #357960;
+	border-bottom: 5px solid #357960;
 }
 
 .wizard > .steps .done a, 
 .wizard > .steps .done a:hover, 
 .wizard > .steps .done a:active {
-	background-color: #5be3a4;
+	background-color: #357960 !important;
 }
 
 .wizard > .actions a, 
 .wizard > .actions a:hover, 
 .wizard > .actions a:active {
-	background-color: #00a85a;
+	background-color: #357960;
+}
+
+.wizard > .actions ul {
+	margin: 15px;
 }
 
 .wizard > .steps a, 
@@ -27,10 +55,14 @@
 }
 
 .wizard > .content {
-	background-color: #00a85a;
-	color: white;
+	background-color: #fdfdfd;
+	color: #101010;
 	display: flex;
 	justify-content: center;
+}
+
+.wizard > .content > .body {
+  position: relative;
 }
 
 .pembayaran-container ul li {
@@ -53,86 +85,32 @@
 }
 
 
-.box-header {
-	border: solid #00a85a;
-	background-color: #00a85a;
-	color: white;
-	padding:  3px;
-	text-align: center;
+.title-register {
+	background-color: #357960;
+	padding: 30px;
+	font-size: 1.5rem;
 	font-weight: bold;
+	color: #E9EEE7;
 }
 
-.box-content {
-	margin-top: 10px;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	flex-wrap: nowrap;
+.form-control {
+	border: 0 !important;
+	border-radius: 0 !important;
+	outline: none !important;
+	border-bottom: 2px solid #357960 !important;
 }
 
-.box-content div {
-	border: solid #00a85a;
-	padding: 3px;
-	text-align: center;
-	margin-bottom: 5px;
-	width: 100%;
+.invalid, .error-validation {
+	border-bottom: 2px solid red !important;
 }
 
-.box-arrow {
-	display: flex;
-	border: none !important;
-	flex-direction: column;
-	align-items: center;
+.error-text {
+	color: red;
+	font-size: 12px;
+	padding-bottom: 5px;
 }
 
-.box-arrow::before {
-	content: "";
-	width: 2.5px;
-	height: 5px;
-	background-color: #00a85a;
-}
-
-.box-arrow::after {
-	content: "";
-	width: 0;
-	height: 0;
-	border-left: 5px solid transparent;
-	border-right: 5px solid transparent;
-	border-top: 5px solid #00a85a;
-	font-size: 0;
-	line-height: 0;
-}
-
-.alur {
-	font-size: 10px;
-}
-
-.box-spacing {
-	margin: 20px;
-}
-
-.persyaratan-container {
-	display: flex;
-	flex-wrap: wrap;
-	padding: 0px 10px;
-}
-
-.persyaratan {
-	border: 1px solid #00a85a;
-}
-
-.btn-pendaftaran {
-	font-size: 30px;
-	border: 1px solid #00a85a;
-	padding: 10px 20px;
-	cursor: pointer;
-	background-color: white;
-	text-decoration: none;
-	color: black;
-}
-
-.btn-pendaftaran:hover {
-	background-color: #00a85a;
-	text-decoration: none;
-	color: white;
+label .note {
+	color: #357960;
+	font-size: 0.7rem;
 }

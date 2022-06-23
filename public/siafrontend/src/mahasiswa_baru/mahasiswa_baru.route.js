@@ -23,7 +23,7 @@
           title: 'pendaftaran_mahasiswa',
           settings: {
             nav: 1,
-            content: '<i class="fa fa-list"></i> <span>Detail Data</span>',
+            content: '<i class="fa fa-list"></i> <span>Profile</span>',
             parent: 'Kemahasiswaan',
             roles: ['pmb']
           }

@@ -32,6 +32,11 @@ import swal from 'sweetalert';
           warning_text = `Apakah yakin ingin men${attr.widgetUpdateStatus}kan dosen ini ?`;
         }
 
+        if (attr.widgetUpdateStatus == 'open' || attr.widgetUpdateStatus == 'closed') {
+          let statusPendaftaran = attr.widgetUpdateStatus == 'open' ? 'buka' : 'tutup';
+          warning_text = `Apakah yakin ingin ${statusPendaftaran} pendaftaran ini ?`;
+        }
+
         swal({
           title: warning_text,
           icon: "warning",

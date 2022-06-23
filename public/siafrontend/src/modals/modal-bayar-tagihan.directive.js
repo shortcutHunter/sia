@@ -5,10 +5,10 @@
     .module('app.widgets')
     .directive('modalBayarTagihan', modalBayarTagihan);
 
-  modalBayarTagihan.$inject = ['$state', 'dataservice'];
+  modalBayarTagihan.$inject = ['$state', 'dataservice', 'logger'];
 
   /* @ngInject */
-  function modalBayarTagihan(state, dataservice) {
+  function modalBayarTagihan(state, dataservice, logger) {
     var directive = {
       restrict: 'EA',
       link: link,
@@ -25,6 +25,7 @@
       activate();
 
       scope.upload = upload;
+      scope.cicilanAkhir = false;
 
       function activate() {
         $(element).modal('show');
@@ -34,7 +35,31 @@
         });
       }
 
+      let totalTagihan = 0;
+      $.each(scope.data.transaksi, (i, v) => {
+        if (v.status == 'verified') {
+          totalTagihan += 1;
+        }
+      });
+
+      if (totalTagihan >= 2) {
+        scope.cicilanAkhir = true;
+      }
+
       function upload() {
+
+        if (scope.cicilanAkhir) {
+          if (scope.vm.data.nominal != scope.data.sisa_hutang) {
+            logger.error("Mohon hubungi bagian keuangan jika tidak dapat melunaskan sisa hutang.");
+          }
+        }
+
+        if (!scope.data.register_ulang) {
+          if (scope.vm.data.nominal != scope.data.sisa_hutang) {
+            logger.error("Tagihan tidak dapat dicicil.");
+          }
+        }
+
         let data = {
           transaksi: {
             nominal: scope.vm.data.nominal,

@@ -1,0 +1,198 @@
+html, body {
+  height: 100%;
+}
+
+.content-register {
+	min-height: 100%;
+	margin-bottom: -73px;
+	padding-bottom: 1rem;
+}
+
+.content-register:after {
+	height: 73px;
+	content: "";
+  	display: block;
+}
+
+.nav-title {
+	font-size: 0.9em;
+}
+.nav-subtitle {
+	font-size: 0.6em;
+}
+
+.navbar.navbar-expand-lg {
+	background-color: #357960;
+}
+
+.navbar-dark .navbar-brand {
+	color: #fdfdfd !important;
+}
+
+.navbar-dark .navbar-brand img {
+	width: 70px;
+	margin-right: 10px;
+}
+
+.navbar-dark .navbar-brand h4 {
+	margin-bottom: 3px;
+}
+
+.navbar-dark .navbar-brand h6 {
+	margin-bottom: 0px;
+}
+
+.syarat-register-table td, .syarat-register-table th {
+	border: 1px solid #357960;
+	padding: 10px;
+	font-size: 0.8em;
+}
+
+.syarat-register-table th {
+	background: #357960;
+	color: #fdfdfd;
+	text-align: center;
+}
+
+.no-border {
+	border: none !important;
+}
+.bold {
+	font-weight: bold;
+}
+
+/*ALUR*/
+.flex-center {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
+.box-header {
+	border: solid #357960;
+	background-color: #357960;
+	color: white;
+	padding:  3px;
+	text-align: center;
+	font-weight: bold;
+}
+
+.box-content {
+	margin-top: 10px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	flex-wrap: nowrap;
+}
+
+.box-content div {
+	border: solid #357960;
+	padding: 3px;
+	text-align: center;
+	margin-bottom: 5px;
+	width: 100%;
+}
+
+.box-arrow {
+	display: flex;
+	border: none !important;
+	flex-direction: column;
+	align-items: center;
+}
+
+.box-arrow::before {
+	content: "";
+	width: 2.5px;
+	height: 5px;
+	background-color: #357960;
+}
+
+.box-arrow::after {
+	content: "";
+	width: 0;
+	height: 0;
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	border-top: 5px solid #357960;
+	font-size: 0;
+	line-height: 0;
+}
+
+.alur {
+	font-size: 0.8em;
+}
+
+.nav-menu {
+  display: flex !important;
+  flex-basis: auto;
+  flex-grow: 1;
+  align-items: center;
+}
+
+.navbar-nav {
+	flex-direction: row !important;
+}
+
+.navbar-expand-lg .navbar-nav .nav-link {
+  padding-right: .5rem;
+  padding-left: .5rem;
+  font-size: 0.8rem;
+}
+
+/*footer*/
+.footer .img-group img {
+	height: 40px;
+}
+
+.footer {
+	padding: 10px 50px;
+	height: 73px;
+	font-size: 0.8em;
+	color: rgb(130, 130, 130);
+	background-color: #E9EEE7;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.akreditasi {
+	display: flex;
+	flex-direction: column;
+}
+
+.akreditasi a {
+	text-decoration: none;
+}
+
+.akreditasi a:hover {
+	text-decoration: none;
+}
+
+.bg-template {
+	background-color: #357960;
+}
+
+.form-login {
+	display:inline-flex;
+  flex-direction:column;
+  align-items:baseline;
+	margin-top: 3em;
+}
+
+.lupa-password {
+	margin-top: 1em;
+	text-align: right;
+	width: 100%;
+}
+
+.title-login {
+	background-color: #357960;
+	padding: 10px;
+	font-size: 1.2rem;
+	font-weight: bold;
+	color: #E9EEE7;
+}
+
+.very-small {
+	font-size: 0.7rem;
+}

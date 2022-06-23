@@ -60,6 +60,7 @@ class MailModel
 		try {
 			$this->mail->send();
 		} catch (Exception $e) {
+			echo $e->getMessage();
 			return false;
 		}
 	}

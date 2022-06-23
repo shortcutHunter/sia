@@ -1,0 +1,265 @@
+{% extends 'structure/detail.twig' %}
+
+
+{% block button %}
+
+  <a class="btn btn-sm btn-success" ui-sref="verifikasi_pmb_form({dataId: vm.data.id})" ng-if="vm.data.status == 'baru' || vm.data.status == 'pending'"><i class="fa fa-edit"></i> Edit</a>
+  <button class="btn btn-sm btn-danger" widget-delete="" ng-if="vm.data.status == 'baru'"><i class="fa fa-trash"></i> Delete</button>
+
+  {% verbatim %}
+      <a class="btn btn-sm btn-primary ms-2" target="_blank" href="http://wa.me/{{ vm.data.orang.no_hp }}">Kontak PMB</a>
+  {% endverbatim %}
+
+  <div class="float-end">
+
+      <button class="btn btn-primary" ng-click="vm.updStatus('tolak')" ng-if="vm.data.status == 'baru'">Tolak</button>
+      <button class="btn btn-primary" ng-click="vm.updStatus('pending')" ng-if="vm.data.status == 'baru'">Pending</button>
+      <button class="btn btn-primary" ng-click="vm.updStatus('terverifikasi')" ng-if="vm.data.status == 'baru' || vm.data.status == 'pending'">Verifikasi</button>
+      <button class="btn btn-primary" ng-click="vm.updStatus('test_gagal')" ng-if="vm.data.status == 'terverifikasi'">Gagal Test</button>
+      <button class="btn btn-primary" ng-click="vm.updStatus('test_lulus')" ng-if="vm.data.status == 'terverifikasi'">Lulus Test</button>
+      <button class="btn btn-primary" ng-click="vm.updStatus('kesehatan_gagal')" ng-if="vm.data.status == 'test_lulus'">Gagal Kesehatan</button>
+      <button class="btn btn-primary" ng-click="vm.updStatus('kesehatan_lulus')" ng-if="vm.data.status == 'test_lulus'">Lulus Kesehatan</button>
+      <button class="btn btn-primary" ng-click="vm.updStatus('wawancara_gagal')" ng-if="vm.data.status == 'kesehatan_lulus'">Gagal Wawancara</button>
+      <button class="btn btn-primary" ng-click="vm.updStatus('wawancara_lulus')" ng-if="vm.data.status == 'kesehatan_lulus'">Lulus Wawancara</button>
+  </div>
+
+  {# {% include 'widget/nextprev.twig' %} #}
+{% endblock %}
+
+{% block status %}
+
+  <button class="btn btn-primary" ng-bind="vm.data.status_label"></button>
+
+{% endblock %}
+
+{% block content %}
+
+  <div class="row">
+      <div class="col-md-6">
+        <table class="custom-table">
+          {% include 'components/preview-text.twig' with {'name': 'nomor_peserta', 'label': 'Nomor Peserta'} %}
+          {% include 'components/preview-text.twig' with {'name': 'orang.nama', 'label': 'Nama'} %}
+        </table>
+      </div>
+      
+      <div class="col-md-6">
+        <table class="custom-table">
+          {% include 'components/preview-text.twig' with {'name': 'tanggal_pendaftaran', 'label': 'Tanggal Pendfataran'} %}
+        </table>
+      </div>
+    </div>
+
+    <ul class="nav nav-tabs mt-5">
+      <li class="nav-item">
+              <a class="nav-link active" data-bs-toggle="list" href="#pribadi">Data Pribadi</a>
+            </li>
+      <li class="nav-item">
+              <a class="nav-link" data-bs-toggle="list" href="#orangtua">Orang Tua</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-bs-toggle="list" href="#pendidikan">Pendidikan</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-bs-toggle="list" href="#persetujuan">Persetujuan</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-bs-toggle="list" href="#pembayaran">Pembayaran</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-bs-toggle="list" href="#tracking">Tracking</a>
+            </li>
+        </ul>
+
+        <div class="tab-content text-justify">
+          <div class="tab-pane fade show active" id="pribadi">
+            <div class="row mt-3">
+              <div class="col-md-6">
+                <table class="custom-table">
+            {% include 'components/preview-text.twig' with {'name': 'orang.nik', 'label': 'NIK'} %}
+            {% include 'components/preview-text.twig' with {'name': 'orang.tempat_lahir', 'label': 'Tempat Lahir'} %}
+            {% include 'components/preview-text.twig' with {'name': 'orang.tanggal_lahir', 'label': 'Tanggal Lahir'} %}
+            {% include 'components/preview-text.twig' with {'name': 'orang.jenis_kelamin_label', 'label': 'Jenis Kelamin'} %}
+            {% include 'components/preview-text.twig' with {'name': 'orang.agama.nama', 'label': 'Agama'} %}
+                </table>
+              </div>
+
+              <div class="col-md-6">
+                <table class="custom-table">
+                  {% include 'components/preview-text.twig' with {'name': 'orang.alamat', 'label': 'Alamat'} %}
+                  {% include 'components/preview-text.twig' with {'name': 'orang.rt_rw', 'label': 'Rt / Rw'} %}
+                  {% include 'components/preview-text.twig' with {'name': 'orang.kel_desa', 'label': 'Kel / Desa'} %}
+                  {% include 'components/preview-text.twig' with {'name': 'orang.kab_kota', 'label': 'Kab / Kota'} %}
+                  {% include 'components/preview-text.twig' with {'name': 'orang.provinsi', 'label': 'Provinsi'} %}
+                </table>
+              </div>
+
+              <div class="col-md-6">
+                <table class="custom-table">
+                  {% include 'components/preview-text.twig' with {'name': 'orang.email', 'label': 'Email'} %}
+                  {% include 'components/preview-text.twig' with {'name': 'orang.no_hp', 'label': 'No. HP'} %}
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="orangtua">
+            <div class="row mt-3">
+              <div class="col-md-6">
+                <table class="custom-table">
+              {% include 'components/preview-text.twig' with {'name': 'orang.nama_ayah', 'label': 'Nama Ayah'} %}
+              {% include 'components/preview-text.twig' with {'name': 'orang.pekerjaan_ayah', 'label': 'Pekerjaan Ayah'} %}
+              {% include 'components/preview-number.twig' with {'name': 'orang.penghasilan_ortu', 'label': 'Penghasilan Orang Tua'} %}
+                </table>
+              </div>
+
+              <div class="col-md-6">
+                <table class="custom-table">
+              {% include 'components/preview-text.twig' with {'name': 'orang.nama_ibu', 'label': 'Nama Ibu'} %}
+              {% include 'components/preview-text.twig' with {'name': 'orang.pekerjaan_ibu', 'label': 'Pekerjaan Ibu'} %}
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="pendidikan">
+            <div class="row mt-3">
+              <div class="col-md-6">
+                <table class="custom-table">
+                  {% include 'components/preview-text.twig' with {'name': 'orang.asal_sekolah', 'label': 'Asal Sekolah'} %}
+                  {% include 'components/preview-text.twig' with {'name': 'orang.jurusan', 'label': 'Jurusan'} %}
+                </table>
+              </div>
+              <div class="col-md-6">
+                <table class="custom-table">
+                  {% include 'components/preview-text.twig' with {'name': 'orang.tinggi_badan', 'label': 'Tinggi Badan'} %}
+                  {% include 'components/preview-text.twig' with {'name': 'orang.berat_badan', 'label': 'Berat Badan'} %}
+                </table>
+              </div>
+              <div class="col-md-6">
+                <table class="custom-table">
+                  {% include 'components/preview-file.twig' with {'name': 'orang.pasfoto', 'label': 'Pasfoto'} %}
+                  {% include 'components/preview-file.twig' with {'name': 'orang.ijazah', 'label': 'Ijazah/SKL'} %}
+                  {% include 'components/preview-file.twig' with {'name': 'orang.ktp', 'label': 'KTP'} %}
+                  {% include 'components/preview-file.twig' with {'name': 'orang.surket_menikah', 'label': 'Surket. Belum Menikah'} %}
+                </table>
+              </div>
+              <div class="col-md-6">
+                <table class="custom-table">
+                  {% include 'components/preview-file.twig' with {'name': 'orang.akte_lahir', 'label': 'Akte Lahir'} %}
+                  {% include 'components/preview-file.twig' with {'name': 'orang.kartu_keluarga', 'label': 'Kartu Keluarga'} %}
+                  {% include 'components/preview-file.twig' with {'name': 'orang.kartu_vaksin', 'label': 'Kartu Vaksin'} %}
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="persetujuan">
+            <div class="row mt-3">
+              <div class="col-md-12">
+                <table class="custom-table">
+                  {% 
+                    include 'components/checkbox.twig' 
+                    with {
+                      'name': 'pernyataan', 
+                      'label': 'Dengan ini saya menyatakan bahwa data yang saya isi adalah benar dan sesuai dengan dokumen terkait dan saya memberikan data atas persetujuan saya pribadi', 
+                      'disabled': true
+                    } 
+                  %}
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="pembayaran">
+            <div class="row mt-3">
+              <div class="col-md-6">
+                <table class="custom-table">
+                  {% include 'components/preview-text.twig' with {'name': 'panitia.nama_bank', 'label': 'Nama Bank'} %}
+                  {% include 'components/preview-text.twig' with {'name': 'panitia.norek', 'label': 'No. Rekening'} %}
+                  {% include 'components/preview-text.twig' with {'name': 'panitia.nama', 'label': 'Atas Nama'} %}
+                </table>
+              </div>
+              <div class="col-md-6">
+                <table class="custom-table">
+                  {% include 'components/preview-number.twig' with {'name': 'biaya_pendaftaran', 'label': 'Biaya Pendaftaran'} %}
+                  {% include 'components/preview-file.twig' with {'name': 'bukti_pembayaran', 'label': 'Bukti Pembayaran'} %}
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="tracking">
+            <div class="row mt-3">
+              <div class="col-12">
+                <table class="tracking-table table table-bordered">
+
+                  <tr>
+                    <th>Status</th>
+                    <th>Hasil</th>
+                  </tr>
+
+                  <tr>
+                    <td>Verifikasi</td>
+                    <td>
+                      <span ng-if="!vm.data.terverif">Sedang diverifikasi</span>
+                      <span ng-if="vm.data.terverif">
+                        Telah diverifikasi pada tanggal <span class="track-status" ng-bind="vm.data.tanggal_verifikasi"></span>
+                      </span>
+                    </td>
+                  </tr>
+
+                  <tr ng-if="vm.data.test">
+                    <td>Test Tertulis</td>
+                    <td>
+                      <span ng-if="vm.data.status == 'test_gagal'">
+                        Gagal
+                      </span>
+                      <span ng-if="(vm.data.test && vm.data.status == 'test_lulus') || vm.data.kesehatan">
+                        Telah lulus pada tanggal <span class="track-status" ng-bind="vm.data.tanggal_lulus"></span>
+                      </span>
+                    </td>
+                  </tr>
+
+                  <tr ng-if="vm.data.test">
+                    <td>Test Kesehatan</td>
+                    <td>
+                      <div ng-if="vm.data.status != 'kesehatan_gagal' && !vm.data.kesehatan">
+                        <div class="input-group">
+                          <label class="me-4">
+                            Upload Test Kesehatan <span class="track-status small" ng-if="vm.data.dokumen_kesehatan">(Uploaded)</span> :
+                          </label>
+                          <input class="form-control form-control-sm" type="file" name="dokumen_kesehatan" ng-model="vm.data.dokumen_kesehatan" base-sixty-four-input="" maxsize="100" do-not-parse-if-oversize="">
+                          <button class="btn btn-sm btn-outline-secondary" type="button" widget-preview="vm.data.dokumen_kesehatan">
+                            Preview
+                          </button>
+                        </div>
+                      </div>
+
+                      <div ng-if="vm.data.kesehatan" style="width: 50%">
+                        <table class="custom-table">
+                          {% include 'components/preview-file.twig' with {'name': 'dokumen_kesehatan', 'label': 'Test Kesehatan'} %}
+                        </table>
+                      </div>
+
+                      <span ng-if="vm.data.status == 'kesehatan_gagal'">
+                        Gagal
+                      </span>
+                      <span ng-if="(vm.data.kesehatan && vm.data.status == 'kesehatan_lulus') || vm.data.wawancara">
+                        Telah lulus pada tanggal <span class="track-status" ng-bind="vm.data.tanggal_kesehatan"></span>
+                      </span>
+                    </td>
+                  </tr>
+
+                  <tr ng-if="vm.data.wawancara">
+                    <td>Test Wawancara</td>
+                    <td>
+                      <span ng-if="vm.data.status == 'wawancara_gagal'">
+                        Gagal
+                      </span>
+                      <span ng-if="vm.data.status == 'wawancara_lulus'">
+                        Telah lulus pada tanggal <span class="track-status" ng-bind="vm.data.tanggal_wawancara"></span>
+                      </span>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+{% endblock %}

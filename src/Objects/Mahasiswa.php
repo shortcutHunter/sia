@@ -39,6 +39,7 @@ class Mahasiswa extends BaseModel
 	public static function create(array $attributes = [])
 	{
 		$tahun_ajaran_obj = self::getModelByName('tahun_ajaran');
+		$role_obj = self::getModelByName('role');
 
 		if (!array_key_exists('tahun_ajaran_id', $attributes)) {
 			throw new \Exception("Harap masukkan tahun ajaran saat membuat mahasiswa");
@@ -59,8 +60,10 @@ class Mahasiswa extends BaseModel
 		}
 		$mahasiswa = parent::create($attributes);
 
+		$role = $role_obj->where('value', 'mahasiswa')->first();
+
 		$mahasiswa->orang->user->update([
-			'role' => 'mahasiswa',
+			'role' => [['id' => $role->id]],
 			'username' => $mahasiswa->nim
 		]);
 

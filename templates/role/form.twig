@@ -1,0 +1,13 @@
+{% extends "structure/form.twig" %}
+
+
+{% block content %}
+
+	<div class="col-md-6">
+      <table class="custom-table">
+        {% include 'components/input.twig' with {'name': 'nama', 'label': 'Nama', 'required': true} %}
+        {% include 'components/input.twig' with {'name': 'value', 'label': 'Value', 'required': true} %}
+      </table>
+    </div>
+
+{% endblock %}

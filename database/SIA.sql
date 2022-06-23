@@ -6,7 +6,7 @@ CREATE TABLE `agama` (
 
 CREATE TABLE `orang` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
-  `nik` bigint,
+  `nik` bigint UNIQUE,
   `npwp` bigint,
   `bpjs` bigint,
   `bpjstk` bigint,
@@ -34,6 +34,9 @@ CREATE TABLE `orang` (
   `pasfoto_id` int,
   `ijazah_id` int,
   `ktp_id` int,
+  `akte_lahir_id` int,
+  `kartu_keluarga_id` int,
+  `kartu_vaksin_id` int,
   `surket_menikah_id` int,
   `pendidikan_terakhir` varchar(255),
   `status` ENUM ('aktif', 'inaktif', 'berhenti') DEFAULT "aktif"
@@ -85,7 +88,13 @@ CREATE TABLE `user` (
   `username` varchar(255),
   `password` varchar(255),
   `unenpass` varchar(255),
-  `role` ENUM ('mahasiswa', 'dosen', 'keuangan', 'akademik', 'admin', 'panitia', 'pmb') DEFAULT "mahasiswa"
+  `token` varchar(255)
+);
+
+CREATE TABLE `user_role` (
+  `id` int PRIMARY KEY AUTO_INCREMENT,
+  `user_id` int,
+  `role_id` int
 );
 
 CREATE TABLE `pengajuan_ks` (
@@ -297,17 +306,24 @@ CREATE TABLE `pmb` (
   `pendaftaran_id` int,
   `tanggal_pendaftaran` date DEFAULT (now()),
   `tanggal_verifikasi` date,
+  `dokumen_kesehatan_id` int,
   `tanggal_lulus` date,
   `test_kesehatan` date,
+  `test_kesehatan_end` date,
   `test_wawancara` date,
+  `test_wawancara_end` date,
   `test_tertulis` date,
+  `test_tertulis_end` date,
   `daftar_ulang` date,
+  `daftar_ulang_end` date,
   `tanggal_kesehatan` date,
   `tanggal_wawancara` date,
   `terverif` boolean,
   `test` boolean,
   `kesehatan` boolean,
-  `wawancara` boolean
+  `wawancara` boolean,
+  `panitia_id` int,
+  `biaya_pendaftaran` float
 );
 
 CREATE TABLE `jurusan` (
@@ -392,7 +408,9 @@ CREATE TABLE `konfigurasi` (
   `registrasi` boolean,
   `base_url` varchar(255),
   `sequance_nim` int,
-  `pernyataan` int
+  `pernyataan` int,
+  `panitia_last_id` int,
+  `nohp_panitia` varchar(255)
 );
 
 CREATE TABLE `log` (
@@ -431,7 +449,9 @@ CREATE TABLE `pembiayaan_lainnya` (
 CREATE TABLE `panitia` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `nama` varchar(255),
-  `nohp` varchar(255)
+  `nohp` varchar(255),
+  `norek` varchar(255),
+  `nama_bank` varchar(255)
 );
 
 CREATE TABLE `transaksi` (
@@ -439,7 +459,13 @@ CREATE TABLE `transaksi` (
   `tanggal_bayar` date,
   `nominal` float,
   `tagihan_id` int,
-  `status` ENUM ('process', 'verified')
+  `status` ENUM ('process', 'verified', 'tolak')
+);
+
+CREATE TABLE `role` (
+  `id` int PRIMARY KEY AUTO_INCREMENT,
+  `nama` varchar(255),
+  `value` varchar(255)
 );
 
 ALTER TABLE `mahasiswa` ADD FOREIGN KEY (`orang_id`) REFERENCES `orang` (`id`);
@@ -456,6 +482,12 @@ ALTER TABLE `orang` ADD FOREIGN KEY (`ktp_id`) REFERENCES `file` (`id`);
 
 ALTER TABLE `orang` ADD FOREIGN KEY (`surket_menikah_id`) REFERENCES `file` (`id`);
 
+ALTER TABLE `orang` ADD FOREIGN KEY (`akte_lahir_id`) REFERENCES `file` (`id`);
+
+ALTER TABLE `orang` ADD FOREIGN KEY (`kartu_keluarga_id`) REFERENCES `file` (`id`);
+
+ALTER TABLE `orang` ADD FOREIGN KEY (`kartu_vaksin_id`) REFERENCES `file` (`id`);
+
 ALTER TABLE `tahun_ajaran` ADD FOREIGN KEY (`paket_id`) REFERENCES `paket` (`id`);
 
 ALTER TABLE `mahasiswa` ADD FOREIGN KEY (`jurusan_id`) REFERENCES `jurusan` (`id`);
@@ -465,6 +497,10 @@ ALTER TABLE `mahasiswa` ADD FOREIGN KEY (`semester_id`) REFERENCES `semester` (`
 ALTER TABLE `mahasiswa` ADD FOREIGN KEY (`tahun_ajaran_id`) REFERENCES `tahun_ajaran` (`id`);
 
 ALTER TABLE `mahasiswa` ADD FOREIGN KEY (`tagihan_id`) REFERENCES `tagihan` (`id`);
+
+ALTER TABLE `user_role` ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+
+ALTER TABLE `user_role` ADD FOREIGN KEY (`role_id`) REFERENCES `role` (`id`);
 
 ALTER TABLE `pengajuan_ks` ADD FOREIGN KEY (`tahun_ajaran_id`) REFERENCES `tahun_ajaran` (`id`);
 
@@ -551,6 +587,12 @@ ALTER TABLE `pmb` ADD FOREIGN KEY (`orang_id`) REFERENCES `orang` (`id`);
 ALTER TABLE `pmb` ADD FOREIGN KEY (`jurusan_id`) REFERENCES `jurusan` (`id`);
 
 ALTER TABLE `pmb` ADD FOREIGN KEY (`pendaftaran_id`) REFERENCES `pendaftaran` (`id`);
+
+ALTER TABLE `pmb` ADD FOREIGN KEY (`panitia_id`) REFERENCES `panitia` (`id`);
+
+ALTER TABLE `pmb` ADD FOREIGN KEY (`dokumen_kesehatan_id`) REFERENCES `file` (`id`);
+
+ALTER TABLE `pmb` ADD FOREIGN KEY (`bukti_pembayaran_id`) REFERENCES `file` (`id`);
 
 ALTER TABLE `register_ulang` ADD FOREIGN KEY (`mahasiswa_id`) REFERENCES `mahasiswa` (`id`);
 

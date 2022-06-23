@@ -13,6 +13,24 @@ final class TemplateController extends BaseController
         return $konfigurasi;
     }
 
+    public function isRegister()
+    {
+        $pendaftaran_obj = $this->get_object('pendaftaran');
+
+        $konfigurasi = $this->getKonfiguration();
+        $register = false;
+
+        if ($konfigurasi->registrasi) {
+            $pendaftaran = $pendaftaran_obj->where('status', 'open')->first();
+
+            if (!empty($pendaftaran)) {
+                $register = true;
+            }
+        }
+
+        return $register;
+    }
+
     public function table($request, $response, $args)
     {
         $object    = $args['object'];
@@ -59,191 +77,95 @@ final class TemplateController extends BaseController
     {
         $container = $this->container;
         if (!$container->get('session')->get('user')) {
-            return $response->withHeader('Location', '/login');
+            return $response->withHeader('Location', '/home');
         }
-        // return $container->get('twig')->render($response, 'root/admin.twig');
         return $container->get('twig')->render($response, 'template/template.twig');
     }
 
     public function login($request, $response)
     {
         $container = $this->container;
-        $konfigurasi = $this->getKonfiguration();
 
         if ($container->get('session')->get('user')) {
             return $response->withHeader('Location', '/');
         }
 
-        return $container->get('twig')->render($response, 'root/login.twig', ['konfigurasi' => $konfigurasi]);
+        return $container->get('twig')->render($response, 'root/login.twig', ['noMenu' => true]);
     }
 
-    public function register($request, $response)
+    public function lupaPassword($request, $response)
     {
         $container = $this->container;
-        $konfigurasi = $this->getKonfiguration();
 
-        if (!$konfigurasi->registrasi) {
+        if ($container->get('session')->get('user')) {
             return $response->withHeader('Location', '/');
         }
 
+        return $container->get('twig')->render($response, 'root/lupa_password.twig', ['noMenu' => true]);
+    }
+
+    public function resetPassword($request, $response)
+    {
+        $container = $this->container;
+        $user_obj = $this->get_object('user');
+        $getData = $request->getQueryParams();
+
+        if ($container->get('session')->get('user')) {
+            return $response->withHeader('Location', '/');
+        }
+
+        $token = $getData['token'];
+        $user = $user_obj->where('token', $token)->count();
+
+        if ($user == 0) {
+            return $response->withHeader('Location', '/reset/password/gagal');
+        }
+
+        return $container->get('twig')->render($response, 'root/reset_password.twig', ['noMenu' => true, 'token' => $token]);
+    }
+
+    public function homePage($request, $response)
+    {
         $data = [
-            'konfigurasi' => $konfigurasi
+            'register' => $this->isRegister()
         ];
 
-        return $container->get('twig')->render($response, 'root/register/homepage.twig', $data);
+        $container = $this->container;
+        return $container->get('twig')->render($response, 'root/home.twig', $data);
     }
 
-    public function registerOnline($request, $response)
+    public function loginGagal($request, $response)
     {
         $container = $this->container;
-        $object = $this->get_object('orang');
-        $konfigurasi = $this->getKonfiguration();
 
-        if (!$konfigurasi->registrasi) {
-            return $response->withHeader('Location', '/');
-        }
-
-        $data = [
-            'option'    => [],
-            'selection' => [],
-            'konfigurasi' => $konfigurasi
-        ];
-
-        foreach ($object->selection_fields as $value) {
-            $data['option'][$value] = $object->{$value."_enum"};
-        }
-
-        foreach ($object::$relation as $model) {
-            $model_name = $model['name'];
-            $object_relation = $this->get_object($model['name']);
-            $data[$model_name] = [
-                'option'    => [],
-                'selection' => []
-            ];
-
-            if ($model['is_selection']) {
-                $data['selection'][$model['name']] = $object_relation->all();
-            }else{
-                foreach ($object_relation->selection_fields as $value) {
-                    $data[$model_name]['option'][$value] = $object_relation->{$value."_enum"};
-                }
-                
-                foreach ($object_relation::$relation as $value) {
-                    if ($value['is_selection']) {
-                        $object_relation_selection = $this->get_object($value['name']);
-                        $data[$model_name]['selection'][$value['name']] = $object_relation_selection->all();
-                    }
-                }
-            }
-        }
-
-        return $container->get('twig')->render($response, 'root/register/online.twig', $data);
+        return $container->get('twig')->render($response, 'root/login_gagal.twig', ['noMenu' => true]);
     }
 
-    public function registerOffline($request, $response)
+    public function lupaPasswordGagal($request, $response)
     {
         $container = $this->container;
-        $konfigurasi = $this->getKonfiguration();
 
-        if (!$konfigurasi->registrasi) {
-            return $response->withHeader('Location', '/');
-        }
-
-        $data = [
-            'konfigurasi' => $konfigurasi
-        ];
-
-        return $container->get('twig')->render($response, 'root/register/offline.twig', $data);
+        return $container->get('twig')->render($response, 'root/lupa_password_gagal.twig', ['noMenu' => true]);
     }
 
-    public function registerSubmit($request, $response)
+    public function lupaPasswordBerhasil($request, $response)
     {
         $container = $this->container;
-        $postData = $request->getParsedBody();
-        $postFile = $request->getUploadedFiles();
-        $orang_obj = $this->get_object('orang');
-        $pmb_obj = $this->get_object('pmb');
 
-        $konfigurasi = $this->getKonfiguration();
-
-        if (!$konfigurasi->registrasi) {
-            return $response->withHeader('Location', '/');
-        }
-
-        $orang_value = [
-            'nik' => $postData['nik'],
-            'nama' => $postData['nama'],
-            'tempat_lahir' => $postData['tempat_lahir'],
-            'tanggal_lahir' => $postData['tanggal_lahir'],
-            'jenis_kelamin' => $postData['jenis_kelamin'],
-            'alamat' => $postData['alamat'],
-            'agama_id' => $postData['agama_id'],
-            'email' => $postData['email'],
-            'no_hp' => $postData['no_hp'],
-            'nama_ayah' => $postData['nama_ayah'],
-            'pekerjaan_ayah' => $postData['pekerjaan_ayah'],
-            'nama_ibu' => $postData['nama_ibu'],
-            'pekerjaan_ibu' => $postData['pekerjaan_ibu'],
-            'penghasilan_ortu' => $postData['penghasilan_ortu'],
-            'asal_sekolah' => $postData['asal_sekolah'],
-            'jurusan' => $postData['jurusan'],
-            'tinggi_badan' => $postData['tinggi_badan'],
-            'berat_badan' => $postData['berat_badan'],
-
-            'pasfoto' => [
-                'filename' => $postFile['pasfoto']->getClientFilename(),
-                'filetype' => $postFile['pasfoto']->getClientMediaType(),
-                'base64' => base64_encode(file_get_contents($postFile['pasfoto']->getFilePath())),
-            ],
-            'ijazah' => [
-                'filename' => $postFile['ijazah']->getClientFilename(),
-                'filetype' => $postFile['ijazah']->getClientMediaType(),
-                'base64' => base64_encode(file_get_contents($postFile['ijazah']->getFilePath())),
-            ],
-            'ktp' => [
-                'filename' => $postFile['ktp']->getClientFilename(),
-                'filetype' => $postFile['ktp']->getClientMediaType(),
-                'base64' => base64_encode(file_get_contents($postFile['ktp']->getFilePath())),
-            ],
-            'surket_menikah' => [
-                'filename' => $postFile['surket_menikah']->getClientFilename(),
-                'filetype' => $postFile['surket_menikah']->getClientMediaType(),
-                'base64' => base64_encode(file_get_contents($postFile['surket_menikah']->getFilePath())),
-            ],
-        ];
-        $orang = $orang_obj->create($orang_value);
-
-        $pmb_value = [
-            'orang_id' => $orang->id,
-            'bukti_pembayaran' => [
-                'filename' => $postFile['bukti_pembayaran']->getClientFilename(),
-                'filetype' => $postFile['bukti_pembayaran']->getClientMediaType(),
-                'base64' => base64_encode(file_get_contents($postFile['bukti_pembayaran']->getFilePath())),
-            ],
-            'pernyataan' => true
-        ];
-        $pmb = $pmb_obj->create($pmb_value);
-
-        return $response->withHeader('Location', '/register/sukses');
+        return $container->get('twig')->render($response, 'root/lupa_password_berhasil.twig', ['noMenu' => true]);
     }
 
-
-    public function sukses($request, $response)
+    public function resetPasswordGagal($request, $response)
     {
         $container = $this->container;
-        $konfigurasi = $this->getKonfiguration();
 
-        if (!$konfigurasi->registrasi) {
-            return $response->withHeader('Location', '/');
-        }
-
-        return $container->get('twig')->render($response, 'root/register_sukses.twig', ['konfigurasi' => $konfigurasi]);
+        return $container->get('twig')->render($response, 'root/reset_password_gagal.twig', ['noMenu' => true]);
     }
 
-    public function newTemplate($request, $response)
+    public function resetPasswordBerhasil($request, $response)
     {
         $container = $this->container;
-        return $container->get('twig')->render($response, 'root/template.twig');
-    }
 
+        return $container->get('twig')->render($response, 'root/reset_password_berhasil.twig', ['noMenu' => true]);
+    }
 }

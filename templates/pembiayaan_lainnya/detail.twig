@@ -1,0 +1,29 @@
+{% extends 'structure/detail.twig' %}
+
+{% block button %}
+
+  <a class="btn btn-sm btn-success" ui-sref="pembiayaan_lainnya_form({dataId: vm.data.id})"><i class="fa fa-edit"></i> Edit</a>
+  <!-- <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Delete</button> -->
+
+  {% include 'widget/nextprev.twig' %}
+
+{% endblock %}
+
+{% block content %}
+
+	<div class="row">
+     <div class="col-md-6">
+      <table class="custom-table">
+        {% include 'components/preview-text.twig' with {'name': 'nama', 'label': 'Nama'} %}
+      </table>
+    </div>
+
+     <div class="col-md-6">
+      <table class="custom-table">
+        {% include 'components/preview-number.twig' with {'name': 'biaya_lunas', 'label': 'Biaya Lunas'} %}
+        {% include 'components/preview-number.twig' with {'name': 'total_biaya', 'label': 'Total Biaya'} %}
+      </table>
+    </div> 
+  </div>
+
+{% endblock %}

@@ -3,14 +3,10 @@
 
 {% block button %}
 	<div class="float-end">
-		{% verbatim %}
-			<!-- <button class="btn btn-primary" ng-click="vm.regUlang()" ng-if="vm.data.reg_ulang">Register Ulang</button> !-->
-			<button class="btn btn-primary" ng-click="vm.pengajuanKrs()" ng-if="vm.data.ajukan_sks">Pengajuan KRS</button>
-			<button class="btn btn-primary" widget-cetak-krs="" ng-if="vm.data.status == 'mahasiswa'">Cetak KRS</button>
-			<button class="btn btn-primary" ng-if="vm.data.status == 'alumni'" widget-cetak-transkrip="">Cetak Transkrip</button>
-			<a class="btn btn-primary" ui-sref="mahasiswa_riwayat_belajar({dataId: vm.data.id})">Riwayat Belajar</a>
-			<!-- <button class="btn btn-primary" widget-cetak-khs="">Cetak KHS</button> -->
-		{% endverbatim %}
+		<button class="btn btn-primary" ng-click="vm.pengajuanKrs()" ng-if="vm.data.ajukan_sks">Pengajuan KRS</button>
+		<button class="btn btn-primary" widget-cetak-krs="" ng-if="vm.data.status == 'mahasiswa'">Cetak KRS</button>
+		<button class="btn btn-primary" ng-if="vm.data.status == 'alumni'" widget-cetak-transkrip="">Cetak Transkrip</button>
+		<a class="btn btn-primary" ui-sref="mahasiswa_riwayat_belajar({dataId: vm.data.id})">Riwayat Belajar</a>
 	</div>
 
 	{# {% include 'widget/nextprev.twig' %} #}
@@ -53,14 +49,11 @@
             	<a class="nav-link" data-bs-toggle="list" href="#orangtua">Orang Tua</a>
             </li>
             <li class="nav-item">
-            	<a class="nav-link" data-bs-toggle="list" href="#berkas">Berkas</a>
+            	<a class="nav-link" data-bs-toggle="list" href="#pendidikan">Pendidikan</a>
             </li>
 			<li class="nav-item">
 	      		<a class="nav-link" data-bs-toggle="list" href="#user">User</a>
 	      	</li>
-            <li class="nav-item">
-            	<a class="nav-link" data-bs-toggle="list" href="#lainnya">Lainnya</a>
-            </li>
         </ul>
 
         <div class="tab-content text-justify">
@@ -123,7 +116,11 @@
 							<tbody>
 								<tr ng-repeat="col in vm.data.tagihan" ng-if="vm.data.tagihan && vm.data.tagihan.length != 0">
 									<td ng-bind="col.tanggal || '-'"></td>
-									<td ng-bind="col.nominal || '-'"></td>
+									<td>
+										{% verbatim %}
+										    <span widget-number="{{col.nominal || '-'}}"></span>
+										{% endverbatim %}
+									</td>
 									<td ng-bind="col.kode_pembayaran || '-'"></td>
 									<td ng-bind="col.status_label || '-'"></td>
 									<td>
@@ -154,6 +151,15 @@
 	        		<div class="col-md-6">
 	        			<table class="custom-table">
 							{% include 'components/preview-text.twig' with {'name': 'orang.alamat', 'label': 'Alamat'} %}
+			                {% include 'components/preview-text.twig' with {'name': 'orang.rt_rw', 'label': 'Rt / Rw'} %}
+			                {% include 'components/preview-text.twig' with {'name': 'orang.kel_desa', 'label': 'Kel / Desa'} %}
+			                {% include 'components/preview-text.twig' with {'name': 'orang.kab_kota', 'label': 'Kab / Kota'} %}
+			                {% include 'components/preview-text.twig' with {'name': 'orang.provinsi', 'label': 'Provinsi'} %}
+	        			</table>
+	        		</div>
+
+	        		<div class="col-md-6">
+	        			<table class="custom-table">
 							{% include 'components/preview-text.twig' with {'name': 'orang.email', 'label': 'Email'} %}
 							{% include 'components/preview-text.twig' with {'name': 'orang.no_hp', 'label': 'No. HP'} %}
 	        			</table>
@@ -166,7 +172,7 @@
 	        			<table class="custom-table">
 							{% include 'components/preview-text.twig' with {'name': 'orang.nama_ayah', 'label': 'Nama Ayah'} %}
 							{% include 'components/preview-text.twig' with {'name': 'orang.pekerjaan_ayah', 'label': 'Pekerjaan Ayah'} %}
-							{% include 'components/preview-text.twig' with {'name': 'orang.penghasilan_ortu', 'label': 'Penghasilan Orang Tua'} %}
+							{% include 'components/preview-number.twig' with {'name': 'orang.penghasilan_ortu', 'label': 'Penghasilan Orang Tua'} %}
 	        			</table>
 	        		</div>
 
@@ -178,34 +184,42 @@
 	        		</div>
         		</div>
         	</div>
-        	<div class="tab-pane fade show" id="berkas">
-        		<div class="row mt-3">
-        			<div class="col-md-6">
-	        			<table class="custom-table">
-							{% include 'components/preview-file.twig' with {'name': 'orang.pasfoto', 'label': 'Pasfoto'} %}
-							{% include 'components/preview-file.twig' with {'name': 'orang.ijazah', 'label': 'Ijazah/SKL'} %}
-							{% include 'components/preview-file.twig' with {'name': 'orang.ktp', 'label': 'KTP'} %}
-							{% include 'components/preview-file.twig' with {'name': 'orang.surket_menikah', 'label': 'Surket. Belum Menikah'} %}
-	        			</table>
-	        		</div>
-        		</div>
-        	</div>
+        	<div class="tab-pane fade show" id="pendidikan">
+	            <div class="row mt-3">
+	              <div class="col-md-6">
+	                <table class="custom-table">
+	                  {% include 'components/preview-text.twig' with {'name': 'orang.asal_sekolah', 'label': 'Asal Sekolah'} %}
+	                  {% include 'components/preview-text.twig' with {'name': 'orang.jurusan', 'label': 'Jurusan'} %}
+	                </table>
+	              </div>
+	              <div class="col-md-6">
+	                <table class="custom-table">
+	                  {% include 'components/preview-text.twig' with {'name': 'orang.tinggi_badan', 'label': 'Tinggi Badan'} %}
+	                  {% include 'components/preview-text.twig' with {'name': 'orang.berat_badan', 'label': 'Berat Badan'} %}
+	                </table>
+	              </div>
+	              <div class="col-md-6">
+	                <table class="custom-table">
+	                  {% include 'components/preview-file.twig' with {'name': 'orang.pasfoto', 'label': 'Pasfoto'} %}
+	                  {% include 'components/preview-file.twig' with {'name': 'orang.ijazah', 'label': 'Ijazah/SKL'} %}
+	                  {% include 'components/preview-file.twig' with {'name': 'orang.ktp', 'label': 'KTP'} %}
+	                  {% include 'components/preview-file.twig' with {'name': 'orang.surket_menikah', 'label': 'Surket. Belum Menikah'} %}
+	                </table>
+	              </div>
+	              <div class="col-md-6">
+	                <table class="custom-table">
+	                  {% include 'components/preview-file.twig' with {'name': 'orang.akte_lahir', 'label': 'Akte Lahir'} %}
+	                  {% include 'components/preview-file.twig' with {'name': 'orang.kartu_keluarga', 'label': 'Kartu Keluarga'} %}
+	                  {% include 'components/preview-file.twig' with {'name': 'orang.kartu_vaksin', 'label': 'Kartu Vaksin'} %}
+	                </table>
+	              </div>
+	            </div>
+	          </div>
         	<div class="tab-pane fade" id="user">
         		<div class="row mt-3">
         			<div class="col-md-6">
         				{% include 'components/preview-text.twig' with {'name': 'orang.user.username', 'label': 'Username'} %}
         				{% include 'components/preview-text.twig' with {'name': 'orang.user.unenpass', 'label': 'Password'} %}
-	        		</div>
-        		</div>
-        	</div>
-        	<div class="tab-pane fade show" id="lainnya">
-        		<div class="row mt-3">
-        			<div class="col-md-6">
-	        			<table class="custom-table">
-							{% include 'components/preview-text.twig' with {'name': 'orang.asal_sekolah', 'label': 'Asal Sekolah'} %}
-							{% include 'components/preview-text.twig' with {'name': 'orang.tinggi_badan', 'label': 'Tinggi Badan'} %}
-							{% include 'components/preview-text.twig' with {'name': 'orang.berat_badan', 'label': 'Berat Badan'} %}
-	        			</table>
 	        		</div>
         		</div>
         	</div>

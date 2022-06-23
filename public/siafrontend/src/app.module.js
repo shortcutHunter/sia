@@ -28,6 +28,10 @@
     'app.pendaftaran',
     'app.mahasiswa_baru',
     'app.panitia',
+    'app.pembiayaan_lainnya',
+    // 'app.verifikasi_pmb',
+    'app.tracking',
+    'app.role',
     'app.widgets',
     'app.modals'
   ]);

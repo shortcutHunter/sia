@@ -1,6 +1,8 @@
 .custom-table {
   border-collapse:separate; 
   border-spacing:15px;
+  table-layout: fixed;
+  width: 100%;
 }
 
 .clearfix {
@@ -94,7 +96,84 @@
 }
 
 .tracking {
-  border: 1px solid #00a85a;
+  border: 1px solid #357960;
   margin-bottom: 10px;
   padding: 5px;
+}
+
+.truncate-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sukses-verifikasi {
+  background-color: #357960;
+  padding: 5px;
+  color: white;
+  font-weight: bold;
+}
+
+
+/*tracking*/
+
+.track-title {
+  font-size: 1.2rem;
+  color: #357960;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.track-container > .track {
+  list-style: none;
+  counter-reset: my-awesome-counter;
+  padding: 0;
+}
+
+.track-container > .track > .track-list {
+  counter-increment: my-awesome-counter;
+  position: relative;
+  margin-bottom: 10px;
+}
+
+
+.track-container > .track > .track-list > .track-number {
+  color: #dfdfdf;
+  font-weight: bold;
+  text-align: center;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  margin-left: -15px;
+}
+
+.track-container > .track > .track-list > .track-number:before {
+  content: counter(my-awesome-counter);
+  background: #357960;
+  border-radius: 50%;
+  padding: 5px 13px;
+  font-size: 1rem;
+}
+
+.track-container > .track > .track-list > .track-content {
+  padding: 10px 25px;
+  border: 2px solid #357960;
+}
+
+.track-status {
+  color: #357960;
+  font-weight: bold;
+}
+
+.tracking-table {
+  margin: 10px;
+}
+
+.tracking-table > :not(caption) > *, .tracking-table > :not(caption) > * > * {
+  border-color: #357960;
 }

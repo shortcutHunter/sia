@@ -8,11 +8,11 @@ use App\Objects\MailModel;
 class Pmb extends BaseModel
 {
 	protected $table = 'pmb';
-	protected $with  = ['orang', 'jurusan', 'bukti_pembayaran'];
+	protected $with  = ['orang', 'jurusan', 'bukti_pembayaran', 'dokumen_kesehatan', 'panitia'];
 
 	public $selection_fields = ['status'];
 
-	public static $file_fields = ['bukti_pembayaran'];
+	public static $file_fields = ['bukti_pembayaran', 'dokumen_kesehatan'];
 	public static $date_fields = [
 		'tanggal_pendaftaran',
 		'tanggal_verifikasi',
@@ -20,9 +20,13 @@ class Pmb extends BaseModel
 		'tanggal_kesehatan',
 		'tanggal_wawancara',
 		'test_tertulis',
+		'test_tertulis_end',
 		'test_kesehatan',
+		'test_kesehatan_end',
 		'test_wawancara',
+		'test_wawancara_end',
 		'daftar_ulang',
+		'daftar_ulang_end',
 	];
 
 	protected $appends = ['status_label'];
@@ -52,9 +56,13 @@ class Pmb extends BaseModel
 	    'tanggal_kesehatan' => 'datetime:d/m/Y',
 	    'tanggal_wawancara' => 'datetime:d/m/Y',
 	    'test_tertulis' => 'datetime:d/m/Y',
+	    'test_tertulis_end' => 'datetime:d/m/Y',
 	    'test_kesehatan' => 'datetime:d/m/Y',
+	    'test_kesehatan_end' => 'datetime:d/m/Y',
 	    'test_wawancara' => 'datetime:d/m/Y',
+	    'test_wawancara_end' => 'datetime:d/m/Y',
 	    'daftar_ulang' => 'datetime:d/m/Y',
+	    'daftar_ulang_end' => 'datetime:d/m/Y',
 	];
 
 	public function orang()
@@ -72,9 +80,19 @@ class Pmb extends BaseModel
 		return $this->hasOne(File::class, 'id', 'bukti_pembayaran_id');
 	}
 
+	public function dokumen_kesehatan()
+	{
+		return $this->hasOne(File::class, 'id', 'dokumen_kesehatan_id');
+	}
+
 	public function pendaftaran()
 	{
 		return $this->belongsTo(Pendaftaran::class, 'pendaftaran_id', 'id');
+	}
+
+	public function panitia()
+	{
+		return $this->belongsTo(Panitia::class, 'panitia_id', 'id');
 	}
 
 	public function getStatusLabelAttribute() {
@@ -141,6 +159,19 @@ class Pmb extends BaseModel
 		$mailModel->sendEmail($recipient, $subject, $content, $attachment);
 	}
 
+	public function sendLoginDetail() {
+		$konfigurasi = self::getModelByName('konfigurasi')->first();
+		$mailModel = new MailModel();
+		$recipient = [
+			"email" => $this->orang->email,
+			"name" => $this->orang->nama
+		];
+		$subject = "Login Detail";
+		$content = self::renderHtml("reports/login_detail_email.phtml", ['pmb' => $this, 'base_url' => $konfigurasi->base_url]);
+
+		$mailModel->sendEmail($recipient, $subject, $content);
+	}
+
 	public static function create(array $attributes = [])
 	{
 		$object_sequance = self::getModelByName('sequance');
@@ -152,6 +183,16 @@ class Pmb extends BaseModel
 
 		$object_sequance_next_number = $object_sequance->getnextCode('nomor_peserta');
 		$attributes['nomor_peserta'] = $object_sequance_next_number;
+		
+		if (!array_key_exists('panitia_id', $attributes)) {
+			$konfigurasi = $konfigurasi_obj->first();
+			$attributes['panitia_id'] = $konfigurasi->getNextPanitia();	
+		}
+
+		if (!array_key_exists('pendaftaran_id', $attributes)) {
+			$pendaftaran = $pendaftaran_obj->where('status', 'open')->first();
+			$attributes['pendaftaran_id'] = $pendaftaran->id;
+		}
 
 		$pmb = parent::create($attributes);
 
@@ -162,7 +203,6 @@ class Pmb extends BaseModel
 		}
 		$tahun_ajaran_id = $pendaftaran->tahun_ajaran_id;
 
-		$konfigurasi = $konfigurasi_obj->first();
 		$pta = $pta_obj->where([
 			['tahun_ajaran_id', $tahun_ajaran_id],
 			['registrasi', true]
@@ -171,17 +211,39 @@ class Pmb extends BaseModel
         $tagihan = $pta->createTagihan($pmb->orang_id);
 
         $object_user = self::getModelByName('user');
+        $role_obj = self::getModelByName('role');
+
+        $role = $role_obj->where('value', 'pmb')->first();
+
 		$user = $object_user->create([
 			'orang_id' => $pmb->orang_id,
-			'role' => 'pmb',
+			'role' => [['id' => $role->id]],
 			'username' => $pmb->orang->nik
 		]);
+
+		if (!array_key_exists('biaya_pendaftaran', $attributes)) {
+			$pmb->update(['biaya_pendaftaran' => $tagihan->nominal]);
+		}
+
+		$pmb = $pmb->refresh();
+
+		$pmb->sendLoginDetail();
 
 		return $pmb;
 	}
 
+	public function convertToDate($value)
+	{
+		$value = str_replace('/', '-', $value);
+		return strtotime($value);
+	}
+
 	public function update(array $attributes = [], array $options = [])
 	{
+		if (array_key_exists('panitia', $attributes)) {
+			unset($attributes['panitia']);
+		}
+
 		if (array_key_exists('status', $attributes)) {
 			$status = $attributes['status'];
 
@@ -189,6 +251,12 @@ class Pmb extends BaseModel
 				case 'terverifikasi':
 					$transaksi_obj = self::getModelByName('transaksi');
 					$tagihan_obj = self::getModelByName('tagihan');
+
+					$test_tertulis = $this->convertToDate($attributes['test_tertulis']);
+
+					if ($test_tertulis < strtotime($this->tanggal_pendaftaran->toDateTimeString())) {
+						throw new \Exception("Tanggal test tertulis tidak dapat lebih kecil dari tanggal pendaftaran");
+					}
 
 	                $tagihan = $tagihan_obj->where('orang_id', $this->orang_id)->first();
 
@@ -207,16 +275,31 @@ class Pmb extends BaseModel
 					break;
 				
 				case 'test_lulus':
+					$test_kesehatan = $this->convertToDate($attributes['test_kesehatan']);
+					if ($test_kesehatan < strtotime($this->test_tertulis_end->toDateTimeString())) {
+						throw new \Exception("Tanggal test kesehatan tidak dapat lebih kecil dari tanggal test tertulis");
+					}
+
 					$attributes['test'] = true;
 					$attributes['tanggal_lulus'] = date('d/m/Y');
 					break;
 
 				case 'kesehatan_lulus':
+					$test_wawancara = $this->convertToDate($attributes['test_wawancara']);
+					if ($test_wawancara < strtotime($this->test_kesehatan_end->toDateTimeString())) {
+						throw new \Exception("Tanggal test wawancara tidak dapat lebih kecil dari tanggal test kesehatan");
+					}
+
 					$attributes['kesehatan'] = true;
 					$attributes['tanggal_kesehatan'] = date('d/m/Y');
 					break;
 				
 				case 'wawancara_lulus':
+					$daftar_ulang = $this->convertToDate($attributes['daftar_ulang']);
+					if ($daftar_ulang < strtotime($this->test_wawancara_end->toDateTimeString())) {
+						throw new \Exception("Tanggal daftar ulang tidak dapat lebih kecil dari tanggal test wawancara");
+					}
+
 					$attributes['wawancara'] = true;
 					$attributes['tanggal_wawancara'] = date('d/m/Y');
 

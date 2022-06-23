@@ -21,7 +21,14 @@
 			
 			<div class="col-md-6">
 				<table class="custom-table">
-						{% include 'components/preview-text.twig' with {'name': 'jenis_karyawan', 'label': 'Jenis Karyawan', 'option': 'option.jenis_karyawan'} %}
+						<tr>
+							<td>
+								<div class="text-muted font-semibold">Jenis Karyawan</div>
+							</td>
+							<td>
+								<span ng-repeat="role in vm.data.orang.user.role" class="badge bg-primary font-extrabold me-1" ng-bind="role.nama || '-'"></span>
+							</td>
+						</tr>
 				</table>
 			</div>
 		</div>

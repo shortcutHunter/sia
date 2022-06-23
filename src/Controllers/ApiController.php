@@ -189,7 +189,13 @@ final class ApiController extends BaseController
         }
 
         if (array_key_exists('jenis_karyawan', $getData)) {
-            $data->where('jenis_karyawan', $getData['jenis_karyawan']);
+            $data->whereHas('orang', function($q) use ($getData){
+                $q->whereHas('user', function($r) use ($getData) {
+                    $r->whereHas('role', function($s) use ($getData) {
+                        $s->where('value', $getData['jenis_karyawan']);
+                    });
+                });
+            });
         }
 
         $data = $data->get();
@@ -425,8 +431,48 @@ final class ApiController extends BaseController
         if ($sucess) {
             return $response->withHeader('Location', '/');
         }else{
-            return $response->withHeader('Location', '/login');
+            return $response->withHeader('Location', '/login/gagal');
         }
+    }
+
+    public function lupaPassword($request, $response)
+    {
+        $container = $this->container;
+        $orang_obj = $this->get_object('orang');
+        $postData = $request->getParsedBody();
+
+        $email = $postData['email'];
+
+        $orang = $orang_obj->where('email', $email)->first();
+
+        if ($orang) {
+            $orang->sendResetPass();
+        } else {
+            return $response->withHeader('Location', '/lupa/password/gagal');
+        }
+
+        return $response->withHeader('Location', '/lupa/password/berhasil');
+    }
+
+    public function resetPassword($request, $response)
+    {
+        $container = $this->container;
+        $user_obj = $this->get_object('user');
+        $postData = $request->getParsedBody();
+
+        $password = $postData['password'];
+        $token = $postData['token'];
+
+        $user = $user_obj->where('token', $token);
+
+        if ($user) {
+            $password = $user_obj::encrypt($password);
+            $user->update(['password' => $password, 'token' => null]);
+        } else {
+            return $response->withHeader('Location', '/reset/password/gagal');
+        }
+
+        return $response->withHeader('Location', '/reset/password/berhasil');
     }
 
     public function logout($request, $response)

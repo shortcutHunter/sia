@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+</head>
+<body>
+
+	<p>
+		Hi <?= $pmb->orang->nama ?>, 
+		<br><br>
+		Selamat, akun anda telah terdaftar. Berikut adalah detail login akun anda. <br>
+
+		<table>
+			<tr>
+				<td>Username</td>
+				<td>:</td>
+				<td><b><?= $pmb->orang->user->username ?></b></td>
+			</tr>
+			<tr>
+				<td>Password</td>
+				<td>:</td>
+				<td><b><?= $pmb->orang->user->unenpass ?></b></td>
+			</tr>
+			<tr>
+				<td>Link Login</td>
+				<td>:</td>
+				<td><a href="<?= $base_url ?>/login"><?= $base_url ?>/login</a></td>
+			</tr>
+		</table>
+	</p>
+
+</body>
+</html>

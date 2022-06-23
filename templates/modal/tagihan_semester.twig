@@ -11,7 +11,7 @@
 		<div class="col-md-6">
 			<table class="custom-table">
 				{% include 'components/preview-text.twig' with {'name': 'semester.nama', 'label': 'Semester', 'prefix': 'setup_paket'} %}
-				{% include 'components/preview-text.twig' with {'name': 'nominal', 'label': 'Nominal', 'prefix': 'setup_paket'} %}
+				{% include 'components/preview-number.twig' with {'name': 'nominal', 'label': 'Nominal', 'prefix': 'setup_paket'} %}
 			</table>
 		</div>
 	</div>
@@ -47,7 +47,11 @@
 							<tr ng-repeat="col in setup_paket.paket_register_ulang_item track by $index" ng-if="setup_paket.paket_register_ulang_item && setup_paket.paket_register_ulang_item.length != 0">
 								<td ng-bind="col.item.kode || '-'"></td>
 								<td ng-bind="col.item.nama || '-'"></td>
-								<td ng-bind="col.item.nominal || '-'"></td>
+								<td>
+									{% verbatim %}
+									    <span widget-number="{{ col.item.nominal || 0 }}"></span>
+									{% endverbatim %}
+								</td>
 								<td>
 									<!-- <button class="btn btn-danger btn-sm" ng-click="removeData($index)">
 										<i class="fa fa-trash"></i>

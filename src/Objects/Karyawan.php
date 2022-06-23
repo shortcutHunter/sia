@@ -9,17 +9,17 @@ class Karyawan extends BaseModel
 	protected $table = 'karyawan';
 	protected $with = ['orang'];
 
-	public $selection_fields = ['status', 'jenis_karyawan'];
+	public $selection_fields = ['status'];
 
-	protected $appends = ['status_label', 'jenis_karyawan_label'];
+	protected $appends = ['status_label'];
 
-	public $jenis_karyawan_enum = [
-		"dosen" => "Dosen",
-		"pegawai" => "Pegawai",
-		"akademik" => "Akademik",
-		"keuangan" => "Keuangan",
-		"panitia" => "Panitia"
-	];
+	// public $jenis_karyawan_enum = [
+	// 	"dosen" => "Dosen",
+	// 	"pegawai" => "Pegawai",
+	// 	"akademik" => "Akademik",
+	// 	"keuangan" => "Keuangan",
+	// 	"panitia" => "Panitia"
+	// ];
 
 	public $status_enum = [
 		"aktif" => 'Aktif',
@@ -27,7 +27,7 @@ class Karyawan extends BaseModel
 	];
 
 	public static $relation = [
-		['name' => 'orang', 'is_selection' => false, 'skip' => false],
+		['name' => 'orang', 'is_selection' => false, 'skip' => false]
 	];
 
 	public function getStatusLabelAttribute() {
@@ -41,36 +41,39 @@ class Karyawan extends BaseModel
 		return $label;
 	}
 
-	public function getJenisKaryawanLabelAttribute() {
-		$jenis_karyawan_enum = $this->jenis_karyawan_enum;
-		$label = null;
+	// public function getJenisKaryawanLabelAttribute() {
+	// 	$jenis_karyawan_enum = $this->jenis_karyawan_enum;
+	// 	$label = null;
 
-		if ($this->jenis_karyawan) {
-			$label = $jenis_karyawan_enum[$this->jenis_karyawan];
-		}
+	// 	if ($this->jenis_karyawan) {
+	// 		$label = $jenis_karyawan_enum[$this->jenis_karyawan];
+	// 	}
 
-		return $label;
-	}
+	// 	return $label;
+	// }
 
 	public static function create(array $attributes = [])
 	{
+		$user_value = [];
+
+		if (array_key_exists('user', $attributes)) {
+			$user_value = $attributes['user'];
+			unset($attributes['user']);
+		}
+
 		$model = parent::create($attributes);
 		$object_user = self::getModelByName('user');
-		$user = $object_user->create([
-			'orang_id' => $model->orang_id,
-			'role' => $model->jenis_karyawan,
-			'username' => $model->orang->nik
-		]);
+
+		$user_value['orang_id'] = $model->orang_id;
+		$user_value['username'] = $model->orang->nik;
+
+		$user = $object_user->create($user_value);
 
 		return $model;
 	}
 
 	public function update(array $attributes = [], array $options = [])
 	{
-		if (array_key_exists('jenis_karyawan', $attributes)) {
-			$this->orang->user->update(['role' => $attributes['jenis_karyawan']]);
-		}
-
 		return parent::update($attributes, $options);
 	}
 

@@ -32,6 +32,10 @@ import './ganti_semester/ganti_semester.module';
 import './pendaftaran/pendaftaran.module';
 import './mahasiswa_baru/mahasiswa_baru.module';
 import './panitia/panitia.module';
+import './pembiayaan_lainnya/pembiayaan_lainnya.module';
+import './tracking/tracking.module';
+import './verifikasi_pmb/verifikasi_pmb.module';
+import './role/role.module';
 
 import './blocks/exception/exception-handler.provider';
 import './blocks/exception/exception';
@@ -61,6 +65,8 @@ import './widgets/widget-autocomplete.directive';
 import './widgets/widget-next-prev.directive';
 import './widgets/widget-date-picker.directive';
 import './widgets/widget-delete.directive';
+import './widgets/widget-number.directive';
+import './widgets/widget-input-number.directive';
 
 import './modals/modal-preview.directive';
 import './modals/modal-mata-kuliah.directive';
@@ -125,6 +131,7 @@ import './mahasiswa/mahasiswa_riwayat_belajar.controller';
 import './mahasiswa/mahasiswa_krs.controller';
 import './mahasiswa/mahasiswa_khs.controller';
 import './mahasiswa/mahasiswa_tagihan.controller';
+import './mahasiswa/mahasiswa_detail_tagihan.controller';
 import './mahasiswa/mahasiswa.route';
 
 import './alumni/alumni.controller';
@@ -196,3 +203,21 @@ import './panitia/panitia.controller';
 import './panitia/panitia_form.controller';
 import './panitia/panitia_detail.controller';
 import './panitia/panitia.route';
+
+import './pembiayaan_lainnya/pembiayaan_lainnya.controller';
+import './pembiayaan_lainnya/pembiayaan_lainnya_form.controller';
+import './pembiayaan_lainnya/pembiayaan_lainnya_detail.controller';
+import './pembiayaan_lainnya/pembiayaan_lainnya.route';
+
+import './tracking/tracking.controller';
+import './tracking/tracking.route';
+
+import './verifikasi_pmb/verifikasi_pmb.controller';
+import './verifikasi_pmb/verifikasi_pmb_detail.controller';
+import './verifikasi_pmb/verifikasi_pmb_form.controller';
+import './verifikasi_pmb/verifikasi_pmb.route';
+
+import './role/role.controller';
+import './role/role_form.controller';
+import './role/role_detail.controller';
+import './role/role.route';

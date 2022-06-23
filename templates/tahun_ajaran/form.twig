@@ -14,8 +14,8 @@
 		<div class="col-md-6">
 			<h5>Biaya Pendaftaran</h5>
 			<table class="custom-table">
-				{% include 'components/input.twig' with {'name': 'pembiayaan_tahun_ajar[vm.bp_idx].biaya_lunas', 'label': 'Biaya Lunas', 'required': true} %}
-				{% include 'components/input.twig' with {'name': 'pembiayaan_tahun_ajar[vm.bp_idx].total_biaya', 'label': 'Total Biaya', 'required': true} %}
+				{% include 'components/input-number.twig' with {'name': 'pembiayaan_tahun_ajar[vm.bp_idx].biaya_lunas', 'label': 'Biaya Lunas', 'required': true} %}
+				{% include 'components/input-number.twig' with {'name': 'pembiayaan_tahun_ajar[vm.bp_idx].total_biaya', 'label': 'Total Biaya', 'required': true} %}
 			</table>
 		</div>
 	</div>
@@ -51,10 +51,10 @@
 								</td>
 								<td ng-bind="col.nama || '-'"></td>
 								<td>
-									<input type="text" ng-model="vm.data.pembiayaan_tahun_ajar[$index].biaya_lunas" class="form-control">
+									<div widget-input-number="" ng-model="vm.data.pembiayaan_tahun_ajar[$index].biaya_lunas"></div>
 								</td>
 								<td>
-									<input type="text" ng-model="vm.data.pembiayaan_tahun_ajar[$index].total_biaya" class="form-control">
+									<div widget-input-number="" ng-model="vm.data.pembiayaan_tahun_ajar[$index].total_biaya"></div>
 								</td>
 								<!-- <td>
 									<button class="btn btn-sm btn-danger">
@@ -90,10 +90,10 @@
 							<tr ng-repeat="col in vm.biaya_lainnyas track by $index" ng-if="vm.biaya_lainnyas && vm.biaya_lainnyas.length != 0">
 								<td ng-bind="col.nama || '-'"></td>
 								<td>
-									<input type="text" ng-model="vm.data.pembiayaan_tahun_ajar[vm.semesters.length + $index].biaya_lunas" class="form-control">
+									<div widget-input-number="" ng-model="vm.data.pembiayaan_tahun_ajar[vm.semesters.length + $index].biaya_lunas"></div>
 								</td>
 								<td>
-									<input type="text" ng-model="vm.data.pembiayaan_tahun_ajar[vm.semesters.length + $index].total_biaya" class="form-control">
+									<div widget-input-number="" ng-model="vm.data.pembiayaan_tahun_ajar[vm.semesters.length + $index].total_biaya"></div>
 								</td>
 								<!-- <td>
 									<button class="btn btn-sm btn-danger">

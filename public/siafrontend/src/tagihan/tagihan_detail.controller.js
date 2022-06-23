@@ -13,10 +13,13 @@
     vm.table = 'tagihan';
     vm.data = {};
     vm.option = {};
+    vm.verifiedTrans = [];
+    vm.canCicil = true;
 
     vm.tambahPembiayaan = tambahPembiayaan;
     vm.hapusBukti = hapusBukti;
     vm.verif = verif;
+    vm.tolak = tolak;
 
     activate();
 
@@ -30,6 +33,16 @@
     function getDataDetail() {
       return dataservice.getDataDetail(vm.table, stateParams.dataId).then(function(response) {
         vm.data = response.data;
+
+        vm.verifiedTrans = [];
+
+        $.each(vm.data.transaksi, (i, v) => {
+          if (v.status == 'verified') {
+            vm.verifiedTrans.push(v);
+          } else {
+            vm.canCicil = false;
+          }
+        });
       });
     }
 
@@ -50,6 +63,10 @@
 
     function verif(data) {
       dataservice.postData('transaksi', {'status': 'verified'}, data.id).then(() => state.reload());
+    }
+
+    function tolak(data) {
+      dataservice.postData('transaksi', {'status': 'tolak'}, data.id).then(() => state.reload());
     }
 
   }

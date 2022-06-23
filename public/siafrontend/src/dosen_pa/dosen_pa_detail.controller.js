@@ -17,6 +17,8 @@
     vm.migrasiMahasiswa = migrasiMahasiswa;
     vm.prosesPengajuan = prosesPengajuan;
     vm.lihatKRS = lihatKRS;
+    vm.cetakMahasiswa = cetakMahasiswa;
+    vm.liatTagihan = liatTagihan;
 
     activate();
 
@@ -61,6 +63,34 @@
       vm.active_data = data;
       let el = "<modal-lihat-krs data='vm.active_data'></modal-lihat-krs>";
       el = compile(el)(scope);
+    }
+
+    function cetakMahasiswa() {
+      let url = `dosen/pa/${vm.data.id}/mahasiswa/bimbingan`;
+      dataservice.getReport(url).then(function(response) {
+        let base64 = response.content;
+        scope.fileName = 'List Mahasiswa Bimbingan.pdf';
+        scope.type = 'pdf';
+        scope.filetype = 'application/pdf';
+        scope.base64 = base64;
+
+        let preview_modal = '<modal-preview file="file" name="fileName" mimetype="filetype" base64="base64" type="type"></modal-preview>';
+        let el = compile(preview_modal)(scope);
+      });
+    }
+
+    function liatTagihan(data) {
+      let url = `tagihan/mahasiswa/${data.mahasiswa_id}`;
+      dataservice.getReport(url).then(function(response) {
+        let base64 = response.content;
+        scope.fileName = 'Tagihan Mahasiswa.pdf';
+        scope.type = 'pdf';
+        scope.filetype = 'application/pdf';
+        scope.base64 = base64;
+
+        let preview_modal = '<modal-preview file="file" name="fileName" mimetype="filetype" base64="base64" type="type"></modal-preview>';
+        let el = compile(preview_modal)(scope);
+      });
     }
   }
 })();

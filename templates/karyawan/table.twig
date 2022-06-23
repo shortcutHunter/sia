@@ -8,12 +8,7 @@
 
 {% block search %}
 
-	<div class="form-group position-relative has-icon-right">
-        <input type="text" class="form-control" ng-model="vm.searchData">
-        <div class="form-control-icon" ng-click="vm.search()">
-            <i class="fa fa-search"></i>
-        </div>
-    </div>
+	{% include 'components/search.twig' %}
 
 {% endblock %}
 
@@ -25,7 +20,7 @@
 			<tr>
 				<th>NIDN/NIP</th>
 				<th>Nama</th>
-				<th>Jenis Karyawan</th>
+				<!-- <th>Jenis Karyawan</th> -->
 				<th>Status</th>
 			</tr>
 		</thead>
@@ -37,7 +32,7 @@
 	        <tr ng-repeat="data in vm.data" class="clickable" ng-attr-tr_id="{{data.id}}" state_name="karyawan_detail" widget-tr="">
 	          <td ng-bind="data.ni || '-'"></td>
 	          <td ng-bind="data.orang.nama || '-'"></td>
-	          <td ng-bind="data.jenis_karyawan_label || '-'"></td>
+	          <!-- <td ng-bind="data.jenis_karyawan_label || '-'"></td> -->
 	          <td ng-bind="data.status_label || '-'"></td>
 	        </tr>
 		</tbody>

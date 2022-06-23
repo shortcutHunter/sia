@@ -132,7 +132,6 @@ class Tagihan extends BaseModel
 					'nama' => $value['nama'],
 					'nominal' => $value['nominal'],
 					'biaya_lunas' => $value['biaya_lunas'],
-
 				];
 				if (array_key_exists('id', $value)) {
 					$tagihan_item_data = $tagihan_item_obj->find($value['id']);
@@ -161,12 +160,6 @@ class Tagihan extends BaseModel
 			$transaksi = $transaksi_obj->create($transaksi);
 
 			unset($attributes['transaksi']);
-
-			foreach ($this->tagihan_item as $value) {
-				if (!in_array($value->id, $item_ids)) {
-					$value->delete();
-				}
-			}
 		}
 
 		if (array_key_exists('status', $attributes)) {

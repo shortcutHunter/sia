@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+    <?php include('header.phtml'); ?>
+
+    <style type="text/css">
+        .m-top {
+            margin-top: 20px;
+        }
+        .bold {
+            font-weight: bold;
+        }
+        .m-top-table {
+            margin-top: 20px;
+        }
+        .pr-20 {
+            padding-right: 20px;
+        }
+        .w-50 {
+            width: 400px;
+        }
+        .w-100{
+            width: 100px;
+        }
+        .w-200{
+            width: 150px;
+        }
+        .table {
+            border-collapse: collapse;
+        }
+        .table td, .table th{
+            padding: 7px;
+            vertical-align: middle;
+        }
+        th {
+            text-align: center;
+            font-weight: bold;
+            vertical-align: middle;
+        }
+
+        ul {
+            list-style: decimal;
+            width: 40%;
+        }
+        ul li .dashed {
+            border-bottom: 1px solid dashed black;
+            margin-bottom: 10px;
+        }
+        .catatan {
+            font-style: italic;
+            text-decoration: underline;
+        }
+        .mt-50 {
+            margin-top: 50px;
+        }
+        .ml-40 {
+            margin-top: 10px;
+            margin-left: 50%;
+            width: 200px;
+        }
+        .container {
+            font-size: 12px;
+        }
+
+    </style>
+
+    <div class="container">
+        <div class="text-center m-top bold">
+            Daftar Dosen PJMK
+        </div>
+
+        <div class="m-top-table">
+            <table class="table" border="1">
+                <tr>
+                    <th>NO.</th>
+                    <th>Nama</th>
+                    <th>Semester</th>
+                    <th>Tahun Ajaran</th>
+                    <th>Mata Kuliah</th>
+                </tr>
+
+                <?php foreach ($dosen_pjmk as $key => $value): ?>
+                    <tr>
+                        <td style="width: 10%;" rowspan="<?= $value->mata_kuliah_diampuh->count() ?: 1 ?>">
+                            <?= $key+1 ?>
+                        </td>
+                        <td style="width: 30%;" rowspan="<?= $value->mata_kuliah_diampuh->count() ?: 1 ?>">
+                            <?= $value->karyawan->orang->nama ?>
+                        </td>
+                        <td style="width: 10%;" rowspan="<?= $value->mata_kuliah_diampuh->count() ?: 1 ?>">
+                            <?= join(", ", $value->semester->pluck('nama')->toArray()) ?>
+                        </td>
+                        <td style="width: 20%;" rowspan="<?= $value->mata_kuliah_diampuh->count() ?: 1 ?>">
+                            <?= $value->tahun_ajaran->nama ?>
+                        </td>
+                        <td style="width: 30%;">
+                            <?= isset($value->mata_kuliah_diampuh[0]) ? $value->mata_kuliah_diampuh[0]->mata_kuliah->nama : '-' ?>
+                        </td>
+                    </tr>
+
+                    <?php foreach ($value->mata_kuliah_diampuh as $k => $v): ?>
+                        <?php if ($k != 0): ?>
+                            
+                            <tr>
+                                <td style="width: 30%;">
+                                    <?= $v->mata_kuliah->nama ?>
+                                </td>
+                            </tr>
+
+                        <?php endif ?>
+                    <?php endforeach ?>    
+
+                <?php endforeach ?>
+                
+            </table>
+        </div>
+
+    </div>
+
+</body>
+</html>

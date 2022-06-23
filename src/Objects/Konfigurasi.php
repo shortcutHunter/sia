@@ -43,4 +43,26 @@ class Konfigurasi extends BaseModel
 		return $this->hasOne(TahunAjaran::class, 'id', 'tahun_ajaran_id');
 	}
 
+	public function getNextPanitia()
+	{
+		$panitia_obj = self::getModelByName('panitia');
+		$panitia_id = false;
+		
+		$panitia_last_id = $this->panitia_last_id;
+
+		if (!$panitia_last_id || $panitia_last_id == null) {
+			$panitia_id = $panitia_obj->first()->id;
+		} else {
+			$panitia_id = $panitia_obj->where('id', '>', $panitia_last_id)->min('id');
+
+			if (empty($panitia_id)) {
+				$panitia_id = $panitia_obj->first()->id;
+			}
+		}
+
+		$this->update(['panitia_last_id' => $panitia_id]);
+
+		return $panitia_id;
+	}
+
 }

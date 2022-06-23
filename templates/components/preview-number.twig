@@ -1,0 +1,12 @@
+<tr>
+	<td>
+		<div class="text-muted font-semibold me-3">{{ label }}</div>
+	</td>
+	<td>
+		{% if option %}
+			<div class="font-extrabold" ng-bind="vm.option.{{ option }}[{{ prefix ?? 'vm.data' }}.{{ name }}] || '-'"></div>
+		{% else %}
+			<div class="font-extrabold" widget-number="{{ '{{' ~ (prefix ?? 'vm.data') }}.{{ name }}  || '0' }}"></div>
+		{% endif %}
+	</td>
+</tr>

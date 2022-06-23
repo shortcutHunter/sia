@@ -1,5 +1,15 @@
 {% extends "structure/detail.twig" %}
 
+{% block button %}
+	<div class="float-end">
+		<button class="btn btn-sm btn-primary" ng-click="vm.cetakTagihan()">
+			Report Tagihan
+		</button>
+	</div>
+
+	{# {% include 'widget/nextprev.twig' %} #}
+{% endblock %}
+
 {% block content %}
 <div class="row mt-3">
 	<div class="col-md-12">
@@ -7,7 +17,7 @@
 			<thead>
 				<th>Tanggal</th>
 				<th>Nominal</th>
-				<th>Kode Pembayaran</th>
+				<th>Kode Aktivasi</th>
 				<th>Status</th>
 				<th></th>
 			</thead>
@@ -15,11 +25,19 @@
 			<tbody>
 				<tr ng-repeat="col in vm.data" ng-if="vm.data && vm.data.length != 0">
 					<td ng-bind="col.tanggal || '-'"></td>
-					<td ng-bind="col.nominal || '-'"></td>
-					<td ng-bind="col.kode_pembayaran || '-'"></td>
+					<td>
+						{% verbatim %}
+						    <span widget-number="{{ col.nominal || '-' }}"></span>
+						{% endverbatim %}
+					</td>
+					<td>
+						<span ng-bind="col.kode_pembayaran || '-'" ng-if="col.register_ulang"></span>
+						<span ng-if="!col.register_ulang">-</span>
+					</td>
 					<td ng-bind="col.status_label || '-'"></td>
 					<td>
-						<button class="btn btn-primary" ng-if="col.status == 'proses'" ng-click="vm.bayarTagihan(col)">Bayar</button>
+						{# <button class="btn btn-sm btn-primary" ng-if="col.status != 'bayar'" ng-click="vm.bayarTagihan(col)">Cicil <span ng-bind="col.transaksi.length + 1"></span></button> #}
+						<button class="btn btn-sm" ng-click="vm.detailTagihan(col)">Proses</button>
 					</td>
 				</tr>
 				<tr ng-if="!vm.data || vm.data.length == 0">

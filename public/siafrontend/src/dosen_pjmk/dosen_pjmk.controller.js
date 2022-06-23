@@ -5,9 +5,9 @@
     .module('app.dosen_pjmk')
     .controller('DosenPjmkController', DosenPjmkController);
 
-  DosenPjmkController.$inject = ['$q', 'dataservice', 'logger', '$scope'];
+  DosenPjmkController.$inject = ['$q', 'dataservice', 'logger', '$scope', '$compile'];
   /* @ngInject */
-  function DosenPjmkController($q, dataservice, logger, scope) {
+  function DosenPjmkController($q, dataservice, logger, scope, compile) {
     var vm = this;
     vm.title = 'Dosen PJMK';
     vm.table = 'dosen_pjmk';
@@ -28,6 +28,7 @@
 
     vm.search = search;
     vm.statusChanges = statusChanges;
+    vm.cetakdosenPJMK = cetakdosenPJMK;
 
     activate();
 
@@ -118,6 +119,26 @@
         vm.filterValue = [status_value];
       }
     }
+
+    function cetakdosenPJMK() {
+      let url = `dosen/pjmk`;
+      dataservice.getReport(url).then(function(response) {
+        let base64 = response.content;
+        scope.fileName = 'List Dosen PJMK.pdf';
+        scope.type = 'pdf';
+        scope.filetype = 'application/pdf';
+        scope.base64 = base64;
+
+        let preview_modal = '<modal-preview file="file" name="fileName" mimetype="filetype" base64="base64" type="type"></modal-preview>';
+        let el = compile(preview_modal)(scope);
+      });
+    }
+
+    scope.$watch('vm.searchData', function(newVal, oldVal) {
+      if (newVal != undefined) {
+        search();
+      }
+    });
 
   }
 })();

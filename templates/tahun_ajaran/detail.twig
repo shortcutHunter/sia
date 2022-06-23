@@ -26,8 +26,8 @@
 		<div class="col-md-6">
 			<h5>Biaya Pendaftaran</h5>
 			<table class="custom-table">
-				{% include 'components/preview-text.twig' with {'name': 'biaya_pendaftaran.biaya_lunas', 'label': 'Biaya Lunas'} %}
-				{% include 'components/preview-text.twig' with {'name': 'biaya_pendaftaran.total_biaya', 'label': 'Total Biaya'} %}
+				{% include 'components/preview-number.twig' with {'name': 'biaya_pendaftaran.biaya_lunas', 'label': 'Biaya Lunas'} %}
+				{% include 'components/preview-number.twig' with {'name': 'biaya_pendaftaran.total_biaya', 'label': 'Total Biaya'} %}
 			</table>
 		</div>
 
@@ -61,8 +61,16 @@
 							<tr ng-repeat="col in vm.data.biaya_semester" ng-if="vm.data.biaya_semester && vm.data.biaya_semester.length != 0">
 								<td ng-bind="col.nama || '-'"></td>
 								<td ng-bind="col.semester.nama || '-'"></td>
-								<td ng-bind="col.biaya_lunas || '-'"></td>
-								<td ng-bind="col.total_biaya || '-'"></td>
+								<td>
+									{% verbatim %}
+									    <span widget-number="{{ col.biaya_lunas || 0 }}"></span>
+									{% endverbatim %}
+								</td>
+								<td>
+									{% verbatim %}
+									    <span widget-number="{{ col.total_biaya || 0 }}"></span>
+									{% endverbatim %}
+								</td>
 								<td>
 									<button class="btn btn-sm btn-primary" ng-click="vm.buatTagihan(col)">Buat Tagihan</button>
 								</td>
@@ -94,8 +102,16 @@
 						<tbody>
 							<tr ng-repeat="col in vm.data.biaya_lainnya" ng-if="vm.data.biaya_lainnya && vm.data.biaya_lainnya.length != 0">
 								<td ng-bind="col.nama || '-'"></td>
-								<td ng-bind="col.biaya_lunas || '-'"></td>
-								<td ng-bind="col.total_biaya || '-'"></td>
+								<td>
+									{% verbatim %}
+									    <span widget-number="{{ col.biaya_lunas || 0 }}"></span>
+									{% endverbatim %}
+								</td>
+								<td>
+									{% verbatim %}
+									    <span widget-number="{{ col.total_biaya || 0 }}"></span>
+									{% endverbatim %}
+								</td>
 								<td>
 									<button class="btn btn-sm btn-primary" ng-click="vm.pilihMahasiswa(col)">Buat Tagihan</button>
 								</td>

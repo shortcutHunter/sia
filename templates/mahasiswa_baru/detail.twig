@@ -1,5 +1,11 @@
 {% extends 'structure/detail.twig' %}
 
+{% block button %}
+
+  <button class="btn btn-sm btn-primary" widget-cetak-peserta="" ng-if="vm.data.terverif">Cetak Kartu Peserta</button>
+
+{% endblock %}
+
 {% block content %}
 
   <div class="row">
@@ -12,7 +18,6 @@
       
       <div class="col-md-6">
         <table class="custom-table">
-          {% include 'components/checkbox.twig' with {'name': 'pernyataan', 'label': 'Pernyataan', 'disabled': true} %}
           {% include 'components/preview-text.twig' with {'name': 'tanggal_pendaftaran', 'label': 'Tanggal Pendfataran'} %}
         </table>
       </div>
@@ -26,13 +31,10 @@
               <a class="nav-link" data-bs-toggle="list" href="#orangtua">Orang Tua</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" data-bs-toggle="list" href="#berkas">Berkas</a>
+              <a class="nav-link" data-bs-toggle="list" href="#pendidikan">Pendidikan</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" data-bs-toggle="list" href="#lainnya">Lainnya</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" data-bs-toggle="list" href="#tracking">Tracking</a>
+              <a class="nav-link" data-bs-toggle="list" href="#persetujuan">Persetujuan</a>
             </li>
         </ul>
 
@@ -51,20 +53,29 @@
 
               <div class="col-md-6">
                 <table class="custom-table">
-              {% include 'components/preview-text.twig' with {'name': 'orang.alamat', 'label': 'Alamat'} %}
-              {% include 'components/preview-text.twig' with {'name': 'orang.email', 'label': 'Email'} %}
-              {% include 'components/preview-text.twig' with {'name': 'orang.no_hp', 'label': 'No. HP'} %}
+                  {% include 'components/preview-text.twig' with {'name': 'orang.alamat', 'label': 'Alamat'} %}
+                  {% include 'components/preview-text.twig' with {'name': 'orang.rt_rw', 'label': 'Rt / Rw'} %}
+                  {% include 'components/preview-text.twig' with {'name': 'orang.kel_desa', 'label': 'Kel / Desa'} %}
+                  {% include 'components/preview-text.twig' with {'name': 'orang.kab_kota', 'label': 'Kab / Kota'} %}
+                  {% include 'components/preview-text.twig' with {'name': 'orang.provinsi', 'label': 'Provinsi'} %}
+                </table>
+              </div>
+
+              <div class="col-md-6">
+                <table class="custom-table">
+                  {% include 'components/preview-text.twig' with {'name': 'orang.email', 'label': 'Email'} %}
+                  {% include 'components/preview-text.twig' with {'name': 'orang.no_hp', 'label': 'No. HP'} %}
                 </table>
               </div>
             </div>
           </div>
-          <div class="tab-pane fade show" id="orangtua">
+          <div class="tab-pane fade" id="orangtua">
             <div class="row mt-3">
               <div class="col-md-6">
                 <table class="custom-table">
               {% include 'components/preview-text.twig' with {'name': 'orang.nama_ayah', 'label': 'Nama Ayah'} %}
               {% include 'components/preview-text.twig' with {'name': 'orang.pekerjaan_ayah', 'label': 'Pekerjaan Ayah'} %}
-              {% include 'components/preview-text.twig' with {'name': 'orang.penghasilan_ortu', 'label': 'Penghasilan Orang Tua'} %}
+              {% include 'components/preview-number.twig' with {'name': 'orang.penghasilan_ortu', 'label': 'Penghasilan Orang Tua'} %}
                 </table>
               </div>
 
@@ -76,101 +87,50 @@
               </div>
             </div>
           </div>
-          <div class="tab-pane fade show" id="berkas">
+          <div class="tab-pane fade" id="pendidikan">
             <div class="row mt-3">
               <div class="col-md-6">
                 <table class="custom-table">
-              {% include 'components/preview-file.twig' with {'name': 'bukti_pembayaran', 'label': 'Bukti Pembayaran'} %}
-              {% include 'components/preview-file.twig' with {'name': 'orang.pasfoto', 'label': 'Pasfoto'} %}
-              {% include 'components/preview-file.twig' with {'name': 'orang.ijazah', 'label': 'Ijazah/SKL'} %}
-              {% include 'components/preview-file.twig' with {'name': 'orang.ktp', 'label': 'KTP'} %}
-              {% include 'components/preview-file.twig' with {'name': 'orang.surket_menikah', 'label': 'Surket. Belum Menikah'} %}
+                  {% include 'components/preview-text.twig' with {'name': 'orang.asal_sekolah', 'label': 'Asal Sekolah'} %}
+                  {% include 'components/preview-text.twig' with {'name': 'orang.jurusan', 'label': 'Jurusan'} %}
+                </table>
+              </div>
+              <div class="col-md-6">
+                <table class="custom-table">
+                  {% include 'components/preview-text.twig' with {'name': 'orang.tinggi_badan', 'label': 'Tinggi Badan'} %}
+                  {% include 'components/preview-text.twig' with {'name': 'orang.berat_badan', 'label': 'Berat Badan'} %}
+                </table>
+              </div>
+              <div class="col-md-6">
+                <table class="custom-table">
+                  {% include 'components/preview-file.twig' with {'name': 'orang.pasfoto', 'label': 'Pasfoto'} %}
+                  {% include 'components/preview-file.twig' with {'name': 'orang.ijazah', 'label': 'Ijazah/SKL'} %}
+                  {% include 'components/preview-file.twig' with {'name': 'orang.ktp', 'label': 'KTP'} %}
+                  {% include 'components/preview-file.twig' with {'name': 'orang.surket_menikah', 'label': 'Surket. Belum Menikah'} %}
+                </table>
+              </div>
+              <div class="col-md-6">
+                <table class="custom-table">
+                  {% include 'components/preview-file.twig' with {'name': 'orang.akte_lahir', 'label': 'Akte Lahir'} %}
+                  {% include 'components/preview-file.twig' with {'name': 'orang.kartu_keluarga', 'label': 'Kartu Keluarga'} %}
+                  {% include 'components/preview-file.twig' with {'name': 'orang.kartu_vaksin', 'label': 'Kartu Vaksin'} %}
                 </table>
               </div>
             </div>
           </div>
-          <div class="tab-pane fade show" id="lainnya">
+          <div class="tab-pane fade" id="persetujuan">
             <div class="row mt-3">
-              <div class="col-md-6">
+              <div class="col-md-12">
                 <table class="custom-table">
-              {% include 'components/preview-text.twig' with {'name': 'orang.asal_sekolah', 'label': 'Asal Sekolah'} %}
-              {% include 'components/preview-text.twig' with {'name': 'orang.tinggi_badan', 'label': 'Tinggi Badan'} %}
-              {% include 'components/preview-text.twig' with {'name': 'orang.berat_badan', 'label': 'Berat Badan'} %}
+                  {% 
+                    include 'components/checkbox.twig' 
+                    with {
+                      'name': 'pernyataan', 
+                      'label': 'Dengan ini saya menyatakan bahwa data yang saya isi adalah benar dan sesuai dengan dokumen terkait dan saya memberikan data atas persetujuan saya pribadi', 
+                      'disabled': true
+                    } 
+                  %}
                 </table>
-              </div>
-            </div>
-          </div>
-          <div class="tab-pane fade show" id="tracking">
-            <div class="mt-3">
-              <div class="tracking-container">
-                <div class="tracking">
-                  <p>
-                    Selamat Datang <span ng-bind="vm.data.orang.nama"></span> kami sedang memverifikasi Persyaratan Administrasi,
-                    mohon untuk mengecek akun secara berkala. <br>
-                    Anda registrasi pada tanggal <span ng-bind="vm.data.tanggal_pendaftaran"></span>
-                  </p>
-                </div>
-                <div class="tracking" ng-if="vm.data.terverif">
-                  <p ng-if="vm.data.status == 'pending'">
-                    Mohon maaf sementara dokumen belum dapat kami  proses panitia segera menghubungi anda.
-                  </p>
-
-                  <p ng-if="vm.data.status == 'tolak'">
-                    mohon maaf anda dinyatakan tidak lulus secara administrasi silahkan coba pada kesempatan lainnya.
-                  </p>
-
-                  <p ng-if="vm.data.test">
-                    Selamat <span ng-bind="vm.data.orang.nama"></span> persyaratan administrasi anda lengkap, anda berhak untuk ketahapan selanjutnya Test Tertulis anda di jadwalkan untuk Test tulis pada tanggal <span ng-bind="vm.data.test_tertulis"></span> atau hub panitia via : <a href="http://wa.me/85270884699">http://wa.me/85270884699</a> <br>
-                    Seleksi Administrasi anda sudah di Verifikasi pada tanggal <span ng-bind="vm.data.tanggal_verifikasi"></span>
-                  </p>
-                </div>
-
-                <div class="tracking" ng-if="vm.data.test">
-                  <p ng-if="vm.data.status == 'test_gagal'">
-                    Mohon maaf anda belum lulus test tertulis silahkan mencoba pada kesempatan berikutnya.
-                  </p>
-
-                  <p ng-if="vm.data.test">
-                    Selamat <span ng-bind="vm.data.orang.nama"></span> anda lulus pada tahap Seleksi Tertulis, anda berhak untuk ketahapan selanjutnya Test Kesehatan, silahkan download formulir jenis test kesehatan pada tahap berikutnya <br>
-                    Test Tertulis anda sudah di Verifikasi <span ng-bind="vm.data.tanggal_lulus"></span>
-                  </p>
-                </div>
-
-                <div class="tracking" ng-if="vm.data.test">
-                  <p ng-if="vm.data.status != 'kesehatan_gagal' || !vm.data.kesehatan">
-                    Harap download Dokumen Isian pada link berikut ini : <a href="">Dokumen isian</a>
-                  </p>
-                  <!-- <p ng-if="vm.data.status == 'kesehatan_gagal' || vm.data.wawancara">
-                    Harap upload Dokumen Isian yang telah ditanda tangani oleh dokter dibawah ini :
-                    {% include 'components/input-file.twig' with {'name': 'bukti_pembayaran', 'label': 'Bukti Pembayaran'} %}
-                    <button class="btn btn-primary btn-sm">Upload</button>
-                  </p> -->
-
-                  <p ng-if="vm.data.status == 'kesehatan_gagal'">
-                    Mohon maaf anda belum lulus <b>TEST KESEHATAN</b> silahkan mencoba pada kesempatan berikutnya.
-                  </p>
-
-                  <p ng-if="vm.data.kesehatan">
-                    Selamat <span ng-bind="vm.data.orang.nama"></span> anda lulus pada tahap <b>TEST KESEHATAN</b>, anda berhak untuk ketahapan selanjutnya WAWANCARA, di jadwalkan untuk WAWANCARA antara tanggal <span ng-bind="vm.data.test_wawancara"></span> atau hub panitia via : <a href="http://wa.me/85270884699">http://wa.me/85270884699</a> <br>
-                    Test Kesehatan anda sudah di Verifikasi <span ng-bind="vm.data.tanggal_kesehatan"></span> ambil dari jam Panitia PMB
-                  </p>
-                </div>
-
-                <div class="tracking" ng-if="vm.data.wawancara && (vm.data.status == 'wawancara_gagal' || vm.data.status == 'wawancara_lulus')">
-                  <p ng-if="vm.data.status == 'wawancara_gagal'">
-                    Mohon maaf anda belum lulus <b>TEST WAWANCARA</b> silahkan mencoba pada kesempatan berikutnya, atau untuk pertanyaan sanggahan silahkan menghubungi kontak panitia pada <a href="http://wa.me/85270884699">http://wa.me/85270884699</a>
-                  </p>
-
-                  <p ng-if="vm.data.status == 'wawancara_lulus'">
-                    KAMI MENGUCAPKAN SELAMAT ATAS KELULUSAN SDR/I <span ng-bind="vm.data.orang.nama"></span> ANDA TELAH MENYELESAIKAN SELEKSI ADMINISTRASI, TEST TERTULIS, TEST KESEHATAN DAN TEST WAWANCARA DENGAN BAIK. <br>
-                    SELAMAT BERGABUNG DI AKADEMI KEPERAWATAN BETHESDA SERUKAM
-
-                    <br><br>
-
-                    SILAHKAN UNTUK MELAKUKAN DAFTAR ULANG DI KAMPUS BETHESDA SERUKAM ATAU HUBUNGI PANITIA PALING LAMBAT TANGGAL <span ng-bind="vm.data.daftar_ulang"></span> 
-                  </p>
-                </div>
-
               </div>
             </div>
           </div>

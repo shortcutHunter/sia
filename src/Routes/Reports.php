@@ -13,8 +13,18 @@ class Reports extends BaseRoute {
         $this->app->get('/report/krs/{mahasiswa_id}', \App\Controllers\ReportController::class . ':krs');
         $this->app->get('/report/khs/{khs_id}', \App\Controllers\ReportController::class . ':khs');
 
+
         $this->app->get('/report/mahasiswa/mata_kuliah/{mata_kuliah_diampuh_id}', \App\Controllers\ReportController::class . ':mahasiswa');
         $this->app->get('/report/nilai/mata_kuliah/{mata_kuliah_diampuh_id}', \App\Controllers\ReportController::class . ':nilai');
+
+
+        $this->app->get('/report/dosen/pjmk', \App\Controllers\ReportController::class . ':dosenPJMK');
+        $this->app->get('/report/dosen/pa/{dosen_pa_id}/mahasiswa/bimbingan', \App\Controllers\ReportController::class . ':mahasiswaBimbingan');
+
+        $this->app->get('/report/tagihan/mahasiswa', \App\Controllers\ReportController::class . ':tagihanMahasiswa');
+        $this->app->get('/report/tagihan/mahasiswa/{mahasiswa_id}', \App\Controllers\ReportController::class . ':tagihanMahasiswaId');
+
+        $this->app->get('/send/login/detail', \App\Controllers\ReportController::class . ':loginDetail');
     }
 
 }

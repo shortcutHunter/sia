@@ -1,0 +1,143 @@
+
+<section id="detail-view" class="mainbar">
+
+  <div class="col-12">
+    <div class="float-end">
+      <button class="btn btn-sm btn-primary" widget-cetak-peserta="" ng-if="vm.data.terverif">Cetak Kartu Peserta</button>
+      {% verbatim %}
+          <a class="btn btn-sm btn-primary" href="https://wa.me/{{vm.data.panitia.nohp}}" target='_blank'>Hubungi Panitia</a>
+      {% endverbatim %}
+    </div>
+  </div>
+
+  <div class="col-12">
+
+    <div class="track-container">
+
+      <div class="track-title">TRACKING</div>
+
+
+{% verbatim %}      
+      <ul class="track">
+        
+        <li class="track-list">
+          <div class="track-number"></div>
+          <div class="track-content">
+            <div>
+              Selamat Datang <span ng-bind="vm.data.orang.nama"></span> kami sedang memverifikasi Persyaratan Administrasi,
+              mohon untuk mengecek akun secara berkala. <br>
+              <div class="track-status">Anda registrasi pada tanggal <span ng-bind="vm.data.tanggal_pendaftaran"></span></div>
+            </div>
+          </div>
+        </li>
+        
+        <li class="track-list" ng-if="vm.data.terverif || vm.data.status == 'pending'">
+          <div class="track-number"></div>
+          <div class="track-content">
+            <div>
+              <p ng-if="vm.data.status == 'pending'">
+                Mohon maaf sementara dokumen belum dapat kami proses, panitia segera menghubungi anda.
+              </p>
+
+              <p ng-if="vm.data.status == 'tolak'">
+                mohon maaf anda dinyatakan tidak lulus secara administrasi silahkan coba pada kesempatan lainnya.
+              </p>
+
+              <p ng-if="(vm.data.terverif && vm.data.status == 'terverifikasi') || vm.data.test">
+                Selamat <span ng-bind="vm.data.orang.nama"></span> persyaratan administrasi anda lengkap, anda berhak untuk ketahapan selanjutnya Test Tertulis anda di jadwalkan untuk Test tulis pada tanggal <span ng-bind="vm.data.test_tertulis"></span> s/d <span ng-bind="vm.data.test_tertulis_end"></span> atau hub panitia via : <a target="_blank" href="http://wa.me/{{ vm.data.panitia.nohp }}">http://wa.me/{{ vm.data.panitia.nohp }}</a> <br>
+                <span class="track-status">
+                  Seleksi Administrasi anda sudah di Verifikasi pada tanggal <span ng-bind="vm.data.tanggal_verifikasi"></span>
+                </span>
+              </p>
+            </div>
+          </div>
+        </li>
+        
+        <li class="track-list" ng-if="vm.data.test">
+          <div class="track-number"></div>
+          <div class="track-content">
+            <div>
+              <p ng-if="vm.data.status == 'test_gagal'">
+                Mohon maaf anda belum lulus test tertulis silahkan mencoba pada kesempatan berikutnya.
+              </p>
+
+              <p ng-if="(vm.data.test && vm.data.status == 'test_lulus') || vm.data.kesehatan">
+                Selamat <span ng-bind="vm.data.orang.nama"></span> anda lulus pada tahap Seleksi Tertulis, anda berhak untuk ketahapan selanjutnya Test Kesehatan, silahkan download formulir jenis test kesehatan pada tahap berikutnya <br>
+                <span class="track-status">
+                  Test Tertulis anda sudah di Verifikasi pada tanggal <span ng-bind="vm.data.tanggal_lulus"></span>
+                </span>
+              </p>
+            </div>
+          </div>
+        </li>
+        
+        <li class="track-list" ng-if="vm.data.test">
+          <div class="track-number"></div>
+          <div class="track-content">
+            <div>
+              <div ng-if="vm.data.status != 'kesehatan_gagal' && !vm.data.kesehatan">
+                Harap download Dokumen Isian pada link berikut ini : 
+                <a href="/public/documents/Form Tes Kesehatan online.pdf" target="_blank">Dokumen isian</a> <br>
+                <div class="input-group" style="width: 70%;">
+                  <label class="me-4">
+                    Upload Test Kesehatan <span class="track-status small" ng-if="vm.data.dokumen_kesehatan">(Uploaded)</span> :
+                  </label>
+                  <input class="form-control form-control-sm" type="file" name="dokumen_kesehatan" ng-model="vm.data.dokumen_kesehatan" base-sixty-four-input="" maxsize="100" do-not-parse-if-oversize="">
+                  <button class="btn btn-sm btn-outline-secondary" type="button" widget-preview="vm.data.dokumen_kesehatan">
+                    Preview
+                  </button>
+                </div>
+              </div>
+{% endverbatim %}
+
+              <div ng-if="vm.data.kesehatan" style="width: 50%;">
+                <table class="custom-table">
+                  {% include 'components/preview-file.twig' with {'name': 'dokumen_kesehatan', 'label': 'Test Kesehatan'} %}
+                </table>
+              </div>
+
+{% verbatim %}
+              <p ng-if="vm.data.status == 'kesehatan_gagal'">
+                Mohon maaf anda belum lulus <b>TEST KESEHATAN</b> silahkan mencoba pada kesempatan berikutnya.
+              </p>
+
+              <p ng-if="(vm.data.kesehatan && vm.data.status == 'kesehatan_lulus') || vm.data.wawancara">
+                Selamat <span ng-bind="vm.data.orang.nama"></span> anda lulus pada tahap <b>TEST KESEHATAN</b>, anda berhak untuk ketahapan selanjutnya WAWANCARA, di jadwalkan untuk WAWANCARA antara tanggal <span ng-bind="vm.data.test_wawancara"></span> s/d <span ng-bind="vm.data.test_wawancara_end"></span> atau hub panitia via : <a href="http://wa.me/{{ vm.data.panitia.nohp }}">http://wa.me/{{ vm.data.panitia.nohp }}</a> <br>
+                <span class="track-status">
+                  Test Kesehatan anda sudah di Verifikasi <span ng-bind="vm.data.tanggal_kesehatan"></span>
+                </span>
+              </p>
+            </div>
+          </div>
+        </li>
+        
+        <li class="track-list" ng-if="vm.data.wawancara">
+          <div class="track-number"></div>
+          <div class="track-content">
+            <div>
+              <p ng-if="vm.data.status == 'wawancara_gagal'">
+                Mohon maaf anda belum lulus <b>TEST WAWANCARA</b> silahkan mencoba pada kesempatan berikutnya, atau untuk pertanyaan sanggahan silahkan menghubungi kontak panitia pada <a href="http://wa.me/{{ vm.data.panitia.nohp }}">http://wa.me/{{ vm.data.panitia.nohp }}</a>
+              </p>
+
+              <p ng-if="vm.data.status == 'wawancara_lulus'">
+                KAMI MENGUCAPKAN SELAMAT ATAS KELULUSAN SDR/I <span ng-bind="vm.data.orang.nama"></span> ANDA TELAH MENYELESAIKAN SELEKSI ADMINISTRASI, TEST TERTULIS, TEST KESEHATAN DAN TEST WAWANCARA DENGAN BAIK. <br>
+                SELAMAT BERGABUNG DI AKADEMI KEPERAWATAN BETHESDA SERUKAM
+
+                <br><br>
+
+                SILAHKAN UNTUK MELAKUKAN DAFTAR ULANG DI KAMPUS BETHESDA SERUKAM ATAU HUBUNGI PANITIA VIA WHATSAPP : <a href="http://wa.me/{{ vm.data.panitia.nohp }}">http://wa.me/{{ vm.data.panitia.nohp }}</a> PALING LAMBAT TANGGAL <span ng-bind="vm.data.daftar_ulang"></span> s/d <span ng-bind="vm.data.daftar_ulang_end"></span>
+              </p>
+            </div>
+          </div>
+        </li>
+
+      </ul>
+{% endverbatim %}
+
+    </div>
+
+  </div>
+
+</section>
+
+

@@ -7,7 +7,10 @@ use App\Objects\BaseModel;
 class Orang extends BaseModel
 {
 	protected $table = 'orang';
-	protected $with = ['agama', 'ijazah', 'ktp', 'surket_menikah', 'kwitansi', 'pasfoto', 'user'];
+	protected $with = [
+		'agama', 'kwitansi', 'user',
+		'ijazah', 'ktp', 'surket_menikah', 'pasfoto', 'akte_lahir', 'kartu_keluarga', 'kartu_vaksin'
+	];
 
 	public $like_fields = ['nama'];
 
@@ -16,10 +19,11 @@ class Orang extends BaseModel
 	public $selection_fields = ['status', 'jenis_kelamin'];
 	public static $relation = [
 		['name' => 'agama', 'is_selection' => true, 'skip' => false],
-		['name' => 'kwitansi', 'is_selection' => false, 'skip' => true]
+		['name' => 'kwitansi', 'is_selection' => false, 'skip' => true],
+		['name' => 'role', 'is_selection' => true, 'skip' => true],
 	];
 
-	public static $file_fields = ['ijazah', 'ktp', 'surket_menikah', 'pasfoto'];
+	public static $file_fields = ['ijazah', 'ktp', 'surket_menikah', 'pasfoto', 'akte_lahir', 'kartu_keluarga', 'kartu_vaksin'];
 	public static $date_fields = ['tanggal_lahir'];
 
 	public $status_enum = [
@@ -93,14 +97,65 @@ class Orang extends BaseModel
 	{
 		return $this->hasOne(File::class, 'id', 'pasfoto_id');
 	}
+	public function akte_lahir()
+	{
+		return $this->hasOne(File::class, 'id', 'akte_lahir_id');
+	}
+	public function kartu_keluarga()
+	{
+		return $this->hasOne(File::class, 'id', 'kartu_keluarga_id');
+	}
+	public function kartu_vaksin()
+	{
+		return $this->hasOne(File::class, 'id', 'kartu_vaksin_id');
+	}
 
+	public static function create(array $attributes = [])
+	{
+		$orang_obj = self::getModelByName('orang');
+
+		if (array_key_exists('nik', $attributes)) {
+			$nik = $attributes['nik'];
+			$orang = $orang_obj->where('nik', $nik)->count();
+
+			if ($orang > 0) {
+				throw new \Exception("NIK sudah ada di dalam sistem");
+			}
+		}
+
+		$orang = parent::create($attributes);
+
+		return $orang;
+	}
 
 	public function update(array $attributes = [], array $options = [])
 	{
 		if (array_key_exists('user', $attributes)) {
+			$this->user->update($attributes['user']);
 			unset($attributes['user']);
 		}
 
 		return parent::update($attributes, $options);
+	}
+
+	public function sendResetPass()
+	{
+		$token = $this->user->generateToken();
+		$konfigurasi = self::getModelByName('konfigurasi')->first();
+		$mailModel = new MailModel();
+
+		$recipient = [
+			"email" => $this->email,
+			"name" => $this->nama
+		];
+		$subject = "Reset Password";
+		$data = [
+			'orang' => $this, 
+			'base_url' => $konfigurasi->base_url,
+			'token' => $token
+		];
+		$content = self::renderHtml("reports/reset_password_email.phtml", $data);
+
+		$mailModel->sendEmail($recipient, $subject, $content);
 	}
 }

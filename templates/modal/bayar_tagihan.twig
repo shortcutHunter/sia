@@ -8,6 +8,14 @@
 {% block content %}
 
 	<div class="modal-body ui-front" style="overflow:  visible;">
+		<div class="row" ng-if="cicilanAkhir">
+			<div class="col-12">
+				<div class="alert alert-info">
+					Mohon hubungi bagian keuangan jika tidak dapat melunaskan sisa hutang.
+				</div>
+			</div>
+		</div>
+
 		<div class="row">
 			<div class="col-md-6">
 				<table class="custom-table">
@@ -17,7 +25,8 @@
 			</div>
 			<div class="col-md-6">
 				<table class="custom-table">
-					{% include 'components/preview-text.twig' with {'name': 'nominal', 'label': 'Nominal', 'prefix': 'data'} %}
+					{% include 'components/preview-number.twig' with {'name': 'nominal', 'label': 'Nominal', 'prefix': 'data'} %}
+					{% include 'components/preview-number.twig' with {'name': 'sisa_hutang', 'label': 'Sisa Hutang', 'prefix': 'data'} %}
 				</table>
 			</div>
 		</div>
@@ -28,7 +37,7 @@
 			<div class="col-md-12">
 				<table class="custom-table">
 	              {% include 'components/input-file.twig' with {'name': 'file', 'label': 'Upload Bukti Pembayaran'} %}
-	              {% include 'components/input.twig' with {'name': 'nominal', 'label': 'Nominal'} %}
+	              {% include 'components/input-number.twig' with {'name': 'nominal', 'label': 'Nominal'} %}
 				</table>
 			</div>
 		</div>
@@ -47,14 +56,22 @@
 	        			<table class="table">
 							<thead>
 								<th>Nama</th>
-								<th>Biaya Wajib</th>
+								{# <th>Biaya Wajib</th> #}
 								<th>Total Biaya</th>
 							</thead>
 							<tbody>
 								<tr ng-repeat="col in data.tagihan_item track by $index" ng-if="data.tagihan_item && data.tagihan_item.length != 0">
 									<td ng-bind="col.nama || '-'"></td>
-									<td ng-bind="col.biaya_lunas || '-'"></td>
-									<td ng-bind="col.nominal || '-'"></td>
+									{# <td>
+										{% verbatim %}
+										    <span widget-number="{{ col.biaya_lunas || 0 }}"></span>
+										{% endverbatim %}
+									</td> #}
+									<td>
+										{% verbatim %}
+										    <span widget-number="{{ col.nominal || 0 }}"></span>
+										{% endverbatim %}
+									</td>
 								</tr>
 								<tr ng-if="!data.tagihan_item || data.tagihan_item.length == 0">
 									<td  class="text-center" colspan="3">Belum ada data</td>

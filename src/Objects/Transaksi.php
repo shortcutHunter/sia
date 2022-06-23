@@ -14,6 +14,7 @@ class Transaksi extends BaseModel
 	public $status_enum = [
 		"process" => "Process",
 		"verified" => "Verified",
+		"tolak" => "Tolak",
 	];
 	
 	public $selection_fields = ['status'];

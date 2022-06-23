@@ -1,0 +1,137 @@
+{% extends "structure/detail.twig" %}
+
+{% block button %}
+
+  <div class="float-end" ng-if="vm.data.status != 'bayar' && vm.data.register_ulang">
+  	<button 
+  		ng-repeat="x in [].constructor(3) track by $index" 
+  		class="btn btn-sm btn-primary me-2"
+  		ng-disabled="!(($index) == vm.verifiedTrans.length) || !vm.canCicil"
+  		ng-click="vm.tambahPembiayaan()"
+  		ng-bind="'Cicilan ' + ($index+1)"></button>
+  </div>
+
+  <div class="float-end" ng-if="vm.data.status != 'bayar' && !vm.data.register_ulang">
+  	<button 
+  		class="btn btn-sm btn-primary"
+  		ng-click="vm.tambahPembiayaan()">Bayar</button>
+  </div>
+
+{% endblock %}
+
+{% block status %}
+
+  {% verbatim %}
+    <button class="btn {{ key == vm.data.status ? 'btn-primary' : ''}}" ng-repeat="(key, status) in vm.option.option.status" ng-bind="status"></button>
+  {% endverbatim %}
+
+{% endblock %}
+
+{% block content %}
+
+	<div class="row">
+		<div class="col-md-6">
+			<table class="custom-table">
+				{% include 'components/preview-text.twig' with {'name': 'kode', 'label': 'Kode'} %}
+				{% include 'components/preview-text.twig' with {'name': 'orang.nama', 'label': 'Nama'} %}
+				{% include 'components/preview-text.twig' with {'name': 'kode_pembayaran', 'label': 'Kode Aktivasi'} %}
+			</table>
+		</div>
+		<div class="col-md-6">
+			<table class="custom-table">
+				{% include 'components/preview-number.twig' with {'name': 'nominal', 'label': 'Nominal'} %}
+				{% include 'components/preview-number.twig' with {'name': 'sisa_hutang', 'label': 'Sisa Hutang'} %}
+			</table>
+		</div>
+	</div>
+
+	<ul class="nav nav-tabs mt-5">
+		<li class="nav-item">
+    	<a class="nav-link active" data-bs-toggle="list" href="#pembiayaan">Pembiayaan</a>
+    </li>
+		<li class="nav-item">
+    	<a class="nav-link" data-bs-toggle="list" href="#pembayaran" ng-if="vm.data.status != 'draft'">Transaksi</a>
+    </li>
+  </ul>
+
+    <div class="tab-content text-justify">
+    	<div class="tab-pane fade show active" id="pembiayaan">
+
+    		<div class="row mt-3">
+    			<div class="col-md-12">
+
+    				<table class="table">
+
+							<thead>
+								<th>Nama</th>
+								<th>Total Biaya</th>
+								<th></th>
+							</thead>
+
+							<tbody>
+								<tr ng-repeat="col in vm.data.tagihan_item track by $index" ng-if="vm.data.tagihan_item && vm.data.tagihan_item.length != 0">
+									<td ng-bind="col.nama || '-'"></td>
+									<td>
+										{% verbatim %}
+										    <span widget-number="{{ col.nominal || 0 }}"></span>
+										{% endverbatim %}
+									</td>
+								</tr>
+								<tr ng-if="!vm.data.tagihan_item || vm.data.tagihan_item.length == 0">
+									<td  class="text-center" colspan="5">Belum ada data</td>
+								</tr>
+							</tbody>
+
+						</table>
+						<small>Total data: <b ng-bind="vm.data.tagihan_item.length || 0"></b></small>
+        		
+    			</div>
+    		</div>
+    	</div>
+
+    	<div class="tab-pane fade show" id="pembayaran" ng-if="vm.data.status != 'draft'">
+    		<div class="row mt-3" ng-if="vm.data.status != 'bayar'">
+    			<div class="col-12">
+    			</div>
+    		</div>
+
+    		<div class="row mt-3">
+    			<div class="col-md-12">
+
+      			<table class="table">
+
+							<thead>
+								<th>Tanggal</th>
+								<th>Nominal</th>
+								<th>Bukti Bayar</th>
+								<th>Status</th>
+							</thead>
+
+							<tbody>
+								<tr ng-repeat="col in vm.data.transaksi track by $index" ng-if="vm.data.transaksi && vm.data.transaksi.length != 0">
+									<td ng-bind="col.tanggal_bayar"></td>
+									<td>
+										{% verbatim %}
+										    <span widget-number="{{ col.nominal || 0 }}"></span>
+										{% endverbatim %}
+									</td>
+									<td class="font-extrabold">
+										<a href="javascript:void(0)" widget-preview="col.tagihan_bukti_bayar[0].file" ng-bind="col.tagihan_bukti_bayar[0].file.filename || '-'"></a>
+									</td>
+									<td ng-bind="col.status_label"></td>
+								</tr>
+								<tr ng-if="!vm.data.transaksi || vm.data.transaksi.length == 0">
+									<td  class="text-center" colspan="5">Belum ada data</td>
+								</tr>
+							</tbody>
+
+						</table>
+						<small>Total data: <b ng-bind="vm.data.transaksi.length || 0"></b></small>
+        		
+      		</div>
+    		</div>
+    	</div>
+
+    </div>
+
+{% endblock %}

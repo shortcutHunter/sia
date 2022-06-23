@@ -3,11 +3,20 @@
 
 {% block content %}
 
-	<div class="col-md-6">
+  <div class="row">
+    <div class="col-md-6">
       <table class="custom-table">
         {% include 'components/input.twig' with {'name': 'nama', 'label': 'Nama', 'required': true} %}
         {% include 'components/input.twig' with {'name': 'nohp', 'label': 'Nama', 'required': true} %}
       </table>
     </div>
+
+    <div class="col-md-6">
+      <table class="custom-table">
+        {% include 'components/input.twig' with {'name': 'norek', 'label': 'No. Rekening', 'required': true} %}
+        {% include 'components/input.twig' with {'name': 'nama_bank', 'label': 'Nama Bank', 'required': true} %}
+      </table>
+    </div>
+  </div>  	
 
 {% endblock %}

@@ -7,19 +7,38 @@ use App\Objects\BaseModel;
 class User extends BaseModel
 {
 	protected $table = 'user';
+	protected $with  = ['role'];
 
-	public $role_enum = [
-		"mahasiswa" => "Mahasiswa",
-		"dosen" => "Dosen",
-		"keuangan" => "Keuangan",
-		"akademik" => "Akademik",
-		"admin" => "Admin",
-		"panitia" => "Panitia"
+	// public $selection_fields = ['role'];
+
+	public static $relation = [
+		['name' => 'role', 'is_selection' => true, 'skip' => true],
 	];
+
+	// public $role_enum = [
+	// 	"mahasiswa" => "Mahasiswa",
+	// 	"dosen" => "Dosen",
+	// 	"keuangan" => "Keuangan",
+	// 	"akademik" => "Akademik",
+	// 	"admin" => "Admin",
+	// 	"panitia" => "Panitia"
+	// ];
+
+	public function generateToken()
+	{
+		$token = bin2hex(openssl_random_pseudo_bytes(8));
+		$this->update(['token' => $token]);
+		return $token;
+	}
 
 	public function orang()
 	{
 		return $this->hasOne(Orang::class, 'id', 'orang_id');
+	}
+
+	public function role()
+	{
+		return $this->belongsToMany(Role::class, 'user_role', 'user_id', 'role_id');
 	}
 
 	// Custom function
@@ -61,8 +80,46 @@ class User extends BaseModel
 		$this->session->killAll();
 	}
 
+	public function createRole($roles)
+	{
+		$created_user_role_ids = [];
+
+		foreach ($roles as $key => $value) {
+			$user_role_obj = self::getModelByName('user_role');
+			$user_role_value = [
+				'role_id' => $value['id'],
+				'user_id' => $this->id
+			];
+
+			$user_role = $user_role_obj->where([
+				['role_id', $value['id']],
+				['user_id', $this->id]
+			]);
+
+			if ($user_role->count() == 0) {
+				$user_role = $user_role_obj->create($user_role_value);
+			} else {
+				$user_role = $user_role->first();
+			}
+
+			array_push($created_user_role_ids, $user_role->id);
+		}
+
+
+		$user_role_obj = self::getModelByName('user_role');
+		$user_role = $user_role_obj->where('user_id', $this->id)->whereNotIn('id', $created_user_role_ids);
+		$user_role->delete();
+	}
+
 	public static function create(array $attributes = [])
 	{
+		$role = false;
+
+		if (array_key_exists('role', $attributes)) {
+			$role = $attributes['role'];
+			unset($attributes['role']);
+		}
+
 		if (array_key_exists('orang_id', $attributes) && $attributes['orang_id'] != '') {
 			$object_orang = self::getModelByName('user');
 			$orang = $object_orang->find($attributes['orang_id']);
@@ -89,23 +146,25 @@ class User extends BaseModel
 			$attributes['username'] = $username;
 		}
 		$model = parent::create($attributes);
+
+
+
+		if ($role) {
+			$model->createRole($role);
+		}
+
 		return $model;
 	}
 
-	// public static function boot()
-	// {
-	// 	parent::boot();
+	public function update(array $attributes = [], array $options = [])
+	{		
+		if (array_key_exists('role', $attributes)) {
+			$role = $attributes['role'];
+			$this->createRole($role);
 
-	// 	self::created(function(User $user){
-	// 		if (!$user->password) {
-	// 			$created_pass = bin2hex(random_bytes(8));
-	// 			$user->update(['password' => $this->encrypt($created_pass), 'unenpass' => $created_pass]);
-	// 		}
-	// 		if (!$user->username) {
-	// 			$username = bin2hex(random_bytes(6));
-	// 			$user->update(['username' => $username]);
-	// 		}
-	// 	});
-	// }
+			unset($attributes['role']);
+		}
 
+		return parent::update($attributes, $options);
+	}
 }

@@ -11,11 +11,20 @@
 
 {% block content %}
 
-	<div class="col-md-6">
+  <div class="row">
+    <div class="col-md-6">
+        <table class="custom-table">
+          {% include 'components/preview-text.twig' with {'name': 'nama', 'label': 'Nama'} %}
+          {% include 'components/preview-text.twig' with {'name': 'nohp', 'label': 'No. HP'} %}
+        </table>
+      </div>
+
+    <div class="col-md-6">
       <table class="custom-table">
-        {% include 'components/preview-text.twig' with {'name': 'nama', 'label': 'Nama'} %}
-        {% include 'components/preview-text.twig' with {'name': 'nohp', 'label': 'Nama'} %}
+        {% include 'components/preview-text.twig' with {'name': 'norek', 'label': 'No. Rekening'} %}
+        {% include 'components/preview-text.twig' with {'name': 'nama_bank', 'label': 'Nama Bank'} %}
       </table>
     </div>
+  </div>  	
 
 {% endblock %}

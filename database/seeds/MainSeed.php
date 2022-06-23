@@ -216,6 +216,10 @@ class MainSeed {
         $nik = $faker->numberBetween($min=1000000000, $max=9999999999);
         $tanggal_lahir = $faker->date($format = 'd/m/Y', $max = 'now');
         $alamat = $faker->address;
+        $rt_rw = $faker->name();
+        $kel_desa = $faker->name();
+        $kab_kota = $faker->name();
+        $provinsi = $faker->name();
         $email = $faker->email;
         $nama_ayah = $faker->name($gender="male");
         $pekerjaan_ayah = $faker->word;
@@ -237,6 +241,9 @@ class MainSeed {
         $ijazah = $this->fakeImages();
         $ktp = $this->fakeImages();
         $surket = $this->fakeImages();
+        $akte_lahir = $this->fakeImages();
+        $kartu_keluarga = $this->fakeImages();
+        $kartu_vaksin = $this->fakeImages();
 
         $orang_value = [
             "nik" => $nik,
@@ -262,6 +269,9 @@ class MainSeed {
             "ijazah" => $ijazah,
             "ktp" => $ktp,
             "surket_menikah" => $surket,
+            "akte_lahir" => $akte_lahir,
+            "kartu_keluarga" => $kartu_keluarga,
+            "kartu_vaksin" => $kartu_vaksin,
         ];
 
         return $orang_value;
@@ -288,10 +298,10 @@ class MainSeed {
             ];
 
             $pmb = $pmb_obj->create($pmb_value);
-            $pmb->update(["status" => "terverifikasi", "test_tertulis" => date('d/m/Y')]);
-            $pmb->update(["status" => "test_lulus", "test_kesehatan" => date('d/m/Y')]);
-            $pmb->update(["status" => "kesehatan_lulus", "test_wawancara" => date('d/m/Y')]);
-            $pmb->update(["status" => "wawancara_lulus", "daftar_ulang" => date('d/m/Y')]);
+            $pmb->update(["status" => "terverifikasi", "test_tertulis" => date('d/m/Y'), "test_tertulis_end" => date('d/m/Y')]);
+            $pmb->update(["status" => "test_lulus", "test_kesehatan" => date('d/m/Y'), "test_kesehatan_end" => date('d/m/Y')]);
+            $pmb->update(["status" => "kesehatan_lulus", "test_wawancara" => date('d/m/Y'), "test_wawancara_end" => date('d/m/Y')]);
+            $pmb->update(["status" => "wawancara_lulus", "daftar_ulang" => date('d/m/Y'), "daftar_ulang_end" => date('d/m/Y')]);
         }
 
         $pendaftaran->update(['status' => 'closed']);
@@ -299,13 +309,13 @@ class MainSeed {
         $pendaftaran->terbitkanNIM();
     }
 
-    function createKaryawan($jenis_karyawan)
+    function createKaryawan($role)
     {
         $faker = Faker\Factory::create();
         $karyawan_obj = $this->getObject('karyawan');
         $karyawan_value = [
             "ni" => $faker->randomDigitNotNull,
-            "jenis_karyawan" => $jenis_karyawan,
+            "user" => ['role' => [['id'=> $role]]],
             "orang" => $this->fakeDataOrang()
         ];
         $karyawan = $karyawan_obj->create($karyawan_value);
@@ -313,9 +323,9 @@ class MainSeed {
         return $karyawan;
     }
 
-    function createDosenPjmk($semester_id, $mata_kuliah_diampuh_ids, $jenis_karyawan)
+    function createDosenPjmk($semester_id, $mata_kuliah_diampuh_ids, $role)
     {
-        $karyawan = $this->createKaryawan($jenis_karyawan);
+        $karyawan = $this->createKaryawan($role);
         $dosen_pjmk_obj = $this->getObject('dosen_pjmk');
         $tahun_ajaran_obj = $this->getObject('tahun_ajaran');
         $nilai_obj = $this->getObject('nilai');
@@ -352,12 +362,12 @@ class MainSeed {
         }
     }
 
-    function createDosenPa($semester_id, $jenis_karyawan)
+    function createDosenPa($semester_id, $role)
     {
         $dosen_pa_obj = $this->getObject('dosen_pa');
         $tahun_ajaran_obj = $this->getObject('tahun_ajaran');
 
-        $karyawan = $this->createKaryawan($jenis_karyawan);
+        $karyawan = $this->createKaryawan($role);
         $tahun_ajaran = $tahun_ajaran_obj->first();
 
         $dosen_pa_value = [
@@ -379,14 +389,16 @@ class MainSeed {
 
             $panitia_value = [
                 "nama" => $faker->name(),
-                "nohp" => $faker->phoneNumber
+                "nohp" => $faker->phoneNumber,
+                "norek" => $faker->numberBetween($min=1000000000, $max=9999999999),
+                "nama_bank" => $faker->name(),
             ];
 
             $panitia = $panitia_obj->create($panitia_value);
         }
     }
 
-    function dosenData($jenis_karyawan)
+    function dosenData($role)
     {
         $faker = Faker\Factory::create();
         $mata_kuliah_obj = $this->getObject('mata_kuliah');
@@ -402,7 +414,7 @@ class MainSeed {
             $is_last = ( (!isset($mata_kuliah[$key+1])) || $value->semester_id != $mata_kuliah[$key+1]->semester_id);
 
             if ($key != 0 && count($mata_kuliah_diampuh_ids) > 0 && ($is_even || $is_last) ) {
-                $dosen_pjmk = $this->createDosenPjmk($value->semester_id, $mata_kuliah_diampuh_ids, $jenis_karyawan);
+                $dosen_pjmk = $this->createDosenPjmk($value->semester_id, $mata_kuliah_diampuh_ids, $role);
                 $mata_kuliah_diampuh_ids = [];
             }
 
@@ -412,24 +424,69 @@ class MainSeed {
         }
 
         foreach($semester_ids as $semester_id) {
-            $this->createDosenPa($semester_id, $jenis_karyawan);
+            $this->createDosenPa($semester_id, $role);
         }
     }
 
     function karyawanData()
     {
         $faker = Faker\Factory::create();
-        $karyawan_obj = $this->getObject('karyawan');
+        $role_obj = $this->getObject('role');
+        $role = $role_obj->whereNotIn('value', ['admin', 'pmb', 'mahasiswa'])->get();
 
-        foreach ($karyawan_obj->jenis_karyawan_enum as $key => $value) {
+        foreach ($role as $key => $value) {
             
-            if ($key == 'dosen') {
-                $this->dosenData($key);
+            if ($value->value == 'dosen') {
+                $this->dosenData($value->id);
             }else{
-                $this->createKaryawan($key);
+                $this->createKaryawan($value->id);
             }
         }
 
+    }
+
+    function importKaryawan()
+    {
+        $data_file = fopen(DATA_PATH.'/pegawai.csv', "r");
+        $counter = 0;
+        $data = [];
+        $header = [];
+        while (! feof($data_file)) {
+            $pegawai_obj = $this->getObject('karyawan');
+            $role_obj = $this->getObject('role');
+            $row = fgetcsv($data_file);
+
+            if ($counter == 0) {
+                $header = $row;
+            }else{
+                if ($row) {
+
+                    $role = $role_obj->where('value', $row[9])->first();;
+
+                    $col_data = [
+                        'orang' => [
+                            'nik' => $row[0],
+                            'nama' => $row[1],
+                            'tanggal_lahir' => $row[2],
+                            'tempat_lahir' => $row[3],
+                            'jenis_kelamin' => $row[4],
+                            'agama_id' => $row[5],
+                            'alamat' => $row[6],
+                            'email' => $row[7],
+                            'no_hp' => $row[8],
+                            'npwp' => $row[10],
+                            'bpjstk' => $row[11],
+                        ],
+                        'ni' => $row[13],
+                        'user' => ['role' => [['id' => $role->id]]],
+                    ];
+                    array_push($data, $col_data);
+                    $pegawai = $pegawai_obj->create($col_data);
+                }
+            }
+            $counter++;
+        }
+        fclose($data_file);
     }
 
     function run()
@@ -451,16 +508,6 @@ class MainSeed {
         echo "Run prepared script to create table and the relation.... \r\n";
         exec('..\mysql\bin\mysql -u root '.$db_name.' < database/SIA.sql');
 
-        // Create super admin user
-        echo "Create super admin user.... \r\n";
-        $orang_id = $orang->create(['nama' => 'Admin'])->id;
-        $user->create([
-            'username' => 'admin',
-            'password' => 'admin',
-            'role' => 'admin',
-            'orang_id' => $orang_id
-        ]);
-
         // import data
         echo "Import data from excel.... \r\n";
         $this->importData('agama');
@@ -471,6 +518,17 @@ class MainSeed {
         $this->importData('konfigurasi');
         $this->importData('sequance');
         $this->importData('pembiayaan_lainnya');
+        $this->importData('role');
+
+        // Create super admin user
+        echo "Create super admin user.... \r\n";
+        $orang_id = $orang->create(['nama' => 'Admin'])->id;
+        $user->create([
+            'username' => 'admin',
+            'password' => 'admin',
+            'role' => [['id' => 5]],
+            'orang_id' => $orang_id
+        ]);
 
         echo "Create fake Konfigurasi data.... \r\n";
         $this->konfigurasiData();
@@ -478,13 +536,17 @@ class MainSeed {
         echo "Create fake Paket data.... \r\n";
         $this->paketData();
 
+        echo "import data karyawan.... \r\n";
+        $this->importKaryawan();
+
+        echo "Create fake Panitia data using faker.... \r\n";
+        $this->createPanitia(2);
+
         echo "Create fake PMB data using faker.... \r\n";
         $this->mahasiswaData($this->total_mahasiswa);
 
         echo "Create fake Karyawan data using faker.... \r\n";
         $this->karyawanData();
 
-        echo "Create fake Panitia data using faker.... \r\n";
-        $this->createPanitia(5);
     }
 }

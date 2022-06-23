@@ -1,128 +1,50 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>SIA | Register</title>
+{% extends "root/base.twig" %}
 
-	<!-- style -->
-	<link href="/public/assets/libs/css/bootstrap.min.css" rel="stylesheet">
-	<link href="/public/assets/libs/jquery.steps.css" rel="stylesheet">
-	<link href="/public/assets/css/font-awesome.min.css" rel="stylesheet">
-	<link href="/public/assets/libs/datepicker/bootstrap-datepicker.standalone.min.css" rel="stylesheet">
-	<link href="/public/assets/css/register.css" rel="stylesheet">
+{% block title %}Register{% endblock %}
 
-	<!-- script -->
-	<script src="/public/assets/jquery-1.11.1.min.js" defer="true"></script>
-	<script src="/public/assets/libs/js/bootstrap.min.js" defer="true"></script>
-	<script src="/public/assets/libs/jquery.steps.min.js" defer="true"></script>
-	<script src="/public/assets/libs/bootstrap-fileselect.min.js" defer="true"></script>
-	<script src="/public/assets/libs/datepicker/bootstrap-datepicker.min.js" defer="true"></script>
-	<script src="/public/assets/js/register.js" defer="true"></script>
 
-</head>
-<body>
+{% block content %}
 
-	<div class="container-fluid p-0">
-		
-		<nav class="navbar navbar-expand-lg navbar-dark align-items-end shadow" style="background: #00a85a">
-			<a class="navbar-brand" href="#">
-				<div class="d-flex align-items-center">
-					<img src="/public/assets/images/bethesda.png" class="w-25">
-					<div>
-						<h1>AKPER</h1>
-						<h5>Bethesda Serukam Kab. Bengkayang</h5>
-					</div>
-				</div>
-			</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
+	<div class="col-md-9 flex-center">
+		<div class="row persyaratan-container">	
+			<div class="col-12">&nbsp;</div>
 
-			<div class="collapse navbar-collapse">
-				<ul class="navbar-nav ml-auto">
-					{% if konfigurasi.registrasi %}
-						<li class="nav-item active">
-							<a class="nav-link" href="/register">Pendaftaran Mahasiswa Baru</a>
-						</li>
-					{% endif %}
-					<li class="nav-item">
-						<a class="nav-link" href="/login">Login</a>
-					</li>
-				</ul>
+			<div class="col-md-6 persyaratan">
+				<h5>PENDAFTARAN OFFLINE: </h5>
+				<ul class="numbering">
+					<li>Datang langsung ke kampus Akper Bethesda Serukam (tidak diwakilkan)</li>
+					<li>Menggunakan pakaian berkerah dan celana / rok kain & sepatu</li>
+					<li>Membawa semua persyaratan administrasi yang diperlukan</li>
+				</ul>						
 			</div>
-		</nav>
-
-		<div class="container-fluid row mt-3">
-			<div class="col-md-9">
-				<div class="row persyaratan-container">
-					<div class="col-md-6 persyaratan">
-						<h5>PERSYARATAN PESERTA: </h5>
-						<ul class="numbering">
-							<li>WNI/WNA</li>
-							<li>Lulus SMA/Sederajat</li>
-							<li>Usia Maksimal 35 Tahun</li>
-							<li>Tinggi Badan: Pria:153cm, Wanita:143cm</li>
-							<li>Belum Menikah</li>
-							<li>Berbadan sehat, Tidak tuna fisik</li>
-							<li>Tidak buta warna total, Bebas Narkoba</li>
-							<li>Tidak ada masalah gangguan pendengaran</li>
-							<li>Biaya Pendaftaran: Rp.300.000</li>
-						</ul>						
-					</div>
-					<div class="col-md-6 persyaratan">
-						<h5>PERSYARATAN ADMINISTRASI: </h5>
-						<ul class="numbering">
-							<li>Pas Foto warna ukuran 4x6 = 5 lembar</li>
-							<li>Fotocopy Ijazah dilegalisir / Surat Tanda Lulus = 2 lembar</li>
-							<li>SKHU/Surat keterangan sudah mengikuti ujian</li>
-							<li>Surat Keterangan Belum Menikah dari kepala desa / gembala sidang setempat bagi yang beragama Kristen</li>
-							<li>Fotocopy Akta Kelahiran = 1 lembar</li>
-							<li>Fotocopy KTP = 1 lembar</li>
-							<li>Fotocopy KK = 1 lembar</li>
-						</ul>
-					</div>
-
-					<div class="col-12">&nbsp;</div>
-
-					<div class="col-md-6 persyaratan">
-						<h5>PENDAFTARAN OFFLINE: </h5>
-						<ul class="numbering">
-							<li>Datang langsung ke kampus Akper Bethesda Serukam (tidak diwakilkan)</li>
-							<li>Menggunakan pakaian berkerah dan celana / rok kain & sepatu</li>
-							<li>Membawa semua persyaratan administrasi yang diperlukan</li>
-						</ul>						
-					</div>
-					<div class="col-md-6 persyaratan">
-						<h5>WAKTU PENDAFTARAN: </h5>
-						<p>
-							Senin - Jumat (Pukul 8.30 - 16.00)
-						</p>
-					</div>
-				</div>
+			<div class="col-md-6 persyaratan">
+				<h5>WAKTU PENDAFTARAN: </h5>
+				<p>
+					Senin - Jumat (Pukul 8.30 - 16.00)
+				</p>
 			</div>
-
-			<div class="alur col-md-3">
-				<div class="box-header">
-					ALUR PENDAFTARAN SIPENMARU
-				</div>
-				<div class="box-content">
-					<div>ISI FORMULIR PENDAFTARAN</div>
-					<div class="box-arrow"></div>
-					<div>BAYAR BIAYA PENDAFTARAN</div>
-					<div class="box-arrow"></div>
-					<div>SELEKSI ADMINISTRASI</div>
-					<div class="box-arrow"></div>
-					<div>TES UJI TULIS</div>
-					<div class="box-arrow"></div>
-					<div>TES KESEHATAN</div>
-					<div class="box-arrow"></div>
-					<div>TES WAWANCARA</div>
-					<div class="box-arrow"></div>
-					<div>REGISTRASI KEUANGAN</div>
-				</div>
-			</div>
-		</div>
-
+		</div>			
 	</div>
 
-</body>
-</html>
+	<div class="alur col-md-3">
+		<div class="box-header">
+			ALUR PENDAFTARAN SIPENMARU
+		</div>
+		<div class="box-content">
+			<div>ISI FORMULIR PENDAFTARAN</div>
+			<div class="box-arrow"></div>
+			<div>BAYAR BIAYA PENDAFTARAN</div>
+			<div class="box-arrow"></div>
+			<div>SELEKSI ADMINISTRASI</div>
+			<div class="box-arrow"></div>
+			<div>TES UJI TULIS</div>
+			<div class="box-arrow"></div>
+			<div>TES KESEHATAN</div>
+			<div class="box-arrow"></div>
+			<div>TES WAWANCARA</div>
+			<div class="box-arrow"></div>
+			<div>REGISTRASI KEUANGAN</div>
+		</div>
+	</div>
+
+{% endblock %}

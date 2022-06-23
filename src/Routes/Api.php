@@ -33,6 +33,8 @@ class Api extends BaseRoute {
         $this->app->post('/{object}/delete/{id}', \App\Controllers\ApiController::class . ':delete');
 
         $this->app->post('/login/submit', \App\Controllers\ApiController::class . ':login');
+        $this->app->post('/lupa/password/submit', \App\Controllers\ApiController::class . ':lupaPassword');
+        $this->app->post('/reset/password/submit', \App\Controllers\ApiController::class . ':resetPassword');
         $this->app->post('/logout', \App\Controllers\ApiController::class . ':logout');
      
         $this->app->get('/session', \App\Controllers\ApiController::class . ':session');

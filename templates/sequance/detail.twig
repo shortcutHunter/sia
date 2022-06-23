@@ -10,10 +10,12 @@
 
 {% block content %}
 
-	<table class="custom-table">
-		{% include 'components/preview-text.twig' with {'name': 'nama', 'label': 'Nama'} %}
-		{% include 'components/preview-text.twig' with {'name': 'kode', 'label': 'Kode'} %}
-		{% include 'components/preview-text.twig' with {'name': 'nomor', 'label': 'Nomor'} %}
-	</table>
+	<div class="col-md-6">
+		<table class="custom-table">
+			{% include 'components/preview-text.twig' with {'name': 'nama', 'label': 'Nama'} %}
+			{% include 'components/preview-text.twig' with {'name': 'kode', 'label': 'Kode'} %}
+			{% include 'components/preview-text.twig' with {'name': 'nomor', 'label': 'Nomor'} %}
+		</table>
+	</div>
 
 {% endblock %}

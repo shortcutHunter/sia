@@ -25,7 +25,9 @@
         dataservice.user = data;
 
         vm.navRoutes = states.filter(function(r) {
-          return !!(r.settings && r.settings.parent && r.settings.roles.includes(data.role));
+          return !!(r.settings && r.settings.parent && data.role.some((element) => {
+            return r.settings.roles.includes(element.value);
+          }));
         }).sort(function(r1, r2) {
           return r1.settings.parent - r2.settings.parent;
         });
@@ -34,7 +36,6 @@
     }
 
     function logout() {
-      console.log('Running ?');
       return $http.post('/logout' , {})
       .then(function(){
         window.location = '/';

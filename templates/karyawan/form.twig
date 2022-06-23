@@ -13,7 +13,28 @@
 			
 			<div class="col-md-6">
 				<table class="custom-table">
-						{% include 'components/radio.twig' with {'name': 'jenis_karyawan', 'label': 'Jenis Karyawan', 'option': 'option.jenis_karyawan', 'required': true} %}
+					<tr>
+						<td>
+							<div class="text-muted font-semibold me-3">Jenis Karyawan</div>
+						</td>
+						<td>
+							<div class="form-check">
+						        <div class="checkbox" ng-repeat="role in vm.option.orang.selection.role track by $index">
+						            <label>
+						            	{% verbatim %}
+						            	<input 
+							            	type="checkbox"
+							            	ng-model="vm.role_ids[role.id]"
+							            	class="form-check-input"
+							            	ng-true-value="{{role.id}}"
+							            	ng-false-value="false">
+							            	    {{ role.nama }}
+						            	{% endverbatim %}
+						            </label>
+						        </div>
+						    </div>
+						</td>
+					</tr>
 				</table>
 			</div>
 		</div>

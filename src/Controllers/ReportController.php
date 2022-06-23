@@ -162,12 +162,11 @@ final class ReportController extends BaseController
 
         $mata_kuliah_diampuh = $mata_kuliah_diampuh_obj->find($mata_kuliah_diampuh_id);
 
-        $mahasiswa = $mahasiswa_obj->where('semester_id', $mata_kuliah_diampuh->dosen_pjmk->semester_id)->whereHas(
+        $mahasiswa = $mahasiswa_obj->whereHas(
             'pengajuan_ks', 
             function($q) use ($mata_kuliah_diampuh) {
                 $q
                     ->where('status', 'terima')
-                    ->where('semester_id', $mata_kuliah_diampuh->dosen_pjmk->semester_id)
                     ->where('tahun_ajaran_id', $mata_kuliah_diampuh->dosen_pjmk->tahun_ajaran_id)
                     ->whereHas(
                         'pengajuan_ks_detail', 
@@ -202,12 +201,11 @@ final class ReportController extends BaseController
         $mata_kuliah_diampuh = $mata_kuliah_diampuh_obj->find($mata_kuliah_diampuh_id);
         $nilai = $nilai_obj->all();
 
-        $mahasiswa = $mahasiswa_obj->where('semester_id', $mata_kuliah_diampuh->dosen_pjmk->semester_id)->whereHas(
+        $mahasiswa = $mahasiswa_obj->whereHas(
             'pengajuan_ks', 
             function($q) use ($mata_kuliah_diampuh) {
                 $q
                     ->where('status', 'terima')
-                    ->where('semester_id', $mata_kuliah_diampuh->dosen_pjmk->semester_id)
                     ->where('tahun_ajaran_id', $mata_kuliah_diampuh->dosen_pjmk->tahun_ajaran_id)
                     ->whereHas(
                         'pengajuan_ks_detail', 
@@ -246,6 +244,107 @@ final class ReportController extends BaseController
 
         $response->getBody()->write(json_encode($pdfContent));
         return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
+   }
+
+    public function mahasiswaBimbingan($request, $response, $args)
+   {
+        $dosen_pa_id   = $args['dosen_pa_id'];
+        $dosen_pa_obj  = $this->get_object('dosen_pa');
+
+        $dosen_pa = $dosen_pa_obj->find($dosen_pa_id);
+
+        $value = [
+          'dosen_pa' => $dosen_pa
+        ];
+
+        if ($dosen_pa->mahasiswa_bimbingan->count() < 1) {
+            throw new \Exception("Belum ada mahasiswa yang dibimbing");
+        }
+
+        $pdfContent = $this->container->get('renderPDF')("reports/mahasiswa_bimbingan.phtml", $value);
+        $pdfContent = ['content' => base64_encode($pdfContent)];
+
+        $response->getBody()->write(json_encode($pdfContent));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
+   }
+
+    public function dosenPJMK($request, $response, $args)
+   {
+        $dosen_pjmk_obj  = $this->get_object('dosen_pjmk');
+
+        $dosen_pjmk = $dosen_pjmk_obj->where('status', 'aktif')->get();
+
+        $value = [
+          'dosen_pjmk' => $dosen_pjmk
+        ];
+
+        if ($dosen_pjmk->count() < 1) {
+            throw new \Exception("Belum ada dosen PJMK yang aktif");
+        }
+
+        $pdfContent = $this->container->get('renderPDF')("reports/dosen_pjmk.phtml", $value);
+        $pdfContent = ['content' => base64_encode($pdfContent)];
+
+        $response->getBody()->write(json_encode($pdfContent));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
+   }
+
+    public function tagihanMahasiswa($request, $response, $args)
+   {
+        $tagihan_obj = $this->get_object('tagihan');
+        $mahasiswa_obj = $this->get_object('mahasiswa');
+
+        $orang = $this->container->get('session')->get('orang');
+        $tagihan = $tagihan_obj->where('orang_id', $orang->id)->get();
+        $mahasiswa = $mahasiswa_obj->where('orang_id', $orang->id)->first();
+
+        $value = [
+          'mahasiswa' => $mahasiswa,
+          'tagihan' => $tagihan
+        ];
+
+        if ($tagihan->count() < 1) {
+            throw new \Exception("Belum ada tagihan");
+        }
+
+        $pdfContent = $this->container->get('renderPDF')("reports/tagihan.phtml", $value);
+        $pdfContent = ['content' => base64_encode($pdfContent)];
+
+        $response->getBody()->write(json_encode($pdfContent));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
+   }
+
+    public function tagihanMahasiswaId($request, $response, $args)
+   {
+        $tagihan_obj = $this->get_object('tagihan');
+        $mahasiswa_obj = $this->get_object('mahasiswa');
+
+        $mahasiswa = $mahasiswa_obj->find($args['mahasiswa_id']);
+        $tagihan = $tagihan_obj->where('orang_id', $mahasiswa->orang->id)->get();
+
+        $value = [
+          'mahasiswa' => $mahasiswa,
+          'tagihan' => $tagihan
+        ];
+
+        if ($tagihan->count() < 1) {
+            throw new \Exception("Belum ada tagihan");
+        }
+
+        $pdfContent = $this->container->get('renderPDF')("reports/tagihan.phtml", $value);
+        $pdfContent = ['content' => base64_encode($pdfContent)];
+
+        $response->getBody()->write(json_encode($pdfContent));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
+   }
+
+    public function loginDetail($request, $response, $args)
+   {
+        $pmb_obj = $this->get_object('pmb');
+
+        $pmb = $pmb_obj->find(6);
+
+        $pmb->sendLoginDetail();
    }
 
 }

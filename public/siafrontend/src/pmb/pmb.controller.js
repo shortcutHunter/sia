@@ -17,6 +17,7 @@
     vm.searchValue = false;
 
     vm.search = search;
+    vm.updStatus = updStatus;
 
     activate();
 
@@ -48,6 +49,25 @@
         vm.page = 1;
       }
     }
+
+    function updStatus(status) {
+
+      if (status.includes('gagal') || status.includes('tolak') || status.includes('pending')) {
+        dataservice.postData(vm.table, {status: status}, vm.data.id).then(function(data){
+          state.reload();
+        });
+      } else {
+        let el = `<modal-isi-tanggal data='vm.data' status='${status}'></modal-isi-tanggal>`;
+        el = compile(el)(scope);
+        $(element).append(el);
+      }
+    }
+
+    scope.$watch('vm.searchData', function(newVal, oldVal) {
+      if (newVal != undefined) {
+        search();
+      }
+    });
 
   }
 })();

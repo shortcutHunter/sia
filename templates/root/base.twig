@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>SIA | {% block title %}{% endblock %}</title>
+
+	{% include 'root/partial/assets.twig' %}
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body class="bg-light">
+
+	<div class="content-register">
+
+		{% include 'root/partial/navbar.twig' %}
+		
+		<div class="container">
+			<div class="row mt-3">
+				{% block content %}{% endblock %}
+			</div>
+		</div>
+	</div>
+
+	{% include 'root/partial/footer.twig' %}
+
+</body>
+</html>
