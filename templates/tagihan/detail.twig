@@ -14,7 +14,7 @@
     <button class="btn btn-primary" widget-update-status="bayar" ng-if="vm.data.status == 'proses'">Lunas</button>
   </div> -->
 
-  <div class="float-end" ng-if="vm.data.status != 'bayar' && vm.data.register_ulang">
+  <div class="float-end" ng-if="vm.data.status != 'bayar'">
   	<button 
   		ng-repeat="x in [].constructor(3) track by $index" 
   		class="btn btn-sm btn-primary me-2"
@@ -23,11 +23,11 @@
   		ng-bind="'Cicilan ' + ($index+1)"></button>
   </div>
 
-  <div class="float-end" ng-if="vm.data.status != 'bayar' && !vm.data.register_ulang">
+  <!-- <div class="float-end" ng-if="vm.data.status != 'bayar' && !vm.data.register_ulang">
   	<button 
   		class="btn btn-sm btn-primary"
   		ng-click="vm.tambahPembiayaan()">Bayar</button>
-  </div>
+  </div> -->
 
   {# {% include 'widget/nextprev.twig' %} #}
 {% endblock %}
@@ -60,15 +60,58 @@
 
 	<ul class="nav nav-tabs mt-5">
 		<li class="nav-item">
-    	<a class="nav-link active" data-bs-toggle="list" href="#pembiayaan">Pembiayaan</a>
+    	<a class="nav-link active" data-bs-toggle="list" href="#pembayaran">Pembayaran</a>
     </li>
 		<li class="nav-item">
-    	<a class="nav-link" data-bs-toggle="list" href="#pembayaran" ng-if="vm.data.status != 'draft'">Transaksi</a>
+    	<a class="nav-link" data-bs-toggle="list" href="#pembiayaan">Pembiayaan</a>
     </li>
   </ul>
 
     <div class="tab-content text-justify">
-    	<div class="tab-pane fade show active" id="pembiayaan">
+
+    	<div class="tab-pane fade show active" id="pembayaran" ng-if="vm.data.status != 'draft'">
+    		<div class="row mt-3">
+    			<div class="col-md-12">
+
+      			<table class="table">
+							<thead>
+								<th>Tanggal</th>
+								<th>Nominal</th>
+								<th>Bukti Bayar</th>
+								<th>Status</th>
+								<th></th>
+							</thead>
+
+							<tbody>
+								<tr ng-repeat="col in vm.data.transaksi track by $index" ng-if="vm.data.transaksi && vm.data.transaksi.length != 0">
+									<td ng-bind="col.tanggal_bayar"></td>
+									<td>
+										{% verbatim %}
+										    <span widget-number="{{ col.nominal || 0 }}"></span>
+										{% endverbatim %}
+									</td>
+									<td class="font-extrabold">
+										<a href="javascript:void(0)" widget-preview="col.tagihan_bukti_bayar[0].file" ng-bind="col.tagihan_bukti_bayar[0].file.filename || '-'"></a>
+									</td>
+									<td ng-bind="col.status_label"></td>
+									<td>
+										<button class="btn btn-primary btn-sm" ng-if="col.status == 'process'" ng-click="vm.tolak(col)">Tolak</button>
+										<button class="btn btn-primary btn-sm" ng-if="col.status == 'process'" ng-click="vm.verif(col)">Verifikasi</button>
+									</td>
+								</tr>
+								<tr ng-if="!vm.data.transaksi || vm.data.transaksi.length == 0">
+									<td  class="text-center" colspan="5">Belum ada data</td>
+								</tr>
+							</tbody>
+
+						</table>
+						<small>Total data: <b ng-bind="vm.data.transaksi.length || 0"></b></small>
+        		
+      		</div>
+    		</div>
+    	</div>
+
+    	<div class="tab-pane fade show" id="pembiayaan">
 
     		<div class="row mt-3">
     			<div class="col-md-12">
@@ -108,55 +151,7 @@
     		</div>
     	</div>
 
-    	<div class="tab-pane fade show" id="pembayaran" ng-if="vm.data.status != 'draft'">
-    		<div class="row mt-3" ng-if="vm.data.status != 'bayar'">
-    			<div class="col-12">
-    				{# <button class="btn btn-primary" ng-click="vm.tambahPembiayaan()">Bayar</button> #}
-    				{# <input type="file" ng-model="vm.data.upload_file" multiple="" id="uploadFile" base-sixty-four-input="" style="display: none;"> #}
-    			</div>
-    		</div>
-
-    		<div class="row mt-3">
-    			<div class="col-md-12">
-
-      			<table class="table">
-
-							<thead>
-								<th>Tanggal</th>
-								<th>Nominal</th>
-								<th>Bukti Bayar</th>
-								<th>Status</th>
-								<th></th>
-							</thead>
-
-							<tbody>
-								<tr ng-repeat="col in vm.data.transaksi track by $index" ng-if="vm.data.transaksi && vm.data.transaksi.length != 0">
-									<td ng-bind="col.tanggal_bayar"></td>
-									<td>
-										{% verbatim %}
-										    <span widget-number="{{ col.nominal || 0 }}"></span>
-										{% endverbatim %}
-									</td>
-									<td class="font-extrabold">
-										<a href="javascript:void(0)" widget-preview="col.tagihan_bukti_bayar[0].file" ng-bind="col.tagihan_bukti_bayar[0].file.filename || '-'"></a>
-									</td>
-									<td ng-bind="col.status_label"></td>
-									<td>
-										<button class="btn btn-primary btn-sm" ng-if="col.status == 'process'" ng-click="vm.tolak(col)">Tolak</button>
-										<button class="btn btn-primary btn-sm" ng-if="col.status == 'process'" ng-click="vm.verif(col)">Verifikasi</button>
-									</td>
-								</tr>
-								<tr ng-if="!vm.data.transaksi || vm.data.transaksi.length == 0">
-									<td  class="text-center" colspan="5">Belum ada data</td>
-								</tr>
-							</tbody>
-
-						</table>
-						<small>Total data: <b ng-bind="vm.data.transaksi.length || 0"></b></small>
-        		
-      		</div>
-    		</div>
-    	</div>
+    	
 
     </div>
 

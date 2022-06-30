@@ -7,14 +7,17 @@
 		<div class="col-md-6">
 			<table class="custom-table">
 				{% include 'components/select.twig' with {'name': 'tahun_ajaran_id', 'label': 'Tahun Ajaran', 'option': 'selection.tahun_ajaran', 'label_selection': 'nama', 'required': true} %}
-				{# {% include 'components/input.twig' with {'name': 'max_cicilan', 'label': 'Maximum Cicilan'} %} #}
+				{% include 'components/date-picker.twig' with {'name': 'tanggal_mulai', 'label': 'Tanggal Mulai', 'required': true} %}
+				{% include 'components/date-picker.twig' with {'name': 'tanggal_berakhir', 'label': 'Tanggal Berakhir', 'required': true} %}
 			</table>
 		</div>
 		
 		<div class="col-md-6">
 			<table class="custom-table">
-					{% include 'components/preview-text.twig' with {'name': 'tanggal_mulai', 'label': 'Tanggal Mulai'} %}
-					{% include 'components/preview-text.twig' with {'name': 'tanggal_berakhir', 'label': 'Tanggal Berakhir'} %}
+				{% include 'components/input.twig' with {'name': 'nama', 'label': 'Nama Panitia', 'required': true} %}
+				{% include 'components/input.twig' with {'name': 'nohp', 'label': 'No. HP Panitia', 'required': true} %}
+				{% include 'components/input.twig' with {'name': 'norek', 'label': 'No. Rek. Panitia', 'required': true} %}
+				{% include 'components/input.twig' with {'name': 'nama_bank', 'label': 'Nama Bank Panitia', 'required': true} %}
 			</table>
 		</div>
 	</div>

@@ -487,8 +487,13 @@ final class ApiController extends BaseController
     public function session($request, $response, $args)
     {
         $container = $this->container;
+        $user_obj = $this->get_object('user');
+        $orang_obj = $this->get_object('orang');
         $user = $container->get('session')->get('user');
         $orang = $container->get('session')->get('orang');
+
+        $user = $user_obj->find($user->id);
+        $orang = $orang_obj->find($orang->id);
 
         if (!$user) {
             $user = [];

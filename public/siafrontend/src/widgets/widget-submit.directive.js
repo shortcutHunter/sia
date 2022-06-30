@@ -75,7 +75,16 @@
 
         if (is_valid) {
           dataservice.postData(vm.table, vm.data, vm.data.id).then(function(data){
-            location.path(`/${state_name}/${data.id}`);
+            if (state_name == 'profile') {
+
+              dataservice.getUrl('/session').then(function(response){
+                dataservice.user = response;
+                location.path(`/${state_name}`);
+              });
+              
+            } else {
+              location.path(`/${state_name}/${data.id}`);
+            }
           });
         }else{
           logger.error('Mohon isi semua kotak yang berwarna merah');

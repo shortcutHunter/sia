@@ -63,6 +63,10 @@
             font-size: 12px;
         }
 
+        .text-right {
+            text-align: right;
+        }
+
     </style>
 
     <div class="container">
@@ -78,17 +82,18 @@
                     <th>Semester</th>
                     <th>Tahun Ajaran</th>
                     <th>Mata Kuliah</th>
+                    <th>Total <br> Mahasiswa</th>
                 </tr>
 
                 <?php foreach ($dosen_pjmk as $key => $value): ?>
                     <tr>
-                        <td style="width: 10%;" rowspan="<?= $value->mata_kuliah_diampuh->count() ?: 1 ?>">
+                        <td style="width: 5%;" rowspan="<?= $value->mata_kuliah_diampuh->count() ?: 1 ?>">
                             <?= $key+1 ?>
                         </td>
-                        <td style="width: 30%;" rowspan="<?= $value->mata_kuliah_diampuh->count() ?: 1 ?>">
+                        <td style="width: 25%;" rowspan="<?= $value->mata_kuliah_diampuh->count() ?: 1 ?>">
                             <?= $value->karyawan->orang->nama ?>
                         </td>
-                        <td style="width: 10%;" rowspan="<?= $value->mata_kuliah_diampuh->count() ?: 1 ?>">
+                        <td style="width: 10%;" rowspan="<?= $value->mata_kuliah_diampuh->count() ?: 1 ?>" class="text-right">
                             <?= join(", ", $value->semester->pluck('nama')->toArray()) ?>
                         </td>
                         <td style="width: 20%;" rowspan="<?= $value->mata_kuliah_diampuh->count() ?: 1 ?>">
@@ -96,6 +101,9 @@
                         </td>
                         <td style="width: 30%;">
                             <?= isset($value->mata_kuliah_diampuh[0]) ? $value->mata_kuliah_diampuh[0]->mata_kuliah->nama : '-' ?>
+                        </td>
+                        <td style="width: 10%;" class="text-right">
+                            <?= isset($value->mata_kuliah_diampuh[0]) ? $value->mata_kuliah_diampuh[0]->total_mahasiswa : '0' ?>
                         </td>
                     </tr>
 
@@ -105,6 +113,9 @@
                             <tr>
                                 <td style="width: 30%;">
                                     <?= $v->mata_kuliah->nama ?>
+                                </td>
+                                <td style="width: 10%;" class="text-right">
+                                    <?= $v->total_mahasiswa ?>
                                 </td>
                             </tr>
 

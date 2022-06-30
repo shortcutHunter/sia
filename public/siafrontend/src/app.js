@@ -36,6 +36,7 @@ import './pembiayaan_lainnya/pembiayaan_lainnya.module';
 import './tracking/tracking.module';
 import './verifikasi_pmb/verifikasi_pmb.module';
 import './role/role.module';
+import './profile/profile.module';
 
 import './blocks/exception/exception-handler.provider';
 import './blocks/exception/exception';
@@ -221,3 +222,7 @@ import './role/role.controller';
 import './role/role_form.controller';
 import './role/role_detail.controller';
 import './role/role.route';
+
+import './profile/profile_form.controller';
+import './profile/profile_detail.controller';
+import './profile/profile.route';

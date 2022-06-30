@@ -1,0 +1,108 @@
+{% extends 'structure/detail.twig' %}
+
+
+{% block button %}
+  <a class="btn btn-sm btn-success" ui-sref="profile_form"><i class="fa fa-edit"></i> Edit</a>
+{% endblock %}
+
+{% block content %}
+
+  <div class="row">
+    <div class="col-md-6">
+      <table class="custom-table">
+        {% include 'components/preview-text.twig' with {'name': 'nik', 'label': 'NIK'} %}
+        {% include 'components/preview-text.twig' with {'name': 'nama', 'label': 'Nama'} %}
+      </table>
+    </div>
+  </div>
+
+  <ul class="nav nav-tabs mt-5">
+    <li class="nav-item">
+      <a class="nav-link active" data-bs-toggle="list" href="#pribadi">Data Pribadi</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="list" href="#orangtua">Orang Tua</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="list" href="#pendidikan">Pendidikan</a>
+    </li>
+  </ul>
+
+  <div class="tab-content text-justify">
+  
+    <div class="tab-pane fade show active" id="pribadi">
+      <div class="row mt-3">
+        <div class="col-md-6">
+          <table class="custom-table">
+            {% include 'components/preview-text.twig' with {'name': 'tempat_lahir', 'label': 'Tempat Lahir'} %}
+            {% include 'components/preview-text.twig' with {'name': 'tanggal_lahir', 'label': 'Tanggal Lahir'} %}
+            {% include 'components/preview-text.twig' with {'name': 'jenis_kelamin_label', 'label': 'Jenis Kelamin'} %}
+            {% include 'components/preview-text.twig' with {'name': 'agama.nama', 'label': 'Agama'} %}
+          </table>
+        </div>
+
+        <div class="col-md-6">
+          <table class="custom-table">
+            {% include 'components/preview-text.twig' with {'name': 'alamat', 'label': 'Alamat'} %}
+            {% include 'components/preview-text.twig' with {'name': 'rt_rw', 'label': 'Rt / Rw'} %}
+            {% include 'components/preview-text.twig' with {'name': 'kel_desa', 'label': 'Kel / Desa'} %}
+            {% include 'components/preview-text.twig' with {'name': 'kab_kota', 'label': 'Kab / Kota'} %}
+            {% include 'components/preview-text.twig' with {'name': 'provinsi', 'label': 'Provinsi'} %}
+          </table>
+        </div>
+
+        <div class="col-md-6">
+          <table class="custom-table">
+            {% include 'components/preview-text.twig' with {'name': 'email', 'label': 'Email'} %}
+            {% include 'components/preview-text.twig' with {'name': 'no_hp', 'label': 'No. HP'} %}
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-pane fade" id="orangtua">
+      <div class="row mt-3">
+        <div class="col-md-6">
+          <table class="custom-table">
+        {% include 'components/preview-text.twig' with {'name': 'nama_ayah', 'label': 'Nama Ayah'} %}
+        {% include 'components/preview-text.twig' with {'name': 'pekerjaan_ayah', 'label': 'Pekerjaan Ayah'} %}
+        {% include 'components/preview-number.twig' with {'name': 'penghasilan_ortu', 'label': 'Penghasilan Orang Tua'} %}
+          </table>
+        </div>
+
+        <div class="col-md-6">
+          <table class="custom-table">
+        {% include 'components/preview-text.twig' with {'name': 'nama_ibu', 'label': 'Nama Ibu'} %}
+        {% include 'components/preview-text.twig' with {'name': 'pekerjaan_ibu', 'label': 'Pekerjaan Ibu'} %}
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-pane fade" id="pendidikan">
+      <div class="row mt-3">
+        <div class="col-md-6">
+          <table class="custom-table">
+            {% include 'components/preview-text.twig' with {'name': 'asal_sekolah', 'label': 'Asal Sekolah'} %}
+            {% include 'components/preview-text.twig' with {'name': 'jurusan', 'label': 'Jurusan'} %}
+          </table>
+        </div>
+        <div class="col-md-6">
+          <table class="custom-table">
+            {% include 'components/preview-text.twig' with {'name': 'tinggi_badan', 'label': 'Tinggi Badan'} %}
+            {% include 'components/preview-text.twig' with {'name': 'berat_badan', 'label': 'Berat Badan'} %}
+          </table>
+        </div>
+        <div class="col-md-6">
+          <table class="custom-table">
+            {% include 'components/preview-file.twig' with {'name': 'pasfoto', 'label': 'Pasfoto'} %}
+            {% include 'components/preview-file.twig' with {'name': 'ktp', 'label': 'KTP'} %}
+            {% include 'components/preview-file.twig' with {'name': 'kartu_vaksin', 'label': 'Kartu Vaksin'} %}
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+{% endblock %}

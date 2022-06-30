@@ -5,10 +5,8 @@
 
 {% block content %}
 
-	<div class="col-12 mb-3">
-		<div class="very-small">
-			Jika terdapat kendala pada tahap registrasi, dapat menghubungi panitia via WA : <a href="http://wa.me/{{ konfigurasi.nohp_panitia }}">http://wa.me/{{ konfigurasi.nohp_panitia }}</a>
-		</div>
+	<div class="col-md-12 mb-3 bold">
+		<div class="text-center">PENDAFTARAN TAHUN AJARAN {{ pendaftaran.tahun_ajaran.nama }} TELAH DIBUKA DARI {{ pendaftaran.tanggal_mulai|date('d/m/Y') }} S/D {{ pendaftaran.tanggal_berakhir|date('d/m/Y') }}</div>
 	</div>
 
 	<div class="col-md-9 flex-center">
@@ -83,6 +81,12 @@
 			<div>TES WAWANCARA</div>
 			<div class="box-arrow"></div>
 			<div>REGISTRASI KEUANGAN</div>
+		</div>
+	</div>
+
+	<div class="col-12 mt-4">
+		<div class="very-small text-right">
+			Jika terdapat kendala pada tahap registrasi, dapat menghubungi panitia via WA : <a href="http://wa.me/{{ konfigurasi.nohp_panitia }}">http://wa.me/{{ konfigurasi.nohp_panitia }}</a>
 		</div>
 	</div>
 

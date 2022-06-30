@@ -51,6 +51,7 @@ class MainSeed {
 
     function konfigurasiData()
     {
+        $faker = Faker\Factory::create();
         $tahun_ajaran_obj = $this->getObject('tahun_ajaran');
         $konfigurasi_obj = $this->getObject('konfigurasi');
         $semester_obj = $this->getObject('semester');
@@ -114,9 +115,14 @@ class MainSeed {
 
         $pendaftaran = $pendaftaran_obj->create([
             "tanggal_mulai" => date('d/m/Y'),
+            "tanggal_berakhir" => date('d/m/Y'),
             "tahun_ajaran_id" => $tahun_ajaran->id,
             "status" => 'open',
             "max_cicilan" => 10,
+            "nama" => $faker->name(),
+            "nohp" => $faker->phoneNumber,
+            "norek" => $faker->numberBetween($min=1000000000, $max=9999999999),
+            "nama_bank" => $faker->name()
         ]);
     }
 
@@ -542,8 +548,8 @@ class MainSeed {
         echo "Create fake Panitia data using faker.... \r\n";
         $this->createPanitia(2);
 
-        echo "Create fake PMB data using faker.... \r\n";
-        $this->mahasiswaData($this->total_mahasiswa);
+        // echo "Create fake PMB data using faker.... \r\n";
+        // $this->mahasiswaData($this->total_mahasiswa);
 
         echo "Create fake Karyawan data using faker.... \r\n";
         $this->karyawanData();

@@ -34,14 +34,17 @@ final class RegisterController extends BaseController
     public function register($request, $response)
     {
         $container = $this->container;
+        $pendaftaran_obj = $this->get_object('pendaftaran');
         $konfigurasi = $this->getKonfiguration();
+        $pendaftaran = $pendaftaran_obj->where('status', 'open')->first();
 
         if (!$this->isRegister()) {
             return $response->withHeader('Location', '/');
         }
 
         $data = [
-            'konfigurasi' => $konfigurasi
+            'konfigurasi' => $konfigurasi,
+            'pendaftaran' => $pendaftaran
         ];
 
         return $container->get('twig')->render($response, 'root/register/homepage.twig', $data);
@@ -51,7 +54,7 @@ final class RegisterController extends BaseController
     {
         $container = $this->container;
         $object = $this->get_object('orang');
-        $paintia_obj = $this->get_object('panitia');
+        // $paintia_obj = $this->get_object('panitia');
         $pendaftaran_obj = $this->get_object('pendaftaran');
         $konfigurasi = $this->getKonfiguration();
 
@@ -62,14 +65,15 @@ final class RegisterController extends BaseController
         $panitia = $konfigurasi->getNextPanitia();
         $pendaftaran = $pendaftaran_obj->where('status', 'open')->first();
         $pembiayaan_tahun_ajaran = $pendaftaran->tahun_ajaran->pembiayaan_tahun_ajar->where('registrasi', true)->first();
-        $panitia = $paintia_obj->find($panitia);
+        // $panitia = $paintia_obj->find($panitia);
 
         $data = [
             'option'    => [],
             'selection' => [],
             'konfigurasi' => $konfigurasi,
             'isactive' => 'online',
-            'panitia' => $panitia,
+            // 'panitia' => $panitia,
+            'pendaftaran' => $pendaftaran,
             'pta' => $pembiayaan_tahun_ajaran
         ];
 
@@ -224,7 +228,8 @@ final class RegisterController extends BaseController
             ],
             'pernyataan' => true,
             'biaya_pendaftaran' => $postData['biaya_pendaftaran'],
-            'panitia_id' => $postData['panitia_id'],
+            'pendaftaran_id' => $postData['pendaftaran_id']
+            // 'panitia_id' => $postData['panitia_id'],
         ];
         $pmb = $pmb_obj->create($pmb_value);
 

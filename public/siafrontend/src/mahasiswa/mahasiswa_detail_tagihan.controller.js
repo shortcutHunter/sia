@@ -37,7 +37,9 @@
           if (v.status == 'verified') {
             vm.verifiedTrans.push(v);
           } else {
-            vm.canCicil = false;
+            if (v.status == 'process') {
+              vm.canCicil = false;
+            }
           }
         });
       });

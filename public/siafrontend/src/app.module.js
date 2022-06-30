@@ -27,11 +27,12 @@
     // 'app.ganti_semester',
     'app.pendaftaran',
     'app.mahasiswa_baru',
-    'app.panitia',
+    // 'app.panitia',
     'app.pembiayaan_lainnya',
     // 'app.verifikasi_pmb',
     'app.tracking',
     'app.role',
+    'app.profile',
     'app.widgets',
     'app.modals'
   ]);

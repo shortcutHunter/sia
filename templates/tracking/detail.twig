@@ -5,7 +5,7 @@
     <div class="float-end">
       <button class="btn btn-sm btn-primary" widget-cetak-peserta="" ng-if="vm.data.terverif">Cetak Kartu Peserta</button>
       {% verbatim %}
-          <a class="btn btn-sm btn-primary" href="https://wa.me/{{vm.data.panitia.nohp}}" target='_blank'>Hubungi Panitia</a>
+          <a class="btn btn-sm btn-primary" href="https://wa.me/{{vm.pendaftaran.nohp}}" target='_blank'>Hubungi Panitia</a>
       {% endverbatim %}
     </div>
   </div>
@@ -44,7 +44,7 @@
               </p>
 
               <p ng-if="(vm.data.terverif && vm.data.status == 'terverifikasi') || vm.data.test">
-                Selamat <span ng-bind="vm.data.orang.nama"></span> persyaratan administrasi anda lengkap, anda berhak untuk ketahapan selanjutnya Test Tertulis anda di jadwalkan untuk Test tulis pada tanggal <span ng-bind="vm.data.test_tertulis"></span> s/d <span ng-bind="vm.data.test_tertulis_end"></span> atau hub panitia via : <a target="_blank" href="http://wa.me/{{ vm.data.panitia.nohp }}">http://wa.me/{{ vm.data.panitia.nohp }}</a> <br>
+                Selamat <span ng-bind="vm.data.orang.nama"></span> persyaratan administrasi anda lengkap, anda berhak untuk ketahapan selanjutnya Test Tertulis anda di jadwalkan untuk Test tulis pada tanggal <span ng-bind="vm.data.test_tertulis"></span> s/d <span ng-bind="vm.data.test_tertulis_end"></span> atau hub panitia via : <a target="_blank" href="http://wa.me/{{ vm.pendaftaran.nohp }}">http://wa.me/{{ vm.pendaftaran.nohp }}</a> <br>
                 <span class="track-status">
                   Seleksi Administrasi anda sudah di Verifikasi pada tanggal <span ng-bind="vm.data.tanggal_verifikasi"></span>
                 </span>
@@ -102,7 +102,7 @@
               </p>
 
               <p ng-if="(vm.data.kesehatan && vm.data.status == 'kesehatan_lulus') || vm.data.wawancara">
-                Selamat <span ng-bind="vm.data.orang.nama"></span> anda lulus pada tahap <b>TEST KESEHATAN</b>, anda berhak untuk ketahapan selanjutnya WAWANCARA, di jadwalkan untuk WAWANCARA antara tanggal <span ng-bind="vm.data.test_wawancara"></span> s/d <span ng-bind="vm.data.test_wawancara_end"></span> atau hub panitia via : <a href="http://wa.me/{{ vm.data.panitia.nohp }}">http://wa.me/{{ vm.data.panitia.nohp }}</a> <br>
+                Selamat <span ng-bind="vm.data.orang.nama"></span> anda lulus pada tahap <b>TEST KESEHATAN</b>, anda berhak untuk ketahapan selanjutnya WAWANCARA, di jadwalkan untuk WAWANCARA antara tanggal <span ng-bind="vm.data.test_wawancara"></span> s/d <span ng-bind="vm.data.test_wawancara_end"></span> atau hub panitia via : <a href="http://wa.me/{{ vm.pendaftaran.nohp }}">http://wa.me/{{ vm.pendaftaran.nohp }}</a> <br>
                 <span class="track-status">
                   Test Kesehatan anda sudah di Verifikasi <span ng-bind="vm.data.tanggal_kesehatan"></span>
                 </span>
@@ -116,7 +116,7 @@
           <div class="track-content">
             <div>
               <p ng-if="vm.data.status == 'wawancara_gagal'">
-                Mohon maaf anda belum lulus <b>TEST WAWANCARA</b> silahkan mencoba pada kesempatan berikutnya, atau untuk pertanyaan sanggahan silahkan menghubungi kontak panitia pada <a href="http://wa.me/{{ vm.data.panitia.nohp }}">http://wa.me/{{ vm.data.panitia.nohp }}</a>
+                Mohon maaf anda belum lulus <b>TEST WAWANCARA</b> silahkan mencoba pada kesempatan berikutnya, atau untuk pertanyaan sanggahan silahkan menghubungi kontak panitia pada <a href="http://wa.me/{{ vm.pendaftaran.nohp }}">http://wa.me/{{ vm.pendaftaran.nohp }}</a>
               </p>
 
               <p ng-if="vm.data.status == 'wawancara_lulus'">
@@ -125,7 +125,7 @@
 
                 <br><br>
 
-                SILAHKAN UNTUK MELAKUKAN DAFTAR ULANG DI KAMPUS BETHESDA SERUKAM ATAU HUBUNGI PANITIA VIA WHATSAPP : <a href="http://wa.me/{{ vm.data.panitia.nohp }}">http://wa.me/{{ vm.data.panitia.nohp }}</a> PALING LAMBAT TANGGAL <span ng-bind="vm.data.daftar_ulang"></span> s/d <span ng-bind="vm.data.daftar_ulang_end"></span>
+                SILAHKAN UNTUK MELAKUKAN DAFTAR ULANG DI KAMPUS BETHESDA SERUKAM ATAU HUBUNGI PANITIA VIA WHATSAPP : <a href="http://wa.me/{{ vm.pendaftaran.nohp }}">http://wa.me/{{ vm.pendaftaran.nohp }}</a> PALING LAMBAT TANGGAL <span ng-bind="vm.data.daftar_ulang"></span> s/d <span ng-bind="vm.data.daftar_ulang_end"></span>
               </p>
             </div>
           </div>

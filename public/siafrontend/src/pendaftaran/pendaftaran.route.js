@@ -23,7 +23,7 @@
           title: 'pendaftaran',
           settings: {
             nav: 1,
-            content: '<i class="fa fa-list"></i> <span>pendaftaran</span>',
+            content: '<i class="fa fa-list"></i> <span>Setup PMB</span>',
             parent: 'Kemahasiswaan',
             roles: ['admin', 'akademik']
           }

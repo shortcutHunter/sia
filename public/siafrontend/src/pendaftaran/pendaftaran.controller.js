@@ -9,7 +9,7 @@
   /* @ngInject */
   function PendaftaranController($q, dataservice, logger, scope) {
     var vm = this;
-    vm.title = 'Pendaftaran';
+    vm.title = 'Setup PMB';
     vm.table = 'pendaftaran';
     vm.page = 0;
     vm.data = [];

@@ -9,7 +9,7 @@
   /* @ngInject */
   function PendaftaranFormController($q, dataservice, logger, stateParams, scope) {
     var vm = this;
-    vm.title = 'Form Pendaftaran';
+    vm.title = 'Form Setup PMB';
     vm.table = 'pendaftaran';
     vm.data = {
       max_cicilan: 10,

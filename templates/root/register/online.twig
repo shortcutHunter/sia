@@ -9,7 +9,8 @@
 		<form class="shadow mb-4 mt-4" action="/register/submit" method="POST" enctype="multipart/form-data">
 
 			<input type="hidden" name="biaya_pendaftaran" value="{{ pta.total_biaya }}">
-			<input type="hidden" name="panitia_id" value="{{ panitia.id }}">
+			<input type="hidden" name="pendaftaran_id" value="{{ pendaftaran.id }}">
+			<!-- <input type="hidden" name="panitia_id" value="{{ panitia.id }}"> -->
 
 			<div class="title-register mb-3">
 				Form Pendaftaran Mahasiswa Baru
@@ -275,10 +276,10 @@
 			    		<h3 class="mb-5 text-center">Pembayaran Menggunakan Transfer Bank</h3>
 			    		<ul>
 			    			<li>
-			    				Pilih Transaksi Lainnya > Transfer > Ke Rek {{ panitia.nama_bank }} Virtual Account.
+			    				Pilih Transaksi Lainnya > Transfer > Ke Rek {{ pendaftaran.nama_bank }} Virtual Account.
 			    			</li>
 			    			<li>
-			    				Masukkan nomor Virtual Account <span class="copyable">{{ panitia.norek }}</span> dan pilih Benar.
+			    				Masukkan nomor Virtual Account <span class="copyable">{{ pendaftaran.norek }}</span> dan pilih Benar.
 			    			</li>
 			    			<li>
 			    				Masukkan jumlah sebesar Rp. {{ pta.total_biaya }}

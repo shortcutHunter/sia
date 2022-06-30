@@ -274,6 +274,29 @@ final class ReportController extends BaseController
 
         $dosen_pjmk = $dosen_pjmk_obj->where('status', 'aktif')->get();
 
+        foreach ($dosen_pjmk as $key => $value) {
+            $semester_ids = $value->semester->pluck('id')->toArray();
+
+            foreach ($value->mata_kuliah_diampuh as $k => $mata_kuliah_diampuh) {
+                $mahasiswa_obj = $this->get_object('mahasiswa');
+
+                $mahasiswa = $mahasiswa_obj->whereHas(
+                    'riwayat_belajar',
+                    function($q) use ($mata_kuliah_diampuh, $semester_ids) {
+                        $q->where('terisi', $mata_kuliah_diampuh->terisi)
+                          ->whereIn('semester_id', $semester_ids)
+                          ->whereHas(
+                            'riwayat_belajar_detail', 
+                            function($q) use ($mata_kuliah_diampuh) {
+                                $q->where('mata_kuliah_id', $mata_kuliah_diampuh->mata_kuliah_id);
+                        });
+                    }
+                )->count();
+
+                $mata_kuliah_diampuh->{'total_mahasiswa'} = $mahasiswa;
+            }
+        }
+
         $value = [
           'dosen_pjmk' => $dosen_pjmk
         ];

@@ -2,7 +2,7 @@
 
 {% block button %}
 
-  <div class="float-end" ng-if="vm.data.status != 'bayar' && vm.data.register_ulang">
+  <div class="float-end" ng-if="vm.data.status != 'bayar'">
   	<button 
   		ng-repeat="x in [].constructor(3) track by $index" 
   		class="btn btn-sm btn-primary me-2"
@@ -11,11 +11,11 @@
   		ng-bind="'Cicilan ' + ($index+1)"></button>
   </div>
 
-  <div class="float-end" ng-if="vm.data.status != 'bayar' && !vm.data.register_ulang">
+  <!-- <div class="float-end" ng-if="vm.data.status != 'bayar' && !vm.data.register_ulang">
   	<button 
   		class="btn btn-sm btn-primary"
   		ng-click="vm.tambahPembiayaan()">Bayar</button>
-  </div>
+  </div> -->
 
 {% endblock %}
 

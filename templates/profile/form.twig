@@ -1,0 +1,106 @@
+{% extends "structure/form.twig" %}
+
+
+{% block content %}
+    
+    <div class="row">
+      <div class="col-md-6">
+        <table class="custom-table">
+          {% include 'components/preview-text.twig' with {'name': 'nik', 'label': 'NIK'} %}
+          {% include 'components/preview-text.twig' with {'name': 'nama', 'label': 'Nama'} %}
+        </table>
+      </div>
+    </div>
+
+    <ul class="nav nav-tabs mt-5">
+        <li class="nav-item">
+          <a class="nav-link active" data-bs-toggle="list" href="#pribadi">Data Pribadi</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-bs-toggle="list" href="#orangtua">Orang Tua</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-bs-toggle="list" href="#pendidikan">Pendidikan</a>
+        </li>
+    </ul>
+
+    <div class="tab-content text-justify">
+
+      <div class="tab-pane fade show active" id="pribadi">
+        <div class="row mt-3">
+          <div class="col-md-6">
+            <table class="custom-table">
+              {% include 'components/input.twig' with {'name': 'tempat_lahir', 'label': 'Tempat Lahir', 'required': true} %}
+              {% include 'components/date-picker.twig' with {'name': 'tanggal_lahir', 'label': 'Tanggal Lahir', 'required': true} %}
+              {% include 'components/radio.twig' with {'name': 'jenis_kelamin', 'label': 'Jenis Kelamin', 'option': 'option.jenis_kelamin', 'required': true} %}
+              {% include 'components/select.twig' with {'name': 'agama_id', 'label': 'Agama', 'option': 'selection.agama', 'label_selection': 'nama', 'required': true} %}
+            </table>
+          </div>
+
+          <div class="col-md-6">
+            <table class="custom-table">
+          {% include 'components/input.twig' with {'name': 'alamat', 'label': 'Alamat', 'required': true} %}
+          {% include 'components/input.twig' with {'name': 'rt_rw', 'label': 'Rt / Rw', 'required': true} %}
+          {% include 'components/input.twig' with {'name': 'kel_desa', 'label': 'Kel / Desa', 'required': true} %}
+          {% include 'components/input.twig' with {'name': 'kab_kota', 'label': 'Kab / Kota', 'required': true} %}
+          {% include 'components/input.twig' with {'name': 'provinsi', 'label': 'Provinsi', 'required': true} %}
+            </table>
+          </div>
+
+          <div class="col-md-6">
+            <table class="custom-table">
+          {% include 'components/input.twig' with {'name': 'email', 'label': 'Email', 'required': true} %}
+          {% include 'components/input.twig' with {'name': 'no_hp', 'label': 'No. HP', 'required': true} %}
+            </table>
+          </div>
+        </div>
+      </div>
+      
+      <div class="tab-pane fade show" id="orangtua">
+        <div class="row mt-3">
+          <div class="col-md-6">
+            <table class="custom-table">
+          {% include 'components/input.twig' with {'name': 'nama_ayah', 'label': 'Nama Ayah'} %}
+          {% include 'components/input.twig' with {'name': 'pekerjaan_ayah', 'label': 'Pekerjaan Ayah'} %}
+          {% include 'components/input-number.twig' with {'name': 'penghasilan_ortu', 'label': 'Penghasilan Orang Tua'} %}
+            </table>
+          </div>
+
+          <div class="col-md-6">
+            <table class="custom-table">
+          {% include 'components/input.twig' with {'name': 'nama_ibu', 'label': 'Nama Ibu'} %}
+          {% include 'components/input.twig' with {'name': 'pekerjaan_ibu', 'label': 'Pekerjaan Ibu'} %}
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane fade show" id="pendidikan">
+        <div class="row mt-3">
+          <div class="col-md-6">
+            <table class="custom-table">
+          {% include 'components/input.twig' with {'name': 'asal_sekolah', 'label': 'Asal Sekolah'} %}
+          {% include 'components/input.twig' with {'name': 'jurusan', 'label': 'Jurusan'} %}
+            </table>
+          </div>
+
+          <div class="col-md-6">
+            <table class="custom-table">
+          {% include 'components/input.twig' with {'name': 'tinggi_badan', 'label': 'Tinggi Badan'} %}
+          {% include 'components/input.twig' with {'name': 'berat_badan', 'label': 'Berat Badan'} %}
+            </table>
+          </div>
+
+          <div class="col-md-6">
+            <table class="custom-table">
+          {% include 'components/input-file.twig' with {'name': 'pasfoto', 'label': 'Pasfoto', 'required': true} %}
+          {% include 'components/input-file.twig' with {'name': 'ktp', 'label': 'KTP', 'required': true} %}
+          {% include 'components/input-file.twig' with {'name': 'kartu_vaksin', 'label': 'Kartu Vaksin', 'required': true} %}
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+{% endblock %}

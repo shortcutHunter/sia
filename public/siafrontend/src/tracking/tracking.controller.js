@@ -17,7 +17,7 @@
     function activate() {
       var promises = [getDataDetail()];
       return $q.all(promises).then(function() {
-        
+        getPendaftaran();
       });
     }
 
@@ -26,6 +26,12 @@
     function getDataDetail() {
       return dataservice.getUrl('/pmb/baru').then(function(response) {
         vm.data = response.data;
+      });
+    }
+
+    function getPendaftaran() {
+      return dataservice.getUrl(`/pendaftaran/get/${vm.data.pendaftaran_id}`).then(function(response) {
+        vm.pendaftaran = response.data;
       });
     }
 

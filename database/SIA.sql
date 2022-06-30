@@ -425,7 +425,11 @@ CREATE TABLE `pendaftaran` (
   `tanggal_berakhir` date,
   `tahun_ajaran_id` int,
   `status` ENUM ('process', 'open', 'closed'),
-  `max_cicilan` int
+  `max_cicilan` int,
+  `nama` varchar(255),
+  `nohp` varchar(255),
+  `norek` varchar(255),
+  `nama_bank` varchar(255)
 );
 
 CREATE TABLE `pembiayaan_tahun_ajar` (

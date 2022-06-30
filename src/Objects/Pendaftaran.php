@@ -49,20 +49,20 @@ class Pendaftaran extends BaseModel
 		return $this->hasMany(Pmb::class, 'pendaftaran_id', 'id');
 	}
 	
-	public function update(array $attributes = [], array $options = [])
-	{
-		if (array_key_exists('status', $attributes)) {
-			if ($attributes['status'] == 'open') {
-				$attributes['tanggal_mulai'] = date('d/m/Y');
-			}
+	// public function update(array $attributes = [], array $options = [])
+	// {
+	// 	if (array_key_exists('status', $attributes)) {
+	// 		if ($attributes['status'] == 'open') {
+	// 			$attributes['tanggal_mulai'] = date('d/m/Y');
+	// 		}
 
-			if ($attributes['status'] == 'closed') {
-				$attributes['tanggal_berakhir'] = date('d/m/Y');
-			}
-		}
+	// 		if ($attributes['status'] == 'closed') {
+	// 			$attributes['tanggal_berakhir'] = date('d/m/Y');
+	// 		}
+	// 	}
 
-		return parent::update($attributes, $options);
-	}
+	// 	return parent::update($attributes, $options);
+	// }
 
 	public function terbitkanNIM()
 	{

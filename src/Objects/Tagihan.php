@@ -23,7 +23,7 @@ class Tagihan extends BaseModel
 	];
 
 	public $status_enum = [
-		"draft" => "Draft",
+		// "draft" => "Draft",
 		"proses" => "Proses",
 		"cicil" => "Cicil",
 		"bayar" => "Lunas",

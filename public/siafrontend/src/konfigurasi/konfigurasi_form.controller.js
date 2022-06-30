@@ -9,7 +9,7 @@
   /* @ngInject */
   function KonfigurasiFormController($q, dataservice, logger, stateParams, compile, element, scope, state) {
     var vm = this;
-    vm.title = 'Form Konfigurasi';
+    vm.title = 'Form Konfigurasi Sistem';
     vm.table = 'konfigurasi';
     vm.data = {};
 

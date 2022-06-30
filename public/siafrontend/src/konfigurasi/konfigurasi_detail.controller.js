@@ -9,7 +9,7 @@
   /* @ngInject */
   function KonfigurasiDetailController($q, dataservice, logger, stateParams, compile, scope) {
     var vm = this;
-    vm.title = 'Konfigurasi';
+    vm.title = 'Konfigurasi Sistem';
     vm.data = {};
 
     activate();
