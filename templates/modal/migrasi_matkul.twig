@@ -22,6 +22,7 @@
 								<th>Kode</th>
 								<th>Nama</th>
 								<th>SKS</th>
+								<th></th>
 							</thead>
 
 							<tbody>
@@ -29,6 +30,11 @@
 									<td ng-bind="col.mata_kuliah.kode || '-'"></td>
 									<td ng-bind="col.mata_kuliah.nama || '-'"></td>
 									<td ng-bind="col.mata_kuliah.sks || '-'"></td>
+									<td>
+										<button class="btn btn-sm btn-danger" ng-click="removeMatkul($index)">
+											<i class="fa fa-trash"></i>
+										</button>
+									</td>
 								</tr>
 								<tr ng-if="!data.mata_kuliah_diampuh || data.mata_kuliah_diampuh.length == 0">
 									<td  class="text-center" colspan="5">Belum ada data</td>

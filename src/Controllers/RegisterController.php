@@ -72,7 +72,6 @@ final class RegisterController extends BaseController
             'selection' => [],
             'konfigurasi' => $konfigurasi,
             'isactive' => 'online',
-            // 'panitia' => $panitia,
             'pendaftaran' => $pendaftaran,
             'pta' => $pembiayaan_tahun_ajaran
         ];

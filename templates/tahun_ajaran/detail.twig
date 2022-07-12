@@ -3,7 +3,6 @@
 {% block button %}
 
   <a class="btn btn-sm btn-success" ui-sref="tahun_ajaran_form({dataId: vm.data.id})"><i class="fa fa-edit"></i> Edit</a>
-  <!-- <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Delete</button> -->
 
   {# {% include 'widget/nextprev.twig' %} #}
   <div class="float-end">
@@ -19,15 +18,13 @@
 			<table class="custom-table">
 				{% include 'components/preview-text.twig' with {'name': 'nama', 'label': 'Nama'} %}
 				{% include 'components/preview-text.twig' with {'name': 'tahun', 'label': 'Tahun'} %}
-				{# {% include 'components/preview-text.twig' with {'name': 'nomor', 'label': 'Nomor'} %} #}
 			</table>
 		</div>
 		
 		<div class="col-md-6">
 			<h5>Biaya Pendaftaran</h5>
 			<table class="custom-table">
-				{% include 'components/preview-number.twig' with {'name': 'biaya_pendaftaran.biaya_lunas', 'label': 'Biaya Lunas'} %}
-				{% include 'components/preview-number.twig' with {'name': 'biaya_pendaftaran.total_biaya', 'label': 'Total Biaya'} %}
+				{% include 'components/preview-number.twig' with {'name': 'biaya_pendaftaran.total_biaya', 'label': 'Biaya Pendaftaran'} %}
 			</table>
 		</div>
 
@@ -51,8 +48,7 @@
 
 						<thead>
 							<th>Nama</th>
-							<th>Biaya Wajib</th>
-							<th>Total Biaya</th>
+							<th>Biaya</th>
 							<th>Semester</th>
 							<th></th>
 						</thead>
@@ -60,17 +56,12 @@
 						<tbody>
 							<tr ng-repeat="col in vm.data.biaya_semester" ng-if="vm.data.biaya_semester && vm.data.biaya_semester.length != 0">
 								<td ng-bind="col.nama || '-'"></td>
-								<td ng-bind="col.semester.nama || '-'"></td>
-								<td>
-									{% verbatim %}
-									    <span widget-number="{{ col.biaya_lunas || 0 }}"></span>
-									{% endverbatim %}
-								</td>
 								<td>
 									{% verbatim %}
 									    <span widget-number="{{ col.total_biaya || 0 }}"></span>
 									{% endverbatim %}
 								</td>
+								<td ng-bind="col.semester.nama || '-'"></td>
 								<td>
 									<button class="btn btn-sm btn-primary" ng-click="vm.buatTagihan(col)">Buat Tagihan</button>
 								</td>
@@ -94,19 +85,13 @@
 
 						<thead>
 							<th>Nama</th>
-							<th>Biaya Wajib</th>
-							<th>Total Biaya</th>
+							<th>Biaya</th>
 							<th></th>
 						</thead>
 
 						<tbody>
 							<tr ng-repeat="col in vm.data.biaya_lainnya" ng-if="vm.data.biaya_lainnya && vm.data.biaya_lainnya.length != 0">
 								<td ng-bind="col.nama || '-'"></td>
-								<td>
-									{% verbatim %}
-									    <span widget-number="{{ col.biaya_lunas || 0 }}"></span>
-									{% endverbatim %}
-								</td>
 								<td>
 									{% verbatim %}
 									    <span widget-number="{{ col.total_biaya || 0 }}"></span>

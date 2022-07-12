@@ -17,6 +17,7 @@
     vm.migrasiMahasiswa = migrasiMahasiswa;
     vm.prosesPengajuan = prosesPengajuan;
     vm.lihatKRS = lihatKRS;
+    vm.lihatKhs = lihatKhs;
     vm.cetakMahasiswa = cetakMahasiswa;
     vm.liatTagihan = liatTagihan;
 
@@ -62,6 +63,12 @@
     function lihatKRS(data) {
       vm.active_data = data;
       let el = "<modal-lihat-krs data='vm.active_data'></modal-lihat-krs>";
+      el = compile(el)(scope);
+    }
+
+    function lihatKhs(data) {
+      vm.active_data = data;
+      let el = "<modal-lihat-khs data='vm.active_data'></modal-lihat-khs>";
       el = compile(el)(scope);
     }
 

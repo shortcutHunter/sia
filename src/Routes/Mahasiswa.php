@@ -22,7 +22,10 @@ class Mahasiswa extends BaseRoute {
     
         $this->app->post('/terbitkan/nim', \App\Controllers\MahasiswaController::class . ':terbitkanNim');
 
-        $this->app->post('/tahun_ajaran/ganti/semester', \App\Controllers\MahasiswaController::class . ':gantiSemester');
+        $this->app->post('/luluskan/mahasiswa', \App\Controllers\MahasiswaController::class . ':lulusMahasiswa');
+        $this->app->post('/do/mahasiswa', \App\Controllers\MahasiswaController::class . ':doMahasiswa');
+
+        $this->app->get('/alumni/get/data/session', \App\Controllers\MahasiswaController::class . ':dataAlumni');
     }
 
 }

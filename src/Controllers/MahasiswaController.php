@@ -254,7 +254,7 @@ final class MahasiswaController extends BaseController
                 $riwayat_belajar->nilaiMahasiswa($semester_id);
             }
 
-            $mahasiswa->buatTagihanMahasiswa($pta->id);
+            // $mahasiswa->buatTagihanMahasiswa($pta->id);
             $mahasiswa->update([
                 'semester_id' => $semester_baru,
                 'reg_ulang' => true,
@@ -267,6 +267,112 @@ final class MahasiswaController extends BaseController
         
         
         $response->getBody()->write(json_encode($result));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
+    }
+
+    public function lulusMahasiswa($request, $response, $args)
+    {   
+        $container = $this->container;
+        $postData = $request->getParsedBody();
+        $result = ["status" => "success"];
+
+        $mahasiswa_obj = $this->get_object('mahasiswa');
+        $alumni_obj = $this->get_object('alumni');
+        $riwayat_belajar_obj = $this->get_object('riwayat_belajar');
+
+        $mahasiswa_id = $postData['mahasiswa_id'];
+
+        $mahasiswa = $mahasiswa_obj->find($mahasiswa_id);
+        $mahasiswa->update([
+            'status' => 'alumni',
+            'reg_ulang' => false,
+            'ajukan_sks' => false,
+            'pengajuan' => false,
+            'sudah_pengajuan' => false
+        ]);
+
+        $riwayat_belajar = $riwayat_belajar_obj
+            ->where([
+                ['status', 'aktif'],
+                ['mahasiswa_id', $mahasiswa->id]
+            ])
+        ->get();
+
+        if ($riwayat_belajar->count() > 0) {
+            foreach ($riwayat_belajar as $key => $value) {
+                $value->nilaiMahasiswa($value->semester_id);
+            }
+        }
+
+        $alumni = $alumni_obj->where('nim', $mahasiswa->nim)->first();
+        $alumni_value = [
+            "nama" => $mahasiswa->orang->nama,
+            "nim" => $mahasiswa->nim,
+            "tahun_lulus" => date('Y')
+        ];
+
+        if (empty($alumni)) {
+            $alumni = $alumni_obj->create($alumni_value);
+        }
+        
+        $response->getBody()->write(json_encode($result));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
+    }
+
+    public function doMahasiswa($request, $response, $args)
+    {   
+        $container = $this->container;
+        $postData = $request->getParsedBody();
+        $result = ["status" => "success"];
+
+        $mahasiswa_obj = $this->get_object('mahasiswa');
+        $riwayat_belajar_obj = $this->get_object('riwayat_belajar');
+
+        $mahasiswa_id = $postData['mahasiswa_id'];
+
+        $mahasiswa = $mahasiswa_obj->find($mahasiswa_id);
+        $mahasiswa->update([
+            'status' => 'dropout',
+            'reg_ulang' => false,
+            'ajukan_sks' => false,
+            'pengajuan' => false,
+            'sudah_pengajuan' => false
+        ]);
+
+        $riwayat_belajar = $riwayat_belajar_obj
+            ->where([
+                ['status', 'aktif'],
+                ['mahasiswa_id', $mahasiswa->id]
+            ])
+        ->get();
+
+        if ($riwayat_belajar->count() > 0) {
+            foreach ($riwayat_belajar as $key => $value) {
+                $value->nilaiMahasiswa($value->semester_id);
+            }
+        }
+        
+        $response->getBody()->write(json_encode($result));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
+    }
+
+    public function dataAlumni($request, $response, $args)
+    {   
+        $container = $this->container;
+        $getData = $request->getQueryParams();
+        $mahasiswa_obj = $this->get_object('mahasiswa');
+        $alumni_obj = $this->get_object('alumni');
+
+        $orang = $container->get('session')->get('orang');
+
+        $mahasiswa = $mahasiswa_obj->where('orang_id', $orang->id)->first();
+        $alumni = $alumni_obj->where('nim', $mahasiswa->nim)->first();
+
+        $data = [
+            'data' => $alumni
+        ];
+
+        $response->getBody()->write(json_encode($data));
         return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
     }
 }

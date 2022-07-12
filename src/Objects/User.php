@@ -7,12 +7,13 @@ use App\Objects\BaseModel;
 class User extends BaseModel
 {
 	protected $table = 'user';
-	protected $with  = ['role'];
+	protected $with  = ['role', 'orang'];
 
 	// public $selection_fields = ['role'];
 
 	public static $relation = [
 		['name' => 'role', 'is_selection' => true, 'skip' => true],
+		['name' => 'orang', 'is_selection' => false, 'skip' => true],
 	];
 
 	// public $role_enum = [
@@ -163,6 +164,11 @@ class User extends BaseModel
 			$this->createRole($role);
 
 			unset($attributes['role']);
+		}
+
+		if (array_key_exists('pass', $attributes)) {
+			$attributes['password'] = self::encrypt($attributes['pass']);
+			unset($attributes['pass']);
 		}
 
 		return parent::update($attributes, $options);

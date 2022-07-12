@@ -1,0 +1,37 @@
+{% extends "structure/form.twig" %}
+
+
+{% block content %}
+
+	<div class="row">
+   
+     <div class="col-md-6">
+      <table class="custom-table">
+        {% include 'components/preview-text.twig' with {'name': 'nim', 'label': 'NIM'} %}
+        {% include 'components/preview-text.twig' with {'name': 'nama', 'label': 'Nama'} %}
+      </table>
+    </div>
+
+    <div class="col-md-6">
+      <table class="custom-table">
+        {% include 'components/input.twig' with {'name': 'tahun_lulus', 'label': 'Tahun Lulus'} %}
+      </table>
+    </div>
+
+    <div class="col-md-6">
+      <table class="custom-table">
+        {% include 'components/input.twig' with {'name': 'telah_bekerja', 'label': 'Telah Bekerja Di'} %}
+        {% include 'components/date-picker.twig' with {'name': 'tanggal_kerja', 'label': 'Tanggal Mulai Kerja'} %}
+      </table>
+    </div>
+    
+    <div class="col-md-6">
+      <table class="custom-table">
+        {% include 'components/input.twig' with {'name': 'nama_perusahaan', 'label': 'Nama Perusahaan'} %}
+        {% include 'components/input-number.twig' with {'name': 'gaji', 'label': 'Gaji'} %}
+      </table>
+    </div>
+
+  </div>
+
+{% endblock %}

@@ -25,6 +25,13 @@
     function getDataDetail() {
       return dataservice.getDataDetail(vm.table, stateParams.dataId).then(function(response) {
         vm.data = response.data;
+        getUser();
+      });
+    }
+
+    function getUser() {
+      return dataservice.getUrl(`/get/user/detail/${vm.data.orang_id}`).then(function(response) {
+        vm.data.orang.user = response.data;
       });
     }
 

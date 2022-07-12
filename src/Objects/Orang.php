@@ -8,7 +8,7 @@ class Orang extends BaseModel
 {
 	protected $table = 'orang';
 	protected $with = [
-		'agama', 'kwitansi', 'user',
+		'agama', 'kwitansi',
 		'ijazah', 'ktp', 'surket_menikah', 'pasfoto', 'akte_lahir', 'kartu_keluarga', 'kartu_vaksin'
 	];
 
@@ -117,6 +117,14 @@ class Orang extends BaseModel
 		if (array_key_exists('nik', $attributes)) {
 			$nik = $attributes['nik'];
 			$orang = $orang_obj->where('nik', $nik)->count();
+
+			if (strlen($nik) != 16) {
+				throw new \Exception("NIK wajib 16 digit");
+			}
+
+			if (!is_numeric($nik)) {
+				throw new \Exception("NIK wajib angka semua");
+			}
 
 			if ($orang > 0) {
 				throw new \Exception("NIK sudah ada di dalam sistem");

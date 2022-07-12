@@ -57,10 +57,31 @@ class MataKuliahDiampuh extends BaseModel
 					$konfigurasi_nilai = $exist_konfigurasi->update($value);
 				}
 			}
+
+			$this->updateNilai();
 			unset($attributes['konfigurasi_nilai']);
 		}
 
 		return parent::update($attributes, $options);
+	}
+
+	public function updateNilai()
+	{
+        $mahasiswa_obj = self::getModelByName('mahasiswa');
+        $mata_kuliah_diampuh = $this;
+		$mahasiswa = $mahasiswa_obj->where('status', 'mahasiswa');
+
+        $mahasiswa = $mahasiswa->whereHas(
+            'riwayat_belajar',
+            function($q) use ($mata_kuliah_diampuh) {
+                $q->where('terisi', $mata_kuliah_diampuh->terisi)
+                  ->whereHas(
+                    'riwayat_belajar_detail', 
+                    function($q) use ($mata_kuliah_diampuh) {
+                        $q->where('mata_kuliah_id', $mata_kuliah_diampuh->mata_kuliah_id);
+                  });
+            }
+        );
 	}
 
 	public function dosen_pjmk()

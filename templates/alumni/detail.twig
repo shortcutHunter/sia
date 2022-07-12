@@ -1,0 +1,45 @@
+{% extends 'structure/detail.twig' %}
+
+{% block button %}
+
+  <a class="btn btn-sm btn-success" ui-sref="alumni_form({dataId: vm.data.id})"><i class="fa fa-edit"></i> Edit</a>
+  <!-- <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Delete</button> -->
+
+  {% include 'widget/nextprev.twig' %}
+
+{% endblock %}
+
+{% block content %}
+
+	<div class="row">
+   
+     <div class="col-md-6">
+      <table class="custom-table">
+        {% include 'components/preview-text.twig' with {'name': 'nim', 'label': 'NIM'} %}
+        {% include 'components/preview-text.twig' with {'name': 'nama', 'label': 'Nama'} %}
+      </table>
+    </div>
+
+    <div class="col-md-6">
+      <table class="custom-table">
+        {% include 'components/preview-text.twig' with {'name': 'tahun_lulus', 'label': 'Tahun Lulus'} %}
+      </table>
+    </div>
+
+    <div class="col-md-6">
+      <table class="custom-table">
+        {% include 'components/preview-text.twig' with {'name': 'telah_bekerja', 'label': 'Telah Bekerja Di'} %}
+        {% include 'components/preview-text.twig' with {'name': 'tanggal_kerja', 'label': 'Tanggal Mulai Kerja'} %}
+      </table>
+    </div>
+
+    <div class="col-md-6">
+      <table class="custom-table">
+        {% include 'components/preview-text.twig' with {'name': 'nama_perusahaan', 'label': 'Nama Perusahaan'} %}
+        {% include 'components/preview-text.twig' with {'name': 'gaji', 'label': 'Gaji'} %}
+      </table>
+    </div>
+
+  </div>
+
+{% endblock %}

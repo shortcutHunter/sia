@@ -24,6 +24,8 @@ class Reports extends BaseRoute {
         $this->app->get('/report/tagihan/mahasiswa', \App\Controllers\ReportController::class . ':tagihanMahasiswa');
         $this->app->get('/report/tagihan/mahasiswa/{mahasiswa_id}', \App\Controllers\ReportController::class . ':tagihanMahasiswaId');
 
+        $this->app->get('/report/mahasiswa/user_login/{pendaftaran_id}', \App\Controllers\ReportController::class . ':userLoginMahasiswa');
+
         $this->app->get('/send/login/detail', \App\Controllers\ReportController::class . ':loginDetail');
     }
 

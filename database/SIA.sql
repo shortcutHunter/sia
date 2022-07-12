@@ -410,7 +410,8 @@ CREATE TABLE `konfigurasi` (
   `sequance_nim` int,
   `pernyataan` int,
   `panitia_last_id` int,
-  `nohp_panitia` varchar(255)
+  `nohp_panitia` varchar(255),
+  `nama_bank` varchar(255)
 );
 
 CREATE TABLE `log` (
@@ -470,6 +471,17 @@ CREATE TABLE `role` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `nama` varchar(255),
   `value` varchar(255)
+);
+
+CREATE TABLE `alumni` (
+  `id` int PRIMARY KEY AUTO_INCREMENT,
+  `nama` varchar(255),
+  `nim` varchar(255),
+  `tahun_lulus` varchar(255),
+  `telah_bekerja` varchar(255),
+  `tanggal_kerja` date,
+  `nama_perusahaan` varchar(255),
+  `gaji` float
 );
 
 ALTER TABLE `mahasiswa` ADD FOREIGN KEY (`orang_id`) REFERENCES `orang` (`id`);

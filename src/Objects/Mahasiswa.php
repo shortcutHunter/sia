@@ -70,14 +70,43 @@ class Mahasiswa extends BaseModel
 		return $mahasiswa;
 	}
 
+	public function update(array $attributes = [], array $options = [])
+	{
+		if (array_key_exists('status', $attributes)) {
+			switch ($attributes['status']) {
+				case 'alumni':
+					$role_obj = self::getModelByName('role');
+					$role = $role_obj->where('value', 'alumni')->first();
+
+					$this->orang->user->update([
+						'role' => [['id' => $role->id]]
+					]);
+					break;
+				case 'dropout':
+					$role_obj = self::getModelByName('role');
+					$role = $role_obj->where('value', 'dropout')->first();
+
+					$this->orang->user->update([
+						'role' => [['id' => $role->id]]
+					]);
+					break;
+			}
+		}
+
+		return parent::update($attributes, $options);
+	}
+
 	public function buatTagihanMahasiswa($pta_id) {
 		$pta_obj = self::getModelByName('pembiayaan_tahun_ajar');
 		$pta = $pta_obj->find($pta_id);
 
 		$tagihan = $pta->createTagihan($this->orang_id);
-		$this->update([
-            "tagihan_id" => $tagihan->id
-        ]);
+
+		if ($pta->$semester_id != null) {
+			$this->update([
+	            "tagihan_id" => $tagihan->id
+	        ]);
+		}
 	}
 
 	public function orang()

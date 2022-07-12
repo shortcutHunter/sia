@@ -37,6 +37,8 @@ import './tracking/tracking.module';
 import './verifikasi_pmb/verifikasi_pmb.module';
 import './role/role.module';
 import './profile/profile.module';
+import './user/user.module';
+import './alumni_mahasiswa/alumni_mahasiswa.module';
 
 import './blocks/exception/exception-handler.provider';
 import './blocks/exception/exception';
@@ -94,6 +96,7 @@ import './modals/modal-isi-tanggal.directive';
 import './modals/modal-migrasi-mahasiswa.directive';
 import './modals/modal-migrasi-matkul.directive';
 import './modals/modal-ganti-semester.directive';
+import './modals/modal-ganti-password.directive';
 
 import './agama/agama.controller';
 import './agama/agama_form.controller';
@@ -137,6 +140,8 @@ import './mahasiswa/mahasiswa.route';
 
 import './alumni/alumni.controller';
 import './alumni/alumni.route';
+import './alumni/alumni_form.controller';
+import './alumni/alumni_detail.controller';
 
 import './karyawan/karyawan.controller';
 import './karyawan/karyawan_form.controller';
@@ -226,3 +231,11 @@ import './role/role.route';
 import './profile/profile_form.controller';
 import './profile/profile_detail.controller';
 import './profile/profile.route';
+
+import './user/user.controller';
+import './user/user_detail.controller';
+import './user/user.route';
+
+import './alumni_mahasiswa/alumni_mahasiswa_form.controller';
+import './alumni_mahasiswa/alumni_mahasiswa_detail.controller';
+import './alumni_mahasiswa/alumni_mahasiswa.route';

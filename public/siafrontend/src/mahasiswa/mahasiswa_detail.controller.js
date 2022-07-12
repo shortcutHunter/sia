@@ -1,3 +1,5 @@
+import swal from 'sweetalert';
+
 (function() {
   'use strict';
 
@@ -5,9 +7,9 @@
     .module('app.mahasiswa')
     .controller('MahasiswaDetailController', MahasiswaDetailController);
 
-  MahasiswaDetailController.$inject = ['$q', 'dataservice', 'logger', '$stateParams', '$compile', '$element', '$scope'];
+  MahasiswaDetailController.$inject = ['$q', 'dataservice', 'logger', '$stateParams', '$compile', '$element', '$scope', '$state'];
   /* @ngInject */
-  function MahasiswaDetailController($q, dataservice, logger, stateParams, compile, element, scope) {
+  function MahasiswaDetailController($q, dataservice, logger, stateParams, compile, element, scope, state) {
     var vm = this;
     vm.title = 'Detail Mahasiswa';
     vm.table = 'mahasiswa';
@@ -18,6 +20,8 @@
     vm.bayarTagihan = bayarTagihan;
     vm.cetakKhs     = cetakKhs;
     vm.detailKhs    = detailKhs;
+    vm.lulus        = lulus;
+    vm.doMahasiswa  = doMahasiswa;
 
     activate();
 
@@ -85,6 +89,50 @@
       vm.active_data = data;
       let el = "<modal-detail-khs data='vm.active_data'></modal-detail-khs>";
       el = compile(el)(scope);
+    }
+
+    function lulus() {
+      swal({
+        title: "Apakah anda yakin ingin meluluskan mahasiswa ini ?",
+        icon: "warning",
+        buttons: {
+          cancel: true,
+          text: "Iya"
+        }
+      })
+      .then(yes => {
+        if (yes) {
+          let url = '/luluskan/mahasiswa';
+          let data = {
+            'mahasiswa_id': vm.data.id
+          };
+          dataservice.postDataUrl(url, data).then(function(data){
+            state.reload();
+          });
+        }
+      });
+    }
+
+    function doMahasiswa() {
+      swal({
+        title: "Apakah anda yakin ingin DO mahasiswa ini ?",
+        icon: "warning",
+        buttons: {
+          cancel: true,
+          text: "Iya"
+        }
+      })
+      .then(yes => {
+        if (yes) {
+          let url = '/do/mahasiswa';
+          let data = {
+            'mahasiswa_id': vm.data.id
+          };
+          dataservice.postDataUrl(url, data).then(function(data){
+            state.reload();
+          });
+        }
+      });
     }
 
   }

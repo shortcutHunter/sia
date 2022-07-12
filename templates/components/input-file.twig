@@ -5,8 +5,8 @@
 	</td>
 	{% endif %}
 	<td>
-		<div class="input-group">
-            <input class="form-control form-control-sm" type="file" name="{{ name }}" ng-model="vm.data.{{ name }}" base-sixty-four-input="" maxsize="100" do-not-parse-if-oversize="" {{ required ? 'required' : '' }}>
+		<div class="input-group" widget-file-container="">
+            <input class="form-control form-control-sm" type="file" name="{{ name }}" ng-model="vm.data.{{ name }}" base-sixty-four-input="" maxsize="100" do-not-parse-if-oversize="" {{ required ? 'required' : '' }} accept="image/*">
             <button class="btn btn-sm btn-outline-secondary" type="button" widget-preview="vm.data.{{ name }}">
             	<i class="fa fa-eye"></i>
             </button>

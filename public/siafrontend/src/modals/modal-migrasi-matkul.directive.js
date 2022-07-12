@@ -25,6 +25,7 @@
       scope.form = {};
 
       scope.migrasi = migrasi;
+      scope.removeMatkul = removeMatkul;
 
       activate();
 
@@ -37,10 +38,17 @@
         });
       }
 
+      function removeMatkul($index) {
+        scope.data.mata_kuliah_diampuh.splice($index, 1);
+      }
+
       function migrasi() {
+        let matkul_diampuh_ids = scope.data.mata_kuliah_diampuh.map(z => z.id);
+
         let dataUpdate = {
           karyawan_baru: scope.form.karyawan_id,
-          dosen_pjmk_lama: scope.data.id
+          dosen_pjmk_lama: scope.data.id,
+          matkul_diampuh_ids: matkul_diampuh_ids
         };
 
         dataservice.postDataUrl('/migrasi/dosen/pjmk', dataUpdate).then(function(){

@@ -6,7 +6,7 @@
     .run(appRun);
 
   /* @ngInject */
-  function appRun(routerHelper) {
+  function appRun(routerHelper, $rootScope) {
     var otherwise = '/404';
     routerHelper.configureStates(getStates(), otherwise);
   }

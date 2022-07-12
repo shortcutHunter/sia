@@ -25,6 +25,7 @@
       scope.form = {};
 
       scope.migrasi = migrasi;
+      scope.removeMahasiswa = removeMahasiswa;
 
       activate();
 
@@ -37,10 +38,17 @@
         });
       }
 
+      function removeMahasiswa($index) {
+        scope.data.mahasiswa_bimbingan.splice($index, 1);
+      }
+
       function migrasi() {
+        let mahasiswa_ids = scope.data.mahasiswa_bimbingan.map(z => z.id);
+
         let dataUpdate = {
           karyawan_baru: scope.form.karyawan_id,
-          dosen_pa_lama: scope.data.id
+          dosen_pa_lama: scope.data.id,
+          mahasiswa_ids: mahasiswa_ids
         };
 
         dataservice.postDataUrl('/migrasi/dosen/pa', dataUpdate).then(function(){

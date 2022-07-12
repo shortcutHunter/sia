@@ -1,0 +1,20 @@
+{% extends 'structure/detail.twig' %}
+
+{% block button %}
+
+  <button class="btn btn-sm btn-success" ng-click="vm.gantiPassword()"><i class="fa fa-edit"></i> Ganti Password</button>
+
+  {% include 'widget/nextprev.twig' %}
+
+{% endblock %}
+
+{% block content %}
+
+	<div class="col-md-6">
+      <table class="custom-table">
+        {% include 'components/preview-text.twig' with {'name': 'username', 'label': 'Username'} %}
+        {% include 'components/preview-text.twig' with {'name': 'orang.nama', 'label': 'Nama'} %}
+      </table>
+    </div>
+
+{% endblock %}

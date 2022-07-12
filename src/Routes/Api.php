@@ -39,6 +39,8 @@ class Api extends BaseRoute {
      
         $this->app->get('/session', \App\Controllers\ApiController::class . ':session');
         $this->app->get('/menu', \App\Controllers\ApiController::class . ':menu');
+
+        $this->app->get('/get/user/detail/{orang_id}', \App\Controllers\ApiController::class . ':getDetailUser');
     }
 
 }

@@ -17,16 +17,36 @@
         state: 'alumni',
         config: {
           url: '/alumni',
-          templateUrl: '/template/mahasiswa/table',
+          templateUrl: '/template/alumni/table',
           controller: 'AlumniController',
           controllerAs: 'vm',
           title: 'alumni',
           settings: {
             nav: 1,
             content: '<i class="fa fa-list"></i> <span>Alumni</span>',
-            parent: 'Kemahasiswaan',
-            roles: ['admin', 'akademik']
+            parent: 'alumni',
+            roles: ['admin']
           }
+        }
+      },
+      {
+        state: 'alumni_form',
+        config: {
+          url: '/alumni/form/:dataId',
+          templateUrl: '/template/alumni/form',
+          controller: 'AlumniFormController',
+          controllerAs: 'vm',
+          title: 'alumni'
+        }
+      },
+      {
+        state: 'alumni_detail',
+        config: {
+          url: '/alumni/{dataId}',
+          templateUrl: '/template/alumni/detail',
+          controller: 'AlumniDetailController',
+          controllerAs: 'vm',
+          title: 'alumni'
         }
       }
     ];

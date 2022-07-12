@@ -13,6 +13,7 @@
 
   <div class="float-end" ng-if="vm.data.status == 'closed'">
   	<button class="btn btn-primary" ng-click="vm.terbitkanNIM()">Terbitkan NIM</button>
+  	<button class="btn btn-primary" ng-click="vm.reportMahasiswa()">Report Mahasiswa</button>
   </div>
 
 {% endblock %}
@@ -40,8 +41,7 @@
 			<table class="custom-table">
 				{% include 'components/preview-text.twig' with {'name': 'nama', 'label': 'Nama Panitia'} %}
 				{% include 'components/preview-text.twig' with {'name': 'nohp', 'label': 'No. HP Panitia'} %}
-				{% include 'components/preview-text.twig' with {'name': 'norek', 'label': 'No. Rek. Panitia'} %}
-				{% include 'components/preview-text.twig' with {'name': 'nama_bank', 'label': 'Nama Bank Panitia'} %}
+				{% include 'components/preview-text.twig' with {'name': 'norek', 'label': 'No. Rek.'} %}
 			</table>
 		</div>
 	</div>

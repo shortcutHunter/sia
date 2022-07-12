@@ -1,0 +1,32 @@
+{% extends "structure/table.twig" %}
+
+{% block search %}
+
+	{% include 'components/search.twig' %}
+
+{% endblock %}
+
+{% block table %}
+	{% verbatim %}
+
+		<thead>
+			<tr>
+				<th>NIM</th>
+				<th>Nama</th>
+				<th>Tahun Lulus</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr ng-if="!vm.data || vm.data.length == 0">
+	          <td colspan="5" class="text-center">Tidak ada data yang tersedia</td>
+	        </tr>
+	        <tr ng-repeat="data in vm.data" class="clickable" ng-attr-tr_id="{{data.id}}" state_name="alumni_detail" widget-tr="">
+	          <td ng-bind="data.nim || '-'"></td>
+	          <td ng-bind="data.nama || '-'"></td>
+	          <td ng-bind="data.tahun_lulus || '-'"></td>
+	        </tr>
+		</tbody>
+
+	{% endverbatim %}
+{% endblock %}

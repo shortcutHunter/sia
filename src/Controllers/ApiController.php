@@ -942,4 +942,16 @@ final class ApiController extends BaseController
         return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
     }
 
+    public function getDetailUser($request, $response, $args)
+    {
+        $container = $this->container;
+
+        $user_obj = $this->get_object('user');
+        $user = $user_obj->where('orang_id', $args['orang_id'])->first();
+
+        $data = ['data' => $user];
+        $response->getBody()->write(json_encode($data));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
+    }
+
 }

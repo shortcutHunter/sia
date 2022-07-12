@@ -115,11 +115,18 @@ final class ReportController extends BaseController
         $mahasiswa_id = $args['mahasiswa_id'];
         $mahasiswa_obj = $this->get_object('mahasiswa');
         $pengajuan_ks_obj = $this->get_object('pengajuan_ks');
+        $mahasiswa_bimbingan_obj = $this->get_object('mahasiswa_bimbingan');
+
         $mahasiswa = $mahasiswa_obj->find($mahasiswa_id);
         $pengajuan_ks = $pengajuan_ks_obj->where([['mahasiswa_id', $mahasiswa->id], ['semester_id', $mahasiswa->semester_id]])->first();
+        $mahasiswa_bimbingan = $mahasiswa_bimbingan_obj->where('mahasiswa_id', $mahasiswa->id)->first();
 
-        if (!empty($pengajuan_ks)) {
-            $value = ['mahasiswa' => $mahasiswa, 'sks' => $pengajuan_ks->pengajuan_ks_detail];
+        if (!empty($pengajuan_ks) && !empty($mahasiswa_bimbingan)) {
+            $value = [
+                'mahasiswa' => $mahasiswa, 
+                'sks' => $pengajuan_ks->pengajuan_ks_detail,
+                'dosen_pa' => $mahasiswa_bimbingan->dosen_pa
+            ];
             $pdfContent = $this->container->get('renderPDF')("reports/krs.phtml", $value, true);
             $pdfContent = ['content' => base64_encode($pdfContent)];
         }else {
@@ -137,14 +144,17 @@ final class ReportController extends BaseController
         $container = $this->container;
         $khs_id    = $args['khs_id'];
         $khs_obj   = $this->get_object('khs');
+        $mahasiswa_bimbingan_obj = $this->get_object('mahasiswa_bimbingan');
 
         $khs = $khs_obj->where('id', $khs_id)->first();
 
+        $mahasiswa_bimbingan = $mahasiswa_bimbingan_obj->where('mahasiswa_id', $khs->mahasiswa->id)->first();
 
         $value = [
           'mahasiswa' => $khs->mahasiswa, 
           'khs' => $khs,
-          'semester' => $khs->semester
+          'semester' => $khs->semester,
+          'dosen_pa' => $mahasiswa_bimbingan->dosen_pa
         ];
         $pdfContent = $this->container->get('renderPDF')("reports/khs.phtml", $value);
         $pdfContent = ['content' => base64_encode($pdfContent)];
@@ -369,5 +379,27 @@ final class ReportController extends BaseController
 
         $pmb->sendLoginDetail();
    }
+
+   public function userLoginMahasiswa($request, $response, $args)
+    {
+        $pendaftaran_obj = $this->get_object('pendaftaran');
+        $pmb_obj = $this->get_object('pmb');
+
+        $pmb = $pmb_obj->where('pendaftaran_id', $args['pendaftaran_id'])->get();
+
+        $value = [
+          'pmb' => $pmb
+        ];
+
+        if ($pmb->count() < 1) {
+            throw new \Exception("Belum ada mahasiswa");
+        }
+
+        $pdfContent = $this->container->get('renderPDF')("reports/user_login.phtml", $value);
+        $pdfContent = ['content' => base64_encode($pdfContent)];
+
+        $response->getBody()->write(json_encode($pdfContent));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
+    }
 
 }

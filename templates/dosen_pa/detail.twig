@@ -74,8 +74,9 @@
 											<td>
 												{% verbatim %}
 													<button class="btn btn-primary" ng-click="vm.prosesPengajuan(col)" ng-if="col.mahasiswa.pengajuan && vm.data.status == 'aktif'">Proses Pengajuan</button>
-													<button class="btn btn-primary" ng-click="vm.lihatKRS(col)" ng-if="!col.mahasiswa.pengajuan">Lihat KRS</button>
-													<button class="btn btn-primary" ng-click="vm.liatTagihan(col)">Lihat Transaksi</button>
+													<button class="btn btn-primary" ng-click="vm.lihatKRS(col)" ng-if="!col.mahasiswa.pengajuan">KRS</button>
+													<button class="btn btn-primary" ng-click="vm.lihatKhs(col)" ng-if="!col.mahasiswa.pengajuan">KHS</button>
+													<button class="btn btn-primary" ng-click="vm.liatTagihan(col)">Transaksi</button>
 												{% endverbatim %}
 											</td>
 										</tr>

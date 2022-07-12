@@ -35,8 +35,9 @@
 						<div class="text-muted font-semibold me-3" ng-bind="nilai.nama"></div>
 					</div>
 					<div class="col-sm-8">
-						<input type="text" ng-model="konfigurasi_nilai[nilai.id]" class="form-control form-control-sm" ng-if="!data.terkonfigurasi">
-						<span ng-if="data.terkonfigurasi">{{konfigurasi_nilai[nilai.id]}}%</span>
+						<input type="text" ng-model="konfigurasi_nilai[nilai.id]" class="form-control form-control-sm">
+						<!-- <input type="text" ng-model="konfigurasi_nilai[nilai.id]" class="form-control form-control-sm" ng-if="!data.terkonfigurasi"> -->
+						<!-- <span ng-if="data.terkonfigurasi">{{konfigurasi_nilai[nilai.id]}}%</span> -->
 					</div>
 				</div>
 			</div>
@@ -50,7 +51,8 @@
 {% block footer %}
 	{% verbatim %}
 		<button class="btn" data-bs-dismiss="modal">Close</button>
-		<button class="btn" ng-click="konfigurasiNilai()" ng-if="!data.terkonfigurasi">Simpan Sementara</button>
-		<button class="btn btn-primary" ng-click="konfigurasiNilai('submit')" ng-if="!data.terkonfigurasi">Submit</button>
+		<!-- <button class="btn" ng-click="konfigurasiNilai()" ng-if="!data.terkonfigurasi">Simpan Sementara</button> -->
+		<!-- <button class="btn btn-primary" ng-click="konfigurasiNilai('submit')" ng-if="!data.terkonfigurasi">Submit</button> -->
+		<button class="btn btn-primary" ng-click="konfigurasiNilai('submit')">Submit</button>
 	{% endverbatim %}
 {% endblock %}

@@ -57,6 +57,7 @@ final class DosenController extends BaseController
 
         $karyawan_baru_id = $postData['karyawan_baru'];
         $dosen_pa_id = $postData['dosen_pa_lama'];
+        $mahasiswa_ids = $postData['mahasiswa_ids'];
 
         $dosen_pa_obj = $this->get_object('dosen_pa');
         $dosen_pa = $dosen_pa_obj->where('karyawan_id', $karyawan_baru_id)->first();
@@ -73,7 +74,7 @@ final class DosenController extends BaseController
         }
 
         $mahasiswa_bimbingan_obj = $this->get_object('mahasiswa_bimbingan');
-        $mahasiswa_bimbingan = $mahasiswa_bimbingan_obj->where('dosen_pa_id', $dosen_pa_id);
+        $mahasiswa_bimbingan = $mahasiswa_bimbingan_obj->where('dosen_pa_id', $dosen_pa_id)->whereIn('id', $mahasiswa_ids);
         $mahasiswa_bimbingan->update(['dosen_pa_id' => $dosen_pa->id]);
 
         $result['status'] = 'success';
@@ -91,6 +92,7 @@ final class DosenController extends BaseController
 
         $karyawan_baru_id = $postData['karyawan_baru'];
         $dosen_pjmk_id = $postData['dosen_pjmk_lama'];
+        $matkul_diampuh_ids = $postData['matkul_diampuh_ids'];
 
         $dosen_pjmk_obj = $this->get_object('dosen_pjmk');
         $dosen_pjmk = $dosen_pjmk_obj->where('karyawan_id', $karyawan_baru_id)->first();
@@ -108,7 +110,7 @@ final class DosenController extends BaseController
         }
 
         $mata_kuliah_diampuh_obj = $this->get_object('mata_kuliah_diampuh');
-        $mata_kuliah_diampuh = $mata_kuliah_diampuh_obj->where('dosen_pjmk_id', $dosen_pjmk_id);
+        $mata_kuliah_diampuh = $mata_kuliah_diampuh_obj->where('dosen_pjmk_id', $dosen_pjmk_id)->whereIn('id', $matkul_diampuh_ids);
         $mata_kuliah_diampuh->update(['dosen_pjmk_id' => $dosen_pjmk->id]);
 
         $result['status'] = 'success';

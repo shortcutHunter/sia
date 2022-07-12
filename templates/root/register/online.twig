@@ -176,26 +176,26 @@
 						</div>
 						<div class="col-sm-6">
 							<div class="form-group">
-								<label for="pasfoto">Pasphoto 3x4</label>
+								<label for="pasfoto">Pasphoto 3x4 <i class="fa fa-info-circle" title="Maximum file 512KB"></i></label>
 								<input type="file" name="pasfoto" id="pasfoto" required="">
 							</div>
 						</div>
 						<div class="col-sm-6">
 							<div class="form-group">
-								<label for="ijazah">Ijazah/SKL</label>
+								<label for="ijazah">Ijazah/SKL <i class="fa fa-info-circle" title="Maximum file 512KB"></i></label>
 								<input type="file" name="ijazah" id="ijazah" required="">
 							</div>
 						</div>
 						<div class="col-sm-6">
 							<div class="form-group">
-								<label for="ktp">KTP</label>
+								<label for="ktp">KTP <i class="fa fa-info-circle" title="Maximum file 512KB"></i></label>
 								<input type="file" name="ktp" id="ktp" required="">
 							</div>
 						</div>
 						<div class="col-sm-6">
 							<div class="form-group">
 								<label for="surket_menikah">
-									Surket Belum Menikah
+									Surket Belum Menikah <i class="fa fa-info-circle" title="Maximum file 512KB"></i>
 									<span class="note">Dari desa atau pemuka agama</span>
 								</label>
 								<input type="file" name="surket_menikah" id="surket_menikah" required="">
@@ -203,19 +203,19 @@
 						</div>
 						<div class="col-sm-6">
 							<div class="form-group">
-								<label for="akte_lahir">Akte Lahir</label>
+								<label for="akte_lahir">Akte Lahir <i class="fa fa-info-circle" title="Maximum file 512KB"></i></label>
 								<input type="file" name="akte_lahir" id="akte_lahir" required="">
 							</div>
 						</div>
 						<div class="col-sm-6">
 							<div class="form-group">
-								<label for="kartu_keluarga">Kartu Keluarga</label>
+								<label for="kartu_keluarga">Kartu Keluarga <i class="fa fa-info-circle" title="Maximum file 512KB"></i></label>
 								<input type="file" name="kartu_keluarga" id="kartu_keluarga" required="">
 							</div>
 						</div>
 						<div class="col-sm-6">
 							<div class="form-group">
-								<label for="kartu_vaksin">Kartu Vaksin</label>
+								<label for="kartu_vaksin">Kartu Vaksin <i class="fa fa-info-circle" title="Maximum file 512KB"></i></label>
 								<input type="file" name="kartu_vaksin" id="kartu_vaksin" required="">
 							</div>
 						</div>
@@ -274,26 +274,30 @@
 			    <div>
 			    	<div class="pembayaran-container">
 			    		<h3 class="mb-5 text-center">Pembayaran Menggunakan Transfer Bank</h3>
-			    		<ul>
-			    			<li>
-			    				Pilih Transaksi Lainnya > Transfer > Ke Rek {{ pendaftaran.nama_bank }} Virtual Account.
-			    			</li>
-			    			<li>
-			    				Masukkan nomor Virtual Account <span class="copyable">{{ pendaftaran.norek }}</span> dan pilih Benar.
-			    			</li>
-			    			<li>
-			    				Masukkan jumlah sebesar Rp. {{ pta.total_biaya }}
-			    			</li>
-			    			<li>
-			    				Periksa data yang tertera di layar. Pastikan Merchant adalah SIA AKPER. Jika benar, pilih Ya.
-			    			</li>
-			    			<li>
-			    				Screenshot bukti pembayaran dan Upload bukti pembayaran dibawah ini.
-			    			</li>
-			    		</ul>
-			    		<div class="form-group">
-			    			<label>Bukti Pembayaran</label>
-			    			<input type="file" name="bukti_pembayaran" class="form-control" required="">
+
+			    		<div class="d-flex align-items-center justify-content-center">
+			    			<table class="custom-table-pembayaran">
+				    			<tr>
+				    				<td>No. REKENING</td>
+				    				<td>:</td>
+				    				<td class="bold">{{ pendaftaran.norek }}</td>
+				    			</tr>
+				    			<tr>
+				    				<td>ATAS NAMA</td>
+				    				<td>:</td>
+				    				<td class="bold">{{ konfigurasi.nama_bank }}</td>
+				    			</tr>
+				    			<tr>
+				    				<td>BIAYA PENDAFTARAN</td>
+				    				<td>:</td>
+				    				<td class="bold">{{ pta.total_biaya|number_format(2, ',', '.') }}</td>
+				    			</tr>
+				    			<tr>
+				    				<td>BUKTI PEMBAYARAN</td>
+				    				<td>:</td>
+				    				<td><input type="file" name="bukti_pembayaran" class="form-control" required=""></td>
+				    			</tr>
+				    		</table>
 			    		</div>
 			    	</div>
 			    </div>

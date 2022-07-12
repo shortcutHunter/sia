@@ -114,3 +114,11 @@ label .note {
 	color: #357960;
 	font-size: 0.7rem;
 }
+
+.custom-table-pembayaran tr td {
+	padding: 10px;
+}
+
+.bold {
+	font-weight: bold;
+}

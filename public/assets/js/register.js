@@ -1,3 +1,5 @@
+// var isByPass = false;
+
 $( document ).ready(function() {
 
 	let jqueryEvent = "input keydown keyup mousedown mouseup select contextmenu drop focusout";
@@ -5,6 +7,10 @@ $( document ).ready(function() {
 	function validateForm (required_fields) {
 
 		let is_valid = true;
+
+		// if (isByPass) {
+		// 	return true;
+		// }
 
 		required_fields.each(function(i, v){
 			if (['text', 'textarea', 'select-one'].includes(v.type)) {
@@ -44,7 +50,7 @@ $( document ).ready(function() {
 	    		$(v).parent().addClass('invalid');
 	    	}
 	    }
-	});
+		});
 
 		return is_valid;
 	}
@@ -90,7 +96,7 @@ $( document ).ready(function() {
 				is_valid = false;
 			}
 
-			if (v.size > 12000) {
+			if (v.size > 512000) {
 				$(self).val('');
 				addTextError('Maaf, file anda terlalu besar', self);
 				if (!$(self).parent().hasClass('invalid')) {
@@ -210,3 +216,9 @@ $( document ).ready(function() {
 	}
 
 });
+
+
+// function bypassValidation () {
+// 	isByPass = true;
+// 	$('li.disabled').removeClass('disabled');
+// }

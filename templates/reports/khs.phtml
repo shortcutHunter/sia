@@ -168,13 +168,21 @@
             </ul>
         </div>
 
-        <div class="ml-40 text-center">
+        <!-- <div class="ml-40 text-center">
             <div>Serukam, <?= date('d F Y') ?></div>
             <div class="bold">PUDIR I Bidang Akademik</div>
             <div>
                 <img src="<?= $konfigurasi->base_url ?>/public/assets/images/ttd.png">
             </div>
             <div class="bold">Herlina, S.Kep., Ners., M.Kep</div>
+        </div> -->
+        <div class="mt-100">
+            <table>
+                    <tr>
+                        <td class="ttd-td"><div class="ttd">(Ttd.Mhs<div class="blank-space-one"><?= $mahasiswa->orang->nama ?> (<?= $mahasiswa->nim ?>))</div></div></td>
+                        <td><div class="ttd">(Ttd.PA <div class="blank-space"><?= $dosen_pa->karyawan->orang->nama ?> (<?= $dosen_pa->karyawan->ni ?>))</div></div></td>
+                    </tr>
+            </table>
         </div>
     </div>
 

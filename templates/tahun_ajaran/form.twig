@@ -14,8 +14,7 @@
 		<div class="col-md-6">
 			<h5>Biaya Pendaftaran</h5>
 			<table class="custom-table">
-				{% include 'components/input-number.twig' with {'name': 'pembiayaan_tahun_ajar[vm.bp_idx].biaya_lunas', 'label': 'Biaya Lunas', 'required': true} %}
-				{% include 'components/input-number.twig' with {'name': 'pembiayaan_tahun_ajar[vm.bp_idx].total_biaya', 'label': 'Total Biaya', 'required': true} %}
+				{% include 'components/input-number.twig' with {'name': 'pembiayaan_tahun_ajar[vm.bp_idx].total_biaya', 'label': 'Biaya Pendaftaran', 'required': true} %}
 			</table>
 		</div>
 	</div>
@@ -39,28 +38,19 @@
 						<thead>
 							<th>Nama</th>
 							<th>Semester</th>
-							<th>Biaya Wajib</th>
-							<th>Total Biaya</th>
+							<th>Biaya</th>
 							<th></th>
 						</thead>
 
 						<tbody>
 							<tr ng-repeat="col in vm.semesters track by $index" ng-if="vm.semesters && vm.semesters.length != 0">
 								<td>
-									Biaya Semester <span ng-bind="col.nama"></span>
-								</td>
-								<td ng-bind="col.nama || '-'"></td>
-								<td>
-									<div widget-input-number="" ng-model="vm.data.pembiayaan_tahun_ajar[$index].biaya_lunas"></div>
+									<span ng-bind="col.nama"></span>
 								</td>
 								<td>
 									<div widget-input-number="" ng-model="vm.data.pembiayaan_tahun_ajar[$index].total_biaya"></div>
 								</td>
-								<!-- <td>
-									<button class="btn btn-sm btn-danger">
-										<i class="fa fa-trash"></i>
-									</button>
-								</td> -->
+								<td ng-bind="col.semester.nama || '-'"></td>
 							</tr>
 							<tr ng-if="!vm.semesters || vm.semesters.length == 0">
 								<td  class="text-center" colspan="5">Belum ada data</td>
@@ -81,8 +71,7 @@
 
 						<thead>
 							<th>Nama</th>
-							<th>Biaya Wajib</th>
-							<th>Total Biaya</th>
+							<th>Biaya</th>
 							<th></th>
 						</thead>
 
@@ -90,16 +79,8 @@
 							<tr ng-repeat="col in vm.biaya_lainnyas track by $index" ng-if="vm.biaya_lainnyas && vm.biaya_lainnyas.length != 0">
 								<td ng-bind="col.nama || '-'"></td>
 								<td>
-									<div widget-input-number="" ng-model="vm.data.pembiayaan_tahun_ajar[vm.semesters.length + $index].biaya_lunas"></div>
-								</td>
-								<td>
 									<div widget-input-number="" ng-model="vm.data.pembiayaan_tahun_ajar[vm.semesters.length + $index].total_biaya"></div>
 								</td>
-								<!-- <td>
-									<button class="btn btn-sm btn-danger">
-										<i class="fa fa-trash"></i>
-									</button>
-								</td> -->
 							</tr>
 							<tr ng-if="!vm.biaya_lainnyas || vm.biaya_lainnyas.length == 0">
 								<td  class="text-center" colspan="5">Belum ada data</td>

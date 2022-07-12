@@ -5,14 +5,16 @@
     
     <div class="row">
       <div class="col-md-6">
-        <table class="custom-table">
+        <table class="custom-table" ng-if="(vm.data.status == 'baru' || vm.data.status == 'pending') || !vm.data.status">
           {% include 'components/input.twig' with {'name': 'orang.nama', 'label': 'Nama', 'required': true} %}
+        </table>
+        <table class="custom-table" ng-if="vm.data.status != 'baru' && vm.data.status != 'pending' && vm.data.status">
+          {% include 'components/preview-text.twig' with {'name': 'orang.nama', 'label': 'Nama'} %}
         </table>
       </div>
       
       <div class="col-md-6">
         <table class="custom-table">
-          {% include 'components/checkbox.twig' with {'name': 'pernyataan', 'label': 'Pernyataan', 'required': true} %}
           {% include 'components/date-picker.twig' with {'name': 'tanggal_pendaftaran', 'label': 'Tanggal Pendfataran', 'required': true} %}
         </table>
       </div>
@@ -30,6 +32,9 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" data-bs-toggle="list" href="#persetujuan">Persetujuan</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-bs-toggle="list" href="#test">Tanggal Test</a>
             </li>
         </ul>
 
@@ -109,9 +114,9 @@
 
               <div class="col-md-6">
                 <table class="custom-table">
-              {% include 'components/input-file.twig' with {'name': 'orang.akte_lahir', 'label': 'Akte Lahir', 'required': true} %}
-              {% include 'components/input-file.twig' with {'name': 'orang.kartu_keluarga', 'label': 'Kartu Keluarga', 'required': true} %}
-              {% include 'components/input-file.twig' with {'name': 'orang.kartu_vaksin', 'label': 'Kartu Vaksin', 'required': true} %}
+                  {% include 'components/input-file.twig' with {'name': 'orang.akte_lahir', 'label': 'Akte Lahir', 'required': true} %}
+                  {% include 'components/input-file.twig' with {'name': 'orang.kartu_keluarga', 'label': 'Kartu Keluarga', 'required': true} %}
+                  {% include 'components/input-file.twig' with {'name': 'orang.kartu_vaksin', 'label': 'Kartu Vaksin', 'required': true} %}
                 </table>
               </div>
             </div>
@@ -125,9 +130,37 @@
                     with {
                       'name': 'pernyataan',
                       'label': 'Dengan ini saya menyatakan bahwa data yang saya isi adalah benar dan sesuai dengan dokumen terkait dan saya memberikan data atas persetujuan saya pribadi',
-                      'disabled': true
+                      'required': true
                     }
                   %}
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane fade show" id="test">
+            <div class="row mt-3">
+              <div class="col-md-6">
+                <table class="custom-table">
+                  {% include 'components/date-picker.twig' with {'name': 'test_tertulis', 'label': 'Test Tertulis Mulai'} %}
+                  {% include 'components/date-picker.twig' with {'name': 'test_tertulis_end', 'label': 'Test Tertulis Akhir'} %}
+                </table>
+              </div>
+              <div class="col-md-6">
+                <table class="custom-table">
+                  {% include 'components/date-picker.twig' with {'name': 'test_kesehatan', 'label': 'Test Kesehatan Mulai'} %}
+                  {% include 'components/date-picker.twig' with {'name': 'test_kesehatan_end', 'label': 'Test Kesehatan Akhir'} %}
+                </table>
+              </div>
+              <div class="col-md-6">
+                <table class="custom-table">
+                  {% include 'components/date-picker.twig' with {'name': 'test_wawancara', 'label': 'Test Wawancara Mulai'} %}
+                  {% include 'components/date-picker.twig' with {'name': 'test_wawancara_end', 'label': 'Test Wawancara Akhir'} %}
+                </table>
+              </div>
+              <div class="col-md-6">
+                <table class="custom-table">
+                  {% include 'components/date-picker.twig' with {'name': 'daftar_ulang', 'label': 'Daftar Ulang Mulai'} %}
+                  {% include 'components/date-picker.twig' with {'name': 'daftar_ulang_end', 'label': 'Daftar Ulang Akhir'} %}
                 </table>
               </div>
             </div>

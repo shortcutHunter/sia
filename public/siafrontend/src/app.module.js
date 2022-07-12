@@ -33,6 +33,8 @@
     'app.tracking',
     'app.role',
     'app.profile',
+    'app.user',
+    'app.alumni_mahasiswa',
     'app.widgets',
     'app.modals'
   ]);

@@ -219,7 +219,7 @@ class MainSeed {
         $pendidikan_terakhir = $faker->randomElement($array = array ('SMA','SMK'));
         $no_hp = $faker->phoneNumber;
         $agama_id = $faker->numberBetween($min=1, $max=6);
-        $nik = $faker->numberBetween($min=1000000000, $max=9999999999);
+        $nik = $faker->numerify('################');
         $tanggal_lahir = $faker->date($format = 'd/m/Y', $max = 'now');
         $alamat = $faker->address;
         $rt_rw = $faker->name();

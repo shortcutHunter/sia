@@ -172,6 +172,129 @@ class Pmb extends BaseModel
 		$mailModel->sendEmail($recipient, $subject, $content);
 	}
 
+	public static function cTDate($attributes, $string) {
+		if (array_key_exists($string, $attributes)) {
+			return strtotime(str_replace('/', '-', $attributes[$string]));
+		}
+
+		return null;
+	}
+
+	public static function convertToDate($value)
+	{
+		if ($value) {
+			$value = str_replace('/', '-', $value);
+			return strtotime($value);
+		}
+
+		return null;
+	}
+
+	public static function validasiTanggal($attributes, $pmb) {
+		$tanggal_pendaftaran = self::cTDate($attributes, 'tanggal_pendaftaran');
+		$test_tertulis = self::cTDate($attributes, 'test_tertulis');
+		$test_tertulis_end = self::cTDate($attributes, 'test_tertulis_end');
+		$test_kesehatan = self::cTDate($attributes, 'test_kesehatan');
+		$test_kesehatan_end = self::cTDate($attributes, 'test_kesehatan_end');
+		$test_wawancara = self::cTDate($attributes, 'test_wawancara');
+		$test_wawancara_end = self::cTDate($attributes, 'test_wawancara_end');
+		$daftar_ulang = self::cTDate($attributes, 'daftar_ulang');
+		$daftar_ulang_end = self::cTDate($attributes, 'daftar_ulang_end');
+
+		$tanggal_lulus = self::cTDate($attributes, 'tanggal_lulus');
+		$tanggal_verifikasi = self::cTDate($attributes, 'tanggal_verifikasi');
+		$tanggal_kesehatan = self::cTDate($attributes, 'tanggal_kesehatan');
+		$tanggal_wawancara = self::cTDate($attributes, 'tanggal_wawancara');
+
+		if ($pmb != null) {
+			$tanggal_pendaftaran = self::convertToDate($pmb->tanggal_pendaftaran) ?: $tanggal_pendaftaran;
+			$test_tertulis = self::convertToDate($pmb->test_tertulis) ?: $test_tertulis;
+			$test_tertulis_end = self::convertToDate($pmb->test_tertulis_end) ?: $test_tertulis_end;
+			$test_kesehatan = self::convertToDate($pmb->test_kesehatan) ?: $test_kesehatan;
+			$test_kesehatan_end = self::convertToDate($pmb->test_kesehatan_end) ?: $test_kesehatan_end;
+			$test_wawancara = self::convertToDate($pmb->test_wawancara) ?: $test_wawancara;
+			$test_wawancara_end = self::convertToDate($pmb->test_wawancara_end) ?: $test_wawancara_end;
+			$daftar_ulang = self::convertToDate($pmb->daftar_ulang) ?: $daftar_ulang;
+			$daftar_ulang_end = self::convertToDate($pmb->daftar_ulang_end) ?: $daftar_ulang_end;
+			
+			$tanggal_lulus = self::convertToDate($pmb->tanggal_lulus) ?: $tanggal_lulus;
+			$tanggal_verifikasi = self::convertToDate($pmb->tanggal_verifikasi) ?: $tanggal_verifikasi;
+			$tanggal_kesehatan = self::convertToDate($pmb->tanggal_kesehatan) ?: $tanggal_kesehatan;
+			$tanggal_wawancara = self::convertToDate($pmb->tanggal_wawancara) ?: $tanggal_wawancara;
+		}
+
+		if ($tanggal_pendaftaran == null) {
+			$tanggal_pendaftaran = date('d/m/Y');
+			$attributes['tanggal_pendaftaran'] = $tanggal_pendaftaran;
+			$tanggal_pendaftaran = self::convertToDate($tanggal_pendaftaran);
+		}
+
+		if ($test_tertulis != null) {
+			if ($test_tertulis > $test_tertulis_end) {
+				throw new \Exception("Tanggal test tertulis mulai tidak dapat lebih besar dari test tertulis akhir");
+			}
+
+			if ($test_tertulis < $tanggal_pendaftaran) {
+				throw new \Exception("Tanggal test tertulis tidak dapat lebih kecil dari tanggal pendaftaran");
+			}
+
+			$attributes['terverif'] = true;
+        	if ($tanggal_verifikasi == null) {
+        		$attributes['tanggal_verifikasi'] = date('d/m/Y');
+        		$attributes['status'] = 'terverifikasi';
+        	}
+		}
+
+		if ($test_kesehatan != null) {
+			if ($test_kesehatan > $test_kesehatan_end) {
+				throw new \Exception("Tanggal test kesehatan mulai tidak dapat lebih besar dari test kesehatan akhir");
+			}
+
+			if ($test_kesehatan < $tanggal_pendaftaran) {
+				throw new \Exception("Tanggal test kesehatan tidak dapat lebih kecil dari tanggal pendaftaran");
+			}
+
+			$attributes['test'] = true;
+			if ($tanggal_lulus == null) {
+				$attributes['tanggal_lulus'] = date('d/m/Y');
+        		$attributes['status'] = 'test_lulus';
+			}
+		}
+
+		if ($test_wawancara != null) {
+			if ($test_wawancara > $test_wawancara_end) {
+				throw new \Exception("Tanggal test wawancara mulai tidak dapat lebih besar dari test wawancara akhir");
+			}
+
+			if ($test_wawancara < $tanggal_pendaftaran) {
+				throw new \Exception("Tanggal test wawancara tidak dapat lebih kecil dari tanggal pendaftaran");
+			}
+
+			$attributes['kesehatan'] = true;
+			if ($tanggal_kesehatan == null) {
+				$attributes['tanggal_kesehatan'] = date('d/m/Y');
+        		$attributes['status'] = 'kesehatan_lulus';
+			}
+		}
+
+		if ($daftar_ulang != null) {
+			if ($daftar_ulang > $daftar_ulang_end) {
+				throw new \Exception("Tanggal daftar ulang mulai tidak dapat lebih besar dari daftar ulang akhir");
+			}
+
+			if ($daftar_ulang < $tanggal_pendaftaran) {
+				throw new \Exception("Tanggal daftar ulang tidak dapat lebih kecil dari tanggal pendaftaran");
+			}
+			$attributes['wawancara'] = true;
+			if ($tanggal_wawancara == null) {
+				$attributes['tanggal_wawancara'] = date('d/m/Y');
+	    		$attributes['status'] = 'wawancara_lulus';
+	    	}
+		}
+
+		return $attributes;
+	}
+
 	public static function create(array $attributes = [])
 	{
 		$object_sequance = self::getModelByName('sequance');
@@ -194,6 +317,8 @@ class Pmb extends BaseModel
 			$attributes['pendaftaran_id'] = $pendaftaran->id;
 		}
 
+		$attributes = self::validasiTanggal($attributes, null);
+
 		$pmb = parent::create($attributes);
 
 		if ($pmb->pendaftaran_id) {
@@ -215,11 +340,16 @@ class Pmb extends BaseModel
 
         $role = $role_obj->where('value', 'pmb')->first();
 
-		$user = $object_user->create([
+        $user_value = [
 			'orang_id' => $pmb->orang_id,
 			'role' => [['id' => $role->id]],
 			'username' => $pmb->orang->nik
-		]);
+		];
+
+		if ($pmb->orang->tanggal_lahir) {
+			$user_value['password'] = date('dmY', strtotime($pmb->orang->tanggal_lahir));
+		}
+		$user = $object_user->create($user_value);
 
 		if (!array_key_exists('biaya_pendaftaran', $attributes)) {
 			$pmb->update(['biaya_pendaftaran' => $tagihan->nominal]);
@@ -229,13 +359,25 @@ class Pmb extends BaseModel
 
 		$pmb->sendLoginDetail();
 
-		return $pmb;
-	}
+		if (array_key_exists('status', $attributes)) {
+			$status = $attributes['status'];
 
-	public function convertToDate($value)
-	{
-		$value = str_replace('/', '-', $value);
-		return strtotime($value);
+			switch ($status) {
+				case 'terverifikasi':
+					$pmb->sendKartuPeserta();
+					break;				
+				case 'wawancara_lulus':
+					$object_penerbitan_nim = self::getModelByName('penerbitan_nim');
+					$penerbitan_nim = $object_penerbitan_nim->where('pmb_id', $pmb->id)->first();
+
+					if (empty($penerbitan_nim)) {
+						$object_penerbitan_nim->create(['pmb_id' => $pmb->id, 'tahun' => date('Y')]);
+					}
+					break;
+			}
+		}
+
+		return $pmb;
 	}
 
 	public function update(array $attributes = [], array $options = [])
@@ -243,66 +385,18 @@ class Pmb extends BaseModel
 		if (array_key_exists('panitia', $attributes)) {
 			unset($attributes['panitia']);
 		}
+		
+		$attributes = self::validasiTanggal($attributes, $this);
 
 		if (array_key_exists('status', $attributes)) {
 			$status = $attributes['status'];
 
+
 			switch ($status) {
 				case 'terverifikasi':
-					$transaksi_obj = self::getModelByName('transaksi');
-					$tagihan_obj = self::getModelByName('tagihan');
-
-					$test_tertulis = $this->convertToDate($attributes['test_tertulis']);
-
-					if ($test_tertulis < strtotime($this->tanggal_pendaftaran->toDateTimeString())) {
-						throw new \Exception("Tanggal test tertulis tidak dapat lebih kecil dari tanggal pendaftaran");
-					}
-
-	                $tagihan = $tagihan_obj->where('orang_id', $this->orang_id)->first();
-
-	                $nominal = $tagihan->nominal;
-	                if (array_key_exists('nominal', $attributes)) {
-	                	$nominal = $attributes['nominal'];
-	                }
-
-	                $tagihan_bukti_bayar = [['file_id' => $this->bukti_pembayaran_id]];
-	                $transaksi = $tagihan->bayarTagihan($nominal, $tagihan_bukti_bayar, 'verified');
-
-	                $attributes['terverif'] = true;
-	                $attributes['tanggal_verifikasi'] = date('d/m/Y');
-
 					$this->sendKartuPeserta();
-					break;
-				
-				case 'test_lulus':
-					$test_kesehatan = $this->convertToDate($attributes['test_kesehatan']);
-					if ($test_kesehatan < strtotime($this->test_tertulis_end->toDateTimeString())) {
-						throw new \Exception("Tanggal test kesehatan tidak dapat lebih kecil dari tanggal test tertulis");
-					}
-
-					$attributes['test'] = true;
-					$attributes['tanggal_lulus'] = date('d/m/Y');
-					break;
-
-				case 'kesehatan_lulus':
-					$test_wawancara = $this->convertToDate($attributes['test_wawancara']);
-					if ($test_wawancara < strtotime($this->test_kesehatan_end->toDateTimeString())) {
-						throw new \Exception("Tanggal test wawancara tidak dapat lebih kecil dari tanggal test kesehatan");
-					}
-
-					$attributes['kesehatan'] = true;
-					$attributes['tanggal_kesehatan'] = date('d/m/Y');
-					break;
-				
+					break;				
 				case 'wawancara_lulus':
-					$daftar_ulang = $this->convertToDate($attributes['daftar_ulang']);
-					if ($daftar_ulang < strtotime($this->test_wawancara_end->toDateTimeString())) {
-						throw new \Exception("Tanggal daftar ulang tidak dapat lebih kecil dari tanggal test wawancara");
-					}
-
-					$attributes['wawancara'] = true;
-					$attributes['tanggal_wawancara'] = date('d/m/Y');
-
 					$object_penerbitan_nim = self::getModelByName('penerbitan_nim');
 					$penerbitan_nim = $object_penerbitan_nim->where('pmb_id', $this->id)->first();
 

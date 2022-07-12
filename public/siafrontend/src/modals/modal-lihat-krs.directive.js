@@ -22,9 +22,6 @@
 
     function link(scope, element, attr) {
       
-      scope.lihatKhs = lihatKhs;
-
-
       activate();
 
       function activate() {
@@ -39,15 +36,10 @@
 
       function getData() {
         let mahasiwa = scope.data.mahasiswa;
-        let url = `/krs/${mahasiwa.id}/semester/${scope.$parent.vm.data.semester_id}`;
+        let url = `/krs/${mahasiwa.id}/semester/${scope.data.mahasiswa.semester_id}`;
         dataservice.getUrl(url).then(function(response){
           scope.pengajuan_ks_detail = response.data;
         });
-      }
-
-      function lihatKhs() {
-        let el = "<modal-lihat-khs data='data'></modal-lihat-khs>";
-        el = compile(el)(scope);
       }
     }
   }

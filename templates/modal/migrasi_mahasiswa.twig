@@ -1,7 +1,7 @@
 {% extends 'modal/template.twig' %}
 
 {% block title %}
-	<h5 class="modal-title">Pengajuan KRS</h5>
+	<h5 class="modal-title">Migrasi Mahasiswa</h5>
 {% endblock %}
 
 {% block content %}
@@ -23,14 +23,20 @@
 								<th>Nama</th>
 								<th>Semester</th>
 								<th>Keterangan</th>
+								<th></th>
 							</thead>
 
 							<tbody>
-								<tr ng-repeat="col in data.mahasiswa_bimbingan" ng-if="data.mahasiswa_bimbingan && data.mahasiswa_bimbingan.length != 0">
+								<tr ng-repeat="col in data.mahasiswa_bimbingan track by $index" ng-if="data.mahasiswa_bimbingan && data.mahasiswa_bimbingan.length != 0">
 									<td ng-bind="col.mahasiswa.nim || '-'"></td>
 									<td ng-bind="col.mahasiswa.orang.nama || '-'"></td>
 									<td ng-bind="col.mahasiswa.semester.nama || '-'"></td>
 									<td ng-bind="col.mahasiswa.sudah_pengajuan ? 'Sudah KRS' : 'Belum KRS' || '-'"></td>
+									<td>
+										<button class="btn btn-sm btn-danger" ng-click="removeMahasiswa($index)">
+											<i class="fa fa-trash"></i>
+										</button>
+									</td>
 								</tr>
 								<tr ng-if="!data.mahasiswa_bimbingan || data.mahasiswa_bimbingan.length == 0">
 									<td  class="text-center" colspan="5">Belum ada data</td>
